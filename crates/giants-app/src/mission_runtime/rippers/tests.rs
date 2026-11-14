@@ -179,6 +179,18 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool, approach_fixtu
                     viewer.normal_contact_sample().unwrap(),
                 )
                 .unwrap();
+            if number == 1 {
+                // Match ordinary startup: canonical barracks initialization
+                // publishes its actual flags and health-frame collision mesh.
+                // The earlier isolated fixture kept the pre-initialization
+                // geometry and missed the rendered effects-world mismatch.
+                let mut events = vec![];
+                let mut updates = vec![];
+                runtime
+                    .initialize_normal_buildings(ticket, &mut viewer, &mut events, &mut updates)
+                    .unwrap();
+                assert!(!updates.is_empty());
+            }
             if number.is_multiple_of(30) {
                 let active = runtime.active.as_mut().unwrap();
                 let owner = active.player_owner().unwrap();

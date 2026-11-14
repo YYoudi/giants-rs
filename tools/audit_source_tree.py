@@ -55,6 +55,7 @@ REVIEWED_ATTRIBUTION_LABELS = {'crates/giants-game/src/ripper_primary_turn.rs': 
                                '1838eb8ef285d2d6694ae0bad8cf698bce43e4065ad6bbf233e77b50c2bd9164',
                                '1a51cdd4703a5d425c901d99cacd504c620b9c398a0cb0dfe8c92c5d6e8b753c',
                                '222cc399cefc344cf09a604de812bb122cdbecba72d8e7c9f136788674599ef2',
+                               '2238304170349433dab36ecf8f1727afc81e7d8e8fd3086d7aaf3e0a59c35777',
                                '225d9984e410f75aacc14d0909df94c3e23186cc55a08501c8b1d0ca2457b4d4',
                                '2c3b3331dfb1987ef99acdc805c98795d167817d25ec23ed2f5522d5313fce71',
                                '31cb1af7881794447c0af562f2ffed0428747a30fcf9e102caa83128029b72de',
@@ -89,6 +90,7 @@ REVIEWED_ATTRIBUTION_LABELS = {'crates/giants-game/src/ripper_primary_turn.rs': 
                                '8631261df31c821f1b1058169b7d35c72fa368ad7a1b69a68834092d94ba4fe9',
                                '8c9942d8203dea074fa21772306aa572c391baa9ee7793f25b9918df6d023c72',
                                '92bd00ea6e060caa915dffdb9c8df1f6a19c57065e76bfb403ee9fba29623a67',
+                               '9fd50c038add1f37d5876955b261138a33fda7a568ce79046756671fba08f2a8',
                                'a1063f01eb56b87bf6ce00a783fddaeb092c1c40bd1f238e7ef5d865424a3917',
                                'aaa4e812aeac37c37de759e17eac26c4f6b2a6ff860bc22310b5d554c3619be5',
                                'ac744379ef67b62ca8bd309c66a61cc4206e8e4ab3b4b7fc52b1c95e2c3cd3ce',
@@ -109,24 +111,43 @@ REVIEWED_ATTRIBUTION_LABELS = {'crates/giants-game/src/ripper_primary_turn.rs': 
                                'f7e4796f4304094585f3888c7ecc41a3ffaed9feb51ed56be75ce5dc4a464270',
                                'fec0bcb9d32839696060f3d3d3ed4c24ac2d15f49e923a271613cfb9edf3939c',
                                'ff17acf1136bcda4a7ab43810f0cec702b34b0caee3ffd8c71142484a174ab3d'}}
+# Reviewed merged navigation prose; existing minimal aliases and statuses retained.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('67e98798a96ac460d3afcda1fab6d139ec49c948a5d91b3d9af7c216d8065015')
 
+
+# Reviewed minimal navigation aliases in two concurrent history blobs and
+# the .14.1 status-only index update; all other hazard rules stay active.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('29020fa098f26746f2dc8e3fc585de038c3693bdf42bab05f205ac7fd7218f4b')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('0841b622e3a2fcbb568ecfa343295a1285218a96ae8b8b00ad309982326d2736')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('bab1a95dbc653b862c479c1f0d4f02907e542586cbc25c4d5985c86484ef4998')
+
+# Reviewed merged minimal symbol index; both lanes and unknown statuses retained.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('57a6c15df729acf8c5d6c12c9cc91c3f3ce7bbb49f25eef3af0c41c8893280c3')
+# Concurrent minimal index adds process/configuration guard search routes only;
+# the existing unknown attribution and no-layout-import qualifications remain.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('5f479681589fc1461eab9ded86dba93f9916c8b0852975d36d2e5738753a5d4e')
+# Reviewed combined index retains both lanes and the same unknown guard routes.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('9cc32cf970ac510a77dbca8d772b6e080de0de0e4a1789bbcdf57aa7ca6ae890')
 
 # Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # branch. Reviewed as a VP8-only image without embedded metadata. Keep its
 # all-reference history review valid before that gallery update enters main;
 # this permits neither other images nor another path or modified bytes.
 REVIEWED_HISTORICAL_IMAGES = {
-    # Exact public manifest display copy at 7f8c9af; visually reviewed VP8-only
-    # without embedded metadata. No gallery or release content is imported.
-    'docs/gallery/media/a36686977bdd39ad7166fad9c71438c77b2b577a30ae9be98b2ae652152fc3b3.webp':
-        'a36686977bdd39ad7166fad9c71438c77b2b577a30ae9be98b2ae652152fc3b3',
-    # Concurrent display copies pinned by the public manifest at 928b099.
-    # Visually reviewed VP8-only files, no embedded metadata. This keeps the
-    # all-reference audit exact without importing that lane's gallery/release.
-    'docs/gallery/media/1b3e91259cc71b4003e2c1b06a0509d5a133464c0dc5d3a224614cc22153e91f.webp':
-        '1b3e91259cc71b4003e2c1b06a0509d5a133464c0dc5d3a224614cc22153e91f',
-    'docs/gallery/media/89aaaa03ed85db7c12d79d86359bdda7923ca127b826308d538e1e53dc6e783a.webp':
-        '89aaaa03ed85db7c12d79d86359bdda7923ca127b826308d538e1e53dc6e783a',
+    # Visually reviewed receipt-bound carried-wife display; metadata-free VP8.
+    'docs/gallery/media/273d6ff5e58cc5d0f9b72042a20f8b665bd359963bcad7759a334a448757bab0.webp': '273d6ff5e58cc5d0f9b72042a20f8b665bd359963bcad7759a334a448757bab0',
+    # Visually reviewed final .14.1 display copies; exact metadata-free bytes.
+    'docs/gallery/media/f76ca3d8c86a9cc69f2f774084aad7b72729009bc3f29632687ea644f2149ab2.webp': 'f76ca3d8c86a9cc69f2f774084aad7b72729009bc3f29632687ea644f2149ab2',
+    'docs/gallery/media/6aebe218c788d9962ca334a415f7eab69b4973b737150bad74e85b334dd4d9fe.webp': '6aebe218c788d9962ca334a415f7eab69b4973b737150bad74e85b334dd4d9fe',
+
+    # Reviewed consolidated .14.1 palm display copy; exact metadata-free bytes.
+    'docs/gallery/media/99630cf95b902647f3b22e039fffe3a517408f52e81a6631c627b902fe8f0ff9.webp': '99630cf95b902647f3b22e039fffe3a517408f52e81a6631c627b902fe8f0ff9',
+    # Visually reviewed .14.1 carried-wife Bevy display copy, no metadata.
+    'docs/gallery/media/a36686977bdd39ad7166fad9c71438c77b2b577a30ae9be98b2ae652152fc3b3.webp': 'a36686977bdd39ad7166fad9c71438c77b2b577a30ae9be98b2ae652152fc3b3',
+    # Reviewed .14.1 Bevy display copies; exact metadata-free WebP bytes.
+    'docs/gallery/media/1b3e91259cc71b4003e2c1b06a0509d5a133464c0dc5d3a224614cc22153e91f.webp': '1b3e91259cc71b4003e2c1b06a0509d5a133464c0dc5d3a224614cc22153e91f',
+    'docs/gallery/media/89aaaa03ed85db7c12d79d86359bdda7923ca127b826308d538e1e53dc6e783a.webp': '89aaaa03ed85db7c12d79d86359bdda7923ca127b826308d538e1e53dc6e783a',
+
     # Concurrent .13.2 display copies pinned by the manifest at eafa3e4.
     # Visually reviewed VP8-only images; exact hashes, without embedded metadata.
     'docs/gallery/media/06cf7a33aca7f6605075996727045686d1a03931c3643177e08329adc5633464.webp':

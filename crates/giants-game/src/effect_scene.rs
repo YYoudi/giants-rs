@@ -17,6 +17,8 @@ pub enum Origin {
         parent: usize,
         reference: u32,
         own_reference: u32,
+        /// Source70 copies the parent context frame; source10 passes no frame.
+        inherit_context: bool,
     },
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -258,7 +260,10 @@ enum Op {
     Child {
         reference: u32,
         own_reference: u32,
-        program: Box<Plan>,
+        inherit_context: bool,
+        /// Original named creation can return no context for an absent entry.
+        /// Retain the command operands without inventing an object or RNG draw.
+        program: Option<Box<Plan>>,
     },
 }
 #[derive(Clone, Debug)]
@@ -575,7 +580,7 @@ impl Plan {
                     0x1e => service(ServiceKind::RangedEmission, r)?,
                     0x28 => service(ServiceKind::Source28, r)?,
                     0x57 => service(ServiceKind::Source57, r)?,
-                    0x10 => {
+                    0x10 | 0x70 => {
                         let end = r.bytes[5..]
                             .iter()
                             .position(|b| *b == 0)
@@ -583,24 +588,31 @@ impl Plan {
                             + 5;
                         let label = std::str::from_utf8(&r.bytes[5..end])
                             .map_err(|_| "scene child name invalid")?;
-                        let child = Self::project_inner(image, label, stack, records_seen)?;
-                        if child.phases.len() != 1
-                            || child.phases[0].objects.len() != 1
-                            || child.phases[0].external_wait
-                        {
+                        let child = if image.find(label).is_some() {
+                            Some(Self::project_inner(image, label, stack, records_seen)?)
+                        } else {
+                            None
+                        };
+                        if child.as_ref().is_some_and(|child| {
+                            child.phases.len() != 1
+                                || child.phases[0].objects.len() != 1
+                                || child.phases[0].external_wait
+                        }) {
                             return Err("immediate child requires one constructed object");
                         }
-                        if child.phases[0].objects[0]
-                            .ops
-                            .iter()
-                            .any(|op| matches!(op, Op::RandomOffsetZ(_)))
-                        {
+                        if child.as_ref().is_some_and(|child| {
+                            child.phases[0].objects[0]
+                                .ops
+                                .iter()
+                                .any(|op| matches!(op, Op::RandomOffsetZ(_)))
+                        }) {
                             return Err("immediate child direct displacement pending");
                         }
                         Op::Child {
                             reference: word(r, 1)?,
                             own_reference: word(r, end + 1)?,
-                            program: Box::new(child),
+                            inherit_context: r.opcode == 0x70,
+                            program: child.map(Box::new),
                         }
                     }
                     _ => return Err("scene object command outside construction profile"),
@@ -665,7 +677,11 @@ impl Plan {
             }
             out.push(bound);
             for op in &object.ops {
-                if let Op::Child { program, .. } = op {
+                if let Op::Child {
+                    program: Some(program),
+                    ..
+                } = op
+                {
                     append(&program.phases[0].objects[0], out);
                 }
             }
@@ -737,7 +753,10 @@ impl Object {
             .ops
             .iter()
             .filter_map(|op| match op {
-                Op::Child { program, .. } => Some(program.phases[0].objects[0].count()),
+                Op::Child {
+                    program: Some(program),
+                    ..
+                } => Some(program.phases[0].objects[0].count()),
                 _ => None,
             })
             .sum::<usize>()
@@ -881,18 +900,22 @@ impl Object {
                 Op::Child {
                     reference,
                     own_reference,
+                    inherit_context,
                     program,
                 } => {
-                    program.prepare(seed);
-                    program.phases[0].objects[0].create(
-                        seed,
-                        Some(Origin::Immediate {
-                            parent: index,
-                            reference: *reference,
-                            own_reference: *own_reference,
-                        }),
-                        out,
-                    )?;
+                    if let Some(program) = program {
+                        program.prepare(seed);
+                        program.phases[0].objects[0].create(
+                            seed,
+                            Some(Origin::Immediate {
+                                parent: index,
+                                reference: *reference,
+                                own_reference: *own_reference,
+                                inherit_context: *inherit_context,
+                            }),
+                            out,
+                        )?;
+                    }
                 }
             }
         }
@@ -929,6 +952,73 @@ impl Cursor {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn absent_immediate_entries_preserve_parent_operations_and_random_order() {
+        let mut baseline = object(1);
+        baseline.push(0x18);
+        baseline.extend(2_f32.to_le_bytes());
+        baseline.extend(4_f32.to_le_bytes());
+        baseline.extend([7, 2]);
+        let baseline_image = image(&[("parent", baseline.clone())]);
+        let plan = super::Plan::project(&baseline_image, "parent").unwrap();
+        let mut expected_seed = 17;
+        let (expected, _) = plan.start(&mut expected_seed).unwrap();
+        for opcode in [0x10, 0x70] {
+            let mut parent = object(1);
+            parent.push(opcode);
+            parent.extend(3_u32.to_le_bytes());
+            parent.extend(b"absent-child\0");
+            parent.extend(4_u32.to_le_bytes());
+            parent.extend(&baseline[object(1).len()..]);
+            let source = image(&[("parent", parent.clone())]);
+            let actual = super::Plan::project(&source, "parent").unwrap();
+            let mut seed = 17;
+            let (objects, _) = actual.start(&mut seed).unwrap();
+            assert_eq!(objects.len(), 1);
+            assert_eq!(objects[0].class, 1);
+            assert_eq!(
+                objects[0].offset_z.to_bits(),
+                expected[0].offset_z.to_bits()
+            );
+            assert_eq!(seed, expected_seed);
+            assert_eq!(actual.lifetime_bounds(), plan.lifetime_bounds());
+            assert!(super::Plan::project(&source, "absent-child").is_err());
+            // An existing, unsupported child remains an error. Only a missing
+            // entry follows the original no-created-context branch.
+            let unsupported = image(&[("parent", parent), ("absent-child", vec![0x0c, 2])]);
+            assert!(super::Plan::project(&unsupported, "parent").is_err());
+        }
+    }
+    #[test]
+    fn immediate_frame_inheritance_preserves_factory_mode_and_rng_order() {
+        let child = vec![3, 2, 0, 0, 0, 6, 7, 2];
+        let make = |opcode| {
+            let mut parent = object(1);
+            parent.push(opcode);
+            parent.extend(3u32.to_le_bytes());
+            parent.extend(b"child\0");
+            parent.extend(4u32.to_le_bytes());
+            parent.extend([7, 2]);
+            image(&[("parent", parent), ("child", child.clone())])
+        };
+        let mut seeds = [17; 2];
+        for (index, opcode) in [0x10, 0x70].into_iter().enumerate() {
+            let plan = super::Plan::project(&make(opcode), "parent").unwrap();
+            let (objects, cursor) = plan.start(&mut seeds[index]).unwrap();
+            assert!(cursor.remaining.is_none());
+            assert_eq!(objects.len(), 2);
+            assert_eq!(
+                objects[1].origin,
+                super::Origin::Immediate {
+                    parent: 0,
+                    reference: 3,
+                    own_reference: 4,
+                    inherit_context: opcode == 0x70,
+                }
+            );
+        }
+        assert_eq!(seeds[0], seeds[1]);
+    }
     fn image(programs: &[(&str, Vec<u8>)]) -> giants_formats::effect_image::Image {
         let size: usize = programs.iter().map(|(n, _)| n.len() + 5).sum();
         let mut table = Vec::new();
@@ -1350,7 +1440,8 @@ mod tests {
             super::Origin::Immediate {
                 parent: 0,
                 reference: 7,
-                own_reference: 0
+                own_reference: 0,
+                inherit_context: false,
             }
         );
         let mut expected = 1u32;

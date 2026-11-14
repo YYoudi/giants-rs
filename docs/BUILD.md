@@ -1,5 +1,55 @@
 # Build on Windows with MinGW
 
+## Build and launch the ordinary menu
+
+Start with the common application and a user-supplied compatible game folder.
+From the repository root, with Rust's GNU Windows toolchain and MinGW available:
+
+```powershell
+. ./tools/dev-env.ps1
+cargo run --locked --release -p giants-app --target x86_64-pc-windows-gnu -- --mecc-menu
+```
+
+The graphical picker selects the installation when needed. Follow
+[QUICK_START.md](QUICK_START.md) for normal missions and controls. For a recorded
+distributable build, commit runtime changes and run `tools/build_preview.ps1`
+with a fresh output directory; preserve its source/executable receipt.
+
+## Validate the delivered interaction
+
+Run the synthetic commands below, then exercise the requested interaction in
+the rendered common application, including its effects/audio, mission transition
+or cancellation and fresh entry. Keep supplied-command evidence separate from
+real Windows input and native fidelity. Follow [GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md)
+and [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md); optional CPU controls
+support the ordinary path and do not replace its acceptance.
+
+For long rendered acceptance, keep each receipt-bound run in a fresh private
+output directory with separate logs, terminal report and process identity.
+Prefer a hidden independent background launcher for long serial suites. Before
+restarting after a lost tool session, check the recorded PID and exact command
+line to avoid duplicate games. A missing terminal report establishes neither
+a native crash nor a passing run. Preserve completed cases and resume only the
+unfinished scopes; do not discard failed or interrupted evidence.
+
+## Optional installed reconstruction controls
+
+The optional app controls
+`installed_palm_damage_keeps_source_stump_owner_and_independent_hits` and
+`installed_following_mission_barracks_retain_opaque_command7_and_initialize`
+use `GIANTS_BUILDING_ROOT` and `-- --ignored`. They exercise installed declarations
+under supplied hits/time, canonical metadata, complete wood-effect expiry and
+replacement collision ownership. These are intermediate CPU controls; normal
+menu/input/render and campaign regressions remain required.
+
+The muted rendered building fixture also accepts class102 in Story2's Starving
+entry: set `GIANTS_MISSION_BUILDING_CLASS=102` with the existing building probe
+and choose `destroyed` or `settled`. It supplies normal navigation, look, jet and
+fire, then observes actual foliage retirement, source wood effects/audio and
+the independent stump; `settled` additionally requires complete effect expiry
+and fresh stump contacts. This is a test driver, not a feature switch. Keep its
+exact-build receipt separate from CPU and real Windows-input evidence.
+
 The ordinary-pistol Ripper diagnostic adds
 `GIANTS_MISSION_RIPPER_CAPTURE_PISTOL=1` to the existing muted Story2 mission1
 supplied-input fixture. It uses actual movement/look/jet/fire and requires an
@@ -68,7 +118,7 @@ kind3 response retains the Ripper as source, and refuses a broken reciprocal
 link before services. World/receiver gates and the actor frame are supplied;
 this does not establish ordinary damage, a rendered encounter or Windows input.
 
-For the next source no-shot surface acceptance, the existing muted offscreen
+For source no-shot surface checks, the existing muted offscreen
 building input fixture accepts `GIANTS_MISSION_BUILDING_CAPTURE=unchanged`.
 It selects an already admitted source state0 mesh, supplies ordinary contact,
 retreat, look and pistol inputs, then requires three actual distinct projectile
@@ -91,10 +141,48 @@ The mixed guard effect owner has the optional installed control
 x86_64-pc-windows-gnu -- --ignored`, using `GIANTS_BUILDING_ROOT`. It checks real
 source graph resources, lit/unlit draw submissions, contact/lifetime descendants,
 clock idempotence, context cleanup and ticket isolation under supplied emission
-and time. It does not enable the still-excluded guard damage/replacement callback
-or prove GPU/ordinary-input acceptance. Follow [BUILDINGS.md](BUILDINGS.md).
+and time. It does not itself prove GPU/ordinary-input acceptance; preview .13.2
+records the separately delivered guard damage/replacement path. Follow
+[BUILDINGS.md](BUILDINGS.md).
 
-The locally connected house owner also has an installed app control:
+The barracks effect continuation uses the same installation variable:
+
+```powershell
+cargo test --locked -p giants-game installed_barracks_inherited --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-app installed_barracks_graphs --target x86_64-pc-windows-gnu -- --ignored
+cargo test --locked -p giants-app installed_rigid_material_owners --target x86_64-pc-windows-gnu -- --ignored
+```
+
+These check prepared contexts/contact variants, complete descendant graphs with
+fading draw submissions, and quantized shader uniforms/blend-mode updates and
+buffer release. Requests, selection inputs and clocks are supplied. They do not
+enable ordinary barracks damage, render GPU pixels or validate Windows input.
+
+`cargo test --locked -p giants-game building_alert --target
+x86_64-pc-windows-gnu` checks typed target retention, preflight and primary binding.
+The optional `installed_wife_alert_actors_and_barracks_have_cold_owned_construction`
+control uses `GIANTS_BUILDING_ROOT` and `-- --ignored`; it also submits alerts to
+the real nonempty constructor list. It supplies requests/targets, does not run
+NPC AI and does not establish an ordinary building hit or GPU/audio acceptance.
+That control also checks canonical initial selector/stock/channels, suppression
+and duplicate refusal. The app control
+`installed_barracks_initial_queues_real_owner_sounds_once` uses the same variable
+and `-- --ignored` to check authored-owner completeness, real audio resource
+resolution and once-only object-owned requests. Device sinks and ordinary
+rendered hit acceptance remain separate requirements.
+
+The optional app control
+`installed_normal_barracks_hits_update_owned_health_geometry_and_retire_effects`
+uses `GIANTS_BUILDING_ROOT` and `-- --ignored`. It uses the normal runtime and
+actual canonical owners but supplies contact/damage/time. It checks initial
+geometry publication, source stages/retirement, distinct actor/position sound
+requests including source absence, adaptive named FX and complete expiry. It
+does not establish a device start, rendered ordinary pistol hit or Windows input.
+`cargo test --locked -p giants-game absent_immediate_entries --target
+x86_64-pc-windows-gnu` checks the shared missing-child parser/creation boundary;
+existing unsupported child programs must still refuse admission.
+
+The ordinary house owner also has an installed app control:
 `cargo test --locked -p giants-app installed_house_damage_updates_all_contact_owners
 --target x86_64-pc-windows-gnu -- --ignored`, using `GIANTS_BUILDING_ROOT`.
 It supplies hits and time and does not establish GPU or ordinary controls.

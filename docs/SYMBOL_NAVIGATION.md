@@ -29,6 +29,27 @@ PC point/AABB fallback differs from the prototype's summed-radius test. The
 central method pins both binary digests; old PC aliases remain valid. See
 [MISSION_PROGRESSION.md](MISSION_PROGRESSION.md) for the bounded runtime scope.
 
+## Fresh startup and tree search routes awaiting attribution
+
+The literal prototype names `read_world_list` and
+`scenerio_start_mission__Fv` also lead to
+[`mission_cinematics::select_fresh_world`](../crates/giants-game/src/mission_cinematics.rs)
+and the ordinary startup guard. Their PC identities remain **unknown**. Original
+PC controls establish fresh empty slot initialization and the empty-opening
+startup branch, with explicit external service boundaries. They do not establish
+native continuity; the separate .14.1 rendered return acceptance is recorded
+in MISSION_PROGRESSION.md.
+
+Tree integration begins with the literal prototype search routes `tree_process`,
+`tree_init` and `collision_wood__FP6OBJECT`. Their PC attributions remain
+**unknown**. See [BUILDINGS.md](BUILDINGS.md) for the separately validated .14.1
+shared damage, physical/render, wood-effect and replacement integration. The
+bounded source palm/stump implementation is in `mission_buildings::trees`;
+naming and installed controls alone do not establish rendered acceptance. The unknown literal
+`mission_init__FPc` route also reaches source command7 retention in
+`declared_residents` / `resident_states`; no meaning or PS2 layout is inferred
+for that opaque PC scalar.
+
 ## Vimp search routes awaiting attribution
 
 The following seven names are literal function names present in the pinned
@@ -190,6 +211,16 @@ argument bits. The portable `PrototypePs2Zero` policy selects only that threshol
 the default PC entry stays strict and other arithmetic remains independently
 scoped. This is not an imported signature/layout or whole-function PS2 parity
 claim. See [MISSION_PROGRESSION.md](MISSION_PROGRESSION.md).
+
+## Detached cinematic splash route
+
+The literal prototype name `fx_setupVerticleFade__FP10FXSTACKTAGfffff`
+leads to `vertical_fade`, `effect_actor::Template::random_vertical_positioned`
+and `cinematic_timed`. This remains an **unknown** PC attribution. The bounded
+PC single-segment initializer/callback has independent controls including the
+exact-duration boundary; the installed detached source event has canonical
+creation, fade, lifetime and scoped cleanup controls. These do not establish
+native scheduling, pixels, full film completion or any imported PS2 layout.
 
 ## Effect ground-contact routes
 
@@ -401,6 +432,32 @@ behavior. The ordinary adapters are in `mission_buildings`, with source health
 geometry in `building_geometry`; naming does not validate those consumers.
 See [BUILDINGS.md](BUILDINGS.md) for current integration evidence and acceptance.
 
+The literal prototype PS2 names `barracks_logic`, `barracks_shot`,
+`barracks_alert_rippers__FP6OBJECT`, `rpman_alert_team__FP6OBJECTf` and
+`distancesq2d__FP3P3DT0` also lead to
+[`building_barracks`](../crates/giants-game/src/building_barracks.rs). These
+relationships remain **unknown**. The PC building-origin team branch and the
+inlined state23 alert loop retain different horizontal-radius and target rules.
+The Rust service boundary preserves ordered alerts, damage, effects/sounds,
+conditional mission requests and retirement. It neither constructs the missing
+mission actors nor establishes a complete world list or ordinary building hit.
+The canonical initial owner is in
+[`resident_states::barracks`](../crates/giants-game/src/resident_states/barracks.rs),
+with typed list alerts in
+[`resident_states::building_alert`](../crates/giants-game/src/resident_states/building_alert.rs).
+Initial selector/stock/channel setup and the health-frame helper use actual source
+globals; their numeric contracts do not acknowledge later spawning/AI, a world
+tick, rendered damage or an audio backend start. These routes remain unknown
+attributions, independently of their PC controls.
+The literal prototype PS2 names `sound_play_obj` and `sound_play_3dpos` also
+provide **unknown** navigation routes to the object/position request adapter in
+[`mission_buildings::barracks`](../crates/giants-app/src/mission_buildings/barracks.rs).
+Independent PC controls retain the absent-descriptor no-voice branch; neither
+an accepted request nor a missing source establishes backend playback. The shared
+[`effect_scene`](../crates/giants-game/src/effect_scene.rs) continuation preserves
+the original absent immediate-child branch without inventing a child or a random
+draw. These bounded contracts do not confirm cross-platform identities or ABI.
+
 ## Publication boundary
 
 `MeccPhysicsExApplyLocation` is an **unknown** prototype PS2 navigation route to
@@ -458,6 +515,13 @@ history, bounds inputs, independent physical/render identities and later world
 admission remain separate evidence. Logical old-object/source aliases do not
 assign semantics to the original opaque word. Naming is not native fidelity or
 ordinary build acceptance; see [BUILDINGS.md](BUILDINGS.md).
+
+The same constructor/copy routes also lead to
+[`declared_residents`](../crates/giants-game/src/declared_residents.rs) and
+[`actor_fields`](../crates/giants-game/src/actor_fields.rs), including the bounded
+cold class215/state51 and class1060/1226/state98 profiles. These remain unknown
+attributions; cold identities, payloads and list registration do not acknowledge
+NPC AI, a world tick or the ordinary building-hit consumers.
 
 This index publishes only selected names, reviewed navigation relationships and
 attribution status. Binary/ELF inputs, raw tables, listings, matching outputs,

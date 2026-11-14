@@ -48,6 +48,53 @@ pub(crate) struct Draw {
     pub positions: Vec<[f32; 3]>,
     pub center: [f32; 3],
 }
+impl Draw {
+    /// Bind the acquired unlit program when this source has no normal resource.
+    /// `object_render__FP6OBJECTiG7f32quat` remains an unknown attribution route.
+    /// Lit source-local submissions keep their independent normal/cube owner;
+    /// unlit submissions use the shared world-space RGB/alpha consumer.
+    pub(crate) fn with_source_rigid_material(mut self) -> Result<Self, String> {
+        let Some(profile) = self.rigid.as_ref() else {
+            return Ok(self);
+        };
+        if !Arc::ptr_eq(&profile.asset.model, &self.geometry)
+            || !profile.matrix.into_iter().all(f32::is_finite)
+            || !(0. ..=1.).contains(&self.transparency)
+            || self.texture.is_some()
+        {
+            return Err(
+                "source rigid submission has mismatched resources or current fields".into(),
+            );
+        }
+        if profile.asset.normals.is_some() {
+            return Ok(self);
+        }
+        for part in &self.geometry.mesh.subobjects {
+            giants_game::unlit_material::prepare_with_object_transparency(
+                &part.material,
+                self.geometry
+                    .alpha_textures
+                    .contains(&part.material.texture.to_ascii_lowercase()),
+                self.transparency,
+            )?;
+        }
+        let matrix: [f32; 12] = profile.matrix[..12].try_into().unwrap();
+        self.positions = self
+            .positions
+            .into_iter()
+            .map(|point| {
+                let p = giants_game::uncached_pose::transform(
+                    matrix,
+                    point,
+                    giants_game::arithmetic::Precision::Double53,
+                )?;
+                Ok::<_, String>([p[0], p[2], -p[1]])
+            })
+            .collect::<Result<_, _>>()?;
+        self.rigid = None;
+        Ok(self)
+    }
+}
 #[derive(Clone)]
 pub(crate) struct RigidProfile {
     pub asset: Arc<giants_game::static_geometry::Asset>,

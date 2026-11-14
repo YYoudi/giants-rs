@@ -4,7 +4,7 @@ use crate::actor_scene::{self, Material};
 use crate::rigid_attachment_scene::Material as AuxiliaryMaterial;
 use bevy::{asset::RenderAssetUsages, ecs::system::SystemParam, prelude::*};
 use std::collections::{BTreeMap, BTreeSet};
-mod rigid;
+pub(crate) mod rigid;
 
 pub struct Plugin;
 impl bevy::app::Plugin for Plugin {
@@ -443,6 +443,17 @@ fn update(
                 if draw.rigid.is_some() {
                     println!(
                         "mission_rigid_draw_owned ticket={ticket} class={} owner={:?} parts={} source_local_geometry=true",
+                        draw.class,
+                        draw.id,
+                        object.parts.len()
+                    );
+                } else if matches!(
+                    draw.id,
+                    crate::mission_runtime::NpcDrawOwner::BuildingReplacement(_)
+                        | crate::mission_runtime::NpcDrawOwner::BuildingEffect(_)
+                ) {
+                    println!(
+                        "mission_building_unlit_draw_owned ticket={ticket} class={} owner={:?} parts={} world_geometry=true checked_rgb_alpha_program=true",
                         draw.class,
                         draw.id,
                         object.parts.len()

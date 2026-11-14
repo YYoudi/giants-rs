@@ -34,6 +34,10 @@ pub struct Parameters {
     composition: Vec4,
 }
 impl Parameters {
+    pub(crate) fn object_alpha(mut self, factor: f32) -> Self {
+        self.composition.x = factor;
+        self
+    }
     pub(crate) fn additive_profile(self, profile: Option<(f32, bool)>) -> Self {
         match profile {
             Some((factor, true)) => self.additive_texture(factor),

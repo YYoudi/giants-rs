@@ -1,6 +1,8 @@
 //! Initial class/header fields for the acquired ordinary actor profile.
 //! Resource pointers are represented separately; this is not a complete actor,
 //! state callback, dynamic-shadow renderer or mission readiness service.
+//! Prototype PS2 `object_copy_personality` is an unknown-attribution search route;
+//! acquired PC fields and cursor-only records do not import a prototype layout.
 use crate::{animation_channels::Channels, scene_resources::SceneResources, specification};
 use std::sync::Arc;
 
@@ -232,7 +234,7 @@ impl Fields {
                     out.configuration[18] = gunlist.len() as u32;
                 }
                 // These records only advance the source cursor in this D build.
-                0x1c | 0x32 => {}
+                0x1c | 0x32 | 0x38 => {}
                 // State allocation and payload attributes have their own owner.
                 0x1e | 0x1f | 0x3c | 0x44 | 0x7a | 0x7b | 0x7c | 0x83 => {}
                 0x21 => {
@@ -365,6 +367,73 @@ impl Fields {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    #[ignore = "requires GIANTS_BUILDING_ROOT; actual Reaperman class fields with controlled ignored operands, no world actor/frame admission"]
+    fn installed_reaperman_ignored_vector_keeps_header_fields_and_cursor() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());
+        let mut resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        let spec = specification::Prepared::load_registered(&resources, 215).unwrap();
+        let baseline = Fields::load(&resources, 215, &spec).unwrap();
+        for words in [[0; 3], [0x7fc00000, 0x7f800000, 0xffffffff]] {
+            let record = resources.classes.models.programs.get_mut(&215).unwrap()[0]
+                .program
+                .as_mut()
+                .unwrap()
+                .records
+                .iter_mut()
+                .find(|r| r.opcode == 0x38)
+                .unwrap();
+            assert_eq!(record.bytes.len(), 13);
+            for (bytes, word) in record.bytes[1..]
+                .as_chunks_mut::<4>()
+                .0
+                .iter_mut()
+                .zip(words)
+            {
+                bytes.copy_from_slice(&u32::to_le_bytes(word));
+            }
+            let actual = Fields::load(&resources, 215, &spec).unwrap();
+            assert_eq!(actual.configuration, baseline.configuration);
+            assert_eq!(
+                (
+                    actual.object_flags,
+                    actual.control_flags,
+                    actual.response_flags,
+                    actual.action,
+                    actual.dispatch_context
+                ),
+                (
+                    baseline.object_flags,
+                    baseline.control_flags,
+                    baseline.response_flags,
+                    baseline.action,
+                    baseline.dispatch_context
+                )
+            );
+            assert_eq!(actual.channels, baseline.channels);
+            assert_eq!(actual.gunlist, baseline.gunlist);
+            assert_eq!(actual.shadow, baseline.shadow);
+            assert_eq!(
+                actual.shadow_reciprocal.to_bits(),
+                baseline.shadow_reciprocal.to_bits()
+            );
+            assert_eq!(actual.scale.to_bits(), baseline.scale.to_bits());
+            assert_eq!(
+                (
+                    actual.position,
+                    actual.current,
+                    actual.previous,
+                    actual.angles
+                ),
+                (
+                    baseline.position,
+                    baseline.current,
+                    baseline.previous,
+                    baseline.angles
+                )
+            );
+        }
+    }
     fn template() -> Fields {
         let mut configuration = crate::class_template::initial_configuration();
         configuration[18] = 3;

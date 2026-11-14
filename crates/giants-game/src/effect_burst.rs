@@ -678,6 +678,7 @@ pub struct Playback {
     pub expired: bool,
     pub contact: Option<crate::effect_contact::State>,
     pub texture_animation: Option<crate::effect_texture_animation::State>,
+    inherited_direction: Option<crate::procedural_aim::Matrix>,
 }
 impl Playback {
     pub fn new(spawn: Spawn, birth: crate::procedural_aim::Matrix) -> Result<Self, &'static str> {
@@ -745,7 +746,28 @@ impl Playback {
             expired: false,
             contact: None,
             texture_animation,
+            inherited_direction: None,
         })
+    }
+    /// Source context inheritance affects initial velocity, not reference
+    /// placement or the Euler extraction from the object's own birth matrix.
+    /// A zero-flag, zero-filled frame is retained literally, not normalized.
+    /// Prototype PS2 `fx_logic` is an unknown-attribution navigation candidate;
+    /// this PC callback contract does not import its signature or layout.
+    pub fn bind_inherited_direction(
+        &mut self,
+        frame: crate::procedural_aim::Matrix,
+    ) -> Result<(), &'static str> {
+        if self.inherited_direction.is_some()
+            || self.angles.is_some()
+            || self.visual.first_frame_consumed()
+            || frame.flags & 0x20 != 0
+            || !frame.values.into_iter().all(f32::is_finite)
+        {
+            return Err("effect inherited direction requires a fresh finite affine frame");
+        }
+        self.inherited_direction = Some(frame);
+        Ok(())
     }
     pub fn visible(&self) -> bool {
         !self.expired && !self.spawn.hidden
@@ -799,8 +821,11 @@ impl Playback {
                 let angles = if let Some(angles) = self.angles {
                     angles
                 } else if self.spawn.direction_requested {
+                    let direction = self
+                        .inherited_direction
+                        .map_or(Ok(self.birth), |frame| frame.mul(self.birth))?;
                     self.motion.velocity =
-                        crate::effect_projectile::initial_velocity(self.birth, self.spawn.speed)?;
+                        crate::effect_projectile::initial_velocity(direction, self.spawn.speed)?;
                     crate::effect_orientation::from_matrix(self.birth)?
                 } else {
                     [0.; 3]
@@ -867,6 +892,49 @@ impl Playback {
 }
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn inherited_frame_changes_velocity_without_rotating_birth_or_angles() {
+        use crate::procedural_aim::Matrix;
+        let birth = crate::effect_orientation::matrix([1., 2., 100.], [0.; 3], 1.).unwrap();
+        let raw_zero = Matrix {
+            flags: 0,
+            values: [0.; 16],
+        };
+        let rotated = Matrix {
+            flags: 1,
+            values: [
+                0., -1., 0., 0., 1., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0.,
+            ],
+        };
+        let mut bodies = [None, Some(raw_zero), Some(rotated)].map(|frame| {
+            let mut source = spawn();
+            source.visual.lifetime = 10.;
+            source.visual.fade_out_start = 0.;
+            source.spin = [0.; 3];
+            let mut body = super::Playback::new(source, birth).unwrap();
+            if let Some(frame) = frame {
+                body.bind_inherited_direction(frame).unwrap();
+            }
+            assert_eq!(body.birth.values, birth.values);
+            body.advance_free(0.01).unwrap();
+            assert_eq!(body.motion.position, [1., 2., 100.]);
+            assert_eq!(body.motion.velocity, [0.; 3]);
+            assert!(body.bind_inherited_direction(raw_zero).is_err());
+            body.advance_free(0.01).unwrap();
+            body
+        });
+        assert_eq!(bodies[0].motion.velocity, bodies[1].motion.velocity);
+        assert_eq!(bodies[2].motion.velocity[0], -bodies[0].motion.velocity[1]);
+        assert_eq!(bodies[2].motion.velocity[1], bodies[0].motion.velocity[0]);
+        assert_eq!(bodies[2].motion.velocity[2], bodies[0].motion.velocity[2]);
+        assert_eq!(bodies[0].angles, bodies[2].angles);
+        // Raw source frame identity is retained separately from a null frame.
+        assert!(bodies[0].inherited_direction.is_none());
+        assert_eq!(bodies[1].inherited_direction.unwrap().values, [0.; 16]);
+        for body in &mut bodies {
+            assert!(body.advance_free(0.02).unwrap());
+        }
+    }
     fn spawn() -> super::Spawn {
         super::Spawn {
             class: 900,

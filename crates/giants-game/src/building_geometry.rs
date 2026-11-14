@@ -26,15 +26,19 @@ impl Stage {
         }
         Self::health(source, class, fraction)
     }
-    /// The acquired house and state101 process callbacks use the same health
-    /// channel. Unskinned declared models keep their actual rigid vertices.
+    /// Acquired house/state101 and the admitted state98 classes use the same
+    /// numeric health channel. Each caller supplies its own acquired fraction;
+    /// barracks retain their distinct arithmetic. Unskinned models stay rigid.
     pub fn health(source: &SceneResources, class: i32, fraction: f32) -> Result<Self, String> {
         let state = source
             .class_state_seed(class)
             .map_err(|e| e.to_string())?
             .storage
             .state();
-        if !matches!(state, 61 | 101) || !fraction.is_finite() || !(0. ..=1.).contains(&fraction) {
+        if !(matches!(state, 61 | 101) || state == 98 && matches!(class, 1060 | 1226))
+            || !fraction.is_finite()
+            || !(0. ..=1.).contains(&fraction)
+        {
             return Err("building health geometry outside acquired state/fraction profile".into());
         }
         let binding = source
@@ -56,6 +60,54 @@ impl Stage {
             pose.house_health(fraction)?;
             Some(pose)
         };
+        Self::prepare(source, class, fraction, pose)
+    }
+    /// Initial idle tree pose, independent of health. The ordinary foliage
+    /// renderer keeps its existing wind owner; later collision/wind cadence is
+    /// not certified by this snapshot. Never use house health stages on a tree.
+    pub fn tree_snapshot(source: &SceneResources, class: i32) -> Result<Self, String> {
+        if !matches!(class, 102 | 664)
+            || source
+                .class_state_seed(class)
+                .map_err(|e| e.to_string())?
+                .storage
+                .state()
+                != 60
+        {
+            return Err("tree geometry outside acquired palm/stump profile".into());
+        }
+        let binding = source
+            .classes
+            .models
+            .first_selection(class)
+            .ok_or("tree model table absent")?
+            .as_ref()
+            .map_err(Clone::clone)?;
+        let pose = if binding.selection.animations.is_empty() {
+            None
+        } else {
+            Some(crate::model_pose::Prepared::load_normal_initial(
+                source,
+                60,
+                class,
+                &binding.selection,
+            )?)
+        };
+        Self::prepare(source, class, 1., pose)
+    }
+    fn prepare(
+        source: &SceneResources,
+        class: i32,
+        fraction: f32,
+        pose: Option<crate::model_pose::Prepared>,
+    ) -> Result<Self, String> {
+        let binding = source
+            .classes
+            .models
+            .first_selection(class)
+            .ok_or("building model table absent")?
+            .as_ref()
+            .map_err(Clone::clone)?;
         let collision_slot = binding
             .selection
             .table()

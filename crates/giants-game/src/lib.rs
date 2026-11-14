@@ -796,6 +796,7 @@ pub mod animation_mixing;
 pub mod backpack_drop;
 pub mod blood_particles;
 pub mod blood_wounds;
+pub mod building_barracks;
 pub mod building_damage;
 pub mod building_geometry;
 pub mod contact_pose;

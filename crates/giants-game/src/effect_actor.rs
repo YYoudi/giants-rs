@@ -318,6 +318,43 @@ impl Template {
             query,
         )
     }
+    /// Detached FLK_FxSpawn splash frame. Prototype navigation candidates
+    /// `fx_processOpCodes` / `fx_setupVerticleFade` remain unknown attributions.
+    /// The reached reference position is captured once; no parent is retained.
+    pub fn random_vertical_positioned<K: Copy>(
+        &self,
+        origin: Id,
+        context: &Context<K>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Configured<K>, String> {
+        let program = context.program.as_ref().map_err(Clone::clone)?;
+        if program.records.iter().map(|r| r.opcode).collect::<Vec<_>>()
+            != [3, 6, 0x37, 5, 0x46, 7, 2]
+        {
+            return Err("vertical constructor outside acquired single-segment frame".into());
+        }
+        let recipe = crate::released_effect::Recipe::project(program)?;
+        let mut initial = self.positioned(origin, context)?;
+        let configuration = recipe.activate_configuration(&mut random.0);
+        initial.size([configuration.start_size, configuration.end_size], false)?;
+        if configuration.start_size != configuration.end_size {
+            initial.fields.control_flags |= 0x100000;
+        }
+        let mut configured = initial.timed(configuration, context.source_image())?;
+        configured.visual = crate::effect_visual::Visual::with_size_curve(
+            configuration,
+            crate::effect_visual::SizeCurve::EaseOut,
+        )?;
+        let v = recipe.vertical_fade.ok_or("vertical segment absent")?;
+        configured.render.configure(
+            &crate::effect_scene::RenderCommand::VerticalFade([
+                v.start[0], v.start[1], v.end[0], v.end[1], v.duration,
+            ]),
+            &mut configured.initial.fields,
+            &mut configured.initial.seed,
+        )?;
+        Ok(configured)
+    }
     pub fn curved_cinematic(
         &self,
         origin: Id,

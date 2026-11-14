@@ -22,6 +22,7 @@ impl Configuration {
         Ok(self)
     }
 }
+#[derive(Clone, Copy, Debug)]
 pub struct Playback {
     configuration: Configuration,
     pub elapsed: f32,
@@ -95,6 +96,20 @@ mod tests {
         assert_eq!(p.values, [0.; 2]);
         p.advance(0.05).unwrap();
         assert_eq!(p.values[0].to_bits(), 1064154843);
+        let mut exact = Playback::new(Configuration {
+            start: [1., 0.25],
+            end: [0., 0.5],
+            duration: 0.5,
+        })
+        .unwrap();
+        exact.advance(0.5).unwrap();
+        assert_eq!(exact.values, [0., 0.5]);
+        assert!(exact.active);
+        assert_eq!(exact.elapsed, 0.5);
+        exact.advance(0.00001).unwrap();
+        assert!(!exact.active);
+        assert_eq!(exact.elapsed, 0.);
+        assert_eq!(exact.values, [0., 0.5]);
         p.advance(0.7).unwrap();
         assert!(!p.active);
         assert_eq!((p.elapsed, p.values), (0., [0.; 2]));

@@ -24,6 +24,8 @@ pub(crate) struct CampaignCompletion {
     pub required: i32,
     pub film: Option<String>,
 }
+#[cfg(test)]
+mod barracks_tests;
 mod campaign;
 mod combat_globals;
 mod landing;
@@ -710,6 +712,14 @@ impl Runtime {
                 .as_ref()?;
             return (fields.object_flags & 0x8000 == 0).then_some(fields.position);
         }
+        if active.resident_states.barracks_state(id).is_ok() {
+            let fields = active
+                .resident_states
+                .get(id)?
+                .construction_fields
+                .as_ref()?;
+            return (fields.object_flags & 0x8000 == 0).then_some(fields.position);
+        }
         active.resident_states.presentation_position(id)
     }
     pub(crate) fn actor_sound_route(
@@ -1136,8 +1146,8 @@ impl Runtime {
             return Err("mission proxy34 requires an owned actor-service backend".into());
         }
         let opening = p.opening.as_ref().map_err(Clone::clone)?;
-        if opening.director.is_none() && opening.source_offset.is_none() {
-            return Err("absent opening request does not establish native defaults".into());
+        if opening.director.is_none() && !opening.allows_no_director_start() {
+            return Err("opening requires an initialized fresh slot or explicit request".into());
         }
         if !p.opening_effects_bound {
             return Err("opening renderer or effect dispatch is incomplete; preview only".into());
@@ -1525,6 +1535,34 @@ impl Runtime {
             device,
         )
     }
+    pub(crate) fn initialize_normal_buildings(
+        &mut self,
+        ticket: u64,
+        state: &mut crate::mecc_dev_scene::State,
+        events: &mut Vec<crate::mission_audio::Event>,
+        updates: &mut Vec<crate::mission_buildings::Update>,
+    ) -> Result<(), String> {
+        let active = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("building initial ticket absent")?;
+        active.player_owner()?;
+        if state
+            .buildings
+            .barracks_initial
+            .start(&mut active.resident_states, events)?
+        {
+            for receipt in state
+                .buildings
+                .initial_barracks_updates(ticket, &active.resident_states)?
+            {
+                state.apply_building_hit(&receipt)?;
+                updates.push(receipt.update);
+            }
+        }
+        Ok(())
+    }
     pub(crate) fn hit_normal_building(
         &mut self,
         ticket: u64,
@@ -1541,13 +1579,24 @@ impl Runtime {
         if a.owned_mecc.is_some() || a.controlled_mecc_owner != Some(owner) {
             return Err("building hit requires its ordinary controlled Mecc".into());
         }
-        let result = state.buildings.hit(
-            ticket,
-            hit,
-            camera,
-            a.resident_states.counts().residents,
-            &mut a.variant_random,
-        )?;
+        let result = if state.buildings.is_barracks(hit.object) {
+            state.buildings.hit_barracks(
+                ticket,
+                hit,
+                camera,
+                &mut a.resident_states,
+                owner,
+                &mut a.variant_random,
+            )?
+        } else {
+            state.buildings.hit(
+                ticket,
+                hit,
+                camera,
+                a.resident_states.counts().residents,
+                &mut a.variant_random,
+            )?
+        };
         if let Some(result) = &result {
             state.apply_building_hit(result)?;
         }

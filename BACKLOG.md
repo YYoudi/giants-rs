@@ -17,6 +17,29 @@ separately validated ordinary integration and publication are recorded below.
 
 ## Active objective - ordinary buildings, collision and damage reactions
 
+Owner feedback delivered in preview .14.1: normal pistol hits destroy admitted
+class102 palms, hide their exact foliage owner, play the source wood burst/sound
+and leave a separately colliding/projectile/damageable class664 stump. Rendered
+supplied ordinary commands observe seventeen births/seventeen retirements and
+fresh stump contacts after expiry; installed controls separately cover nine
+further accepted damage12 hits retiring its health100 without a second burst.
+Collision uses the acquired initial idle pose; live wind/collision alignment,
+other tree families and heavy-actor felling remain open. Do not declare all
+vegetation destructible or assign house health-animation stages to a palm.
+
+The carried RoadHome return now satisfies its real counter, plays its source
+film to its natural end and enters High Village with the ordinary Mecc. Fresh
+empty-opening admission, canonical detached splash/fade and exact opaque
+barracks command7 metadata are connected. The strict combined report remains
+failed on High Village Ripper AI's unacquired platform cold command46; separate
+core-chain acceptance does not waive that dependency or certify the next mission.
+Acquired barracks damage/effects are included in this same build. Ripper effects bind the current ordinary solid
+meshes after canonical initialization/damage while cached platforms keep exact
+guards. Unsupported declared projectile hits retain only that shot and do not
+acknowledge damage or stop independent AI. Preserve the
+previous failed receipts and distinct .13.3 NPC delivery. See BUILDINGS.md,
+MISSION_PROGRESSION.md and PREVIEW_NOTES.md for evidence and remaining limits.
+
 Owner direction, 12 November 2026: connect the buildings already drawn on maps
 to player/projectile collisions, hitboxes and source damage reactions. Preserve
 indestructible cases, successive damage states, disappearance/replacement,
@@ -66,11 +89,67 @@ Remaining work, in player-impact order:
 
 1. Extend player collision/damage coverage beyond the admitted building profiles;
    acquire missing live pose/cache/state providers without inventing footprints.
+   The read-only catalogue audit now covers all 56 nonempty contexts of the
+   inspected installation (246 classes including nonbuildings), beyond the
+   original five-scene sample. Selected cold declaration gaps are pub53/state7,
+   drop-off834/state74 projectile admission and barracks686/state98. These are
+   acquisition candidates, not verified runtime behavior. Keep raw tables private
+   and the distinction between declared/prepared/rendered/damage-admitted in
+   BUILDINGS.md; no initial state83 declaration was found in this sample, which
+   says nothing about dynamic creation or other installations.
 2. Extend replacement and nested effects beyond the acquired 1127/1129 constructor
    profiles and rendered 1050 ->1127 acceptance. Preserve actual role/health/
    history ownership, complete cleanup and distinct source programs.
-3. Acquire restricted/special scenery and other base-building callbacks (including
-   states74/83/98), preserving weapon gates and authored indestructible cases.
+3. Acquire restricted/special scenery and remaining base-building callbacks
+   beyond the admitted state98 barracks, preserving weapon gates and authored
+   indestructible cases, including the separate states74/83 profiles.
+   The next visible state98 family is The Wife's two barracks. Their source
+   shot path wakes the building, alerts nearby actors, selects its own hit/death
+   sounds and explosion family, then performs its conditional mission requests
+   and retirement. Preserve the source selector's initialization/remapping.
+   Its immediate debris variant now retains its context mode and literal zero
+   positional frame in the shared consumer. Original full-graph births/RNG and
+   the selected ground-retirement/rebound trajectories match Rust; all three
+   installed graphs pass supplied-flat-terrain preparation. Descendant activation
+   and fading submissions now pass the three complete app graphs (60/60/123
+   births and retirements); shader uniforms/blend updates have separate asset
+   controls. The hit/alert decision kernels match 69 original contexts, including
+   actual horizontal distance and distinct Reaperman/Ripper edge/target rules.
+   The Wife's six declared class215/state51 actors and both barracks now have
+   acquired cold constructors/identities/list membership; the cursor-only class
+   record and native copy/payload controls precede this admission. Their typed
+   alert consumers preserve separate AI/frame readiness and actual list order.
+   Complete named quality/distance selection, graphical/audio acceptance
+   and ordinary alert admission before admitting
+   ordinary damage. Existing tower geometry or the Vimp-specific effect route
+   does not establish whole barracks acceptance. See BUILDINGS.md.
+   Typed alert consumers now retain targets over the actual constructor list,
+   preserve existing Ripper targets and replace eligible team targets. Installed
+   The Wife supplied-request controls pass without modifying pointer bytes or
+   acknowledging AI frames. Bind the real shooter/player, radius globals and
+   complete source-eligible admission at the ordinary shot owner; the current
+   continuation now binds these through canonical mission identities.
+   Initial source selector/stock/channel setup now belongs to each canonical
+   barracks owner and runs at ordinary-control entry, with its object-owned
+   audio request routed through the common actor backend. Seventy-two original
+   initial controls include the real final health-animation helper. This is
+   implemented but awaits ordinary rendered/device acceptance; later spawning/AI
+   remains separate. The ordinary shot/health/geometry/alert/effect/retirement
+   adapters now compose in an installed normal-runtime control with supplied
+   impacts: twenty mini /sixteen Ripper hits at 25 damage, source Lite/full
+   selection, real audio resource presence/absence and 127 effect births/retirements.
+   The first rendered ordinary Ripper-barracks controls now pass real player
+   contact, nine-shot first stage and 34-shot destruction, hidden old parts,
+   independent debris/smoke drawing and the declared muted audio sink on one
+   executable. See BUILDINGS.md for the exact source/hash and retained failed
+   routes. Separate rendered expiry controls now observe 123/123 Ripper and
+   60/60 mini-barracks effect births/retirements, with zero active effects. The
+   mini barracks passes contact, eleven-shot first stage and 42-shot destruction,
+   hidden old parts, distinct debris/smoke and declared muted sound sinks. All
+   six phase captures were inspected. Complete combined regressions, live
+   cancellation/fresh-entry cleanup and separate Windows acceptance before
+   publication; later spawning/AI and mission-death credit remain unbound.
+   Source-marked mission-death credit remains unbound and is not fabricated.
 4. Bind actual building mission-death producers with their native global mode,
    counter and response rules; do not infer credit from a model or health word.
 5. Acquire generic radial/Raster3 platform owners and broader effects-world

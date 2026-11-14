@@ -289,6 +289,23 @@ impl<K: Copy> Timed<K> {
         let configured = template.gravity_positioned(origin, context)?;
         Self::new(template, configured)
     }
+    pub fn random_vertical_positioned(
+        resources: &crate::scene_resources::SceneResources,
+        origin: crate::attached_effect_context::Id,
+        context: &crate::attached_effect_context::Context<K>,
+        random: &mut crate::audio_parameters::Random,
+    ) -> Result<Self, String> {
+        source_scope(resources, context)?;
+        let recipe = crate::released_effect::Recipe::project(
+            context.program.as_ref().map_err(Clone::clone)?,
+        )?;
+        let template = Template::load(resources, recipe.class)?;
+        let mut staged = *random;
+        let configured = template.random_vertical_positioned(origin, context, &mut staged)?;
+        let body = Self::new(template, configured)?;
+        *random = staged;
+        Ok(body)
+    }
     pub fn ground_positioned(
         resources: &crate::scene_resources::SceneResources,
         origin: crate::attached_effect_context::Id,

@@ -431,11 +431,14 @@ impl Scene {
                 .program
                 .as_ref()
                 .map_err(Clone::clone)?;
-            crate::model_pose::idle_tree_channel(
-                program,
-                &input.state_seed.as_ref().map_err(Clone::clone)?.storage,
-                false,
-            )?;
+            let storage = &input.state_seed.as_ref().map_err(Clone::clone)?.storage;
+            let rigid_stump = input.class == 664
+                && storage
+                    .data()
+                    .is_some_and(|d| d.len() == 76 && d.iter().all(|b| *b == 0));
+            if !rigid_stump {
+                crate::model_pose::idle_tree_channel(program, storage, false)?;
+            }
         }
         let mut position = input.position;
         if state == 27 {

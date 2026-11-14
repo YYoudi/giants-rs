@@ -1,7 +1,10 @@
 # Ordinary building collision and damage integration
 
-Preview .13.2 adds guard destruction/replacement to the .13.1 player collision
-and entrance-damage delivery. Exact regression acceptance is recorded below.
+Preview .14.1 adds ordinary palm damage, wood effects and an independently
+colliding/damageable source stump, and delivers the acquired barracks reactions.
+It retains the earlier house, entrance, fence, small-tower and guard profiles.
+Current exact-build acceptance is in PREVIEW_NOTES.md; the sections below retain
+the earlier acquisition and delivery history with their original evidence scope.
 Preview .12.3 was the first bounded ordinary-building delivery; preview .12.2
 did not enable it.
 BACKLOG.md owns detailed acceptance; RECONSTRUCTION_METHOD.md governs
@@ -58,6 +61,298 @@ landing, menu lifecycle and selected full cinematic/text/cleanup. Separate short
 Windows menu/entry/view/fire/return/re-entry checks pass. See PREVIEW_NOTES.md
 for their limits; sustained held input and OS-aimed destruction remain unverified.
 Display copies in the dashboard carry this same source/build identity.
+
+## Barracks acquisition history (intermediate controls before .14.1)
+
+The next installed-data sample contains two state98 barracks, classes1060 and
+1226, already present in the independent player/projectile mesh preparation.
+Literal `barracks_shot`, `barracks_logic`, `barracks_alert_rippers__FP6OBJECT` and related
+release names are checked against the prototype PS2 ELF, independently of the
+supplied CSV interpretation. The PC descriptor and its actual shot callback
+remain separately pinned in private evidence. These are unknown PC-to-PS2
+attributions; matching names and related constants do not import an ABI/layout.
+
+The acquired PC shot control flow retains an initial dead/health guard, source
+target fallback, activity transition and ordered team/nearby-Ripper alerts before
+damage accumulation. Nonlethal hits request the variant's object-bound sound.
+Lethal hits select its named explosion and positional sound, conditionally emit
+mission requests according to the source selector/flags/count, and retire it.
+The initial primary callback remaps particular class/selector combinations and
+initializes stock. Do not apply house health-animation stages or supply a guessed
+stock, player identity, empty actor list or mission-success acknowledgement.
+
+All three declared explosion families use a distinct immediate-child variant.
+Private original-VM controls
+confirm the same parent/program/reference operands as the existing child path,
+but an additional context-transform argument is passed to the real factory.
+The factory copies that transform and preserves its distinct context mode.
+Six bounded active-dispatch controls execute the original string reader and
+comparison, retain the source operands and consume no RNG at this boundary.
+Those six controls stop at child construction. A subsequent original full-graph
+control constructs all 35 miniature-barracks objects and refreshes their actual
+source references. Rust matches all initial matrix words and the final RNG state.
+The unrotated positional context contains a literal zero-filled, flags-zero
+frame; this remains distinct from an absent frame. A separately supplied rotated
+frame changes initial velocity without changing reference placement or the
+object's own Euler extraction. Six original callback frames match Rust across
+the two frame inputs. This does not establish rotated-root mixed-scene support;
+the context-pool transfer still rejects inherited/rotated roots.
+
+The common construction ledger now preserves this child mode explicitly.
+The bounded positional consumer binds its actual zero context frame and admits
+the separately checked rigid contact variants: ground retirement with the
+source retirement request, and rebound/lifetime expiry without that request.
+Private original comparisons match 204 and 264 callback frames respectively,
+including below-ground initial placement, force, velocity, contact flags and
+retirement. A failed fixture that translated an already rounded birth position
+is retained; the corrected fixture recomputes the source references from the
+new root point. An installed-resource control prepares all three complete graphs
+on supplied flat terrain and checks the distinct retirement behavior. Child
+activation, renderer resources, audio and ordinary damage acceptance remain
+separate; these controls do not establish a delivered barracks explosion.
+
+The context-pool null pass also admits the bounded, independently observed
+debris/smoke/flash frames. Three additional original complete constructors match
+Rust births, source reference matrices and RNG for the required particle and
+retirement contexts. The app-level graph test exposed a missing rigid-object
+fading consumer. The shared renderer now uses the acquired object/material
+transparency override and quantized alpha, updates blend mode with the current
+uniform, and preserves the separately checked reflection programs. The three
+installed graphs prepare fading submissions and retire all descendants: 60, 60
+and 123 total births/retirements under supplied clocks and selection inputs.
+An asset ownership control checks half/fully transparent/back-to-opaque uniform
+updates and buffer release. The guard's opaque zero-blend auxiliary fallback
+still refuses an unsupported fade; it is not replaced by another RGB program.
+Unbound material compositions remain admission errors before live allocation.
+These are application/resource controls, not rendered pixels or building-hit
+acceptance. Named root selection also has distinct lite entries; the eventual
+ordinary producer must supply actual quality/load/camera inputs. Direct-offset
+preparation and supplied selection controls do not establish that producer.
+
+This continuation adds no ordinary barracks damage or new download capability.
+The `building_barracks` PC decision/alert kernels now match 69 original controls:
+55 callback/service-boundary contexts and fourteen complete nonlethal callbacks
+that execute the actual team helper, state23 predicate and horizontal squared
+distance helper over a nonempty supplied list. Reaperman alerts include the
+radius boundary and replace an existing target; the Ripper loop excludes that
+boundary and preserves existing targets. The acquired mode102 gates remain
+distinct from other modes. High vertical separation does not reject a nearby
+horizontal candidate. Damage is not clamped or passed through house stages.
+Alert writes precede accumulation; mission-count decrements follow successful
+requests, with failed prefixes retained rather than automatically replayed.
+The team helper's separate Reaperman-origin branches are outside this bounded
+building-origin kernel, not silently treated as equivalent.
+
+The Wife declares six class215/state51 actors. Their class program exposed a
+previously unsupported vector record: the PC parser only advances over its three
+raw words. Twelve original controls retain the complete header, neighboring
+stores and cursor, including nonfinite operand bits. The source class then
+loads without inventing fields. Complete native cold constructors for class215,
+1060 and1226 match 357 projected Rust words across flags, normalized configuration,
+channels, scale and the zeroed 576-byte state51 payload. Resource-pointer identity,
+mission placement and first callbacks remain separate contracts.
+
+The common declaration path now constructs these specific class/state pairs,
+retaining their real mission identity, authored placement and list ownership.
+An installed The Wife control owns all six Reapermen and both barracks without
+acknowledging a world tick. Other state51/98 classes and unbound common F4
+placement values remain excluded. This cold construction does not run primary
+AI or emit sound. The acquired building-origin helpers now consume the actual
+owned constructor list and current header/payload fields. Targets use typed
+mission identities, remain visible to retirement-reference checks and survive
+later Ripper primary binding. Already prepared machines receive the same target
+without consuming a callback or motion phase. A malformed, foreign or failed
+owner refuses the operation before any candidate is changed. Installed The Wife
+controls exercise the nonempty list, all six team targets and existing Ripper
+targets; raw pointer slots and list registration remain unchanged. Alert requests
+and target identities in that control are supplied, not ordinary shots or a
+controlled-player producer. The ordinary caller must still establish complete
+source-eligible admission, actual shooter/player identity, radius globals and
+source initialization. Never substitute an empty or partial replacement list.
+Preserve separate AI/frame readiness and the source selector's initial primary
+behavior.
+The initial branch is now implemented on the canonical mission owner and called
+when ordinary controls become active, after the opening film. Source integer
+stock globals drive the mini/full variant; the Ripper variant retains its
+literal stock. Selector remapping, zero damage, numeric ANM1/flags84/frame1 and
+the zero-damage health-animation suffix are separate from later spawning/AI.
+Seventy-two original controls now execute that real suffix, rather than only
+supplying its return: both zero and positive limits retain frame1/bit80 and the
+initialized stock. The earlier controlled nonzero helper return remains a supplied
+boundary case, not a claim about a fresh live building. The health-frame helper
+now retains the original wide intermediate precision rather than the house
+rounding policy: a controlled 24/100 damage case stays at frame1 while the house
+consumer selects its damaged fraction. Sixty-four complete original helper
+controls also include a second threshold profile: fresh zero damage can select
+a different fraction with different thresholds. Initialization therefore loads
+the actual health thresholds alongside the integer stock globals; it does not
+hardcode frame1 as the final result. Ordinary damage/geometry consumption remains
+separate from these numeric controls.
+
+The ordinary initial owner submits object-owned audio requests through the common
+actor sound path, with the actual source identity and position. Request acceptance
+does not claim a backend voice; device/ordinary rendered acceptance remains open
+for this continuation. Suppression leaves the initial attempt available, repeated
+initialization is refused after consumption, and failed sound requests retain
+their prefix without replay. Authored keys are checked before the first owner
+starts; missing construction cannot become an empty successful start. The common
+controller forwards earlier accepted requests even if a later owner fails.
+The ordinary shot adapter now resolves each projectile mesh back to its canonical
+mission declaration, uses the actual controlled player for hit attribution and
+executes the ordered alert/damage/audio/effect/retirement contract. Before starting,
+it checks source-declared eligible actors against constructor list membership;
+the live helper also sees actual subsequent registrations. Health receipts update
+the individual visual and each independently admitted player/projectile geometry.
+Initial geometry receives the same treatment before the first input. The scene's
+health copy is a presentation receipt, not a second damage simulation. Retirement
+marks the actual source header; it does not invent a native list/resource destructor.
+
+The installed normal-runtime control supplies twenty 25-damage hits to the 500-HP
+mini barracks and sixteen to the 400-HP Ripper barracks. It checks canonical
+identity/target/phase/health, source stages, actor-bound versus positional audio
+requests, physical/projectile retirement and effect expiry. With its actual
+supplied camera, adaptive selection uses the four-object mini Lite program and
+the Ripper program: 127 cumulative births/127 retirements. These are supplied
+contacts/damage/time, not normal pistol inputs, device starts or GPU acceptance.
+Source integer stock, quality/distance/radius globals and geometry/audio resources
+come from the installation. Whole original-world population/scheduling fidelity
+does not follow from the current runtime's owned population.
+
+Two requested sound IDs are absent from this mission's registered catalog. Ten
+complete original object/position wrapper controls show missing bank, filename,
+sample or suppression returns no voice without backend dispatch; declared but
+unreadable resources still fail preparation. The shared audio consumer preserves
+the requested ID and records source absence rather than substituting a sound or
+acknowledging a nonexistent sink. Prototype PS2 `sound_play_obj` and
+`sound_play_3dpos` remain unknown attribution routes.
+
+The mini Lite program also names absent immediate children. The complete original
+VM, with its actual four class constructors, creates four objects and consumes no
+extra random draws for those absent children. All four first matrices and the RNG
+agree with Rust (72 projected words). A failed earlier native fixture omitted two
+required class templates; it is not evidence of an original-game crash. The shared
+scene parser now preserves absent child operands and creates no substitute; an
+existing unsupported child still refuses admission. Full/Lite source selection
+remains active. Separate complete named-creation controls return no context for
+the missing names, with the original diagnostic, unchanged pool and RNG.
+
+The Wife's two source instances are unmarked for mission-death credit. Cases that
+need the still-unbound mission counter are excluded before ordinary damage; no
+counter success is fabricated. Later barracks spawning/AI remains unported.
+Validate normal pistol hits, effects, actual declared sound sinks, collision
+changes, cleanup and regressions on one identified rendered executable before
+extending the public snapshot. No new public download is delivered by these controls.
+The first receipt-bound rendered Ripper attempt reached the ordinary mission but
+its supplied straight-line pilot stalled on the departure terrain and exhausted
+its observation budget without a hit. It is a failed rendered control, not a
+damage/effect success. The diagnostic route now reuses the existing held-input
+escape/recharge pilot for barracks and a longer command budget; it changes no
+gameplay pose, fuel, collision, health or readiness. Repeated rendered acceptance
+on the resulting executable is still required.
+The next escape-only pilot also exhausted its longer budget at the same departure
+ridge, despite observed jet ascent. The building pilot now reuses the existing
+sampled-terrain route generator before applying those same ordinary input levels.
+Both failed receipts remain retained; neither establishes a building hit.
+
+The sampled-route executable (`41bd7938ed3279ba5d2168f690cc41876a275ba7`,
+SHA256 `d39f53fde20ac1f0a53dcd47d9cb0c557582c65a2d5be89a474fc9d137df06b3`)
+now passes the first rendered Ripper-barracks control. From The Wife's authored
+start, supplied ordinary movement/look/jet inputs reach class1226, record real
+narrow player contact and retreat for normal pistol fire. Nine actual hits
+accumulate 108 damage against its 400 limit and publish the source 0.75 health
+stage to the visible individual mesh. The captured frame was inspected. These
+are supplied controls through the ordinary owners, not Windows-held inputs or
+native fidelity. A fresh run then reaches successive source stages and destroys
+the same barracks with 34 actual hits (408 accumulated damage). Its fifteen old
+parts are hidden; independently owned rigid debris and smoke render, with 42
+effect births, five retirements and 37 still active at the inspected capture.
+The declared graph sound1551 reaches an actual muted audio sink. Missing variant
+sounds remain absent. A separate rendered run then observes all 123 births and
+123 retirements on the actual mission clock, with zero active effects and a
+clear inspected final frame.
+
+The same executable also reaches The Wife's mini barracks (class1060) from the
+authored start using supplied ordinary controls. Actual narrow player contact
+precedes eleven pistol hits reaching 132/500 damage and the first 0.75 stage.
+Forty-two hits accumulate 504 damage and retire the building: its twenty old
+parts hide, while its own rigid debris/smoke render and declared hit/death sounds
+reach muted device sinks. The early destruction capture has 35 births/five
+retirements; the separate complete-expiry run records 60 births/60 retirements
+and zero active effects. All six damaged/destruction/settled captures across
+the two buildings were inspected. These checks do not establish Windows-held
+input, audible parity, later barracks spawning, NPC AI frames, mission-death
+credit or complete native-world/visual fidelity. Combined regressions, live
+cancellation/fresh entry and separate Windows acceptance remain required before
+publication; .13.2 remains the public build.
+
+## Palm/stump delivery - preview .14.1
+
+The admitted state60 palm class now uses its independently selected source
+collision model, shared acquired shot decisions and source health10. A supplied
+ordinary-pistol damage12 destroys it and requests its real wood effect and
+replacement664. The replacement retains its own health100, player/projectile
+roles and identity; nine further damage12 hits retire it without inventing a
+second wood effect. The original shared callback's state60-only fifteen-word
+tail transfer is independently controlled; the new class's four-word prefix is
+preserved. The idle replacement has no invented house health stage or animation.
+
+The ordinary foliage render owner consumes retirement by the exact declaration
+key and keeps all old parts hidden through later wind/LOD updates. The installed
+CPU integration control observes the complete source wood graph, object sound
+requests, 17 births/17 retirements and persistent replacement roles across NPC
+contact refresh. Exact-executable rendered destroyed/settled routes now pass
+actual narrow contact, a lethal accepted pistol hit, twelve hidden foliage parts,
+source wood sound, seventeen effect births/retirements and two fresh stump
+contacts after expiry. The no-normal stump/debris use the shared acquired unlit
+RGB/alpha renderer; lit sources retain their normal/cube renderer. The capture
+is a close collision endpoint, not a pixel-aligned fidelity comparison.
+Collision uses the acquired
+initial idle tree pose; ongoing wind/collision clock alignment, heavy-actor
+felling, other tree classes and complete native fidelity remain open. A native
+callback or symbol name alone does not extend this scope.
+
+The following-mission/Story4 cold barracks regression now retains the exact
+source command7 scalar with its canonical owner before initialization. Its
+semantic meaning remains unknown; it is neither dropped nor assigned a guessed
+behavior. Actual-key/value checks precede the initial walk. F4 overrides and
+other unacquired states remain refused. Installed source initialization passes;
+the exact rendered RoadHome chain now passes this initialization. Following
+High Village Ripper AI still refuses an unacquired platform cold command46;
+no complete NPC/mission acceptance is claimed.
+
+## Installed catalogue coverage audit
+
+Owner feedback adds ordinary destructible trees to the next integration work.
+The selected tree/state60 descriptor uses the same PC shot callback as the
+acquired scenery service. Its source replacement, wood effect and tree-specific
+payload inheritance remain separate consumers. Existing animated foliage does
+not establish projectile/player collision, damage, retirement or replacement;
+tree health does not imply house-style model stages. Other foliage states retain
+their own contracts. Prototype `tree_process`, `tree_init` and `collision_wood`
+are lookup routes, not confirmed PC identities. Original callback evidence and
+resource tables remain private; no tree gameplay acceptance is claimed yet.
+
+A read-only continuation now visits all 56 nonempty mission/catalogue contexts
+in the inspected installation, using the same world list and mission parser as
+the browser. All instance plans prepare; their 246 distinct classes include
+actors and other objects, not 246 building families. The audit compares source
+declarations and the independently prepared player, projectile and generic
+environment mesh roles. It does not establish runtime drawing, warm callbacks,
+damage admission, mission playability or native population completeness. Detailed
+per-placement tables and installation inputs remain private.
+
+This broadens the earlier five-scene sample. Declared house/state61, scenery/
+state101 and barracks/state98 families recur across the campaigns; The Wife's
+rendered acceptance does not certify every instance. Selected next dependencies
+include class53/state7's pub cold-shape declaration, class834/state74's drop-off
+projectile declaration and class686/state98's barracks cold-shape declaration.
+Their unacquired declaration commands remain explicit preparation limits; no
+generic box, damage policy or successful callback substitutes for them. The
+father's separate class1354/state74 mesh remains independently prepared. No
+state83 instance appears in these initial catalogue declarations; dynamic
+creation, base-building and other installations remain separate audit work.
+Future native acquisition of these dependencies still starts with prototype
+PS2 name lookup under RECONSTRUCTION_METHOD.md.
 
 ## Acquisition history and bounded service evidence
 

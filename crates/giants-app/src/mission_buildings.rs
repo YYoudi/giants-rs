@@ -1,9 +1,11 @@
-//! Ordinary house and bounded state101 scenery owners. Prototype PS2
+//! Ordinary house, bounded state101 scenery and acquired state98 owners. Prototype PS2
 //! `house_process`, `house_shot`, `house_handle_destruction`, `deathfx_logic`
 //! and `deathfx_shot` remain unknown PC attribution search routes.
 //! Other building families retain their collisions without a guessed callback.
+mod barracks;
 mod no_shot;
 mod replacement;
+mod trees;
 use giants_game::{
     actor_fields::Fields,
     arithmetic::Precision,
@@ -23,6 +25,7 @@ pub(crate) struct Update {
 }
 enum Policy {
     House,
+    Barracks,
     Scenery {
         configuration: death_fx::Configuration,
         effects: BTreeMap<usize, giants_game::model_registry::StateBinding>,
@@ -37,25 +40,32 @@ struct Class {
     fields: Fields,
     stages: BTreeMap<u32, Arc<Stage>>,
     replacement: Option<Arc<replacement::Template>>,
+    tree: Option<[u32; 19]>,
 }
 struct Owner {
     physical: bool,
     environment: bool,
     contacts: u64,
     key: (bool, usize),
+    declaration: giants_game::declared_residents::Key,
     fields: Fields,
+    // Authority for house/scenery kernels. For barracks this is only the last
+    // published canonical Session receipt, never an independent damage kernel.
     damage: House,
     class: Arc<Class>,
     pose: SourcePose,
     fraction: u32,
+    tree: Option<[u32; 19]>,
 }
 pub(crate) struct World {
+    pub(crate) barracks_initial: barracks::Initial,
     owners: BTreeMap<u32, Owner>,
     no_shot: no_shot::Surfaces,
     replacements: Vec<replacement::Placed>,
     thresholds: Thresholds,
     quality: f32,
     lite_distance: f32,
+    barracks_radius: f32,
     pub(crate) effects: crate::mission_building_effects::Runtime,
     failure: Option<String>,
 }
@@ -107,6 +117,13 @@ impl World {
     }
     pub(crate) fn probe_requires_contact(&self, object: u32) -> bool {
         self.owners.get(&object).is_some_and(|o| o.physical) || self.no_shot.physical(object)
+    }
+    pub(crate) fn probe_thin_tree(&self, object: u32) -> bool {
+        self.owners.get(&object).is_some_and(|o| o.tree.is_some())
+    }
+    /// Input navigation only, never an ordinary gameplay capability gate.
+    pub(crate) fn probe_terrain_route(&self, object: u32) -> bool {
+        self.is_barracks(object) || self.owners.get(&object).is_some_and(|o| o.tree.is_some())
     }
     /// Input fixture only: approach the Story2 small tower through the nearby
     /// entrance's declared origin. This returns a command destination, never an
@@ -205,17 +222,62 @@ impl World {
             Arc::new(terrain.clone()),
         );
         for (record, object) in colliders.records.iter().zip(&colliders.objects) {
-            if !matches!(record.instance.state, 61 | 101) {
+            if !matches!(record.instance.state, 60 | 61 | 98 | 101) {
                 continue;
             }
             let prepared = (|| -> Result<Arc<Class>, String> {
                 if let Some(c) = classes.get(&record.class) {
                     return Ok(c.clone());
                 }
+                if record.instance.state == 60 {
+                    let c = trees::class(source, record.class)?;
+                    if let Policy::Scenery { effects, .. } = &c.policy {
+                        for binding in effects.values() {
+                            effect_runtime.preflight_offset(binding)?;
+                        }
+                    }
+                    classes.insert(record.class, c.clone());
+                    return Ok(c);
+                }
                 let specification =
                     giants_game::specification::Prepared::load_registered(source, record.class)?;
                 let fields = Fields::load(source, record.class, &specification)?;
-                let policy = if record.instance.state == 61 {
+                let policy = if record.instance.state == 98 {
+                    if !matches!(record.class, 1060 | 1226) {
+                        return Err(
+                            "barracks class requires its acquired canonical constructor".into()
+                        );
+                    }
+                    let registry = giants_game::gameplay_sound_bank::Registry::prepare(
+                        &source.classes.visits,
+                        false,
+                    )?;
+                    let (language, _) = giants_game::gameplay_sound_bank::voice_language(
+                        &source.archives,
+                        &source.language,
+                    )?;
+                    for cue in [0x6bf, 0x4db, 0x60f, 0x67b, 0x610, 0x67c] {
+                        if registry
+                            .resolve(&source.archives, &language, cue)?
+                            .is_none()
+                        {
+                            // Original wrappers return no voice for an absent
+                            // registry slot. A declared but unreadable sample
+                            // still errors above; never invent a substitute.
+                            println!(
+                                "mission_building_sound_absent cue={cue} source_slot_absent=true backend_started=false"
+                            );
+                        }
+                    }
+                    for kind in [
+                        giants_game::building_barracks::Explosion::Mini,
+                        giants_game::building_barracks::Explosion::Barracks,
+                        giants_game::building_barracks::Explosion::Ripper,
+                    ] {
+                        effect_runtime.preflight_barracks(kind)?;
+                    }
+                    Policy::Barracks
+                } else if record.instance.state == 61 {
                     Policy::House
                 } else {
                     let seed = source
@@ -287,6 +349,7 @@ impl World {
                     fields,
                     stages,
                     replacement,
+                    tree: None,
                 });
                 classes.insert(record.class, c.clone());
                 Ok(c)
@@ -312,6 +375,21 @@ impl World {
                     .source_offset
             };
             let f = record.instance.fields;
+            let declaration = giants_game::declared_residents::Key {
+                scope: if record.key.0 {
+                    giants_game::declared_residents::Scope::World
+                } else {
+                    giants_game::declared_residents::Scope::Mission
+                },
+                index: if record.key.0 {
+                    record.key.1
+                } else {
+                    plan.entries
+                        .iter()
+                        .position(|e| e.index == record.key.1)
+                        .ok_or("building declaration index absent")?
+                },
+            };
             let mut fields = class.fields.instantiate();
             fields.position = f.current;
             fields.current = f.current;
@@ -320,6 +398,32 @@ impl World {
             fields.scale = f.scale;
             fields.object_flags = f.object_flags;
             fields.response_flags = f.response_flags;
+            if matches!(class.policy, Policy::Barracks) {
+                let source = if record.key.0 {
+                    plan.world_entries[declaration.index].class_input()?
+                } else {
+                    plan.entries[declaration.index]
+                        .source
+                        .as_ref()
+                        .map_err(Clone::clone)?
+                };
+                fields.action = u32::from(source.mission_selector.unwrap_or(0));
+                let variant = giants_game::building_barracks::initial_variant(
+                    record.class,
+                    fields.action as i32,
+                    giants_game::building_barracks::InitialParameters::load(globals)?,
+                )?;
+                if fields.response_flags & 15 == 2
+                    && !matches!(variant.selector, 4 | 5)
+                    && variant.remaining > 0
+                {
+                    println!(
+                        "mission_building_need key={:?} class={} reason=source_mission_death_counter_unbound",
+                        record.key, record.class
+                    );
+                    continue;
+                }
+            }
             // The acquired first house callback resets its own damage and
             // selects channel1. This is a house owner, not a full native actor.
             if record.instance.state == 61 {
@@ -329,7 +433,14 @@ impl World {
                 damage: 0.,
                 limit: f32::from_bits(fields.configuration[12]),
             };
-            let fraction = damage.animation_fraction(thresholds)?.to_bits();
+            let fraction = if class.tree.is_some() {
+                1.
+            } else if matches!(class.policy, Policy::Barracks) {
+                giants_game::building_barracks::health_frame(0., damage.limit, thresholds)?.fraction
+            } else {
+                damage.animation_fraction(thresholds)?
+            }
+            .to_bits();
             let m = giants_game::uncached_pose::matrix(
                 giants_game::uncached_pose::Pose {
                     position: f.current,
@@ -351,8 +462,10 @@ impl World {
                         .any(|o| o.fields.id == object.fields.id),
                     contacts: 0,
                     key: (record.key.0, source_offset),
+                    declaration,
                     fields,
                     damage,
+                    tree: class.tree,
                     class,
                     fraction,
                     pose: SourcePose {
@@ -363,17 +476,19 @@ impl World {
             );
         }
         println!(
-            "mission_buildings_prepared owners={} classes={} callbacks=source_house_and_bounded_state101 other_families=false",
+            "mission_buildings_prepared owners={} classes={} callbacks=source_house_bounded_state101_palm_and_canonical_barracks other_families=false",
             owners.len(),
             classes.len()
         );
         Ok(Self {
+            barracks_initial: barracks::Initial::prepare(plan, globals)?,
             owners,
             no_shot: no_shot::Surfaces::prepare(plan, physical, colliders),
             replacements: vec![],
             thresholds,
             quality: globals.scalar(0x13e0).map_err(|e| e.to_string())?,
             lite_distance: globals.scalar(0x1570).map_err(|e| e.to_string())?,
+            barracks_radius: globals.scalar(0xc9c).map_err(|e| e.to_string())?,
             effects: effect_runtime,
             failure: None,
         })
@@ -435,6 +550,9 @@ impl World {
                     .map(Reaction::House)
                     .collect::<Vec<_>>()
             }
+            Policy::Barracks => {
+                return Err("barracks hit requires the actual canonical mission owner".into());
+            }
             Policy::Scenery { configuration, .. } => {
                 // Admission currently excludes restricted classes: there is no
                 // invented projectile actor/state standing in for the pistol.
@@ -480,8 +598,13 @@ impl World {
                             .map_err(|_| "replacement serial overflow")?
                             .checked_add(1)
                             .ok_or("replacement serial overflow")?;
-                        let placed =
-                            template.place(&owner.fields, owner.key, hit.object, serial)?;
+                        let placed = template.place(
+                            &owner.fields,
+                            owner.tree,
+                            owner.key,
+                            hit.object,
+                            serial,
+                        )?;
                         self.replacements.push(placed);
                         replacement = Some(index);
                     }
@@ -521,7 +644,12 @@ impl World {
                 },
             }
         }
-        let fraction = owner.damage.animation_fraction(self.thresholds)?.to_bits();
+        let fraction = if owner.tree.is_some() {
+            1.
+        } else {
+            owner.damage.animation_fraction(self.thresholds)?
+        }
+        .to_bits();
         let stage = owner
             .class
             .stages
@@ -529,6 +657,13 @@ impl World {
             .ok_or("building health pose absent")?
             .clone();
         let retired = owner.fields.object_flags & 0x8000 != 0;
+        if let Some(r) = self
+            .replacements
+            .iter_mut()
+            .find(|r| r.object == Some(hit.object))
+        {
+            r.fields.object_flags = owner.fields.object_flags;
+        }
         let geometry = (!retired).then(|| stage.clone());
         let triangles = if retired {
             vec![]
@@ -567,7 +702,11 @@ impl World {
         detail: Option<([f32; 3], f32)>,
     ) -> Result<Vec<crate::mission_runtime::NpcDraw>, String> {
         let mut draws = self.effects.draws(view, detail)?;
-        for replacement in &self.replacements {
+        for replacement in self
+            .replacements
+            .iter()
+            .filter(|r| r.fields.object_flags & 0x8000 == 0)
+        {
             draws.push(replacement.draw(detail)?);
         }
         Ok(draws)
@@ -595,13 +734,18 @@ impl World {
                 || !players
                     .iter()
                     .any(|p| p.fields.id == id && !p.triangles.is_empty())
-                || projectiles.iter().any(|p| p.id == id)
+                || projectiles
+                    .iter()
+                    .any(|p| p.id == id && p.active & 0x8000 == 0)
+                    != (r.fields.configuration[14] & 0x20000 != 0)
             {
                 return Err("replacement actual contact/independent collision roles absent".into());
             }
             println!(
-                "mission_building_replacement_verified old_object={old} object={id} class={} contacts={} independent_player_mesh=true projectile=false actual_narrow_phase=true",
-                r.fields.class, r.contacts
+                "mission_building_replacement_verified old_object={old} object={id} class={} contacts={} independent_player_mesh=true projectile={} actual_narrow_phase=true",
+                r.fields.class,
+                r.contacts,
+                r.fields.configuration[14] & 0x20000 != 0
             );
         }
         Ok(())
@@ -616,6 +760,16 @@ impl World {
             .ok_or("replacement instance absent")?
             .player(id)
     }
+    pub(crate) fn replacement_projectile(
+        &self,
+        index: usize,
+        id: u32,
+    ) -> Result<Option<giants_game::projectile_world::Object>, String> {
+        self.replacements
+            .get(index)
+            .ok_or("replacement absent")?
+            .projectile(id)
+    }
     pub(crate) fn publish_replacement(&mut self, index: usize, id: u32) -> Result<(), String> {
         if self.observes_contact(id) {
             return Err("replacement world identity already used".into());
@@ -627,10 +781,22 @@ impl World {
         if r.object.is_some() || id == r.replaces {
             return Err("replacement publication repeated/reused".into());
         }
+        let lineage = self
+            .owners
+            .get(&r.replaces)
+            .ok_or("replacement source lineage absent")?
+            .declaration;
+        if let Some(owner) = r.damage_owner(lineage) {
+            self.owners.insert(id, owner);
+        }
         r.object = Some(id);
         println!(
-            "mission_building_replacement object={id} old_object={} class={} alias={:?} serial={} player=true projectile=false environment=false independent_identity=true native_fidelity=false",
-            r.replaces, r.fields.class, r.alias, r.serial
+            "mission_building_replacement object={id} old_object={} class={} alias={:?} serial={} player=true projectile={} environment=false independent_identity=true native_fidelity=false",
+            r.replaces,
+            r.fields.class,
+            r.alias,
+            r.serial,
+            r.fields.configuration[14] & 0x20000 != 0
         );
         Ok(())
     }

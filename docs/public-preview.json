@@ -1,14 +1,23 @@
 {
   "schema_version": 1,
-  "tag": "preview-2026.11.13.3",
-  "source_commit": "941342bffca063b6fd78b520dccd5515153ecd94",
-  "executable_sha256": "9a9ae9a4ca1902ecd3c2c46b7d9faf5b9b922bacdf7d7be7cf53d9517d77c962",
-  "archive_sha256": "23343da26dbcdfdc0676e3df56f387f0ebf946e0ce8f568bb1a6ff6c97fa519c",
+  "tag": "preview-2026.11.14.1",
+  "source_commit": "115d7e5fd62289f8e7225e4a21ece2955b650668",
+  "executable_sha256": "da915c015244074166dcb172f1cf38da2f8cecf34d7495166bbbb601742ac9db",
+  "archive_sha256": "d40f34b298e3ea494bce2e4002e728aa0bc7baa6b39cb71d207268223ac28fe7",
   "checks": [
-    "ripper_movement_attack_gpu",
-    "normal_menu_visible"
+    "palm_stump_gpu",
+    "road_home_return_gpu",
+    "barracks_damage_gpu",
+    "barracks_cancel_reentry_gpu",
+    "wife_campaign_chain_gpu",
+    "starving_campaign_chain_gpu",
+    "offscreen_menu_cycles",
+    "selected_cinematic_transport"
   ],
   "limitations": [
+    "palm_remaining_profiles",
+    "high_village_ai_platform",
+    "ordinary_controls_os_unverified",
     "ripper_combat_incomplete",
     "building_remaining_families",
     "building_fx_policy",

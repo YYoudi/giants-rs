@@ -9,6 +9,9 @@ use crate::{
 };
 use std::collections::BTreeMap;
 use std::sync::Arc;
+mod barracks;
+pub use barracks::{Attack as BarracksAttack, Effects as BarracksEffects};
+mod building_alert;
 mod camera_mode;
 mod camera_profile;
 mod cinematic_constant;
@@ -383,6 +386,9 @@ impl<S: State23AnimationServices> crate::state23_animation::Services
 }
 #[derive(Debug)]
 pub struct Resident {
+    /// Retained source command7 scalar on acquired declared barracks. Its
+    /// semantics and consumers outside this profile remain unknown.
+    pub declared_word_174: Option<u32>,
     herd: Option<crate::herd_generator::Owned>,
     herd_frame: Option<crate::herd_frame::Owned>,
     herd_marker: Option<crate::herd_markers::Marker>,
@@ -434,6 +440,10 @@ pub struct Resident {
     /// Acquired callback fields and typed relationships, separate from raw
     /// constructor bytes. No native pointer is encoded as an owned identity.
     state23_combat: Option<crate::state23_damage::State<Id>>,
+    /// Typed alert relation before state23 combat publication, or for the
+    /// acquired class215 payload. Raw constructor pointer slots stay zero.
+    cold_alert_target: Option<Id>,
+    barracks: Option<barracks::Owned>,
     ripper_damage: ripper_damage::Owned,
     mecc_special: Option<crate::mecc_special::Initialized>,
     delphi_special: Option<crate::delphi_special::State>,
@@ -675,6 +685,7 @@ impl Session {
         self.residents.insert(
             serial,
             Resident {
+                declared_word_174: None,
                 herd: None,
                 herd_marker: None,
                 vimp: None,
@@ -705,6 +716,8 @@ impl Session {
                 construction_fields: None,
                 camera_look_angle: None,
                 state23_combat: None,
+                cold_alert_target: None,
+                barracks: None,
                 ripper_damage: Default::default(),
                 mecc_special: None,
                 mecc_hit_relations_cleared: false,
@@ -8853,6 +8866,13 @@ impl Session {
             }
             let mut refers = actor.attachment.as_ref().is_some_and(|a| a.parent == id)
                 || actor.presentation_parent == Some(id);
+            if actor.seed.storage.state() != 23 || actor.state23_combat.is_none() {
+                refers |= actor.cold_alert_target == Some(id);
+            }
+            refers |= actor
+                .barracks
+                .as_ref()
+                .is_some_and(|b| b.state.target == Some(id));
             if let Some(target) = actor.mecc_local_target {
                 refers |= target.links.contains(&Some(id));
             }
@@ -9841,7 +9861,7 @@ impl Session {
             position: f.position,
             parent: None,
             owner: None,
-            retaliation: None,
+            retaliation: actor.cold_alert_target,
             target: None,
             group: None,
             group_index: i32::from_le_bytes(p[0x40..0x44].try_into().unwrap()),
@@ -10082,7 +10102,11 @@ impl Session {
             && input.seed.storage.state() == 1
             && input.seed.storage.profile() == Profile::Debug
             && writes.is_empty();
-        if (!matches!(input.seed.storage.state(), 0 | 2 | 18 | 23) && !kabuto_cold)
+        if (!(crate::declared_residents::constructor_profile(
+            input.class,
+            input.seed.storage.state(),
+        ) || matches!(input.seed.storage.state(), 2 | 18))
+            && !kabuto_cold)
             || !input.seed.diagnostics.is_empty()
         {
             return Err(
@@ -10273,8 +10297,10 @@ impl Session {
         initial: crate::uncached_pose::Pose,
     ) -> Result<Id, String> {
         if key.scope != crate::declared_residents::Scope::Mission
-            || !(matches!(input.seed.storage.state(), 0 | 23)
-                || input.seed.storage.state() == 18 && input.fields.action == 3)
+            || !(crate::declared_residents::constructor_profile(
+                input.class,
+                input.seed.storage.state(),
+            ) || input.seed.storage.state() == 18 && input.fields.action == 3)
             || initial.position.map(f32::to_bits) != input.fields.position.map(f32::to_bits)
             || initial.angles.map(f32::to_bits) != input.fields.angles.map(f32::to_bits)
         {
@@ -10304,6 +10330,33 @@ impl Session {
     }
     pub fn declaration(&self, key: crate::declared_residents::Key) -> Option<Id> {
         self.declarations.get(&key).copied()
+    }
+    /// Preserve command7 after declaration construction, before any callback.
+    /// Prototype PS2 `mission_init` is an unknown attribution navigation route;
+    /// retain this PC scalar without importing a platform field interpretation.
+    pub(crate) fn retain_barracks_word_174(
+        &mut self,
+        key: crate::declared_residents::Key,
+        id: Id,
+        value: u32,
+    ) -> Result<(), String> {
+        if key.scope != crate::declared_residents::Scope::Mission
+            || self.declaration(key) != Some(id)
+        {
+            return Err("opaque mission word requires its actual declaration".into());
+        }
+        let resident = self
+            .residents
+            .get_mut(&id.serial)
+            .ok_or("opaque mission word actor absent")?;
+        if !matches!(resident.class, 1060 | 1226)
+            || resident.seed.storage.state() != 98
+            || resident.declared_word_174.is_some()
+        {
+            return Err("opaque mission word outside acquired cold barracks profile".into());
+        }
+        resident.declared_word_174 = Some(value);
+        Ok(())
     }
     pub fn declaration_count(&self) -> usize {
         self.declarations.len()
@@ -11748,6 +11801,186 @@ mod tests {
         session.clear();
         assert!(session.actor_current_affine(id).is_err());
         assert!(session.prepare_actor_affine(id).is_err());
+    }
+    #[test]
+    fn building_alerts_keep_cold_targets_owned_without_admitting_ai() {
+        let mut session = Session::new(206);
+        let building = fixture_actor(&mut session, 1060, 98);
+        let target = animation_actor(&mut session);
+        let second = animation_actor(&mut session);
+        let ripper = animation_actor(&mut session);
+        let team = fixture_actor(&mut session, 215, 51);
+        for id in [ripper, team] {
+            // Explicit supplied list fixture; installed construction is checked
+            // separately. The alert must use this list, not the resident map.
+            session
+                .links
+                .insert(1, id.serial, crate::object_links::Position::Tail);
+        }
+        session
+            .alert_team_from_building(building, 10., target)
+            .unwrap();
+        assert_eq!(session.building_alert_target(team).unwrap(), Some(target));
+        assert_eq!(session.building_alert_target(ripper).unwrap(), None);
+        session
+            .alert_rippers_from_building(building, 10., target)
+            .unwrap();
+        assert_eq!(session.building_alert_target(ripper).unwrap(), Some(target));
+        assert_eq!(session.building_alert_target(second).unwrap(), None);
+        session
+            .alert_team_from_building(building, 10., second)
+            .unwrap();
+        session
+            .alert_rippers_from_building(building, 10., second)
+            .unwrap();
+        assert_eq!(session.building_alert_target(team).unwrap(), Some(second));
+        assert_eq!(session.building_alert_target(ripper).unwrap(), Some(target));
+        assert_eq!(session.incoming_actor_references(target).unwrap(), [ripper]);
+        assert_eq!(session.incoming_actor_references(second).unwrap(), [team]);
+        assert!(session.state23_combat(ripper).is_none());
+        assert!(session.actor_world_tick(ripper).is_err());
+        assert!(session.ripper_primary(ripper).is_err());
+        assert_eq!(
+            session.get(ripper).unwrap().seed.storage.data().unwrap()[12..16],
+            [0; 4]
+        );
+        assert_eq!(
+            session.get(team).unwrap().seed.storage.data().unwrap()[4..8],
+            [0; 4]
+        );
+        // Fresh common-motion preparation remains possible after the pointer
+        // write; the target is not mistaken for a completed combat callback.
+        session.prepare_actor_motion(ripper).unwrap();
+        session.clear();
+        assert!(session.building_alert_target(ripper).is_err());
+    }
+    #[test]
+    fn building_alert_preflight_refuses_foreign_targets_and_malformed_later_owner() {
+        let mut session = Session::new(207);
+        let building = fixture_actor(&mut session, 1226, 98);
+        let target = animation_actor(&mut session);
+        let first = fixture_actor(&mut session, 215, 51);
+        let bad = fixture_actor(&mut session, 215, 51);
+        for id in [first, bad] {
+            session
+                .links
+                .insert(1, id.serial, crate::object_links::Position::Tail);
+        }
+        session
+            .residents
+            .get_mut(&bad.serial)
+            .unwrap()
+            .seed
+            .storage
+            .data_mut()
+            .unwrap()[4] = 1;
+        assert!(
+            session
+                .alert_team_from_building(building, 20., target)
+                .is_err()
+        );
+        assert_eq!(session.building_alert_target(first).unwrap(), None);
+        let foreign = Id {
+            ticket: 208,
+            ..target
+        };
+        assert!(
+            session
+                .alert_team_from_building(building, 20., foreign)
+                .is_err()
+        );
+        assert_eq!(
+            session
+                .get(first)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .control_flags,
+            0
+        );
+    }
+    #[test]
+    fn building_alert_target_survives_primary_binding_and_updates_prepared_machine() {
+        for before_binding in [true, false] {
+            let mut session = Session::new(209);
+            let building = fixture_actor(&mut session, 1060, 98);
+            let target = animation_actor(&mut session);
+            let actor = animation_actor(&mut session);
+            session
+                .links
+                .insert(1, actor.serial, crate::object_links::Position::Tail);
+            session.prepare_actor_motion(actor).unwrap();
+            session.begin_actor_motion_history(actor, [0; 8]).unwrap();
+            // Supplied admitted-frame fixture, not runtime finalization proof.
+            session
+                .residents
+                .get_mut(&actor.serial)
+                .unwrap()
+                .finalization = Some(crate::resident_finalization::Owned {
+                failure: None,
+                state: crate::actor_finalization::State {
+                    fields: crate::collider_copy::Fields::zeroed(),
+                    previous_physical_velocity: [0.; 3],
+                    friction: 0.,
+                    parent_present: false,
+                    footprint: None,
+                    affine: None,
+                    physical_argument_word: None,
+                },
+                phase: crate::resident_finalization::Phase::MotionStarted,
+            });
+            if before_binding {
+                session
+                    .alert_rippers_from_building(building, 10., target)
+                    .unwrap();
+            }
+            session.prepare_ripper_primary(actor).unwrap();
+            session
+                .alert_rippers_from_building(building, 10., target)
+                .unwrap();
+            let machine = session.ripper_primary(actor).unwrap();
+            assert_eq!(machine.state().retaliation, Some(target));
+            assert!(!machine.awaiting_motion());
+            assert!(machine.failure().is_none());
+            assert!(session.state23_combat(actor).is_none());
+            assert_eq!(session.incoming_actor_references(target).unwrap(), [actor]);
+        }
+    }
+    #[test]
+    fn barracks_initial_sound_failure_keeps_prefix_and_refuses_replay() {
+        let mut session = Session::new(210);
+        let owner = fixture_actor(&mut session, 1060, 98);
+        let mut requests = 0;
+        let stock = crate::building_barracks::InitialParameters {
+            mini: 3,
+            barracks: 7,
+            health: crate::building_damage::Thresholds([75., 50., 15., 0.]),
+        };
+        assert!(
+            session
+                .initialize_barracks(owner, stock, false, &mut |id, cue| {
+                    assert_eq!((id, cue), (owner, 0x6bf));
+                    requests += 1;
+                    Err("object audio transport unavailable".into())
+                })
+                .is_err()
+        );
+        assert!(session.barracks_state(owner).is_err());
+        let actor = session.get(owner).unwrap();
+        assert_eq!(actor.barracks.as_ref().unwrap().state.phase, 1);
+        assert_eq!(actor.barracks.as_ref().unwrap().state.remaining, 0);
+        assert_eq!(actor.channels.unwrap()[0][1], 1_f32.to_bits());
+        assert!(session.actor_world_tick(owner).is_err());
+        assert!(
+            session
+                .initialize_barracks(owner, stock, false, &mut |_, _| {
+                    requests += 1;
+                    Ok(())
+                })
+                .is_err()
+        );
+        assert_eq!(requests, 1);
     }
     fn fixture_actor(session: &mut Session, class: i32, state: u8) -> Id {
         use crate::model_registry::{ClassProgram, ModelRegistry};

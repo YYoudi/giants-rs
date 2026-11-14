@@ -412,9 +412,11 @@ impl Controller {
                 120000
             } else if Self::vimp_contact_probe() {
                 12000
-            } else if crate::frontend_scene::vimp_interaction_probe()
-                || crate::frontend_scene::building_interaction_probe()
-            {
+            } else if crate::frontend_scene::building_interaction_probe() {
+                // Diagnostic command budget includes the distant authored
+                // barracks route, normal weapon cooldowns and effect expiry.
+                24000
+            } else if crate::frontend_scene::vimp_interaction_probe() {
                 6000
             } else if matches!(
                 std::env::var("GIANTS_MISSION_REPLAY").as_deref(),
@@ -620,6 +622,36 @@ pub(super) fn update(
             );
         }
         let focused = windows.iter().any(|(w, _)| w.focused);
+        if !controller.owned_backend
+            && !controller.building_failed
+            && !controller.world_signals_failed
+        {
+            let mut events = Vec::new();
+            let mut updates = Vec::new();
+            if let Err(error) = runtime.initialize_normal_buildings(
+                controller.ticket,
+                &mut controller.state,
+                &mut events,
+                &mut updates,
+            ) {
+                controller.building_failed = true;
+                error!(
+                    "mission_building_initial_refused ticket={} error={error}",
+                    controller.ticket
+                );
+            }
+            for update in updates {
+                audio.building.write(update);
+            }
+            // Preserve accepted requests even if a later owner refused its
+            // initial branch. Backend starts remain separately observable.
+            for event in events {
+                audio.local.write(crate::mission_audio::Request {
+                    ticket: controller.ticket,
+                    event,
+                });
+            }
+        }
         let look_ready = windows
             .iter()
             .any(|(w, c)| w.focused && c.grab_mode == bevy::window::CursorGrabMode::Locked);
@@ -995,22 +1027,55 @@ pub(super) fn update(
                             controller.ticket
                         );
                     }
+                    let contacts = controller.state.buildings.probe_contacts(id);
                     let target = controller.building_probe_entry.unwrap_or(target);
+                    let target = if contacts == 0
+                        && controller.state.buildings.probe_terrain_route(id)
+                    {
+                        if controller.probe_route.is_none() {
+                            controller.probe_route = Some(
+                                [
+                                    scene.asset.config.slope_thresholds[0],
+                                    scene.asset.config.slope_thresholds[1],
+                                    0.35,
+                                ]
+                                .into_iter()
+                                .find_map(|normal| {
+                                    route_probe::Route::prepare(
+                                        &scene.asset.terrain,
+                                        position,
+                                        target,
+                                        normal,
+                                    )
+                                    .ok()
+                                })
+                                .expect("sampled terrain input route to the authored damage owner"),
+                            );
+                        }
+                        controller
+                            .probe_route
+                            .as_mut()
+                            .unwrap()
+                            .next(position)
+                            .unwrap_or(target)
+                    } else {
+                        target
+                    };
                     let camera = controller.state.subjective_inputs().0;
                     let dx = target[0] - position[0];
                     let dy = target[1] - position[1];
                     let distance = dx.hypot(dy);
                     let yaw = camera.angles[0].to_radians();
                     let desired = dx.atan2(-dy);
-                    let contacts = controller.state.buildings.probe_contacts(id);
                     let physical = controller.state.buildings.probe_requires_contact(id);
                     // Supplied input fixture only. The current partial pistol
                     // converges on a distant camera point; a thin surface can
                     // lie above its actual muzzle ray. Aim through the real
                     // muzzle using ordinary look commands, without writing a
                     // projectile, pose, collider or gameplay aim producer.
-                    let aim = if std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref()
+                    let aim = if (std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref()
                         == Ok("unchanged")
+                        || controller.state.buildings.probe_thin_tree(id))
                         && contacts > 0
                         && distance >= 70.
                     {
@@ -1058,8 +1123,22 @@ pub(super) fn update(
                             .pistol()
                             .is_some_and(|p| distance > p.definition.range * 0.6);
                     if contacts == 0 && physical || approach {
-                        axes = Vec2::Y;
-                        thrust = tick > 1200 && position[2] < target[2];
+                        if controller.state.buildings.probe_terrain_route(id) {
+                            let fuel = controller.state.mission_snapshot().1;
+                            let pilot = &mut *controller;
+                            let commands = pilot.probe_escape.commands(
+                                position,
+                                target,
+                                fuel,
+                                &mut pilot.probe_recharge,
+                            );
+                            axes = Vec2::from_array(commands.0);
+                            thrust = commands.1;
+                            boost = commands.2;
+                        } else {
+                            axes = Vec2::Y;
+                            thrust = tick > 1200 && position[2] < target[2];
+                        }
                     } else if distance < 70. {
                         axes = -Vec2::Y;
                     } else if !controller.building_probe_terminal {

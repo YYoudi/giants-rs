@@ -69,7 +69,7 @@ impl Seed {
     }
     pub fn instantiate(self, spawn: &crate::effect_burst::Spawn) -> Result<State, &'static str> {
         if !matches!(self.kind, 6 | 8)
-            || (self.kind == 8 && spawn.attribute != Some(1))
+            || (self.kind == 8 && !matches!(spawn.attribute, None | Some(1)))
             || !spawn.contact_requested
             || !spawn.physics_enabled
         {

@@ -1,5 +1,42 @@
 # Preview releases and milestone integration
 
+
+## Published preview .14.1 - palms, barracks and the carried-wife return
+
+[Windows preview-2026.11.14.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.14.1)
+adds ordinary palm damage, source wood effects/audio, exact foliage retirement
+and an independently colliding, damageable stump. In **Mecc Story 2 -> Starving!**,
+shoot a palm trunk with the normal pistol. **The Road Home** now accepts the
+carried-wife return, plays the real completion film to its natural end and enters
+**High Village**. No feature-enable script is needed. Acquired barracks reactions
+join the earlier building profiles, preserving the NPC main contribution.
+
+Ripper effects use actual current ordinary solids after building initialization
+or damage, with exact separate guards for cached platform geometry. Unsupported
+declared projectile contacts retain only the affected shot without acknowledging
+damage/retirement or stopping independent AI. High Village's unacquired platform
+dependency remains explicit: core return acceptance does not certify its mission.
+
+The exact executable passes rendered palms, both barracks with complete expiry,
+two live cancellation/fresh-entry cycles, Starving and The Wife chains, carried
+return and selected Story4 cinematic/text/cleanup. Supplied controls and actual
+muted sinks remain distinct from Windows-held input and native fidelity.
+1,109 portable Rust tests / 250 ignored, 45 Python tests, formatting and strict Clippy pass.
+Notice collection: 338 dependency / eleven toolchain entries, 29 system DLL imports,
+no package blockers. Matching dashboard images carry the same source/tag/EXE.
+No new prototype PS2 attribution is confirmed; aliases and unknown routes remain.
+
+Other trees, live wind/collision alignment, restricted building callbacks,
+generic platforms, mission-death credit, full combat and native fidelity remain
+open. Earlier failures/interrupted controls are retained. See PREVIEW_NOTES.md,
+BUILDINGS.md, OWNED_NPCS.md and MISSION_PROGRESSION.md for their precise scopes.
+
+Runtime source: `115d7e5fd62289f8e7225e4a21ece2955b650668`.
+Later concurrent source contributions on main are preserved separately and are
+not claimed as delivered in this fixed, tested runtime snapshot.
+Executable SHA256: `da915c015244074166dcb172f1cf38da2f8cecf34d7495166bbbb601742ac9db`.
+ZIP SHA256: `d40f34b298e3ea494bce2e4002e728aa0bc7baa6b39cb71d207268223ac28fe7`.
+
 ## Published preview .13.3 - ordinary Ripper movement and ranged attacks
 
 [Windows preview-2026.11.13.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.13.3)

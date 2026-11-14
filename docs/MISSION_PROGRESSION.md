@@ -10,7 +10,52 @@ Preview .12.2 validates Starving's ordinary collection/return and The Wife's
 authored rescue, natural six-director completion film and following RoadHome
 entry with its own declared wife picked up. The exact receipt, supplied-command
 scope and separate short OS checks are in [PREVIEW_NOTES.md](PREVIEW_NOTES.md).
-RoadHome completion, other mission predicates and full native continuity remain open.
+Preview .14.1 additionally validates the carried RoadHome return, natural completion
+film and ordinary High Village entry. Other predicates and full native continuity
+remain open; High Village NPC AI has a separate unacquired platform dependency.
+
+### RoadHome return correction - preview .14.1
+
+The original failure was admission: RoadHome declares no opening film, and the
+old guard left the player in preview, suppressing objective evaluation. The
+acquired PC world-list constructor clears fresh mission slots; controls observe
+992 empty fields across 31 installed worlds. Six bounded scenario-start controls
+distinguish empty/named requests and retain external loader/activation boundaries.
+`mission_cinematics::select_fresh_world` now admits that acquired fresh default
+without inventing command21, restoring prior native storage or relaxing other
+prerequisites. Completion selection does not inherit this startup proof.
+Prototype `read_world_list` and `scenerio_start_mission__Fv` remain unknown
+PC attributions; native music/world prechecks remain separate.
+
+The ordinary rendered return now picks up the declared wife, carries her to the
+authored destination, completes the real 1/1 counter, plays the source return film
+through its natural end and loads the following source mission. This control
+uses runtime `115d7e5fd62289f8e7225e4a21ece2955b650668`, executable SHA256
+`da915c015244074166dcb172f1cf38da2f8cecf34d7495166bbbb601742ac9db`.
+The strict whole-chain report remains failed because the following High Village
+Ripper AI refuses an unacquired platform cold command46. A separately scoped
+acceptance verifies the actual return, natural film end and ordinary next player;
+it does not waive that refusal or certify High Village's AI/mission completion.
+Earlier empty-opening, splash and barracks failures remain failed history.
+
+The return-film splash now has a canonical positioned state78 owner. It snapshots
+the reached source reference, keeps separate skip/active random draws, advances
+one vertical-fade segment and its real lifetime, supplies both source render
+routes and retires with its scope. The exact-duration fade segment stays active
+until strictly past its duration, independently observed in the pinned PC callback.
+Installed source-timeline controls pass fade/expiry/cleanup; actual canonical
+splash draws occur during the rendered return film. Native scheduling and pixels
+remain unverified.
+
+The following-mission refusal concerns source command7's opaque scalar on the
+admitted cold barracks. Its exact source value is now retained with its actual
+canonical declaration and checked before initialization. Independent native
+handler controls establish only the scalar store/cursor step, not its unknown
+semantic meaning. Installed following-Story2 and Story4 controls initialize every
+authored barracks while retaining that value and the later AI refusal. Other
+states and F4 overrides keep their existing guards. The exact .14.1 rendered
+return now passes that initialization and reaches the ordinary next player, with
+the separate High Village AI limitation described above.
 
 The ordinary damage guard projection has a separate persistent process owner in
 `mission_guard_state`. Configuration/source-entry writes and actual ticket
