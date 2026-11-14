@@ -321,6 +321,20 @@ helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## NPC lane in progress - ordinary Rippers in The Wife
 
+Delivery priority: main `7242798` already contains the working living runtime
+`f940069`. Include it in the next common executable before extending isolated
+death/health-item dependencies. Normal testing uses Preview tools -> Browse all
+missions -> Mecc Story 2 -> The Wife, configured movement/aim, right mouse jet
+and left mouse pistol, with no NPC-enable flag. Approach the source actors to
+exercise detection. OWNED_NPCS.md separates this testable baseline, its exact
+receipt and the older `.14.1` download. Main CI success alone is not a published
+download; the integration lane retains combined preview/dashboard publication.
+Fresh exact-main executable `266c716c373918d8a88a2342952d6bd9eaa0b361941f22f0454b979e2e2fe56f`
+passes the rendered movement/launch/nonlethal/240-step continuation endpoint
+(exit0, about170 seconds), plus separate actual Windows entry/fire/return/
+re-entry/return. The close endpoint is partly occluded; this is not death or
+full visual fidelity. Its receipt and acceptance are in OWNED_NPCS.md.
+
 NPC branch dependency: the source-owned health-object factory now constructs
 class785/cold0 ->state37 inside a real lethal callback scope, prepares the actual
 mode4 health context and preserves failed prefixes/identities without retry.

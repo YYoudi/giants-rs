@@ -1,5 +1,17 @@
 # Preview releases and milestone integration
 
+## Validated main Ripper continuation - awaiting common preview
+
+Main `7242798` contains runtime `f940069`, with ordinary Ripper movement/ranged
+attacks, bounded reciprocal nonlethal damage and continued living AI after an
+unsupported lethal pistol contact. The receipt-bound local executable and
+rendered/Windows evidence are recorded in [OWNED_NPCS.md](OWNED_NPCS.md). Enter
+**Preview tools -> Browse all missions -> Mecc Story 2 -> The Wife**; no NPC
+activation flag is required. This source is newer than the `.14.1` download.
+Main CI passed; no downloadable CI artifact or new public preview is claimed.
+The main integration lane owns the combined package/dashboard release. The
+isolated death/health-item dependencies do not gate delivery of this baseline.
+
 
 ## Published preview .14.1 - palms, barracks and the carried-wife return
 
