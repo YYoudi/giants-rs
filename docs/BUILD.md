@@ -34,6 +34,12 @@ unfinished scopes; do not discard failed or interrupted evidence.
 
 ## Optional installed reconstruction controls
 
+`installed_static_palm_preserves_unresolved_auxiliary_links_and_damages_its_own_stump`
+uses `GIANTS_BUILDING_ROOT` for class101's actual binding dependencies, separately
+retained unresolved auxiliary links, physical/projectile admission, source shot
+reaction, effect expiry and independent stump. This is a CPU integration control;
+rendered ordinary input and the matching release receipt remain separate gates.
+
 The optional app controls
 `installed_palm_damage_keeps_source_stump_owner_and_independent_hits` and
 `installed_following_mission_barracks_retain_opaque_command7_and_initialize`

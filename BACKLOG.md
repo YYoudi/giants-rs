@@ -17,6 +17,17 @@ separately validated ordinary integration and publication are recorded below.
 
 ## Active objective - ordinary buildings, collision and damage reactions
 
+Next ordinary delivery in progress: class101 palms declared in Story1/Story2
+and other catalogue contexts. Their independent model and collision bindings
+evaluate while eleven auxiliary ANM links stay unresolved; the strict decoder
+still refuses them, and evaluating an unrepresented dependency still fails.
+The binding-selected metadata profile is used only by this tree's damage owner;
+it does not grant complete specification or live animation readiness. An installed
+control now covers its real player/projectile admission, normal shot decisions,
+source wood/audio requests, independent stump damage and complete effect expiry.
+Rendered ordinary contact/fire/draw/cleanup and campaign regressions on a new
+receipt are still required. Public preview .14.1 remains unchanged.
+
 Owner feedback delivered in preview .14.1: normal pistol hits destroy admitted
 class102 palms, hide their exact foliage owner, play the source wood burst/sound
 and leave a separately colliding/projectile/damageable class664 stump. Rendered

@@ -79,6 +79,25 @@ impl Prepared {
     /// registration. Never repair missing history using a later active image.
     /// This prepares immutable resources, not a live actor or effect instance.
     pub fn load_registered(resources: &SceneResources, class: i32) -> Result<Self, String> {
+        Self::load_registered_profile(resources, class, false)
+    }
+    /// Prepare immutable descriptors for a consumer that evaluates its own
+    /// binding dependencies. Unrepresented auxiliary links stay in the parsed
+    /// animation and in `needs`; evaluating one still fails. This grants no
+    /// complete specification, animation or actor readiness.
+    /// Prototype PS2 `ANM_AnimLoad` / `ANM_AnimGetImage` are unknown attribution
+    /// search routes, not identities for this dependency-selected decoder.
+    pub fn load_registered_for_bindings(
+        resources: &SceneResources,
+        class: i32,
+    ) -> Result<Self, String> {
+        Self::load_registered_profile(resources, class, true)
+    }
+    fn load_registered_profile(
+        resources: &SceneResources,
+        class: i32,
+        retain_unresolved: bool,
+    ) -> Result<Self, String> {
         let (binding, definition) = Self::registered_selection(resources, class)?;
         let program = definition.program.as_ref().map_err(Clone::clone)?;
         if program
@@ -87,12 +106,26 @@ impl Prepared {
             .any(|r| matches!(r.opcode, 0x7f | 0x80))
         {
             let effects = resources.classes.models.specification_effects(definition)?;
-            Self::prepare_selection(resources, class, binding, definition, effects)
+            Self::prepare_selection_profile(
+                resources,
+                class,
+                binding,
+                definition,
+                effects,
+                retain_unresolved,
+            )
         } else {
             // The namespace cannot affect a program with no effect references.
             let empty = giants_formats::effect_image::parse(&[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
                 .map_err(|e| e.to_string())?;
-            Self::prepare_selection(resources, class, binding, definition, &empty)
+            Self::prepare_selection_profile(
+                resources,
+                class,
+                binding,
+                definition,
+                &empty,
+                retain_unresolved,
+            )
         }
     }
     fn registered_selection(
@@ -208,6 +241,16 @@ impl Prepared {
         definition: &crate::model_registry::SpecDefinition,
         effects: &Image,
     ) -> Result<Self, String> {
+        Self::prepare_selection_profile(resources, class, binding, definition, effects, false)
+    }
+    fn prepare_selection_profile(
+        resources: &SceneResources,
+        class: i32,
+        binding: &crate::model_registry::SelectionBinding,
+        definition: &crate::model_registry::SpecDefinition,
+        effects: &Image,
+        retain_unresolved: bool,
+    ) -> Result<Self, String> {
         let program = definition.program.as_ref().map_err(Clone::clone)?;
         let metadata = Metadata::prepare(program, &binding.selection, effects)?;
         let models = (0..metadata.selection.slots.len())
@@ -238,9 +281,19 @@ impl Prepared {
             if animations.contains_key(&declared.slot) {
                 continue;
             }
-            let animation = resources
-                .animation(&declared.name)
-                .map_err(|e| e.to_string())?;
+            let animation = (if retain_unresolved {
+                resources.animation_for_bindings(&declared.name)
+            } else {
+                resources.animation(&declared.name)
+            })
+            .map_err(|e| e.to_string())?;
+            if !animation.unresolved_links().is_empty() {
+                needs.push(format!(
+                    "animation {}: {} unresolved auxiliary links; evaluated dependencies must resolve",
+                    declared.name,
+                    animation.unresolved_links().len()
+                ));
+            }
             let template = Template::prepare(&animation, &inputs, Precision::Double53)
                 .map_err(|e| e.to_string())?;
             for need in &template.needs {

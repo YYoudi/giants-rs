@@ -330,7 +330,19 @@ not establish projectile/player collision, damage, retirement or replacement;
 tree health does not imply house-style model stages. Other foliage states retain
 their own contracts. Prototype `tree_process`, `tree_init` and `collision_wood`
 are lookup routes, not confirmed PC identities. Original callback evidence and
-resource tables remain private; no tree gameplay acceptance is claimed yet.
+resource tables remain private. This acquisition note predates the .14.1 palm
+acceptance above and does not extend it to other tree families.
+
+The next class101 palm continuation retains eleven unresolved auxiliary ANM
+links in binding-selected specification metadata, with explicit preparation
+needs. Its actual visible-model and dedicated collision dependencies evaluate
+without those links; evaluating an unrepresented node still fails. Source health,
+the shared state60 shot contract, wood program and replacement664 remain separate
+owners. Installed CPU integration passes physical/projectile admission, damage,
+source effects/audio, the stump's independent damage and complete effect expiry.
+This is not yet rendered class101 acceptance or a newer public preview. The
+ordinary menu/contact/fire/retirement/cleanup and campaign checks remain required;
+live animation/collision scheduling and the state27 canopy remain separate.
 
 A read-only continuation now visits all 56 nonempty mission/catalogue contexts
 in the inspected installation, using the same world list and mission parser as

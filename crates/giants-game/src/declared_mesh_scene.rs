@@ -135,7 +135,7 @@ fn prepare_profile(
             if projectiles && !matches!(initial.state, 0 | 60 | 61 | 74 | 83 | 98 | 101 | 102) {
                 return Err("projectile declaration requires its live pose/state owner".into());
             }
-            if initial.state == 60 && source.class != 102 {
+            if initial.state == 60 && !matches!(source.class, 101 | 102) {
                 return Err("declared tree requires its acquired class/pose owner".into());
             }
             if initial.state == 61 || initial.state == 101 && !context.classes.models
