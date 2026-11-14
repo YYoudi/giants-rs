@@ -130,7 +130,7 @@ identical caller constants.
 The read-only close-pursuit endpoint requires a real launch attributed to the
 same actor and at least20 horizontal units of canonical displacement within its
 continuous mode41 phase. It changes neither the attack range nor actor fields.
-Rendered acceptance of this new continuation remains pending; reciprocal damage,
+The later `c97c8d0` receipt below accepts the scoped rendered close pursuit; reciprocal damage,
 death, special attacks, other maps and full Windows/menu lifecycle remain open.
 
 ### Classic orbit and burrowing continuation (local)
@@ -173,8 +173,6 @@ encounter, reciprocal injuries and death remain unverified. Workspace1,096 Rust
 tests (241 ignored),45 Python tests, fmt and strict Clippy pass; the private
 25-row helper comparison and actual-constructor late-failure control also pass.
 
-## Historical Ripper integration receipts
-
 ### Classic close attack continuation (local, encounter acceptance pending)
 
 The ordinary class73 mode42 now aims through the acquired wide-angle writer.
@@ -195,11 +193,39 @@ both Ripper classes and reject a broken reciprocal link. Prototype PS2 searches
 via `ripper_move`, `ripper_shot`, `hurt_object` and `mecc_shot` confirm no new
 identity. The previous aliases and platform differences remain intact.
 
+Four further original-PC controls execute the actual direct kind3 wrapper,
+dispatcher and cold controlled-Mecc receiver with a supplied classic Ripper
+header, actual source motion, explicit world guards and empty sound registry.
+Two original CRT float draws replay the separately verified caller prefix;
+these are composed controls, not the whole live primary/world schedule. Rust
+matches actual health, flags, recoil velocity, timer, random state and terminal
+call counts. Supplied guards still do not establish an ordinary producer.
+
 The input diagnostic now allows24,000 frames to observe repeated attack cycles
 after the distant approach; its capture predicate and ordinary NPC admission
 are unchanged. Rendered acceptance of this new attack remains pending. The real
 world failure/completion and health-suppression producers, outgoing player
 projectile identity, reciprocal injury/death and full encounter remain open.
+
+Local GNU build source `c97c8d07ac42766d4c72245a7ba067e8a5828b47`, executable
+SHA256 `7e8ac6995434e06a6cfb7fe9b8a45a97699cea9a2fc0b8c6f0f563bec8ec6717`:
+the routed rendered Wife diagnostic passes the unchanged strict close-pursuit
+endpoint (exit0, about152 seconds, capture inspected). The same declared
+class73 actor has an attributed real launch and at least20 horizontal units of
+canonical movement continuously in mode41. Burrowing mode45/36 and subsequent
+surface/attack states also run. Inputs are supplied to the ordinary Mecc only;
+this is not Windows-aimed combat, successful kind3 damage or death acceptance.
+The separate longer retreat observation exits101 after24,000 frames/about265
+seconds without its requested capture. The classic remains stationary in mode36
+late in that run; no completed close attack is established. The reused pursuit
+pilot holds the player at about200 units after a shot, so that attempt does not
+properly seek melee contact. The injury diagnostic now uses the same terrain
+route but continues ordinary player movement toward contact. Its endpoint still
+requires actual positive controlled-Mecc damage; the fix changes no NPC field,
+range, random stream or damage result. Verify that approach before attributing
+the stationary buried actor to a missing native clock or changing its AI.
+
+## Historical Ripper integration receipts
 
 Earlier startup-policy build: source `b7cc590`, GNU executable SHA256
 `b85fff99053befbe50c6e7b5b330e559eadcd41d3afe46972fc765ce9396d7cb`.

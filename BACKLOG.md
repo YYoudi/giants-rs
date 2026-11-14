@@ -310,6 +310,20 @@ The actual ordinary world guards remain unbound; no newly working injury or
 death is claimed. Build/render this continuation before treating it as encounter
 acceptance. Preserve the central naming lookup before the next native work.
 
+Build `c97c8d0` / GNU executable recorded in OWNED_NPCS.md passes the strict
+rendered close-pursuit endpoint: an actual launch attributed to the same classic
+actor and20 horizontal units continuously in mode41 (exit0, capture inspected).
+Four original cold-Mecc/direct-kind3 controls with a supplied classic header and
+explicit world guards also match Rust health/recoil/timer/random/terminal results.
+This accepts scoped pursuit, not ordinary damage. Continue beyond that capture
+to the actual finished close attack and real world guard producers; do not spend
+another acquisition cycle on unrelated timers or UI while the encounter blocks.
+The longer `c97c8d0` retreat observation fails at24,000 frames, with the classic
+stationary in mode36. Its supplied player pilot holds at200 units after a shot.
+The injury diagnostic now keeps its actual terrain-route approach through that
+standoff; its positive-damage endpoint is unchanged. Test this real approach and
+finished attack before inventing a timer decrement or forcing an NPC position.
+
 Next NPC delivery: acquire and connect the genuine shared-world guards that
 block reciprocal contact, alongside the actual radial recipients and positive
 hit/Vimp-alert consumers. Source `6354f1d` / GNU executable

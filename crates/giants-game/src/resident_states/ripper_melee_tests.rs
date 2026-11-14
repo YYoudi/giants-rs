@@ -386,6 +386,16 @@ fn native_canonical_kind3_controls() {
         std::env::var("GIANTS_MECC_KIND3_CONTROLS").expect("private kind3 controls path"),
     )
     .unwrap();
+    compare_native_kind3_controls(&contents, 230);
+}
+#[test]
+#[ignore = "Requires GIANTS_CLASSIC_KIND3_CONTROLS; actual native cold Mecc/direct kind3 with supplied class73 header, guards and separately replayed two-draw caller prefix; not live world or graphics"]
+fn native_classic_kind3_controls() {
+    let contents =
+        std::fs::read_to_string(std::env::var("GIANTS_CLASSIC_KIND3_CONTROLS").unwrap()).unwrap();
+    compare_native_kind3_controls(&contents, 73);
+}
+fn compare_native_kind3_controls(contents: &str, class: i32) {
     let mut count = 0;
     for line in contents
         .lines()
@@ -396,11 +406,11 @@ fn native_canonical_kind3_controls() {
             .map(|s| u32::from_str_radix(s, 16).unwrap())
             .collect();
         assert_eq!(w.len(), 20);
-        if w[19] != 230 {
+        if w[19] != class as u32 {
             continue;
         }
         let mut session = Session::new(1840 + count);
-        let (source, target, mut random) = canonical_melee_fixture(&mut session);
+        let (source, target, mut random) = canonical_melee_fixture_for_class(&mut session, class);
         let mut host = CanonicalMeleeHost {
             world: w[0] != 0 || w[1] != 0,
             disabled: w[2] != 0,
