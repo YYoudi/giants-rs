@@ -45,6 +45,10 @@ ordinary gameplay acceptance. The ignored
 requires private `GIANTS_RIPPER_HEALTH_EMISSION_CONTROLS`; it compares six actual
 PC registration argument sets and verifies zero interval-RNG consumption at
 construction. It proves neither subsequent health emission nor gameplay.
+The ignored `native_ripper_health_definition_and_mecc_eligibility_match_loaded_source`
+uses private `GIANTS_RIPPER_HEALTH_ELIGIBILITY_CONTROLS` alongside `GIANTS_NPC_ROOT`
+to compare the actual declaration and six original full-health/injured/dead
+eligibility cases after source weapon loading. No contact or healing is supplied.
 See OWNED_NPCS.md before continuing this dependency.
 
 The optional app controls

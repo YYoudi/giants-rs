@@ -257,3 +257,42 @@ fn native_ripper_health_emission_registration_matches_scene_configuration() {
         }
     }
 }
+
+#[test]
+#[ignore = "Requires GIANTS_NPC_ROOT and private GIANTS_RIPPER_HEALTH_ELIGIBILITY_CONTROLS; actual declaration plus original PC type36 eligibility, not item contact/healing/gameplay"]
+fn native_ripper_health_definition_and_mecc_eligibility_match_loaded_source() {
+    let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+    let bytes = std::fs::read(root.join("Bin/weapondefs.bin")).unwrap();
+    let catalog = giants_formats::weapons::parse_with_profile(
+        &bytes,
+        giants_formats::weapons::Profile::Debug,
+    )
+    .unwrap();
+    assert_eq!(catalog.icons[&36].player_type, Some(1));
+    let definition = PickupDefinition::load(&catalog).unwrap();
+    let text = std::fs::read_to_string(
+        std::env::var_os("GIANTS_RIPPER_HEALTH_ELIGIBILITY_CONTROLS").unwrap(),
+    )
+    .unwrap();
+    let mut count = 0;
+    for line in text.lines() {
+        let row = line.split_whitespace().collect::<Vec<_>>();
+        assert_eq!(row.len(), 3);
+        let state = crate::mecc_damage::State {
+            damage: row[0].parse().unwrap(),
+            limit: row[1].parse().unwrap(),
+            shield: 0.,
+            flags: 0,
+        };
+        assert_eq!(definition.mecc_eligible(state).unwrap(), row[2] == "1");
+        count += 1;
+    }
+    assert_eq!(count, 6);
+    let other =
+        giants_formats::weapons::parse_with_profile(&bytes, giants_formats::weapons::Profile::Gog)
+            .unwrap();
+    assert!(
+        PickupDefinition::load(&other).is_err(),
+        "unacquired profile must not become a player-family default"
+    );
+}

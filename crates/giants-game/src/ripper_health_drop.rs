@@ -17,6 +17,40 @@ use crate::{
 };
 use std::sync::Arc;
 
+/// Bound to the actual source type36 declaration. An absent/unacquired field is
+/// an error, separate from a declared family that does not admit the Mecc.
+#[derive(Clone, Copy, Debug)]
+pub struct PickupDefinition {
+    player_type: i32,
+}
+impl PickupDefinition {
+    pub fn load(catalog: &giants_formats::weapons::Catalog) -> Result<Self, String> {
+        let icon = catalog
+            .icons
+            .get(&36)
+            .filter(|icon| icon.id == 36)
+            .ok_or("Ripper health item36 definition absent")?;
+        Ok(Self {
+            player_type: icon
+                .player_type
+                .ok_or("Ripper health player-family declaration absent or unacquired")?,
+        })
+    }
+    /// Bounded PC type36 eligibility, not contact, healing or retirement.
+    /// Other player families keep their separate native admission rules.
+    pub fn mecc_eligible(self, health: crate::mecc_damage::State) -> Result<bool, String> {
+        if ![health.damage, health.limit, health.shield]
+            .into_iter()
+            .all(f32::is_finite)
+            || health.limit <= 0.
+            || health.shield < 0.
+        {
+            return Err("Ripper health eligibility requires finite actual Mecc health".into());
+        }
+        Ok(matches!(self.player_type, 1 | 2) && health.damage > 0. && health.damage < health.limit)
+    }
+}
+
 #[derive(Clone, Copy, Debug)]
 pub struct Owned {
     pub owner: Id,

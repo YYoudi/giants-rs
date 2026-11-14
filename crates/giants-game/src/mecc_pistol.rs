@@ -247,6 +247,7 @@ mod tests {
                     description: None,
                     projectile: 17,
                     weight: 1,
+                    player_type: None,
                 },
             )]
             .into_iter()

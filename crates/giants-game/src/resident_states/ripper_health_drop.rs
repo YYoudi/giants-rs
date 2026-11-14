@@ -4,6 +4,54 @@ use super::*;
 use crate::{attached_effect_context::Creation, ripper_health_drop::Owned};
 
 impl Session {
+    /// Read current owned item/player eligibility after the caller's primary
+    /// gates. Pause, ground and contact remain that primary's work. This
+    /// produces no contact receipt, health response, sound or collected state.
+    pub fn ripper_health_pickup_eligible(
+        &self,
+        item: Id,
+        player: Id,
+        step: u64,
+        definition: crate::ripper_health_drop::PickupDefinition,
+    ) -> Result<bool, String> {
+        self.controlled_mecc_motion(player, step)?;
+        let health = self.mecc_health(player)?;
+        let actor = self
+            .get(item)
+            .ok_or("Ripper health item absent or foreign")?;
+        let drop = actor
+            .ripper_health_drop
+            .ok_or("Ripper health source ownership absent")?;
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("Ripper health fields absent")?;
+        if actor.class != 785
+            || actor.seed.storage.state() != 37
+            || !drop.initialized
+            || drop.failed
+            || actor
+                .seed
+                .storage
+                .data()
+                .is_none_or(|p| p.len() != 24 || p[..4] != 36u32.to_le_bytes())
+        {
+            return Err("Ripper health eligibility requires its completed source birth".into());
+        }
+        if fields.object_flags & 0x8000 != 0 || fields.control_flags & 6 == 0 {
+            return Ok(false);
+        }
+        let player_fields = self
+            .get(player)
+            .unwrap()
+            .construction_fields
+            .as_ref()
+            .unwrap();
+        Ok(player_fields.object_flags & 0x4000c000 == 0
+            && player_fields.configuration[14] & 1 != 0
+            && (drop.owner != player || drop.owner_delay <= 0.)
+            && definition.mecc_eligible(health)?)
+    }
     pub fn ripper_health_drop(&self, id: Id) -> Option<Owned> {
         self.get(id)?.ripper_health_drop
     }

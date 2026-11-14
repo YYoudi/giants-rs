@@ -1,5 +1,7 @@
 //! Bounded weapon command stream and selected effective declaration fields.
 //! Numeric physics fields remain in their ordered records, not a simulation.
+//! Prototype PS2 `IconDefPlayerType` is an unknown naming route for the debug
+//! icon admission-field projection; no prototype layout is imported.
 use crate::{Error, slice, u32_at};
 use std::collections::BTreeMap;
 
@@ -32,6 +34,9 @@ pub struct Icon {
     pub description: Option<String>,
     pub projectile: i32,
     pub weight: i32,
+    /// Explicit debug opcode0x36 admission family. None preserves an absent write
+    /// or an unacquired profile; it is not a fabricated native default.
+    pub player_type: Option<i32>,
 }
 #[derive(Clone, Debug)]
 pub struct Catalog {
@@ -170,6 +175,7 @@ pub fn parse_with_profile(data: &[u8], profile: Profile) -> Result<Catalog, Erro
                         description: None,
                         projectile: -1,
                         weight: 0,
+                        player_type: None,
                     },
                 );
                 icon = Some(id);
@@ -185,6 +191,8 @@ pub fn parse_with_profile(data: &[u8], profile: Profile) -> Result<Catalog, Erro
                         i.weight = r.args[0] as i32;
                     } else if r.opcode == 0x2b {
                         i.projectile = r.args[0] as i32;
+                    } else if r.opcode == 0x36 && profile == Profile::Debug {
+                        i.player_type = Some(r.args[0] as i32);
                     } else {
                         out.unprojected_records += 1;
                     }
@@ -321,5 +329,27 @@ mod tests {
         for id in [u32::MAX - 1, 75, i32::MAX as u32] {
             assert!(parse(&file(&[0x24, 3, id, 0, 2])).is_err());
         }
+    }
+    #[test]
+    fn debug_admission_tracks_ordered_writes_and_preserves_absence_by_profile() {
+        use super::{Profile, parse_with_profile};
+        let data = file(&[
+            0x24, 3, 36, 0x36, 3, 2, 0x36, 3, 1, 0x25, 2, 0x36, 3, 7, 0, 2,
+        ]);
+        let debug = parse_with_profile(&data, Profile::Debug).unwrap();
+        assert_eq!(debug.icons[&36].player_type, Some(1));
+        assert_eq!(debug.inactive_records, 1);
+        assert_eq!(
+            parse_with_profile(&data, Profile::Gog).unwrap().icons[&36].player_type,
+            None
+        );
+        let redeclared = file(&[0x24, 3, 36, 0x36, 3, 1, 0x25, 2, 0x24, 3, 36, 0x25, 2, 0, 2]);
+        assert_eq!(
+            parse_with_profile(&redeclared, Profile::Debug)
+                .unwrap()
+                .icons[&36]
+                .player_type,
+            None
+        );
     }
 }

@@ -28,18 +28,35 @@ constructor/failure control, not an ordinary death or rendered item. Both origin
 PC named mode4 wrappers and null-object VM passes also execute for the installed
 health programs: two preparations and two empty-context cleanups, with no actor
 creation or RNG call. Their complete deferred frames are now admitted by the
-common preparator. The next original active-context control executes both real attached constructors
+common preparator. The next original active-context control executes both real
+attached constructors
 and all six emitter registrations, with zero RNG calls at creation. Rust's
 source56 service projection matches each observed effect label, interval, both
-reference pairs and flags. The common reference-channel/render-resource consumers
-now accept that fixed paired configuration alongside source28/57. The ordinary
+reference pairs and flags. The common reference-channel and FX-inspection
+render-resource consumers now accept that fixed paired configuration alongside source28/57. The ordinary
 health-item renderer, subsequent emission scheduling and collection/cleanup remain
 unconnected; no ordinary health glow or death acceptance follows.
+
+The installed debug weapon declarations now retain the explicit opcode0x36
+player-family field. `PickupDefinition` requires the real item36 declaration;
+an absent field or unacquired profile remains an error. The owned Session
+eligibility read additionally checks the actual controlled Mecc step, canonical
+health, flags and source item birth. It supplies no contact, health mutation,
+sound or collected state. After loading the actual weapon file through the
+original PC dispatcher, six original type36 controls reject full-health/dead
+Meccs and admit living injured Meccs; the Rust declaration/predicate matches.
+The original type36 category predicate also returns zero; general inventory
+handling remains outside this rule.
+An additional original dispatcher control verifies reselection clears the prior
+family field. Earlier zero-table controls remain negative fixture history,
+not evidence that the real installed health object is ineligible.
 
 Native continuation began with prototype PS2 lookup. The literal
 `ripper_drop_health__FP6OBJECT` is an **unknown** navigation candidate for this
 work; neither that name nor `ripper_shot` is a confirmed PC attribution. The
 existing confirmed `ripper_death_logic__FP6OBJECT` identity remains separate.
+`IconDefPlayerType` and `item_check` remain unknown naming routes for the bounded
+PC declaration and eligibility work.
 The pinned PC state37 primary was inspected for the next required item update;
 its generic item path does not establish a one-to-one prototype identity.
 

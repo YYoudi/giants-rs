@@ -328,7 +328,10 @@ Installed medium/large controls, original mode4 null passes and actual first
 active constructors/six emitter registrations support this dependency only.
 The source56 fixed paired-reference configuration now matches original arguments
 and reuses the common reference-channel/visual-resource consumers; ordinary
-health emission/collection remains unconnected. Main still rejects lethal contacts; no new death, loot,
+health emission/collection remains unconnected. Actual debug item36 family
+metadata and current owned Mecc/item eligibility are now retained and checked;
+six original eligibility controls execute after the genuine weapon dispatcher.
+Contact, healing and retirement remain required. Main still rejects lethal contacts; no new death, loot,
 rendered item or preview availability is claimed. The required installed global
 drop probability is100, so do not bypass the health object to ship a visual kill.
 Resume actual item primary/collection, active source56 health FX, death effects/
