@@ -11,7 +11,27 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ### Persistent damage-guard ownership and rendered nonlethal injury
 
-Source `2893dc5ae2b570343d834a46b18caed065f567ee`, GNU executable SHA256
+The continuation source `b74bee8a81a8d02e0c1b438df66144259cb53fe7`, GNU
+executable SHA256
+`c5d413c1c1b4880b04824a8dbb58a5529a6bcb0786d1ac99f7beb97e394776bf`,
+passes the longer rendered Wife endpoint (exit0, about170 seconds; private image
+inspected). The ordinary controller now prepares the existing six local pain
+sources/reservations through the shared transport, independently of inspection
+flags. Actual classic actor162 lands three successive nonlethal melee hits at
+steps10752/10828/10905: Session/controller health100 ->75 ->50 ->25. Actual muted
+sinks start cues1504/1685/1505, and this actor publishes a completed motion frame
+after the first hit. No audio refusal stops those three callbacks. Recorded
+velocity is unchanged for these contacts; no visible recoil fidelity follows.
+
+At step10982 its fourth attack explicitly refuses the unimplemented lethal-player
+continuation, retaining the last nonlethal health25 and quarantining that attacker.
+The image after240 following ordinary steps displays health25. This is repeated
+nonlethal combat with real muted transport, not a player death, full encounter,
+Ripper injury/death, a Windows-played fight or a new downloadable preview. Next
+work must start from the prototype PS2 lookup and finish the real lethal/player
+or source-bearing pistol/Ripper receiver path; do not fabricate death or drops.
+
+The preceding source `2893dc5ae2b570343d834a46b18caed065f567ee`, GNU executable SHA256
 `4fce34524e400b812377f2dcfa461e9764c2789d30ffc5d11eb120d785a4507b`,
 passes the strict rendered Wife injury endpoint (exit0, about162 seconds;
 private capture inspected). Declared classic class73 actor162 reaches its real
@@ -20,12 +40,19 @@ health100 ->75. The recorded velocity is unchanged for this contact; this is not
 visible recoil acceptance. Only ordinary Mecc movement/look/jet commands are
 supplied; no NPC pose, state, damage, guard or availability is injected.
 
-The actual controller copy succeeds before a later local pain-voice preparation
+On that preceding executable the actual controller copy succeeds before a later local pain-voice preparation
 refusal quarantines that attacker. Other AI continues, but this is not a complete
 attack-cycle/audio acceptance. Prepare the real requested local voice through
 the shared transport next; do not acknowledge it with a silent no-op. Reciprocal
 player-pistol injury, Ripper death, lethal player continuation and full Windows
 combat remain open. This local receipt does not update public preview .13.3.
+
+The same executable separately passes actual Windows menu selection, Wife entry,
+Escape cinematic skip, R view toggle, menu return, fresh entry/skip and second
+return. There are no replay/probe flags on that launch. Tickets1 and3 each release
+177 residents, with zero remaining resident registrations/bytes, entities and
+audio assets; the test window is then closed. Private entry/menu/reentry captures
+were inspected. This short Windows lifecycle test is not an OS-played encounter.
 
 The ordinary partial controller now initializes health, shield and flags from
 its actual constructed Session owner before its first motion publication. Its
@@ -44,7 +71,8 @@ death acceptance. The preceding build20 image with health100 was accepted by a
 weaker pursuit branch, not injury; it must not be cited as a damage result.
 The injury diagnostic now prioritizes its own endpoint over chase: canonical
 positive damage, matching actual controller health, a visible rounded decrease
-and two following ordinary frames. The `2893dc5` result above accepts the bounded
+and following ordinary frames. Build22 waits two; the next voice-continuation
+diagnostic waits240 fixed steps to inspect subsequent AI. The `2893dc5` result above accepts the bounded
 nonlethal health transfer; it does not erase the failed earlier result.
 
 `mission_guard_state::Process` now owns the bounded PC process fields instead
@@ -80,7 +108,7 @@ across two real Session teardowns. These CPU controls alone establish no rendere
 injury; that separate bounded result is recorded above.
 
 This is an ordinary partial-process projection, not full native-world fidelity.
-Unsupported completion/health-transition, local pain-voice preparation, player lethal primary, player-pistol
+Unsupported completion/health-transition, player lethal primary, player-pistol
 source identity, Ripper hurt/blood/death and full OS encounter remain required.
 Prototype PS2 `mission_init`/`mission_fail` and related configuration search
 routes remain unknown identities. Follow the central reconstruction method;
