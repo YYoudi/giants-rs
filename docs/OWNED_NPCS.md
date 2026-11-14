@@ -105,13 +105,23 @@ A subsequent original control constructs the actual class785/state37 parent
 with mask0 and executes both attached health constructors/six registrations.
 Position, clock, quality and outer heap/texture storage remain supplied controls.
 This still does not establish live parent/world-affine resolution or child
-scheduling. A cache-only probe leaves the cold item's bounds zero; a subsequent
-supplied initializer/bounds composition still yields zero-width points. These
-controls do not establish the ordinary item's usable volume or absence of one.
-Verify actual model/resource presence and complete primary/finalization ordering;
-do not invent a pickup radius. The original overlap predicate rejects zero X
-width, as the existing common kernel already does. Actual ordinary geometry,
-contact and collection remain required.
+scheduling. Earlier cache/initializer controls yielded zero-width points because
+their resource registry omitted the world's companion-bound application. A fresh
+control executes that original loader over the actual installed companion: all
+three loaded animation wrappers receive valid bounds. The real class785 model
+and its declared slot1 wrapper are present; an empty wrapper before that loader
+is not evidence for a null model or an uncollectible item. No radius is invented.
+
+The health factory now retains the shared mission-bound geometry resources and
+can read its own completed birth's bounds through the canonical Session affine
+and current animation slot. Missing/stale affine, incomplete birth and another
+factory's specification are refused. Both real source health-constructor cases
+match all six original bounds words after companion loading, with the actual
+constructor scale retained. Supplied pose/ground/outer storage and explicit
+initializer order remain control inputs. This bounds read does not acknowledge
+an item frame, player overlap, healing, a running glow or retirement. The original
+overlap predicate's zero-X-width rejection is retained. State37 scheduling,
+actual contact/collection and the complete lethal encounter remain required.
 
 The pinned PC state37 primary was inspected for the next required item update;
 its generic item path does not establish a one-to-one prototype identity.

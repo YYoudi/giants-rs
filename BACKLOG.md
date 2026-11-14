@@ -321,6 +321,15 @@ helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## NPC lane in progress - ordinary Rippers in The Wife
 
+Isolated lethal-path continuation: the health factory now consumes the shared
+world-companion bounds and canonical Session affine/current animation slot.
+Both installed health births match the original six-word bounds after the real
+companion loader. Earlier zero-width native fixtures omitted that loading step;
+they do not justify a fabricated pickup radius or a no-contact conclusion. Item
+frame/terrain/obstruction/contact/healing, active glows and death/retirement still
+need runtime composition. Keep this dependency branch separate from the working
+living main build below; it does not gate that build's common publication.
+
 Delivery priority: main `7242798` already contains the working living runtime
 `f940069`. Include it in the next common executable before extending isolated
 death/health-item dependencies. Normal testing uses Preview tools -> Browse all

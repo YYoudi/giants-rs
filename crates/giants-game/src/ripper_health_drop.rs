@@ -80,6 +80,7 @@ pub struct Factory {
     flags: DirectFlags,
     body: Arc<crate::specification::Prepared>,
     states: Arc<crate::state_resources::Prepared>,
+    geometry: crate::resident_environment::Resources,
     amount: [i32; 2],
 }
 impl Factory {
@@ -117,6 +118,7 @@ impl Factory {
             return Err("Ripper health source resources incomplete".into());
         }
         let fields = Fields::load(resources, 785, &body)?;
+        let geometry = crate::resident_environment::Resources::load(resources, &body)?;
         let amount =
             [0x1078, 0x107c].map(|at| globals.words.get(at / 4).copied().map(|w| w as i32));
         let [Some(medium), Some(large)] = amount else {
@@ -129,8 +131,26 @@ impl Factory {
             flags: DirectFlags::project(785, program),
             body,
             states,
+            geometry,
             amount: [medium, large],
         })
+    }
+    /// Current source bounds only. The caller must prepare the owned affine;
+    /// this does not advance state37, establish contact or acknowledge healing.
+    pub fn bounds(&self, session: &Session, item: Id) -> Result<[f32; 6], String> {
+        let slot = session.ripper_health_geometry_source(item, &self.body)?;
+        let bounds = self.geometry.bounds(slot)?;
+        let affine = session.actor_current_affine(item)?;
+        crate::collision_bounds::cached(
+            Some(crate::collision_bounds::Models {
+                primary: bounds.primary,
+                auxiliary: bounds.current_auxiliary,
+                slot,
+            }),
+            affine.matrix[..12].try_into().unwrap(),
+            Precision::Double53,
+        )
+        .map_err(str::to_owned)
     }
     /// Only an active lethal callback can construct this child. A late effect
     /// error retains its published identity and marks its incomplete suffix.

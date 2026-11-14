@@ -4,6 +4,38 @@ use super::*;
 use crate::{attached_effect_context::Creation, ripper_health_drop::Owned};
 
 impl Session {
+    pub(crate) fn ripper_health_geometry_source(
+        &self,
+        item: Id,
+        body: &Arc<crate::specification::Prepared>,
+    ) -> Result<u32, String> {
+        let actor = self
+            .get(item)
+            .ok_or("Ripper health bounds owner absent or foreign")?;
+        let owned = actor
+            .ripper_health_drop
+            .ok_or("Ripper health birth absent")?;
+        let fields = actor
+            .construction_fields
+            .as_ref()
+            .ok_or("Ripper health fields absent")?;
+        if !owned.initialized
+            || owned.failed
+            || !actor.acquired_construction
+            || actor.class != 785
+            || actor.seed.storage.state() != 37
+            || fields.configuration[20] != 37
+            || fields.object_flags & 0x8000 != 0
+            || !self
+                .specification(item)
+                .is_some_and(|s| Arc::ptr_eq(s, body))
+        {
+            return Err("Ripper health bounds require this factory's completed live birth".into());
+        }
+        Ok(actor
+            .channels
+            .ok_or("Ripper health animation channels absent")?[0][0])
+    }
     /// Read current owned item/player eligibility after the caller's primary
     /// gates. Pause, ground and contact remain that primary's work. This
     /// produces no contact receipt, health response, sound or collected state.

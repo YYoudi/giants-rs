@@ -177,6 +177,7 @@ fn source_ripper_health_drop_birth_preserves_real_prefix_and_failed_scope() {
                 assert!(owned.failed && !owned.initialized);
                 assert_eq!(owned.amount, 0);
                 assert_eq!(fields.control_flags & 7, 1);
+                assert!(factory.bounds(&session, item).is_err());
             } else {
                 assert!(
                     owned.initialized && !owned.failed,
@@ -190,6 +191,40 @@ fn source_ripper_health_drop_birth_preserves_real_prefix_and_failed_scope() {
                 assert_eq!(context.recipient(), Some(item));
                 assert_eq!(context.tag(), Some(u32::MAX));
                 assert_eq!(context.emitted_objects(), 0);
+                assert!(
+                    factory.bounds(&session, item).is_err(),
+                    "no affine was prepared"
+                );
+                session.prepare_actor_affine(item).unwrap();
+                let bounds = factory.bounds(&session, item).unwrap();
+                assert!((0..3).all(|i| bounds[i] < bounds[i + 3]));
+                // A distinct factory must not claim this birth's specification.
+                assert!(
+                    Factory::load(&resources, &globals)
+                        .unwrap()
+                        .bounds(&session, item)
+                        .is_err()
+                );
+                if let Some(path) = std::env::var_os("GIANTS_RIPPER_HEALTH_BOUNDS_CONTROLS") {
+                    let text = std::fs::read_to_string(path).unwrap();
+                    let rows: Vec<_> = text
+                        .lines()
+                        .map(|line| {
+                            let mut words = line.split_whitespace();
+                            let source: i32 = words.next().unwrap().parse().unwrap();
+                            let words: Vec<_> =
+                                words.map(|w| u32::from_str_radix(w, 16).unwrap()).collect();
+                            assert_eq!(words.len(), 6);
+                            (source, words)
+                        })
+                        .collect();
+                    assert_eq!(rows.iter().map(|r| r.0).collect::<Vec<_>>(), [73, 230]);
+                    let expected = &rows.iter().find(|r| r.0 == class).unwrap().1;
+                    assert_eq!(&bounds.map(f32::to_bits), expected.as_slice());
+                    println!(
+                        "health_bounds_native_match source_class={class} words=6 source_world_companion=true contact_acknowledged=false"
+                    );
+                }
             }
             assert!(session.state23_damage_failure(owner).is_some());
             let retained = random.0;
