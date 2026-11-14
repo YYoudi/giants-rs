@@ -631,7 +631,9 @@ fn prepare_inner(
             for (service_index, service) in construction.services.iter().enumerate() {
                 if !matches!(
                     service.kind,
-                    effect_scene::ServiceKind::Source28 | effect_scene::ServiceKind::Source57
+                    effect_scene::ServiceKind::Source28
+                        | effect_scene::ServiceKind::Source56
+                        | effect_scene::ServiceKind::Source57
                 ) {
                     continue;
                 }

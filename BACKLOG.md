@@ -324,8 +324,11 @@ helper is a stub; preserve the PC implementation and that platform divergence.
 NPC branch dependency: the source-owned health-object factory now constructs
 class785/cold0 ->state37 inside a real lethal callback scope, prepares the actual
 mode4 health context and preserves failed prefixes/identities without retry.
-Installed medium/large controls and original mode4 null-pass controls support
-this dependency only. Main still rejects lethal contacts; no new death, loot,
+Installed medium/large controls, original mode4 null passes and actual first
+active constructors/six emitter registrations support this dependency only.
+The source56 fixed paired-reference configuration now matches original arguments
+and reuses the common reference-channel/visual-resource consumers; ordinary
+health emission/collection remains unconnected. Main still rejects lethal contacts; no new death, loot,
 rendered item or preview availability is claimed. The required installed global
 drop probability is100, so do not bypass the health object to ship a visual kill.
 Resume actual item primary/collection, active source56 health FX, death effects/

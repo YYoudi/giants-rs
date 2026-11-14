@@ -88,6 +88,7 @@ impl References {
                     matches!(
                         s.kind,
                         crate::effect_scene::ServiceKind::Source28
+                            | crate::effect_scene::ServiceKind::Source56
                             | crate::effect_scene::ServiceKind::Source57
                     )
                 }) {

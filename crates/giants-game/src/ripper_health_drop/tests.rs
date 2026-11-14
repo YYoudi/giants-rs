@@ -196,3 +196,64 @@ fn source_ripper_health_drop_birth_preserves_real_prefix_and_failed_scope() {
         }
     }
 }
+
+#[test]
+#[ignore = "Requires GIANTS_NPC_ROOT and private GIANTS_RIPPER_HEALTH_EMISSION_CONTROLS; compares original active source56 registration arguments, not later callbacks/rendering"]
+fn native_ripper_health_emission_registration_matches_scene_configuration() {
+    let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+    let image = giants_formats::effect_image::parse(
+        &std::fs::read(root.join("Bin/fx_world_dust.bin")).unwrap(),
+    )
+    .unwrap();
+    let controls = std::fs::read_to_string(
+        std::env::var_os("GIANTS_RIPPER_HEALTH_EMISSION_CONTROLS").unwrap(),
+    )
+    .unwrap();
+    let rows = controls
+        .lines()
+        .map(|line| line.split_whitespace().collect::<Vec<_>>())
+        .collect::<Vec<_>>();
+    assert_eq!(rows.len(), 6);
+    let mut at = 0;
+    for name in ["fx_ripper_medium_health", "fx_ripper_large_health"] {
+        let plan = crate::effect_scene::Plan::project(&image, name).unwrap();
+        let mut seed = 17;
+        let (objects, _) = plan.start(&mut seed).unwrap();
+        assert_eq!(seed, 17, "fixed creation must consume no RNG");
+        assert_eq!(objects.len(), 1);
+        assert_eq!(objects[0].services.len(), 3);
+        for service in &objects[0].services {
+            let row = &rows[at];
+            at += 1;
+            assert_eq!(row.len(), 9);
+            assert_eq!(row[0], name);
+            assert_eq!(service.kind, crate::effect_scene::ServiceKind::Source56);
+            assert!(service.random_sample.is_none());
+            let config = service.emission_configuration().unwrap();
+            assert_eq!(config.effect, row[1]);
+            let expected = row[2..]
+                .iter()
+                .map(|s| u32::from_str_radix(s, 16).unwrap())
+                .collect::<Vec<_>>();
+            assert_eq!(
+                vec![
+                    config.interval.to_bits(),
+                    config.selectors[0][0],
+                    config.selectors[0][1],
+                    config.selectors[1][0],
+                    config.selectors[1][1],
+                    u32::from(config.source_flag8),
+                    u32::from(config.source_flag9)
+                ],
+                expected
+            );
+            assert_eq!(service.interval_bounds().unwrap(), [config.interval; 2]);
+            assert!(matches!(
+                crate::effect_reference_emission::Channel::new(&config)
+                    .unwrap()
+                    .mode,
+                crate::effect_reference_emission::Mode::Paired(_)
+            ));
+        }
+    }
+}

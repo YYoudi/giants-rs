@@ -28,7 +28,13 @@ constructor/failure control, not an ordinary death or rendered item. Both origin
 PC named mode4 wrappers and null-object VM passes also execute for the installed
 health programs: two preparations and two empty-context cleanups, with no actor
 creation or RNG call. Their complete deferred frames are now admitted by the
-common preparator. Active periodic-child emission is still unimplemented here.
+common preparator. The next original active-context control executes both real attached constructors
+and all six emitter registrations, with zero RNG calls at creation. Rust's
+source56 service projection matches each observed effect label, interval, both
+reference pairs and flags. The common reference-channel/render-resource consumers
+now accept that fixed paired configuration alongside source28/57. The ordinary
+health-item renderer, subsequent emission scheduling and collection/cleanup remain
+unconnected; no ordinary health glow or death acceptance follows.
 
 Native continuation began with prototype PS2 lookup. The literal
 `ripper_drop_health__FP6OBJECT` is an **unknown** navigation candidate for this

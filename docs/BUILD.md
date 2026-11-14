@@ -40,7 +40,12 @@ The NPC branch additionally provides the ignored game control
 source medium/large health object during an actual callback, resolves its mode4
 context and verifies late failure retention. Stop/blood remain supplied test
 boundaries and death FX deliberately refuses; this is neither a kill test nor
-ordinary gameplay acceptance. See OWNED_NPCS.md before continuing this dependency.
+ordinary gameplay acceptance. The ignored
+`native_ripper_health_emission_registration_matches_scene_configuration` also
+requires private `GIANTS_RIPPER_HEALTH_EMISSION_CONTROLS`; it compares six actual
+PC registration argument sets and verifies zero interval-RNG consumption at
+construction. It proves neither subsequent health emission nor gameplay.
+See OWNED_NPCS.md before continuing this dependency.
 
 The optional app controls
 `installed_palm_damage_keeps_source_stump_owner_and_independent_hits` and

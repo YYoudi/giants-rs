@@ -27,6 +27,8 @@ pub enum ServiceKind {
     RangedEmission,
     /// Source opcode28 names another FX program; active emission is unbound.
     Source28,
+    /// Fixed-interval paired references, without an interval RNG draw.
+    Source56,
     /// Source opcode57 names another FX program; active emission is unbound.
     Source57,
 }
@@ -58,7 +60,10 @@ impl Service {
             .ok_or("service label absent")?
             + 2;
         let low = f32::from_bits(word(&self.record, end)?);
-        let high = if self.kind == ServiceKind::FixedEmission {
+        let high = if matches!(
+            self.kind,
+            ServiceKind::FixedEmission | ServiceKind::Source56
+        ) {
             low
         } else {
             f32::from_bits(word(&self.record, end + 4)?)
@@ -80,7 +85,10 @@ impl Service {
             .to_owned();
         let start = end + 1;
         let low = f32::from_bits(word(&self.record, start)?);
-        let interval = if self.kind == ServiceKind::FixedEmission {
+        let interval = if matches!(
+            self.kind,
+            ServiceKind::FixedEmission | ServiceKind::Source56
+        ) {
             if self.random_sample.is_some() {
                 return Err("fixed service consumed interval RNG");
             }
@@ -98,6 +106,11 @@ impl Service {
             return Err("service interval outside positive profile");
         }
         let mut selectors = [[u32::MAX; 2]; 2];
+        if self.kind == ServiceKind::Source56 {
+            let parent = word(&self.record, start + 4)?;
+            let child = word(&self.record, start + 8)?;
+            selectors = [[child, child], [parent, parent]];
+        }
         if matches!(self.kind, ServiceKind::Source28 | ServiceKind::Source57) {
             selectors[0] = [
                 word(&self.record, start + 8)?,
@@ -116,7 +129,7 @@ impl Service {
             effect,
             interval,
             selectors,
-            source_flag8: self.kind == ServiceKind::Source57,
+            source_flag8: matches!(self.kind, ServiceKind::Source56 | ServiceKind::Source57),
             source_flag9: false,
         })
     }
@@ -342,6 +355,7 @@ fn service(kind: ServiceKind, r: &Record) -> Result<Op, &'static str> {
         ServiceKind::FixedEmission => 0x1d,
         ServiceKind::RangedEmission => 0x1e,
         ServiceKind::Source28 => 0x28,
+        ServiceKind::Source56 => 0x56,
         ServiceKind::Source57 => 0x57,
     };
     if r.opcode != opcode || r.bytes.first() != Some(&opcode) {
@@ -360,6 +374,7 @@ fn service(kind: ServiceKind, r: &Record) -> Result<Op, &'static str> {
         ServiceKind::FixedEmission => 1,
         ServiceKind::RangedEmission => 2,
         ServiceKind::Source28 => 4,
+        ServiceKind::Source56 => 3,
         ServiceKind::Source57 => 6,
     };
     if r.bytes.len() != end + 1 + words * 4 {
@@ -579,6 +594,7 @@ impl Plan {
                     0x1d => service(ServiceKind::FixedEmission, r)?,
                     0x1e => service(ServiceKind::RangedEmission, r)?,
                     0x28 => service(ServiceKind::Source28, r)?,
+                    0x56 => service(ServiceKind::Source56, r)?,
                     0x57 => service(ServiceKind::Source57, r)?,
                     0x10 | 0x70 => {
                         let end = r.bytes[5..]
@@ -886,11 +902,12 @@ impl Object {
                 }
                 Op::Retirement(binding) => obj.object_services.retirement = Some(binding.clone()),
                 Op::Service(kind, r) => {
-                    let sample = if *kind == ServiceKind::FixedEmission {
-                        None
-                    } else {
-                        Some(random(seed))
-                    };
+                    let sample =
+                        if matches!(kind, ServiceKind::FixedEmission | ServiceKind::Source56) {
+                            None
+                        } else {
+                            Some(random(seed))
+                        };
                     obj.services.push(Service {
                         kind: *kind,
                         record: r.clone(),
