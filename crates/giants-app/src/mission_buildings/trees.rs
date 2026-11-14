@@ -135,6 +135,7 @@ mod tests {
         let point = owner.fields.position;
         let key = owner.key;
         let hit = |object, serial| giants_game::mecc_pistol::WorldHit {
+            source: None,
             object,
             serial,
             point,

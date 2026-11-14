@@ -16,6 +16,11 @@ pub(crate) struct RipperInputSnapshot {
     pub mecc_remaining: Option<f32>,
     pub mecc_limit: Option<f32>,
     pub quarantine_step: Option<u64>,
+    pub pistol_hit: Option<(giants_game::resident_states::Id, u32, u64)>,
+    pub pistol_target_health: Option<(f32, f32)>,
+    pub pistol_target_active: bool,
+    pub blood_quads: usize,
+    pub unsupported_lethal: Option<(giants_game::resident_states::Id, u32, u64, Option<u64>)>,
 }
 impl Runtime {
     pub(crate) fn ripper_input_snapshot(
@@ -76,7 +81,15 @@ impl Runtime {
             .controlled_mecc_owner
             .map(|owner| session.mecc_health(owner))
             .transpose()?;
+        let pistol = component.and_then(|c| c.pistol_hit_snapshot());
+        let pistol_hit = pistol.map(|(id, serial, step, _)| (id, serial, step));
         Ok(RipperInputSnapshot {
+            unsupported_lethal: component.and_then(|c| c.unsupported_lethal_snapshot()),
+            pistol_hit,
+            pistol_target_health: pistol_hit
+                .and_then(|(id, _, _)| session.state23_combat(id).map(|s| (s.damage, s.limit))),
+            pistol_target_active: pistol.is_some_and(|(_, _, _, active)| active),
+            blood_quads: self.npc_blood_quads(ticket).len(),
             quarantine_step: active
                 .payload
                 .rippers

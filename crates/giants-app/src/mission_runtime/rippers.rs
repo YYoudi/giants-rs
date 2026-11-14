@@ -8,6 +8,8 @@ use giants_game::{
 pub(super) mod combat;
 mod contacts;
 mod draw;
+mod hurt;
+pub(super) use hurt::Hit as PistolHit;
 mod impacts;
 pub(super) mod live;
 mod projectiles;
@@ -33,6 +35,9 @@ pub(super) struct State {
     driver: live::Driver,
     geometry: draw::Geometry,
     sounds: Vec<crate::mission_audio::Event>,
+    blood: giants_game::blood_particles::Pool,
+    last_pistol_hit: Option<(Id, u32, u64)>,
+    last_unsupported_lethal: Option<(Id, u32, u64)>,
     marker_factory: giants_game::primary_surface_marker::Factory<'static>,
     projectile_factory: giants_game::primary_enemy_fire::Factory<'static>,
     controlled_contact_resources: Option<giants_game::controlled_mecc_contacts::Resources>,
@@ -108,6 +113,9 @@ impl State {
             }
             image = Some(captured);
         }
+        let blood = giants_game::blood_particles::Pool::new(
+            giants_game::blood_particles::Configuration::from_globals(&globals)?,
+        )?;
         Ok(Some(Self {
             expected,
             bound: None,
@@ -119,6 +127,9 @@ impl State {
             driver: Default::default(),
             geometry: Default::default(),
             sounds: vec![],
+            blood,
+            last_pistol_hit: None,
+            last_unsupported_lethal: None,
             controlled_contact_resources: None,
             controlled_contact: None,
             projectile_scene: None,

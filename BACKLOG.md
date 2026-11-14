@@ -355,6 +355,41 @@ helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## NPC lane in progress - ordinary Rippers in The Wife
 
+Continuation `f940069` fixes a concrete freeze: an unsupported lethal pistol
+contact is rejected before the victim's callback attempt, preserving its living
+AI instead of quarantining it. The exact local rendered executable passes actual
+damage 0 ->12 ->24 ->36, then a rejected lethal shot and240 following completed
+primary steps on the same declared actor, plus a later ordinary launch/ground
+reaction. See OWNED_NPCS.md for the receipt and scoped graphical evidence.
+Death/drop services remain the next NPC work; do not claim a kill, silently reduce
+health, or divert into unrelated dependencies. This source is newer than public
+preview .14.1; the main integration lane retains common preview publication.
+
+Local continuation: the ordinary partial pistol now carries an immutable actual
+emission/contact receipt into the nonlethal Ripper callback, source retaliation,
+shared blood and audio queue. It preserves source class/amount/range/camera,
+current actor ownership, guards and failed-attempt retention without inventing a
+canonical state77 actor. Sixteen original callback/cohort controls and emission
+provenance tests support this bounded callback; the separate graphical result
+below establishes the local nonlethal path.
+Source `282417b` / GNU executable
+`c5e805558ee931a5611a1bda0bdf41a9a13c489639a8cfbcc074d6a03f80fee6`
+now passes the merged-main rendered Wife route (exit0, about159 seconds, image
+inspected): real shot9 /classic actor163 /damage12, 49 particles /98 uploaded blood
+quads, 30 following active steps and an actual attached muted cue1266 sink.
+The previous executable's cancelled hurt cue exposed the missing completed-actor
+audio position; the corrected owner also passes the installed two-ticket frame
+control. This is a local nonlethal hit delivery, not part of preview .14.1.
+The same executable's separate incoming route also passes (exit0, about150
+seconds, inspected HUD90): actual class90 projectile246 applies10 damage and
+copies the directional velocity response into the real Mecc controller, with
+actual muted local cues1504/1684. This verifies both directions in two rendered
+runs, not a single full fight or a death. Actual Windows default-mouse fire and
+menu/fresh-entry cleanup also pass on this exact executable.
+Ripper lethal services, player lethal continuation and the full death/menu loop
+remain required. Keep the prototype PS2 lookup step before native continuation;
+no new naming attribution is confirmed. See OWNED_NPCS.md for precise scope.
+
 Delivered movement/attack-feedback milestone, preview .13.3: runtime `941342b`,
 executable `9a9ae9a4ca1902ecd3c2c46b7d9faf5b9b922bacdf7d7be7cf53d9517d77c962`.
 The combined main candidate preserves building interactions. Its rendered Wife

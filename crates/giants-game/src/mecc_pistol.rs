@@ -9,8 +9,13 @@ use giants_formats::{
     gti::Terrain,
     weapons::{Catalog, Projectile},
 };
+mod source;
+pub use source::OwnedHit;
 
 pub struct Pistol {
+    source_owner: Option<crate::resident_states::Id>,
+    source_camera: Option<[f32; 3]>,
+    emitted: std::collections::BTreeMap<u32, source::Emission>,
     pub definition: Projectile,
     pub shots: Vec<Shot>,
     pub impacts: Vec<([f32; 3], f32)>,
@@ -32,6 +37,9 @@ pub struct Frame {
 /// Partial-pistol serial and supplied collision key remain distinct from
 /// Session identities. The integration owner resolves the selected key.
 pub struct WorldHit {
+    /// Actual emitted partial shot; never a canonical state77 actor identity.
+    /// Explicit synthetic/legacy hits have no such receipt.
+    pub source: Option<OwnedHit>,
     pub object: u32,
     pub serial: u32,
     pub motion: crate::damage_impulse::Motion,
@@ -41,6 +49,23 @@ pub struct WorldHit {
 }
 
 impl Pistol {
+    pub fn source_camera(&mut self, position: [f32; 3]) -> Result<(), &'static str> {
+        if !position.into_iter().all(f32::is_finite) {
+            return Err("pistol source camera is nonfinite");
+        }
+        self.source_camera = Some(position);
+        Ok(())
+    }
+    pub fn bind_source(&mut self, owner: crate::resident_states::Id) -> Result<(), &'static str> {
+        if self.fired != 0
+            || !self.shots.is_empty()
+            || self.source_owner.is_some_and(|previous| previous != owner)
+        {
+            return Err("pistol source binding requires its original owner before firing");
+        }
+        self.source_owner = Some(owner);
+        Ok(())
+    }
     pub fn from_initial(equipment: Initial, catalog: &Catalog) -> Result<Self, &'static str> {
         let slot =
             usize::try_from(equipment.selected).map_err(|_| "invalid selected weapon slot")?;
@@ -62,6 +87,9 @@ impl Pistol {
             .clone();
         Shot::new(&definition, [0.; 3], [0., 1., 0.])?;
         Ok(Self {
+            source_owner: None,
+            source_camera: None,
+            emitted: Default::default(),
             definition,
             shots: Vec::new(),
             impacts: Vec::new(),
@@ -73,6 +101,10 @@ impl Pistol {
         })
     }
     pub fn reset(&mut self) {
+        // A development reset is not a fresh Session/actor or firing epoch.
+        self.source_owner = None;
+        self.source_camera = None;
+        self.emitted.clear();
         self.shots.clear();
         self.impacts.clear();
         self.fired = 0;
@@ -90,6 +122,9 @@ impl Pistol {
         terrain: &Terrain,
         objects: &[crate::projectile_world::Object],
     ) -> Result<Frame, &'static str> {
+        if self.source_owner.is_some() && self.source_camera.is_none() {
+            return Err("bound pistol requires the actual source camera sample");
+        }
         self.cooldown = crate::mecc_fire::advance_clock(self.cooldown, dt, Precision::Double53)?;
         // The complete native base-pistol ammo getter returns available=1 and
         // its use operation leaves the supplied no-gyro normal inventory intact.
@@ -113,6 +148,12 @@ impl Pistol {
                 .checked_add(1)
                 .ok_or("mission projectile serial overflow")?;
             shot.serial = self.fired;
+            if let Some(owner) = self.source_owner {
+                self.emitted.insert(
+                    shot.serial,
+                    source::Emission::new(owner, &self.definition, self.source_camera.unwrap()),
+                );
+            }
             self.shots.push(shot);
         }
         for (_, ttl) in &mut self.impacts {
@@ -130,7 +171,9 @@ impl Pistol {
             let query =
                 crate::projectile_world::query(u32::MAX, 1, start, shot.motion.position, objects)?;
             if let Some(object) = query.selected {
-                world_hits.push(WorldHit {
+                let emitted = self.emitted.remove(&shot.serial);
+                let mut hit = WorldHit {
+                    source: None,
                     object,
                     serial: shot.serial,
                     motion: crate::damage_impulse::Motion {
@@ -139,8 +182,12 @@ impl Pistol {
                     },
                     older: shot.older,
                     point: query.point,
-                    damage: self.definition.direct_damage,
-                });
+                    damage: emitted
+                        .as_ref()
+                        .map_or(self.definition.direct_damage, source::Emission::damage),
+                };
+                hit.source = emitted.map(|emitted| emitted.finish(&hit));
+                world_hits.push(hit);
                 self.world_hits += 1;
                 self.impacts.push((query.point, 0.7));
                 impacts.push(Impact::World(query));
@@ -158,6 +205,7 @@ impl Pistol {
                     Event::Expired | Event::Outside => {}
                 }
             }
+            self.emitted.remove(&shot.serial);
             self.retired += 1;
         }
         self.shots = live;
@@ -328,6 +376,132 @@ mod tests {
         }
     }
 
+    fn source_owner(ticket: u64) -> crate::resident_states::Id {
+        let seed = crate::state_storage::Seed::from_program_for(
+            &giants_formats::class_program::parse(&[0x1e, 2, 255]).unwrap(),
+            crate::state_storage::Profile::Debug,
+            Precision::Double53,
+        )
+        .unwrap();
+        crate::resident_states::Session::new(ticket)
+            .register(2, &seed, &[], crate::object_lists::DirectFlags::default())
+            .unwrap()
+    }
+    #[test]
+    fn actual_contact_receipt_retains_shooter_and_refuses_changed_hit_or_late_binding() {
+        let (catalog, terrain) = fixture();
+        let owner = source_owner(711);
+        for tamper in 0..4 {
+            let mut pistol = Pistol::from_initial(Initial::non_base(true), &catalog).unwrap();
+            pistol.bind_source(owner).unwrap();
+            pistol.source_camera([1., 5., 5.]).unwrap();
+            let mut frame = pistol
+                .step(
+                    0.05,
+                    [1., 5., 5.],
+                    [29., 5., 5.],
+                    true,
+                    &terrain,
+                    &[wall(8.)],
+                )
+                .unwrap();
+            let mut hit = frame.world_hits.pop().unwrap();
+            assert!(pistol.bind_source(source_owner(712)).is_err());
+            match tamper {
+                1 => hit.damage += 1.,
+                2 => hit.object += 1,
+                3 => hit.motion.previous[0] += 1.,
+                _ => {}
+            }
+            let result = hit.into_source();
+            if tamper == 0 {
+                let hit = result.unwrap();
+                assert_eq!(
+                    (hit.owner(), hit.serial(), hit.class(), hit.definition()),
+                    (owner, 1, 38, 17)
+                );
+                assert_eq!(hit.damage(), 12.);
+                assert_eq!(hit.point(), hit.motion().current);
+            } else {
+                assert!(result.is_err());
+            }
+        }
+        let mut unbound = Pistol::from_initial(Initial::non_base(true), &catalog).unwrap();
+        assert!(
+            unbound
+                .step(
+                    0.05,
+                    [1., 5., 5.],
+                    [29., 5., 5.],
+                    true,
+                    &terrain,
+                    &[wall(8.)]
+                )
+                .unwrap()
+                .world_hits
+                .pop()
+                .unwrap()
+                .into_source()
+                .is_err()
+        );
+        unbound.reset();
+        assert!(unbound.source_owner.is_none());
+    }
+
+    #[test]
+    fn in_flight_source_keeps_emission_definition_and_camera_until_real_contact() {
+        let (catalog, terrain) = fixture();
+        let mut pistol = Pistol::from_initial(Initial::non_base(true), &catalog).unwrap();
+        pistol.bind_source(source_owner(713)).unwrap();
+        assert!(
+            pistol
+                .step(
+                    0.01,
+                    [1., 5., 5.],
+                    [29., 5., 5.],
+                    true,
+                    &terrain,
+                    &[wall(8.)]
+                )
+                .is_err()
+        );
+        pistol.source_camera([1., 5., 6.]).unwrap();
+        let first = pistol
+            .step(
+                0.01,
+                [1., 5., 5.],
+                [29., 5., 5.],
+                true,
+                &terrain,
+                &[wall(8.)],
+            )
+            .unwrap();
+        assert!(first.fired && first.world_hits.is_empty());
+        pistol.definition.direct_damage = 999.;
+        pistol.definition.class = 47;
+        pistol.definition.range = 1.;
+        pistol.source_camera([100., 100., 100.]).unwrap();
+        let hit = pistol
+            .step(
+                0.01,
+                [1., 5., 5.],
+                [29., 5., 5.],
+                false,
+                &terrain,
+                &[wall(8.)],
+            )
+            .unwrap()
+            .world_hits
+            .pop()
+            .unwrap()
+            .into_source()
+            .unwrap();
+        assert_eq!(
+            (hit.damage(), hit.class(), hit.range(), hit.camera_origin()),
+            (12., 38, 700., [1., 5., 6.])
+        );
+        assert!(pistol.emitted.is_empty());
+    }
     #[test]
     fn terrain_occludes_objects_beyond_its_contact_in_the_same_frame() {
         let (catalog, terrain) = fixture();

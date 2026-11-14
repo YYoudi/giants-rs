@@ -9,6 +9,119 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Main integration of Ripper movement and attacks
 
+### Keep living AI active at an unsupported lethal contact
+
+Source `f940069e1147284fc27e136167b5289804d99cfb`, GNU executable SHA256
+`97b0b88ab9c7ae105078afd22dbfd514a92a4067a40777dd8ab7f2af853a4334`,
+fixes an ordinary pistol contact that previously quarantined the entire victim
+when its missing lethal services were reached. The contact now has an explicit
+unsupported-lethal result before opening a callback attempt. Its shot is consumed;
+the callback changes no damage or RNG and emits no death services. The living owner keeps its
+primary, animation, collision and audio. Actual failures after callback execution
+still retain their partial prefix and quarantine the affected actor.
+
+The rendered Wife run passes (exit0, about158 seconds; image inspected): genuine
+shots 4/5/6 hit classic actor163, with damage 0 ->12 ->24 ->36 against its actual
+limit40. Shot 8 reaches the unsupported lethal contact at step10229. The same
+actor completes primary step10469, 240 steps later, without quarantine; damage
+remains36. A subsequent actual class90 launch at10398 and ground reaction at10470
+are logged. Hurt/fire cues use actual attached muted sinks. The image shows the
+living Ripper above Mecc. Commands are supplied normal player inputs, not Windows
+combat, and no NPC pose/health/RNG is injected. This is an AI-continuation fix;
+Ripper death, drops and the full reciprocal lethal encounter remain incomplete.
+
+The same executable separately passes actual Windows menu entry, both opening
+Escape skips, default left-mouse shot1 on each of tickets1/3, return/re-entry and
+second return. Each ticket releases185 residents with zero remaining resident
+bytes/registrations/entities/audio assets. Audio requests were still pending at
+both returns; the common transport keeps only its current wanted ticket. This is
+ordinary Windows menu/fire/lifecycle evidence, not an OS-aimed Ripper fight.
+
+All 1,116 portable Rust tests, strict Clippy, formatting and the installed two-ticket
+frame/audio-owner control pass. The source-history scan reports no findings.
+The prototype PS2 lookup was repeated against both pinned identities before
+resuming the callback. `ripper_shot` remains unknown; no new attribution is
+confirmed. The earlier confirmed corpse-helper identity does not supply its
+missing ordinary lethal producers. The public .14.1 executable is older; no
+competing preview was published from this NPC lane.
+
+### Partial-pistol Ripper receiver (local rendered nonlethal injury)
+
+The merged continuation source `282417b52cbca5ac7f2b33433fc08850feac1a47`, GNU
+executable SHA256
+`c5e805558ee931a5611a1bda0bdf41a9a13c489639a8cfbcc074d6a03f80fee6`,
+passes the rendered Wife approach/fire endpoint (exit0, about159 seconds; private
+image inspected). Its ninth genuine pistol shot hits actual classic actor163:
+damage0 ->12, 49 particles /98 uploaded blood quads, followed by30 ordinary fixed
+steps with the target active. Cue1266 starts on an actual muted sink attached to
+that same actor. No NPC pose, damage, guards, RNG or availability is injected.
+The diagnostic stops firing after its first accepted injury; this proves neither
+lethal Ripper services nor a full fight, death or Windows-aimed encounter.
+
+The same executable separately passes the actual Windows menu path, first
+cinematic skip, ordinary default left-mouse shot, R view, return and fresh Wife
+entry with its natural opening. Another default-mouse shot succeeds on the fresh
+ticket. Tickets1/3 each release185 residents, with zero remaining resident bytes,
+registrations, entities and audio assets. The first return still had pending
+audio requests at release; they do not survive into the next ticket's transport.
+The test window is closed afterwards. These short real inputs do not establish
+an OS-aimed Ripper fight or post-combat death/cleanup.
+
+On the same executable, the separate incoming-hit route also exits0 (about150
+seconds, inspected HUD90). Actual class90 projectile246 reaches the controlled
+Mecc at step10287: damage0 ->10, matching controller/HUD health90 and a changed
+canonical/controller velocity response. Actual muted local sinks start cues1504
+and1684. The observer waits240 following fixed steps. This adds ranged injury
+and the controller impulse to the receipt, rather than inferring damage from a
+visible shot. The outgoing/incoming runs are separate; they are not one complete
+fight, a death or a native recoil-fidelity comparison.
+
+The earlier `6dc4dd4` executable
+`10eb8b9f3c03e4313c2abd857f237c0ad5019cc9516c72756d6124679a7d80a4`
+already rendered actual shot5 /actor162 /damage12 and30 particles, but its queued
+hurt cue was cancelled because ordinary Rippers had no audio-position owner.
+The corrected transport reads current canonical fields only for declared actors
+with a real completed frame. It invents no presentation-position mirror; absent,
+foreign or quarantined owners remain unavailable. The installed two-ticket
+Wife-frame control checks that position contract. Its graphical result above is
+separate from the callback's16 zero-blood/no-registry native controls.
+
+The ordinary selected pistol now binds to the constructed controlled Mecc before
+its first motion. Each emitted class38 shot retains its actual definition,
+damage, range flags and camera origin until contact. An immutable `OwnedHit`
+receipt keeps its partial serial distinct from every Session actor ID. Changed
+public hit fields, missing source/camera, late shooter replacement and repeated
+owner/serial contacts are refused. Development reset clears this provenance;
+it cannot manufacture a fresh actor/firing epoch. Existing synthetic/legacy hits
+carry no receipt and cannot enter the new Ripper receiver.
+
+The bounded receiver checks the actual completed Ripper pose, current controlled
+shooter, persistent process guards, source range gate and ordinary single-player
+wrapper. Its callback projection uses a separate `PartialShot` reference for the
+verified class38 source-kind/owner reads; it never allocates or claims a canonical
+state77 projectile. Actor references in resulting state/audio stay actual Session
+IDs. Nonlethal health, stopped/queued actor sounds, blood and source propagation
+use the acquired PC callback; previous victim/cohort/queue/pool/RNG changes survive
+late failure without replay. Lethal, detached/forwarded and unsupported families
+remain refused, not converted to a successful death or generic projectile.
+
+Where the Vimp component exists, Ripper hits use that same blood particle pool,
+capacity, update and renderer. Ripper-only scenes use their own configured mission
+pool. No second producing pool is introduced in mixed scenes. Unsupported actor
+callbacks quarantine that actor while independent AI continues.
+
+Sixteen original-PC callback controls cover both classes, source attribution,
+action transitions, neighbor propagation and existing credit preservation, with
+matching state/RNG/cues. They supply source77/cohort fields, zero-count blood and
+an absent sound registry; they establish neither native projectile construction
+nor rendered blood/audio. Literal prototype PS2 `ripper_shot` remains unknown;
+the private worksheet retains pinned binary identities and old PC aliases.
+The new `GIANTS_MISSION_RIPPER_CAPTURE_PISTOL=1` diagnostic supplies only normal
+Mecc commands and requires actual nonlethal canonical Ripper damage, a still-live
+completed target and blood quads. Ordinary firing needs no diagnostic variable.
+This local receipt is outside the published .14.1 executable; common preview
+publication remains the integration lane's responsibility.
+
 ### Persistent damage-guard ownership and rendered nonlethal injury
 
 The continuation source `b74bee8a81a8d02e0c1b438df66144259cb53fe7`, GNU

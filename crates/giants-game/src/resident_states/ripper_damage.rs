@@ -1,8 +1,11 @@
 //! Owned callback scope and partial publication for acquired Ripper damage.
 //! Prototype PS2 `ripper_shot` remains an unknown relationship to PC debug-1.1
-//! 0x004dafd0. Hit routing, canonical projectiles and lethal services stay separate.
+//! 0x004dafd0. The typed partial-pistol entry composes bounded hit routing;
+//! canonical projectile allocation/launch and lethal services stay separate.
 use super::*;
 use crate::{audio_parameters::Random, state23_damage};
+mod partial_pistol;
+pub use partial_pistol::{Contact as PartialPistolContact, Services as PartialPistolServices};
 
 #[derive(Debug, Default)]
 pub(super) struct Owned {

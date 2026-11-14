@@ -758,6 +758,7 @@ pub(super) fn update(
         {
             let tick = controller.steps;
             let mut building_fire = false;
+            let mut ripper_fire = false;
             if replay_running {
                 let probe = std::env::var("GIANTS_SUBJECTIVE_PROBE").ok();
                 let toggle = match probe.as_deref() {
@@ -857,6 +858,7 @@ pub(super) fn update(
                 .expect("ordinary Ripper input diagnostic failed");
                 axes = input.axes;
                 thrust = input.thrust;
+                ripper_fire = input.fire;
                 boost = input.boost;
                 if input.capture {
                     controller.finish_step = tick + 1;
@@ -1395,7 +1397,9 @@ pub(super) fn update(
                     );
                 }
             }
-            let fire = if replay_running && crate::frontend_scene::building_interaction_probe() {
+            let fire = if replay_running && ripper_probe::enabled() {
+                ripper_fire
+            } else if replay_running && crate::frontend_scene::building_interaction_probe() {
                 building_fire
             } else if replay_running && crate::frontend_scene::objective_interaction_probe() {
                 false
@@ -1483,10 +1487,35 @@ pub(super) fn update(
                             controller.state.mission_npc_hit_class(hit.object),
                             Some(73 | 230)
                         ) {
-                            error!(
-                                "mission_ripper_hit_unavailable ticket={} owner={owner:?} projectile_serial={} reason=damage_consumer_not_connected damage_callback=false",
-                                controller.ticket, hit.serial
-                            );
+                            match runtime.hit_normal_ripper(
+                                controller.ticket,
+                                u64::from(controller.steps) + 1,
+                                owner,
+                                hit,
+                            ) {
+                                Ok(events) => {
+                                    for event in events {
+                                        audio.local.write(crate::mission_audio::Request {
+                                            ticket: controller.ticket,
+                                            event,
+                                        });
+                                    }
+                                }
+                                Err(error) => {
+                                    error!(
+                                        "mission_ripper_hit_refused ticket={} owner={owner:?} error={error}",
+                                        controller.ticket
+                                    );
+                                    for event in
+                                        runtime.take_normal_ripper_sounds(controller.ticket)
+                                    {
+                                        audio.local.write(crate::mission_audio::Request {
+                                            ticket: controller.ticket,
+                                            event,
+                                        });
+                                    }
+                                }
+                            }
                             continue;
                         }
                         let local = runtime

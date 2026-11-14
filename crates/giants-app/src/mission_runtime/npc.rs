@@ -120,6 +120,11 @@ pub(super) struct View {
     pub effect_contexts: usize,
 }
 impl State {
+    pub(in crate::mission_runtime) fn shared_particles_mut(
+        &mut self,
+    ) -> &mut giants_game::blood_particles::Pool {
+        &mut self.blood.particles
+    }
     pub(super) fn blood_quads(&self) -> Vec<giants_game::blood_particles::Quad> {
         self.blood.particles.quads().collect()
     }

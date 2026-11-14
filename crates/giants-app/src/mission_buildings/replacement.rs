@@ -361,6 +361,7 @@ mod tests {
         let persistent_before = state.mission_colliders().len();
         let projectile_before = state.projectile_objects.len();
         let hit = |serial, damage| giants_game::mecc_pistol::WorldHit {
+            source: None,
             object: old_id,
             serial,
             point,

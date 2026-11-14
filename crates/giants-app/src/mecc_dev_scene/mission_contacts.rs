@@ -204,7 +204,7 @@ impl State {
         }
         if next != self.next_contact_key {
             println!(
-                "mission_npc_contacts ticket={ticket} vimps={} rippers={} source=current_dedicated_collision_models damage_admission=vimp_only native_world_verified=false",
+                "mission_npc_contacts ticket={ticket} vimps={} rippers={} source=current_dedicated_collision_models damage_admission=vimp_and_nonlethal_ripper_partial_pistol native_world_verified=false",
                 contacts.iter().filter(|contact| contact.class == 8).count(),
                 contacts
                     .iter()

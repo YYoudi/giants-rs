@@ -150,6 +150,7 @@ fn installed_normal_barracks_hits_update_owned_health_geometry_and_retire_effect
                     414,
                     &mut viewer,
                     giants_game::mecc_pistol::WorldHit {
+                        source: None,
                         object,
                         serial: shots + 1,
                         older: point,

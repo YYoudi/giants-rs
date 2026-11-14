@@ -26,6 +26,11 @@ pub(super) struct Driver {
     pub(super) flights: BTreeMap<Id, u64>,
 }
 impl Driver {
+    pub(super) fn quarantine_actor(&mut self, id: Id, step: u64, error: String) {
+        self.actor_failures.insert(id, error);
+        self.first_quarantine_step.get_or_insert(step);
+        self.completed.remove(&id);
+    }
     pub(super) fn completed(&self, id: Id) -> Option<(u64, u32)> {
         self.completed.get(&id).copied()
     }
@@ -787,6 +792,7 @@ impl State {
         if self.driver.sample == Some(frame.sample) {
             return Ok(vec![]);
         }
+        self.advance_blood(&frame, random)?;
         session.controlled_mecc_motion(frame.controlled, frame.step)?;
         let mut sounds = self.take_sounds();
         let result = self.advance_inner(session, &frame, random, &mut sounds, device);
@@ -866,9 +872,7 @@ impl State {
                         "mission_ripper_actor_quarantined ticket={} step={} owner={:?} class={} error={error} frame_acknowledged=false independent_ai_continues=true",
                         frame.ticket, frame.step, owner.id, owner.declaration.class
                     );
-                    self.driver.actor_failures.insert(owner.id, error);
-                    self.driver.first_quarantine_step.get_or_insert(frame.step);
-                    self.driver.completed.remove(&owner.id);
+                    self.driver.quarantine_actor(owner.id, frame.step, error);
                     continue;
                 }
             };

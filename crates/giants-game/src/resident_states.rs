@@ -48,6 +48,7 @@ mod parented_frame_tests;
 mod passive_frame_tests;
 mod ripper_calls;
 mod ripper_damage;
+pub use ripper_damage::{PartialPistolContact, PartialPistolServices};
 mod ripper_melee;
 pub use ripper_melee::Services as RipperMeleeServices;
 mod ripper_contacts;
@@ -582,6 +583,7 @@ pub struct Session {
     mecc_shot_record: Option<crate::mecc_shot::Record>,
     mecc_reticle_owner: Option<Id>,
     mecc_target_range: Option<(Id, bool)>,
+    partial_pistol_contacts: std::collections::BTreeSet<(Id, u32)>,
 }
 impl Session {
     /// Stable local collision key for an actor still owned by this Session.
@@ -618,6 +620,7 @@ impl Session {
             mecc_shot_record: None,
             mecc_reticle_owner: None,
             mecc_target_range: None,
+            partial_pistol_contacts: Default::default(),
         }
     }
     /// Bind known contact names from the owning mission's prepared colliders.
@@ -11579,6 +11582,7 @@ impl Session {
         self.ripper_events.clear();
         self.mecc_reticle_owner = None;
         self.mecc_target_range = None;
+        self.partial_pistol_contacts.clear();
         // A visitor or target provider can cancel while its phase is on the
         // stack. Running leases are released by their outer calls, never by
         // clearing registries and accidentally admitting nested work.

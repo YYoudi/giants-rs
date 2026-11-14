@@ -22,10 +22,15 @@ impl State {
     pub(crate) fn initialize_normal_health(
         &mut self,
         health: giants_game::mecc_damage::State,
+        owner: Id,
     ) -> Result<(), String> {
         if self.owned_pose.is_some() || self.body.source.is_none() {
             return Err("initial health requires the ordinary source Mecc body".into());
         }
+        self.mission_pistol
+            .as_mut()
+            .ok_or("ordinary source pistol absent")?
+            .bind_source(owner)?;
         self.health = health;
         Ok(())
     }

@@ -533,7 +533,7 @@ impl Runtime {
         }
         let owner = active.player_owner()?;
         let health = active.resident_states.mecc_health(owner)?;
-        controller.initialize_normal_health(health)?;
+        controller.initialize_normal_health(health, owner)?;
         println!(
             "mission_mecc_initial_health ticket={ticket} owner={owner:?} health={health:?} source=constructed_session before_first_motion=true"
         );
@@ -703,6 +703,16 @@ impl Runtime {
                 .construction_fields
                 .as_ref()?;
             return (fields.object_flags & 0xc000 == 0).then_some(fields.position);
+        }
+        if let Some(position) = active
+            .payload
+            .rippers
+            .as_ref()
+            .ok()
+            .and_then(Option::as_ref)
+            .and_then(|rippers| rippers.audio_position(&active.resident_states, id))
+        {
+            return Some(position);
         }
         if active.resident_states.positional_impact(id).is_some() {
             let fields = active
@@ -1441,6 +1451,64 @@ impl Runtime {
             .map(rippers::State::take_sounds)
             .unwrap_or_default()
     }
+    pub(crate) fn hit_normal_ripper(
+        &mut self,
+        ticket: u64,
+        step: u64,
+        target: giants_game::resident_states::Id,
+        hit: giants_game::mecc_pistol::WorldHit,
+    ) -> Result<Vec<crate::mission_audio::Event>, String> {
+        self.bind_normal_combat_globals(ticket)?;
+        let suppressed = self
+            .normal_combat_globals
+            .as_ref()
+            .ok_or("actual combat guard owner absent")?
+            .world_suppressed(ticket)?;
+        if suppressed {
+            println!(
+                "mission_ripper_pistol_suppressed ticket={ticket} owner={target:?} source=actual_process_guards damage_acknowledged=false"
+            );
+            return Ok(vec![]);
+        }
+        let active = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("Ripper hit ticket absent")?;
+        let owner = active.player_owner()?;
+        if active.owned_mecc.is_some() || active.controlled_mecc_owner != Some(owner) {
+            return Err("Ripper hit requires actual ordinary controlled Mecc".into());
+        }
+        let shared_blood = active
+            .payload
+            .npcs
+            .as_mut()
+            .ok()
+            .and_then(Option::as_mut)
+            .map(npc::State::shared_particles_mut);
+        let rippers = active
+            .payload
+            .rippers
+            .as_mut()
+            .map_err(|e| e.clone())?
+            .as_mut()
+            .ok_or("Ripper component absent")?;
+        rippers.hit(
+            &mut active.resident_states,
+            rippers::PistolHit {
+                ticket,
+                step,
+                target,
+                projectile: hit,
+                routing: giants_game::hit_routing::Context {
+                    blocked: [u32::from(suppressed), 0],
+                    mode: 0,
+                },
+            },
+            shared_blood,
+            &mut active.variant_random,
+        )
+    }
     pub(crate) fn hit_normal_vimp(
         &mut self,
         ticket: u64,
@@ -1888,12 +1956,27 @@ impl Runtime {
     }
     /// Copied canonical particles; this read neither advances clocks nor RNG.
     pub(crate) fn npc_blood_quads(&self, ticket: u64) -> Vec<giants_game::blood_particles::Quad> {
-        self.active
+        let Some(active) = self.active.as_ref().filter(|a| a.ticket == ticket) else {
+            return vec![];
+        };
+        let mut quads = active
+            .payload
+            .npcs
             .as_ref()
-            .filter(|a| a.ticket == ticket)
-            .and_then(|a| a.payload.npcs.as_ref().ok()?.as_ref())
+            .ok()
+            .and_then(Option::as_ref)
             .map(npc::State::blood_quads)
-            .unwrap_or_default()
+            .unwrap_or_default();
+        if let Some(rippers) = active
+            .payload
+            .rippers
+            .as_ref()
+            .ok()
+            .and_then(Option::as_ref)
+        {
+            quads.extend(rippers.blood_quads());
+        }
+        quads
     }
     pub(crate) fn npc_effect_draws(
         &self,
