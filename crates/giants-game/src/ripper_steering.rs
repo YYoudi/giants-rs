@@ -107,10 +107,23 @@ pub fn chase_location(mut state: State, target: [f32; 3]) -> Result<State, &'sta
 /// Class230 mode67 keeps the previous forward command outside the angular
 /// threshold. Within it the source writes full forward input, without an
 /// orbit, distance-scaled speed or a forced position update.
-pub fn close_chase(mut state: State, target: [f32; 3]) -> Result<State, &'static str> {
+pub fn close_chase(state: State, target: [f32; 3]) -> Result<State, &'static str> {
+    close_chase_with_threshold(state, target, 10.)
+}
+/// Same acquired command writer with an independently established caller gate.
+/// The classic mode41 caller uses five degrees. Each caller's gate must be
+/// established independently even when the command writer is shared.
+pub fn close_chase_with_threshold(
+    mut state: State,
+    target: [f32; 3],
+    threshold: f32,
+) -> Result<State, &'static str> {
     validate(&state, target)?;
+    if !threshold.is_finite() || threshold <= 0. {
+        return Err("close steering requires its actual positive finite angular gate");
+    }
     let error = turn(&mut state, target);
-    if error.abs() < 10. {
+    if error.abs() < threshold {
         state.commands[2] = 32;
     }
     state.target_position = target;

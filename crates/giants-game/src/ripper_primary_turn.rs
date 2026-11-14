@@ -12,6 +12,8 @@ use crate::{
     ripper_turn_completion::{self, Parameters},
     state23_entry::{self, Context, State as Entry},
 };
+mod classic_orbit;
+pub use classic_orbit::ClassicOrbitParameters;
 mod cooldown;
 pub use cooldown::VariantCooldownContext;
 #[derive(Clone, Debug)]
@@ -100,6 +102,7 @@ mod tests {
     include!("ripper_primary_turn/melee_tests.rs");
     include!("ripper_primary_turn/retreat_tests.rs");
     include!("ripper_primary_turn/classic_close_tests.rs");
+    include!("ripper_primary_turn/classic_orbit_tests.rs");
     struct Backend {
         removals: u32,
         sounds: u32,
@@ -1441,6 +1444,7 @@ pub enum Outcome {
     CompletedVariantRetreat,
     CompletedRetreat,
     CompletedClassicClose,
+    CompletedClassicOrbit,
 }
 #[derive(Clone, Debug)]
 pub struct Machine<K, E> {
@@ -1618,6 +1622,7 @@ enum Branch<'a, K> {
     VariantRetreat,
     Retreat(f32),
     ClassicClose(f32),
+    ClassicOrbit(ClassicOrbitParameters),
     Turn(Parameters),
     Pursuit(f32),
     Emergence(f32),
@@ -2084,6 +2089,12 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Branch::VariantRetreat => 71,
             Branch::Retreat(_) => 43,
             Branch::ClassicClose(_) => 41,
+            Branch::ClassicOrbit(_) => {
+                if !matches!(original.entry.mode, 35 | 36 | 45) {
+                    return Err("classic orbit requires mode35/36/45".into());
+                }
+                original.entry.mode
+            }
             Branch::Awakening(_) => {
                 if !matches!(original.entry.mode, 0 | 31) {
                     return Err("awakening primary requires mode0/31".into());
@@ -2254,6 +2265,14 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                     return Err(error);
                 }
             }
+        } else if let Branch::ClassicOrbit(parameters) = branch {
+            if let Err(error) =
+                classic_orbit::advance(&mut state, frame, parameters, random, services)
+            {
+                self.state = state;
+                self.failed = Some(error.clone());
+                return Err(error);
+            }
         } else if let Branch::ClassicClose(attack_range) = branch {
             let target = state
                 .retaliation
@@ -2272,8 +2291,11 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                     state.retaliation = None;
                 } else {
                     let target = target.unwrap();
-                    state.steering =
-                        crate::ripper_steering::close_chase(state.steering, target.position)?;
+                    state.steering = crate::ripper_steering::close_chase_with_threshold(
+                        state.steering,
+                        target.position,
+                        5.,
+                    )?;
                     state.entry.flags = state.steering.flags;
                     state.entry.packed =
                         u32::from_le_bytes(state.steering.commands[..4].try_into().unwrap());
@@ -2707,6 +2729,7 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Branch::Emergence(p) => Some(p),
             Branch::Awakening(a) => Some(a.buried_speed_percent),
             Branch::Retreat(p) => Some(p),
+            Branch::ClassicOrbit(p) => Some(p.buried_speed_percent),
             _ => None,
         };
         if let Some(percent) = reduced
@@ -2740,6 +2763,8 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Outcome::CompletedRetreat
         } else if matches!(branch, Branch::ClassicClose(_)) {
             Outcome::CompletedClassicClose
+        } else if matches!(branch, Branch::ClassicOrbit(_)) {
+            Outcome::CompletedClassicOrbit
         } else if matches!(branch, Branch::Awakening(_)) {
             Outcome::CompletedAwakening
         } else if mode == 32 {

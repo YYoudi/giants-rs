@@ -459,6 +459,15 @@ impl ActorWorldServices for Callbacks<'_, '_> {
                 self.random,
                 &mut services,
             )?,
+            (73, 35 | 36 | 45) => session.update_ripper_classic_orbit_on_static_terrain(
+                id,
+                input,
+                primary::ClassicOrbitParameters::from_globals(self.globals)
+                    .map_err(|e| e.to_string())?,
+                &terrain,
+                self.random,
+                &mut services,
+            )?,
             (73, 41) => session.update_ripper_classic_close(
                 id,
                 input,
@@ -607,8 +616,7 @@ impl ActorWorldServices for Callbacks<'_, '_> {
         let selection = self.effect_selection(session, id)?;
         let combat = session.state23_combat(id).ok_or("Ripper combat absent")?;
         let class = session.get(id).unwrap().class;
-        if !matches!((class, combat.mode), (73, 31..=34 | 37..=39 | 41..=44) | (230, 61..=69 | 71))
-        {
+        if !matches!((class, combat.mode), (73, 31..=39 | 41..=45) | (230, 61..=69 | 71)) {
             return Err(format!(
                 "Ripper class{class} mode{} secondary requires an acquired ordinary selection",
                 combat.mode

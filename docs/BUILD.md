@@ -1,5 +1,11 @@
 # Build on Windows with MinGW
 
+The local classic orbit continuation uses `cargo test --locked -p giants-game
+classic_orbit --target x86_64-pc-windows-gnu`. Private native controls require
+`GIANTS_RIPPER_CLASSIC_ORBIT_CONTROLS`; the installed constructor control
+requires `GIANTS_NPC_ROOT`. Use `-- --include-ignored` only with the corresponding
+inputs set. Neither test establishes ordinary graphical availability.
+
 The local mode41 continuation has `cargo test --locked -p giants-game
 classic_close --target x86_64-pc-windows-gnu`. The optional
 `native_classic_close_controls` test uses private identity-bound

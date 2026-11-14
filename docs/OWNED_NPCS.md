@@ -113,7 +113,7 @@ actual destination, strict horizontal attack range and its class-specific cues.
 Loss of the target requests mode43; entering range requests mode42. The mode42
 animation selection is acquired, but its following primary/melee dispatch is
 still required. This does not fabricate damage or a completed attack callback.
-Eighteen original helper contexts cover angles, distance boundaries, a vertically
+Twenty-two original helper contexts cover angles, distance boundaries, a vertically
 separated target, inactive/dead targets and the controlled-player suppression
 branch. Actor/target headers, globals and sound-registry absence are supplied.
 Rust compares the acquired steering/decisions, checks late audio failure without
@@ -121,11 +121,37 @@ replay and uses installed constructors for the owned primary/target relation.
 Prototype PS2 lookup via `ripper_move` and the `ripper_chase` prefix supplies
 navigation candidates only; attribution remains unknown.
 
+The additional angular controls expose and correct an earlier shared-helper
+mistake: classic close pursuit uses its independently verified five-degree gate.
+The variant caller is unchanged; sharing a command writer does not establish
+identical caller constants.
+
 The read-only close-pursuit endpoint requires a real launch attributed to the
 same actor and at least20 horizontal units of canonical displacement within its
 continuous mode41 phase. It changes neither the attack range nor actor fields.
 Rendered acceptance of this new continuation remains pending; reciprocal damage,
 death, special attacks, other maps and full Windows/menu lifecycle remain open.
+
+### Classic orbit and burrowing continuation (local)
+
+The rendered attempt on source `297f2b3` reaches the real classic actors but
+refuses modes35/45 before its close-pursuit endpoint (exit101, no capture).
+Those actually reached branches, plus their buried mode36 continuation, now
+use the ordinary Session driver and secondary animation selection. They retain
+source orbit decisions, independent random draws, actual dirt-context requests,
+reciprocal marker closing, static terrain queries and positional sound requests.
+The completed burrowing animation enters mode36, not mode35. Common movement
+consumes the produced commands; no creature position or countdown is invented.
+
+Twenty-five original-helper controls compare orbit steering, near/far decisions,
+lost targets, body-word tests, vertical separation and animation boundaries.
+The original ground query executes on a supplied flat grid. Existing dirt is
+an opaque supplied identity in those controls, not successful FX construction.
+The separate installed-source control uses actual class73, marker and dirt
+constructors, including ownership retained after a late audio failure. These
+controls do not establish rendered acceptance, reciprocal damage or death.
+Prototype PS2 `ripper_move` remains an unknown attribution; see the central
+method and symbol navigation index. No new identity is confirmed.
 
 ## Historical Ripper integration receipts
 

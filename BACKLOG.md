@@ -280,12 +280,22 @@ installed owner test pass; rendered acceptance remains pending. The real world
 combat guards, player projectile source, special attacks and death remain open.
 The routed `d56a0e8` Wife GPU attempt reaches classic actor162 and real class90
 launches, then refuses mode41 at step10204 (exit101/no capture). That reached
-close-pursuit primary/secondary is now locally connected with18 bounded native
+close-pursuit primary/secondary is now locally connected with22 bounded native
 helper comparisons and source-owned target tests. It retains actual movement
 commands, horizontal range and cues. Mode42 entry animation is admitted; its
 primary and genuine kind3 injury consumer remain the next classic encounter
 blocker, alongside the shared-world guards. No completed melee or new public
 preview is claimed; see OWNED_NPCS.md for precise evidence and limitations.
+
+The subsequent `297f2b3` rendered encounter instead reaches modes35/45 and fails
+their unsupported selection (exit101/no capture). Classic modes35/36/45 now
+connect through the ordinary driver: real orbit decisions/commands, terrain,
+dirt context, reciprocal marker and audio contracts, without forced NPC motion.
+Twenty-five bounded original-helper controls agree; actual source constructors
+check the shared owner bridge and retained writes after late sound failure.
+The five-degree classic close gate is corrected by four additional native
+counterexamples. New rendered acceptance is still required before main/build
+delivery; existing .13.3 download remains the last published receipt.
 
 Next NPC delivery: acquire and connect the genuine shared-world guards that
 block reciprocal contact, alongside the actual radial recipients and positive

@@ -501,6 +501,129 @@ fn source_classic_retreat_marks_real_child_and_restores_buried_parameter() {
 }
 
 #[test]
+#[ignore = "Requires GIANTS_NPC_ROOT; actual class73/marker/dirt constructors, supplied completed mode45 channel; not natural encounter or FX drawing"]
+fn source_classic_orbit_keeps_actual_dirt_and_child_on_late_failure() {
+    let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+    let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+    let globals =
+        giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+            .unwrap();
+    let image = Arc::new(
+        giants_formats::effect_image::parse(
+            &std::fs::read(root.join("Bin/fx_world_dust.bin")).unwrap(),
+        )
+        .unwrap(),
+    );
+    let flat = giants_formats::gti::Terrain {
+        source_flags: 0,
+        width: 5,
+        height: 5,
+        origin: [-2000.; 2],
+        spacing: 1000.,
+        height_bounds: [0.; 2],
+        fallback_texture: String::new(),
+        heights: vec![0.; 25],
+        colors: vec![],
+        tags: vec![5; 25],
+        consumed_bytes: 0,
+        opaque_tail: vec![],
+    };
+    let terrain =
+        crate::terrain_queries::StaticTerrainQuery::new(&flat, 0.001, Precision::Double53).unwrap();
+    for fail in [false, true] {
+        let ticket = 1950 + u64::from(fail);
+        let (mut session, id, peer) = source_for_class(&resources, ticket, true, 73);
+        let marker = crate::primary_surface_marker::Factory::new(&resources)
+            .construct(&mut session, id)
+            .unwrap();
+        session.prepare_surface_marker_world(marker).unwrap();
+        let mut combat = session.state23_snapshot(id).unwrap();
+        combat.mode = 45;
+        combat.retaliation = Some(peer);
+        let actor = session.residents.get_mut(&id.serial).unwrap();
+        actor.state23_combat = Some(combat);
+        actor.channels.as_mut().unwrap()[0] = [45, 1f32.to_bits(), 0, 0, 0, 0, 0, 0, 2];
+        let position = session
+            .get(id)
+            .unwrap()
+            .construction_fields
+            .as_ref()
+            .unwrap()
+            .position;
+        let subset = session.perception_subset(&[id, peer]).unwrap();
+        let frame = subset.frame().unwrap();
+        let mut pool = crate::attached_effect_context::Pool::new(ticket, Some(image.clone()));
+        let mut audio = Audio {
+            fail_play: if fail { Some(1256) } else { None },
+            ..Default::default()
+        };
+        let mut dirt = crate::ripper_dirt::Dirt::new(
+            &session,
+            id,
+            &mut pool,
+            crate::effect_initialization::Selection {
+                active_objects: session.counts().residents as u32,
+                quality: globals.scalar(0x13e0).unwrap(),
+                lite_distance: globals.scalar(0x1570).unwrap(),
+                camera: position,
+                recipient_position: position,
+            },
+            &mut audio,
+        )
+        .unwrap();
+        let mut random = Random(17);
+        let result = session.update_ripper_classic_orbit_on_static_terrain(
+            id,
+            FrameInput {
+                context: crate::state23_entry::Context {
+                    paused: false,
+                    native_mode: 0,
+                    parent_state: None,
+                    player: None,
+                    delta: 0.016,
+                },
+                frame: &frame,
+                range: 10000.,
+            },
+            crate::ripper_primary_turn::ClassicOrbitParameters::from_globals(&globals).unwrap(),
+            &terrain,
+            &mut random,
+            &mut dirt,
+        );
+        assert_eq!(result.is_err(), fail, "{result:?}");
+        let state = session.ripper_primary(id).unwrap().state();
+        assert_eq!(state.entry.mode, 36);
+        assert_eq!(state.parameter_184, 1.);
+        assert_eq!(state.timer, globals.scalar(0xd0).unwrap());
+        assert_eq!(state.retaliation, Some(peer));
+        let effect = state
+            .effect
+            .expect("actual dirt program must prepare its context");
+        assert!(pool.get(effect).is_some());
+        assert_eq!(pool.active(), [effect]);
+        assert!(
+            matches!(session.surface_link(marker),Some(SurfaceLink::Marker{owner,mode:2,..})if owner==id)
+        );
+        assert_eq!(
+            session
+                .get(id)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .position,
+            position
+        );
+        assert_eq!(audio.calls, [(true, 1256, 36)]);
+        assert_eq!(session.ripper_primary(id).unwrap().awaiting_motion(), !fail);
+        pool.release_prepared(effect).unwrap();
+        assert!(pool.active().is_empty());
+        session.clear();
+        assert!(session.ripper_primary(id).is_err());
+    }
+}
+
+#[test]
 #[ignore = "Requires GIANTS_NPC_ROOT; source constructors with supplied mode41/target and actual owned primary, not a natural encounter or completed melee"]
 fn source_classic_close_keeps_owner_and_uses_actual_target_before_motion() {
     let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());

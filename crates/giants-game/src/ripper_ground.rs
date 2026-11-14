@@ -14,6 +14,9 @@ pub struct StaticGround<'a, 'terrain, S> {
     pub services: &'a mut S,
 }
 impl<K, E, S: Services<K, E>> Services<K, E> for StaticGround<'_, '_, S> {
+    fn mark_surface_marker_retirement(&mut self, state: &State<K, E>) -> Result<(), String> {
+        self.services.mark_surface_marker_retirement(state)
+    }
     fn ground_normal_z(&mut self, state: &State<K, E>) -> Result<f32, String> {
         self.services.observe_ground(state);
         Ok(self
