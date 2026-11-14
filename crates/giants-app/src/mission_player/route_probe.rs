@@ -44,31 +44,6 @@ impl Escape {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::Escape;
-
-    #[test]
-    fn escape_releases_boost_when_movement_resumes() {
-        let mut escape = Escape::default();
-        let mut recharge = false;
-        let target = [100., 0., 8.];
-        for _ in 0..239 {
-            assert_eq!(
-                escape.commands([0.; 3], target, 100., &mut recharge),
-                ([0., 1.], false, false)
-            );
-        }
-        assert_eq!(
-            escape.commands([0.; 3], target, 100., &mut recharge),
-            ([0., 1.], true, true)
-        );
-        assert_eq!(
-            escape.commands([4., 0., 0.], target, 100., &mut recharge),
-            ([0., 1.], false, false)
-        );
-    }
-}
 /// Supplied keyboard/jet levels only. Rest and boost use the ordinary resource
 /// service; no pose, velocity, fuel or campaign state is written here.
 pub(crate) fn commands(
@@ -253,5 +228,31 @@ impl Route {
             self.cursor += 1;
         }
         self.points.get(self.cursor).copied()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::Escape;
+
+    #[test]
+    fn escape_releases_boost_when_movement_resumes() {
+        let mut escape = Escape::default();
+        let mut recharge = false;
+        let target = [100., 0., 8.];
+        for _ in 0..239 {
+            assert_eq!(
+                escape.commands([0.; 3], target, 100., &mut recharge),
+                ([0., 1.], false, false)
+            );
+        }
+        assert_eq!(
+            escape.commands([0.; 3], target, 100., &mut recharge),
+            ([0., 1.], true, true)
+        );
+        assert_eq!(
+            escape.commands([4., 0., 0.], target, 100., &mut recharge),
+            ([0., 1.], false, false)
+        );
     }
 }
