@@ -45,7 +45,8 @@ REVIEWED_ATTRIBUTION_LABELS = {'crates/giants-game/src/ripper_primary_turn.rs': 
                                    'a0c4addf0a738b4bf910f9f730d85fd8410c09ffed60c7ba683fd7de201a868a',
                                    'b95db50f67716523141c0bf3d11ccf1928ea2299c48f39fea32501ee09f0c44f',
                                    'bbf89e34ec9cc515385bb66664e978ce79f2ba20d1ec47764e936d95a704fc34'},
- 'docs/SYMBOL_NAVIGATION.md': {'01e32dd58e2c6046541c1faeb5280bc7ed1c4f4d4a19d0a29aa639420bc40daf',
+ 'docs/SYMBOL_NAVIGATION.md': {'bab1a95dbc653b862c479c1f0d4f02907e542586cbc25c4d5985c86484ef4998',
+                               '01e32dd58e2c6046541c1faeb5280bc7ed1c4f4d4a19d0a29aa639420bc40daf',
                                '03e8861c2ecbe4903cf621c55c5db2fb033667893ec92292a22e8bc778b3851c',
                                '0d55775d69b6004163df1693a6a096fbfaef5ccdebcaa97aa98a9655a3c06369',
                                '10095ce35c431a67ebb92a38dfe5657e2ba9f6726a73ee274226d4871a7595bb',
@@ -113,6 +114,13 @@ REVIEWED_ATTRIBUTION_LABELS = {'crates/giants-game/src/ripper_primary_turn.rs': 
 # all-reference history review valid before that gallery update enters main;
 # this permits neither other images nor another path or modified bytes.
 REVIEWED_HISTORICAL_IMAGES = {
+    # Concurrent display copies pinned by the public manifest at 928b099.
+    # Visually reviewed VP8-only files, no embedded metadata. This keeps the
+    # all-reference audit exact without importing that lane's gallery/release.
+    'docs/gallery/media/1b3e91259cc71b4003e2c1b06a0509d5a133464c0dc5d3a224614cc22153e91f.webp':
+        '1b3e91259cc71b4003e2c1b06a0509d5a133464c0dc5d3a224614cc22153e91f',
+    'docs/gallery/media/89aaaa03ed85db7c12d79d86359bdda7923ca127b826308d538e1e53dc6e783a.webp':
+        '89aaaa03ed85db7c12d79d86359bdda7923ca127b826308d538e1e53dc6e783a',
     # Concurrent .13.2 display copies pinned by the manifest at eafa3e4.
     # Visually reviewed VP8-only images; exact hashes, without embedded metadata.
     'docs/gallery/media/06cf7a33aca7f6605075996727045686d1a03931c3643177e08329adc5633464.webp':
