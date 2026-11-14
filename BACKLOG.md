@@ -28,6 +28,15 @@ source wood/audio requests, independent stump damage and complete effect expiry.
 Rendered ordinary contact/fire/draw/cleanup and campaign regressions on a new
 receipt are still required. Public preview .14.1 remains unchanged.
 
+The first class101 rendered destruction passes actual narrow contact, one
+accepted pistol hit, fourteen hidden static-model parts, wood sound/effects and
+the independent stump. A second Starving route fails its real endpoint deadline
+before contact; it remains failed. Another map attempt was refused by the older
+Story2-only input-fixture guard, not by ordinary building admission. The fixture
+now permits another authored menu entry while retaining exclusive muted input
+and actual resident/startup prerequisites. Repeat expiry, fresh stump contact,
+live cancellation and campaign checks on the resulting new executable.
+
 Owner feedback delivered in preview .14.1: normal pistol hits destroy admitted
 class102 palms, hide their exact foliage owner, play the source wood burst/sound
 and leave a separately colliding/projectile/damageable class664 stump. Rendered

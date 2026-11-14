@@ -39,6 +39,10 @@ uses `GIANTS_BUILDING_ROOT` for class101's actual binding dependencies, separate
 retained unresolved auxiliary links, physical/projectile admission, source shot
 reaction, effect expiry and independent stump. This is a CPU integration control;
 rendered ordinary input and the matching release receipt remain separate gates.
+The building input driver can select another authored menu mission through its
+existing showcase selection. It still requires an exclusive muted offscreen
+replay and the ordinary startup/resident prerequisites; it forces no character,
+readiness or pose and does not enable the building feature in normal play.
 
 The optional app controls
 `installed_palm_damage_keeps_source_stump_owner_and_independent_hits` and
