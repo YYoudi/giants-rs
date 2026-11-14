@@ -88,6 +88,7 @@ pub(super) struct Navigation {
     escape: super::route_probe::Escape,
     close_origin: Option<[f32; 3]>,
     damage_seen_at: Option<u32>,
+    lethal_continuation_reported: bool,
 }
 impl Navigation {
     fn thrust(&mut self, distance: f32, relative_height: f32, fuel: f32) -> bool {
@@ -118,6 +119,9 @@ pub(super) fn input(
     let close = std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CLASSIC_CLOSE").as_deref() == Ok("1");
     let hit = std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_HIT").as_deref() == Ok("1");
     let pistol = std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_PISTOL").as_deref() == Ok("1");
+    let lethal_boundary =
+        std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_LETHAL_BOUNDARY").as_deref() == Ok("1");
+    let pistol = pistol || lethal_boundary;
     let routed = retreat || close || hit || pistol;
     let chase =
         routed || std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CHASE").as_deref() == Ok("1");
@@ -187,7 +191,17 @@ pub(super) fn input(
         fire: false,
         // Read-only endpoints over ordinary consumers. No damage, impact or
         // availability is supplied by selecting a diagnostic capture target.
-        capture: if pistol {
+        capture: if lethal_boundary {
+            snapshot
+                .unsupported_lethal
+                .is_some_and(|(_, _, at, completed)| {
+                    completed.is_some_and(|completed| completed >= at + 240)
+                })
+                && snapshot.pistol_target_active
+                && snapshot
+                    .pistol_target_health
+                    .is_some_and(|(damage, limit)| damage > 0. && damage < limit)
+        } else if pistol {
             snapshot
                 .pistol_hit
                 .is_some_and(|(_, _, at)| u64::from(step) >= at + 30)
@@ -232,11 +246,26 @@ pub(super) fn input(
         flight_revision: snapshot.flight_revision,
         impact_step: snapshot.impact.map(|(_, at)| at),
     };
+    if lethal_boundary && input.capture && !navigation.lethal_continuation_reported {
+        navigation.lethal_continuation_reported = true;
+        println!(
+            "mission_ripper_unsupported_lethal_continued ticket={ticket} step={step} observation={:?} health={:?} active={} source=ordinary_completed_primary no_death_claim=true os_input=false",
+            snapshot.unsupported_lethal,
+            snapshot.pistol_target_health,
+            snapshot.pistol_target_active
+        );
+    }
     if let Some(target) = snapshot.target {
         let dx = target[0] - position[0];
         let dy = target[1] - position[1];
         let distance = dx.hypot(dy);
-        input.fire = pistol && snapshot.pistol_hit.is_none() && distance < 180.;
+        input.fire = pistol
+            && if lethal_boundary {
+                snapshot.unsupported_lethal.is_none()
+            } else {
+                snapshot.pistol_hit.is_none()
+            }
+            && distance < 180.;
         let waypoint = if routed && !navigation.approach_done && distance > 250. {
             if navigation.route_actor != snapshot.target_actor {
                 navigation.route = Some(super::route_probe::Route::prepare(

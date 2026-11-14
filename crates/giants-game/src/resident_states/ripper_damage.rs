@@ -5,7 +5,7 @@
 use super::*;
 use crate::{audio_parameters::Random, state23_damage};
 mod partial_pistol;
-pub use partial_pistol::Services as PartialPistolServices;
+pub use partial_pistol::{Contact as PartialPistolContact, Services as PartialPistolServices};
 
 #[derive(Debug, Default)]
 pub(super) struct Owned {

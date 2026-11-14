@@ -48,7 +48,7 @@ mod parented_frame_tests;
 mod passive_frame_tests;
 mod ripper_calls;
 mod ripper_damage;
-pub use ripper_damage::PartialPistolServices;
+pub use ripper_damage::{PartialPistolContact, PartialPistolServices};
 mod ripper_melee;
 pub use ripper_melee::Services as RipperMeleeServices;
 mod ripper_contacts;

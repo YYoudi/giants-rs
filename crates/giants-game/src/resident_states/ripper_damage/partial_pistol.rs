@@ -10,6 +10,13 @@ pub struct Services<'a, S> {
     pub routing: hit_routing::Context,
     pub callback: state23_damage::Context,
 }
+/// Unsupported services are distinguished from source suppression and failures
+/// after callback execution. A rejected contact never retires a living actor.
+pub enum Contact {
+    Suppressed,
+    UnsupportedLethal,
+    Applied(state23_damage::Outcome, state23_hurt::Counts),
+}
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum Reference {
     Actor(Id),
@@ -92,7 +99,7 @@ impl Session {
         hit: mecc_pistol::OwnedHit,
         random: &mut Random,
         services: &mut Services<'_, S>,
-    ) -> Result<Option<(state23_damage::Outcome, state23_hurt::Counts)>, String> {
+    ) -> Result<Contact, String> {
         self.ripper_contact_snapshot(target, completed_step)?;
         self.check_ripper_damage_available(target)?;
         let shooter = hit.owner();
@@ -127,13 +134,13 @@ impl Session {
             hit.camera_origin(),
             hit.point(),
         )? {
-            return Ok(None);
+            return Ok(Contact::Suppressed);
         }
         let route = hit_routing::resolve(self.hit_actor(target)?, 0, services.routing, |id| {
             self.hit_actor(id)
         })?;
         if route == hit_routing::Route::Suppressed {
-            return Ok(None);
+            return Ok(Contact::Suppressed);
         }
         if route != (hit_routing::Route::Dispatch { target, kind: 0 }) {
             return Err(
@@ -142,6 +149,14 @@ impl Session {
             );
         }
         let initial = self.state23_snapshot(target)?;
+        // Refuse this unsupported contact before opening a callback attempt.
+        // No service, damage, RNG or failure latch has been touched; retain the
+        // living primary/animation owner rather than freezing it at this limit.
+        if initial.damage < initial.limit
+            && f64::from(initial.damage) + f64::from(hit.damage()) >= f64::from(initial.limit)
+        {
+            return Ok(Contact::UnsupportedLethal);
+        }
         if initial.parent.is_some() {
             return Err("attached Ripper requires its actual detachment service".into());
         }
@@ -219,7 +234,7 @@ impl Session {
         })();
         let result = match (result, publication) {
             (Err(error), _) | (_, Err(error)) => Err(error),
-            (Ok(value), Ok(())) => Ok(Some(value)),
+            (Ok((outcome, counts)), Ok(())) => Ok(Contact::Applied(outcome, counts)),
         };
         let operation = &mut self
             .residents

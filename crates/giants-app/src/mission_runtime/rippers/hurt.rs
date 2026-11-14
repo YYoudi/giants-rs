@@ -32,6 +32,16 @@ impl state23_hurt::Sounds<Id> for Sounds<'_> {
     }
 }
 impl State {
+    pub(in crate::mission_runtime) fn unsupported_lethal_snapshot(
+        &self,
+    ) -> Option<(Id, u32, u64, Option<u64>)> {
+        self.last_unsupported_lethal.map(|(id, serial, step)| {
+            let completed = (!self.actor_quarantined(id))
+                .then(|| self.driver.completed(id).map(|frame| frame.0))
+                .flatten();
+            (id, serial, step, completed)
+        })
+    }
     pub(in crate::mission_runtime) fn audio_position(
         &self,
         session: &Session,
@@ -123,7 +133,7 @@ impl State {
             },
         );
         match result {
-            Ok(Some((outcome, counts))) => {
+            Ok(giants_game::resident_states::PartialPistolContact::Applied(outcome, counts)) => {
                 self.last_pistol_hit = Some((target, serial, step));
                 println!(
                     "mission_ripper_pistol_hit ticket={ticket} owner={target:?} shooter={shooter:?} serial={serial} amount={amount} before_damage={before} after_damage={} outcome={outcome:?} particles={} credit_writes={} source=actual_partial_pistol canonical_projectile=false playback_acknowledged=false",
@@ -133,7 +143,14 @@ impl State {
                 );
                 Ok(std::mem::take(&mut self.sounds))
             }
-            Ok(None) => {
+            Ok(giants_game::resident_states::PartialPistolContact::UnsupportedLethal) => {
+                self.last_unsupported_lethal = Some((target, serial, step));
+                println!(
+                    "mission_ripper_pistol_unsupported_lethal ticket={ticket} owner={target:?} serial={serial} step={step} damage={before} amount={amount} damage_acknowledged=false death_acknowledged=false callback_started=false actor_quarantined=false"
+                );
+                Ok(std::mem::take(&mut self.sounds))
+            }
+            Ok(giants_game::resident_states::PartialPistolContact::Suppressed) => {
                 println!(
                     "mission_ripper_pistol_suppressed ticket={ticket} owner={target:?} serial={serial} source=actual_range_or_target_guard damage_acknowledged=false"
                 );
@@ -142,7 +159,7 @@ impl State {
             Err(error) => {
                 self.driver.quarantine_actor(target, step, error.clone());
                 eprintln!(
-                    "mission_ripper_pistol_refused ticket={ticket} owner={target:?} serial={serial} error={error} damage_acknowledged=false independent_ai_continues=true"
+                    "mission_ripper_pistol_refused ticket={ticket} owner={target:?} serial={serial} error={error} damage_acknowledged=false affected_actor_quarantined=true other_actors_continue=true"
                 );
                 Err(error)
             }
