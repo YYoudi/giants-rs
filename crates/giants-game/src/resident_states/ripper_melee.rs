@@ -1,4 +1,4 @@
-//! Canonical class230 mode68 -> direct kind3 -> cold controlled-Mecc path.
+//! Canonical class73 mode42 / class230 mode68 -> kind3 -> controlled-Mecc path.
 //! Prototype PS2 ripper_move/mecc_shot/hurt_object remain unknown name routes.
 //! This supplies no world gates, controller, sound device or mission terminal.
 use super::*;
@@ -148,6 +148,39 @@ impl<S: Services> Bridge<'_, S> {
     }
 }
 impl Session {
+    pub fn update_ripper_classic_melee_with_mecc(
+        &mut self,
+        source: Id,
+        input: primary::FrameInput<'_, Id>,
+        parameters: primary::ClassicMeleeContext,
+        step: u64,
+        random: &mut Random,
+        services: &mut impl Services,
+    ) -> Result<primary::Outcome, String> {
+        self.update_ripper_owned_primary(
+            source,
+            input,
+            random,
+            services,
+            |session, machine, input, random, services| {
+                machine.advance_classic_melee(
+                    input,
+                    parameters,
+                    random,
+                    &mut Bridge {
+                        session,
+                        source,
+                        step,
+                        parameters: primary::VariantMeleeContext {
+                            attack_range: parameters.attack_range,
+                            damage: parameters.damage,
+                        },
+                        services,
+                    },
+                )
+            },
+        )
+    }
     /// The same real owned primary/ANM/frame path, with a canonical kind3 Mecc
     /// consumer instead of the offline required-service boundary. No projectile
     /// identity, retained query point or projectile cleanup is synthesized.
@@ -204,6 +237,11 @@ impl Session {
         let actor = self.ordinary_frame_actor(source)?;
         let fields = actor.construction_fields.as_ref().unwrap();
         let combat = self.state23_snapshot(source)?;
+        let (source_mode, result_mode) = match actor.class {
+            73 => (42, 35),
+            230 => (68, 66),
+            _ => return Err("kind3 source is outside the acquired Ripper families".into()),
+        };
         // The surface callback link is not the transform/firing parent. An
         // ordinarily surfaced Ripper retains this reciprocal marker while it
         // attacks. Accept only the actual owned constructor relationship;
@@ -236,26 +274,25 @@ impl Session {
             || actor.ripper_primary_epoch == 0
             || actor.ripper_melee.is_some()
             || !actor.acquired_construction
-            || actor.class != 230
             || actor.seed.storage.profile() != Profile::Debug
             || actor.seed.storage.state() != 23
             || actor.enemy_projectile.is_some()
             || actor.attachment.is_some()
             || actor.presentation_parent.is_some()
-            || combat.mode != 68
+            || combat.mode != source_mode
             || !surface_link_matches
             || combat.parent.is_some()
             || !combat.damage.is_finite()
             || !combat.limit.is_finite()
             || combat.limit <= 0.
             || combat.damage >= combat.limit
-            || state.entry.class != 230
-            || state.entry.mode != 66
+            || state.entry.class != actor.class
+            || state.entry.mode != result_mode
             || state.entry.action != 0
             || state.retaliation != Some(target)
             || state.primary[8] & 2 == 0
             || actor.channels.is_none_or(|c| c[0] != state.primary)
-            || fields.class != 230
+            || fields.class != actor.class
             || fields.configuration[20] != 23
             || fields.action != 0
             || fields.position.map(f32::to_bits) != state.entry.position.map(f32::to_bits)
@@ -275,7 +312,7 @@ impl Session {
                 != crate::resident_finalization::Phase::MotionStarted
         {
             return Err(
-                "kind3 request differs from its actual finished owned mode68 primary/target/range"
+                "kind3 request differs from its actual finished owned mode42/68 primary/target/range"
                     .into(),
             );
         }
@@ -323,7 +360,9 @@ impl Session {
             );
         }
         let combat = self.state23_snapshot(source)?;
-        if combat.mode != 66 || combat.retaliation != Some(target) {
+        if !matches!((actor.class, combat.mode), (73, 35) | (230, 66))
+            || combat.retaliation != Some(target)
+        {
             return Err("melee response source changed during the callback".into());
         }
         self.mecc_health(target)?;

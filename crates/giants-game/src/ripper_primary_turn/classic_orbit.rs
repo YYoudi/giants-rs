@@ -61,11 +61,11 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
         )
     }
 }
-fn initialise_orbit<K: Copy, E: Copy>(
+pub(super) fn initialise_orbit<K: Copy, E: Copy>(
     s: &mut State<K, E>,
     target: [f32; 3],
     span: f32,
-    p: ClassicOrbitParameters,
+    p: Parameters,
     random: &mut Random,
 ) {
     let bearing = crate::actor_volume::heading_wide(target, s.entry.position);
@@ -76,8 +76,8 @@ fn initialise_orbit<K: Copy, E: Copy>(
             as f32
     };
     s.orbit.angle = crate::ripper_steering::normalize(interval(random, low, high));
-    s.orbit.radius = interval(random, p.orbit.radius[0], p.orbit.radius[1]);
-    s.timer = p.orbit.seconds;
+    s.orbit.radius = interval(random, p.radius[0], p.radius[1]);
+    s.timer = p.seconds;
 }
 pub(super) fn advance<K: Copy + Ord, E: Copy>(
     s: &mut State<K, E>,
@@ -97,7 +97,7 @@ pub(super) fn advance<K: Copy + Ord, E: Copy>(
         if s.primary[8] & 2 != 0 {
             // The pinned debug ground hook is a RET. No fabricated projection.
             if let Some(id) = s.retaliation {
-                initialise_orbit(s, frame.candidate(id)?.position, 80., p, random);
+                initialise_orbit(s, frame.candidate(id)?.position, 80., p.orbit, random);
             }
             s.entry.mode = 36;
             s.steering.personality |= 0x840;
@@ -168,7 +168,7 @@ pub(super) fn advance<K: Copy + Ord, E: Copy>(
         if f64::from(roll) < f64::from(p.close_percent) {
             s.entry.mode = 41;
         } else {
-            initialise_orbit(s, target.position, 20., p, random);
+            initialise_orbit(s, target.position, 20., p.orbit, random);
         }
     }
     Ok(())

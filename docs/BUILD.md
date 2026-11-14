@@ -1,5 +1,14 @@
 # Build on Windows with MinGW
 
+The classic mode42 helper comparison is `cargo test --locked -p giants-game
+native_classic_melee_controls --target x86_64-pc-windows-gnu -- --ignored`, with
+private `GIANTS_RIPPER_CLASSIC_MELEE_CONTROLS` set. Contact cases stop before
+injury. `cargo test --locked -p giants-game canonical_ --target
+x86_64-pc-windows-gnu` covers the shared receiver with explicit supplied guards.
+The actual marker-constructor regression uses `GIANTS_NPC_ROOT` and the ignored
+`source_kind3_accepts_reciprocal_surface_marker_without_using_it_as_hit_owner`.
+None establishes ordinary world-guard availability or a rendered lethal encounter.
+
 The local classic orbit continuation uses `cargo test --locked -p giants-game
 classic_orbit --target x86_64-pc-windows-gnu`. Private native controls require
 `GIANTS_RIPPER_CLASSIC_ORBIT_CONTROLS`; the installed constructor control

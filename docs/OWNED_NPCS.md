@@ -111,8 +111,9 @@ The ordinary driver now connects mode41 to the acquired stored-angle pursuit:
 current target validation, forward command only inside the source angular gate,
 actual destination, strict horizontal attack range and its class-specific cues.
 Loss of the target requests mode43; entering range requests mode42. The mode42
-animation selection is acquired, but its following primary/melee dispatch is
-still required. This does not fabricate damage or a completed attack callback.
+animation selection is acquired. Its following primary/melee dispatch is now
+connected as described below; actual world guards remain required. This does
+not fabricate damage or a completed attack callback.
 Twenty-two original helper contexts cover angles, distance boundaries, a vertically
 separated target, inactive/dead targets and the controlled-player suppression
 branch. Actor/target headers, globals and sound-registry absence are supplied.
@@ -173,6 +174,32 @@ tests (241 ignored),45 Python tests, fmt and strict Clippy pass; the private
 25-row helper comparison and actual-constructor late-failure control also pass.
 
 ## Historical Ripper integration receipts
+
+### Classic close attack continuation (local, encounter acceptance pending)
+
+The ordinary class73 mode42 now aims through the acquired wide-angle writer.
+On animation completion it consumes the source orbit draws, returns to mode35,
+then requests kind3 injury only inside the independently verified 3D range.
+The range and damage use the classic class globals, separately from class230.
+Lost targets keep the classic cue and retreat state. No synthetic projectile,
+damage acknowledgment or successful world guard is introduced.
+
+Fourteen original-helper controls compare unfinished/finished animation,
+angles, exact range boundaries, vertical separation, lost/suppressed targets
+and random-state/side-effect ordering. Five contact cases stop before the real
+kind3 consumer; they prove the request, not native damage. Canonical Session
+controls then exercise the shared controlled-Mecc receiver with explicitly
+supplied guards, health/recoil publication, stale-response rejection and retained
+orbit/state after receiver refusal. Actual marker-constructor controls cover
+both Ripper classes and reject a broken reciprocal link. Prototype PS2 searches
+via `ripper_move`, `ripper_shot`, `hurt_object` and `mecc_shot` confirm no new
+identity. The previous aliases and platform differences remain intact.
+
+The input diagnostic now allows24,000 frames to observe repeated attack cycles
+after the distant approach; its capture predicate and ordinary NPC admission
+are unchanged. Rendered acceptance of this new attack remains pending. The real
+world failure/completion and health-suppression producers, outgoing player
+projectile identity, reciprocal injury/death and full encounter remain open.
 
 Earlier startup-policy build: source `b7cc590`, GNU executable SHA256
 `b85fff99053befbe50c6e7b5b330e559eadcd41d3afe46972fc765ce9396d7cb`.

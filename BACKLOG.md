@@ -283,7 +283,7 @@ launches, then refuses mode41 at step10204 (exit101/no capture). That reached
 close-pursuit primary/secondary is now locally connected with22 bounded native
 helper comparisons and source-owned target tests. It retains actual movement
 commands, horizontal range and cues. Mode42 entry animation is admitted; its
-primary and genuine kind3 injury consumer remain the next classic encounter
+primary and genuine kind3 injury consumer were the next classic encounter
 blocker, alongside the shared-world guards. No completed melee or new public
 preview is claimed; see OWNED_NPCS.md for precise evidence and limitations.
 
@@ -300,6 +300,15 @@ mode41 capture endpoint still times out (exit101/no capture). Separate actual
 Windows menu entry, cinematic skip, return, re-entry and clean release pass.
 These scoped results do not establish reciprocal combat or a complete encounter.
 See OWNED_NPCS.md for the executable identity; .13.3 remains the public download.
+
+Classic mode42 now connects the source aim/finished-animation/orbit transition
+and real kind3 request to the canonical controlled-Mecc receiver. Fourteen
+bounded original-helper contexts agree, stopping before injury in contact cases;
+canonical supplied-guard controls cover health/recoil, late refusal and stale
+response rejection. Actual reciprocal marker constructors pass for both classes.
+The actual ordinary world guards remain unbound; no newly working injury or
+death is claimed. Build/render this continuation before treating it as encounter
+acceptance. Preserve the central naming lookup before the next native work.
 
 Next NPC delivery: acquire and connect the genuine shared-world guards that
 block reciprocal contact, alongside the actual radial recipients and positive
