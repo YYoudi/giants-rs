@@ -9,6 +9,49 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Main integration of Ripper movement and attacks
 
+### Playable baseline for the next common build
+
+Main `7242798` already includes runtime `f940069`: ordinary Ripper movement,
+source ranged attacks, nonlethal injury in both directions and the fix that
+keeps living AI running after an unsupported lethal pistol contact. Use this
+baseline for the next common build; do not delay it for the isolated health-drop
+dependencies on the NPC research branch. Preview `.14.1` is an older executable
+and does not contain the later damage and AI-continuation changes.
+
+From the ordinary menu select **Preview tools -> Browse all missions -> Mecc
+Story 2: Hunger in the Codpiece Hills -> The Wife**. Escape skips its opening.
+Use the configured movement keys, mouse aim, right mouse jet, Space nitro and
+left mouse pistol. Approach the declared Rippers to trigger perception; an idle
+actor far from the player does not establish an inactive AI. No NPC activation
+script, replay or environment flag is required. Escape returns to mission
+selection, where The Wife can be entered again.
+
+The source and executable receipt below identify the tested baseline. Main's
+Windows CI passed, but this does not establish a downloadable artifact or update
+the public preview. The main integration lane retains combined package,
+dashboard and preview publication. Death, drops, special close attacks and the
+complete campaign remain unfinished; a working living encounter is independently
+deliverable.
+
+Fresh MinGW build of main `7242798debdb98dcd67fdfb37513d15c82f74e0b`:
+executable SHA256
+`266c716c373918d8a88a2342952d6bd9eaa0b361941f22f0454b979e2e2fe56f`.
+Its rendered supplied-player-command run exits0 after about170 seconds. Classic
+actor163 moves165.8 horizontal units, launches real class90 projectiles and
+receives damage0 ->12 ->24 ->36. Its unsupported lethal contact at step10319
+does not quarantine it: primary step10559 completes and a further launch occurs
+at10405. The endpoint image is inspected; the close Ripper is largely occluded
+by Mecc at that instant. This is not a complete visual-fidelity or death result.
+
+On that exact new executable, actual Windows input independently checks ordinary
+menu selection, opening skips, default left-mouse fire on the first ticket,
+return/re-entry/second return and close. Tickets1/3 each release185 residents,
+with zero remaining resident bytes, registrations, entities or audio assets.
+First-return audio requests were still pending; transport retention is limited
+to the current wanted ticket. No OS-aimed fight is claimed. The earlier runtime's
+clear close-up capture and repeated AI-continuation run remain separate evidence.
+No native implementation or prototype PS2 attribution changes in this delivery.
+
 ### Keep living AI active at an unsupported lethal contact
 
 Source `f940069e1147284fc27e136167b5289804d99cfb`, GNU executable SHA256
