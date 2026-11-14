@@ -15,7 +15,8 @@ The NPC branch now contains `ripper_health_drop::Factory`, called only inside
 an actual acquired class73/230 lethal callback attempt. It constructs source
 class785 from its installed empty cold0 resources, retains constructor list and
 specification ownership, transitions to state37 and publishes only the source
-position write. The typed source identity remains separate from normalized raw
+position write. Its explicit constructor mask0 preserves only the unconditional
+common list, rather than automatic class registration. The typed source identity remains separate from normalized raw
 pointer slots. Tag36, owner-exclusion timer1, lifetime30 and the integer quantities
 from the actual global table are retained. Mode4 health FX preparation precedes
 the class-specific amount/control suffix. A late effect failure retains the item,
@@ -57,6 +58,15 @@ work; neither that name nor `ripper_shot` is a confirmed PC attribution. The
 existing confirmed `ripper_death_logic__FP6OBJECT` identity remains separate.
 `IconDefPlayerType` and `item_check` remain unknown naming routes for the bounded
 PC declaration and eligibility work.
+A subsequent original control constructs the actual class785/state37 parent
+with mask0 and executes both attached health constructors/six registrations.
+Position, clock, quality and outer heap/texture storage remain supplied controls.
+This still does not establish live parent/world-affine resolution or child
+scheduling. A cache-only probe leaves the cold item's bounds zero; this is a
+missing late-initialization step, not a verified no-contact result or permission
+to invent a pickup radius. Actual geometry initialization and the ordinary
+contact/collection path remain required.
+
 The pinned PC state37 primary was inspected for the next required item update;
 its generic item path does not establish a one-to-one prototype identity.
 

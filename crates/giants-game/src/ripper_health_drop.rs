@@ -58,6 +58,8 @@ pub struct Owned {
     pub owner_delay: f32,
     pub lifetime: f32,
     pub context: Option<crate::attached_effect_context::Id>,
+    /// Constructor/amount/control suffix only, not a completed physical frame
+    /// or active/running effect.
     pub initialized: bool,
     pub failed: bool,
 }

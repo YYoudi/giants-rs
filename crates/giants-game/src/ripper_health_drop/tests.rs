@@ -152,6 +152,13 @@ fn source_ripper_health_drop_birth_preserves_real_prefix_and_failed_scope() {
             assert_eq!(session.counts().residents, count + 1);
             let owned = session.ripper_health_drop(item).unwrap();
             let actor = session.get(item).unwrap();
+            assert_eq!(
+                actor.constructor_mask, 0,
+                "source callback requests only common-list membership"
+            );
+            for list in 0..15 {
+                assert_eq!(session.list(list).contains(&item), list == 0);
+            }
             let fields = actor.construction_fields.as_ref().unwrap();
             assert_eq!(owned.owner, owner);
             assert_eq!(

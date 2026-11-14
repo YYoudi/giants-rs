@@ -88,8 +88,16 @@ impl Session {
         input.fields.position = source.position;
         let mut staged = Self::new(self.ticket);
         staged.next = self.next;
-        let id = staged.construct_prechecked(input, &[], None)?;
+        // The callback passes constructor mask0, not automatic registration.
+        // Keep the unconditional common list only, before the state switch.
+        let id =
+            staged.register_with_mask(input.class, input.seed, input.bindings, input.flags, 0)?;
+        let channels = input.fields.channels;
+        staged.bind_specification(id, input.specification)?;
+        staged.bind_state_resources(id, input.state_resources)?;
+        staged.bind_actor_fields(id, input.fields)?;
         let actor = staged.residents.get_mut(&id.serial).unwrap();
+        actor.channels = Some(channels);
         let transition = actor.seed.storage.transition(37)?;
         if transition.allocated != 24 || transition.destructor_called {
             return Err("Ripper health state37 allocation outside acquired profile".into());
@@ -114,6 +122,7 @@ impl Session {
             initialized: false,
             failed: false,
         });
+        actor.acquired_construction = true;
         self.publish_staged(staged, id)
     }
     pub(crate) fn finish_ripper_health_drop(
