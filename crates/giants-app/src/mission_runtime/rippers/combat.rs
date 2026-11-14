@@ -77,7 +77,20 @@ impl<D: giants_game::resident_states::MeccImpactVoice> MeccEnemyHitServices for 
         response: giants_game::controlled_mecc::HitResponse,
     ) -> Result<(), String> {
         self.receiver
-            .accept_enemy_hit_response(session, self.owner, response)
+            .accept_enemy_hit_response(session, self.owner, response)?;
+        println!(
+            "mission_mecc_enemy_hit_response source={:?} source_class={:?} target={:?} step={} before_damage={} after_damage={} remaining={} velocity_before={:?} velocity_after={:?} controller_copied=true",
+            response.source(),
+            session.get(response.source()).map(|a| a.class),
+            self.owner,
+            response.step(),
+            response.before().health.damage,
+            response.after().health.damage,
+            response.after().health.remaining(),
+            response.before().velocity,
+            response.after().velocity
+        );
+        Ok(())
     }
     fn voice(&mut self, session: &Session, target: Id, cue: u32) -> Result<(), String> {
         if target != self.owner {
@@ -107,6 +120,9 @@ impl<D: giants_game::actor_retirement::Services + giants_game::resident_states::
             .globals
             .as_deref_mut()
             .ok_or("Ripper hit requires actual process guard owner")?;
+        if globals.world_suppressed(self.owner.ticket())? {
+            return Ok(true);
+        }
         let health = session.mecc_health(self.owner)?;
         if health.damage >= health.limit {
             globals.require_unbound_transition(

@@ -808,7 +808,7 @@ pub(super) fn update(
                 if input.capture {
                     controller.finish_step = tick + 1;
                     println!(
-                        "mission_ripper_input_probe_observed ticket={ticket} step={tick} flight_revision={} impact_step={:?} supplied_mecc_commands=true forced_actor_pose=false os_input=false applied_damage=false",
+                        "mission_ripper_input_probe_observed ticket={ticket} step={tick} flight_revision={} impact_step={:?} supplied_mecc_commands=true forced_actor_pose=false os_input=false probe_wrote_damage=false",
                         input.flight_revision, input.impact_step
                     );
                 }

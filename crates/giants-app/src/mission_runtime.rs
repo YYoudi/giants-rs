@@ -1333,6 +1333,19 @@ impl Runtime {
                 guard_binding,
             },
         );
+        // Latch the reached unported lethal writer before a menu cancellation
+        // can retire this Session. Waiting for another hit could lose it.
+        if let Some(process) = globals.as_mut()
+            && self
+                .active
+                .as_ref()
+                .filter(|a| a.ticket == ticket)
+                .and_then(|a| a.resident_states.mecc_health(owner).ok())
+                .is_some_and(|h| h.damage >= h.limit)
+            && !matches!(process.world_suppressed(ticket), Ok(true))
+        {
+            process.observe_unbound_writer("controlled-player lethal primary/failure producer");
+        }
         self.normal_combat_globals = globals;
         result
     }

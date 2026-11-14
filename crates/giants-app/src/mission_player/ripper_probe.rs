@@ -86,6 +86,7 @@ pub(super) struct Navigation {
     approach_done: bool,
     escape: super::route_probe::Escape,
     close_origin: Option<[f32; 3]>,
+    damage_seen_at: Option<u32>,
 }
 impl Navigation {
     fn thrust(&mut self, distance: f32, relative_height: f32, fuel: f32) -> bool {
@@ -155,6 +156,28 @@ pub(super) fn input(
         .chase_origin
         .zip(snapshot.target_position)
         .is_some_and(|(a, b)| (a[0] - b[0]).hypot(a[1] - b[1]) >= 20.);
+    let matching_injury = snapshot.mecc_damage.is_some_and(|d| d > 0.)
+        && snapshot
+            .mecc_remaining
+            .zip(snapshot.mecc_limit)
+            .is_some_and(|(remaining, limit)| {
+                remaining > 0.
+                    && remaining.round() < limit.round()
+                    && remaining.to_bits() == state.remaining_health().to_bits()
+            });
+    if hit && matching_injury {
+        if navigation.damage_seen_at.is_none() {
+            navigation.damage_seen_at = Some(step);
+            println!(
+                "mission_ripper_injury_observed ticket={ticket} step={step} canonical_damage={:?} canonical_remaining={:?} controller_remaining={} actual_response_matched=true probe_wrote_damage=false os_input=false",
+                snapshot.mecc_damage,
+                snapshot.mecc_remaining,
+                state.remaining_health()
+            );
+        }
+    } else {
+        navigation.damage_seen_at = None;
+    }
     let mut input = Input {
         axes: Vec2::ZERO,
         thrust: false,
@@ -170,6 +193,13 @@ pub(super) fn input(
                     .is_some_and(|(a, b)| (a[0] - b[0]).hypot(a[1] - b[1]) >= 20.)
         } else if retreat {
             navigation.retreat_completed
+        } else if hit {
+            // Hit navigation also chases; give its stricter endpoint priority.
+            // Allow actual player/HUD publication after the late enemy callback.
+            matching_injury
+                && navigation
+                    .damage_seen_at
+                    .is_some_and(|at| step.saturating_sub(at) >= 2)
         } else if chase {
             chase_moved
                 && snapshot.flight_revision >= flights()?
@@ -180,8 +210,6 @@ pub(super) fn input(
                 .quarantine_step
                 .is_some_and(|at| u64::from(step) >= at + 120)
                 && snapshot.flight_revision >= flights()?
-        } else if hit {
-            snapshot.mecc_damage.is_some_and(|damage| damage > 0.)
         } else if std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_IMPACT").as_deref() == Ok("1") {
             snapshot
                 .impact

@@ -75,3 +75,35 @@ impl Runtime {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn launch_owner_is_moved_once_and_absence_never_creates_clear_guards() {
+        let mut app = App::new();
+        app.insert_resource(crate::startup_configuration::Configuration::begin());
+        app.add_plugins(super::super::Plugin);
+        assert!(
+            app.world()
+                .resource::<Runtime>()
+                .normal_combat_globals
+                .is_some()
+        );
+        assert!(
+            app.world_mut()
+                .resource_mut::<crate::startup_configuration::Configuration>()
+                .take_combat_process()
+                .is_none()
+        );
+        let mut absent = App::new();
+        absent.add_plugins(super::super::Plugin);
+        assert!(
+            absent
+                .world()
+                .resource::<Runtime>()
+                .normal_combat_globals
+                .is_none()
+        );
+    }
+}

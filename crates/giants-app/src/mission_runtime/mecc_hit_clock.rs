@@ -183,6 +183,24 @@ mod tests {
             }
             assert!(current < previous_timer);
             assert_eq!(active.variant_random.0, rng);
+            if ticket == 9602 {
+                let a = runtime.active.as_mut().unwrap();
+                let c = a.campaign.as_mut().unwrap().as_mut().unwrap();
+                // Supplied reached completion at this CPU boundary. Remove
+                // the later consumer's packet to prove early invalidation.
+                c.progress.counter = c.program.required as u32;
+                c.completed = true;
+                a.payload.packet = super::super::tests::payload().packet;
+                assert!(runtime.take_campaign_completion(ticket).is_err());
+                assert!(
+                    runtime
+                        .normal_combat_globals
+                        .as_ref()
+                        .unwrap()
+                        .world_suppressed(ticket)
+                        .is_err()
+                );
+            }
             super::super::clear(&mut runtime, &mut Commands::new(&mut queue, &world));
             queue.apply(&mut world);
             assert!(runtime.active.is_none());
