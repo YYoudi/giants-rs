@@ -22,34 +22,39 @@ and other catalogue contexts. Their independent model and collision bindings
 evaluate while eleven auxiliary ANM links stay unresolved; the strict decoder
 still refuses them, and evaluating an unrepresented dependency still fails.
 The binding-selected metadata profile is used only by this tree's damage owner;
-it does not grant complete specification or live animation readiness. An installed
-control now covers its real player/projectile admission, normal shot decisions,
-source wood/audio requests, independent stump damage and complete effect expiry.
-Rendered ordinary contact/fire/draw/cleanup and campaign regressions on a new
-receipt are still required. Public preview .14.1 remains unchanged.
+it does not grant complete specification or live animation readiness.
 
-The first class101 rendered destruction passes actual narrow contact, one
-accepted pistol hit, fourteen hidden static-model parts, wood sound/effects and
-the independent stump. A second Starving route fails its real endpoint deadline
-before contact; it remains failed. Another map attempt was refused by the older
-Story2-only input-fixture guard, not by ordinary building admission. The fixture
-now permits another authored menu entry while retaining exclusive muted input
-and actual resident/startup prerequisites. Repeat expiry, fresh stump contact,
-live cancellation and campaign checks on the resulting new executable.
+On source f4f90ca, executable SHA256
+`2b7e1fd3991fc5c0b43c26834d19eb7c64d3882e994cabb3a18eae128a9c0390`,
+the strict rendered Story1 class101 route passes actual narrow contact, normal
+pistol damage, fourteen retired static-model parts, the source wood/audio graph,
+17/17 effect expiry and seventeen fresh stump contacts. Two further destruction,
+live-effect cancellation and fresh-entry cycles pass complete owner cleanup.
+These are supplied ordinary controls and actual rendered/audio consumers, not
+Windows-held-input or native-fidelity proof. The installed controls separately
+cover independent stump damage. No new public preview is published yet.
 
 The exact .14.1 executable independently reproduces Story1's earlier Ripper
-platform refusal. The class101 settled route nevertheless observes source
-destruction, fourteen hidden parts, 17/17 effect expiry and seventeen fresh stump
-contacts; its strict report remains failed on the separate source-world need.
-The next collision reader retains the acquired D cursor-only32/37/38 records and
+platform refusal; the newer strict class101 route no longer reports it. The
+collision reader now retains the acquired D cursor-only32/37/38 records and
 the distinct usage-mask bit from46. A named class57 record writes outside the
 collision projection but can dispatch work during full base construction: its
 registry/initialization owner remains an explicit actor prerequisite. No binding,
 world activation or successful callback is fabricated. Installed Story1 controls
 now retain real initial bridge player/projectile meshes and all 27 unresolved
 platform candidates; the geometry preflight passes without pretending those
-footprints or the bridge's full actor constructor are implemented. Repeat rendered
-strict acceptance and combined regressions before another publication.
+footprints or the bridge's full actor constructor are implemented.
+
+The combined Starving regression collected all twenty meat chunks but its supplied
+pilot overshot a cliff turn while escape boost remained held after movement
+resumed. It then repeatedly chased an old elevated waypoint. That owned run was
+intentionally interrupted with its failing report/log retained; it is not mission
+completion or evidence of a native crash. The fixture now releases escape boost
+as soon as movement resumes, with a regression control. Normal player controls,
+physics, fuel and mission predicates are unchanged. Repeat the complete Starving,
+The Wife and carried RoadHome chains, class101 expiry/cancellation, selected
+menu/cinematic lifecycle and Windows controls on the resulting receipt before
+publishing matching main, Windows preview and dashboard evidence.
 
 Owner feedback delivered in preview .14.1: normal pistol hits destroy admitted
 class102 palms, hide their exact foliage owner, play the source wood burst/sound

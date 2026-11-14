@@ -24,6 +24,11 @@ real Windows input and native fidelity. Follow [GOAL_GAMEPLAY_FIRST.md](GOAL_GAM
 and [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md); optional CPU controls
 support the ordinary path and do not replace its acceptance.
 
+The supplied terrain pilot's escape boost releases once horizontal movement
+resumes. A continued escape command across subsequent waypoints can overshoot a
+cliff turn; retain such a failed run and fix the fixture instead of changing the
+game's fuel, collision, mission quota or completion predicate to pass it.
+
 For long rendered acceptance, keep each receipt-bound run in a fresh private
 output directory with separate logs, terminal report and process identity.
 Prefer a hidden independent background launcher for long serial suites. Before

@@ -340,9 +340,15 @@ without those links; evaluating an unrepresented node still fails. Source health
 the shared state60 shot contract, wood program and replacement664 remain separate
 owners. Installed CPU integration passes physical/projectile admission, damage,
 source effects/audio, the stump's independent damage and complete effect expiry.
-This is not yet rendered class101 acceptance or a newer public preview. The
-ordinary menu/contact/fire/retirement/cleanup and campaign checks remain required;
+The unpublished source f4f90ca executable (SHA256
+`2b7e1fd3991fc5c0b43c26834d19eb7c64d3882e994cabb3a18eae128a9c0390`)
+also passes strict rendered Story1 contact/fire, fourteen static-part retirements,
+source sound1559, 17/17 effect expiry and seventeen fresh stump contacts. Two
+destruction/live-effect cancellation/fresh-entry cycles pass cleanup. These use
+supplied ordinary commands; Windows-held input, complete campaign regression,
 live animation/collision scheduling and the state27 canopy remain separate.
+Public preview .14.1 remains the current download until the next receipt-bound
+combined acceptance and publication finish.
 
 Story1's shared source-world preflight also encounters bridge declarations.
 The D class reader's32/37/38 records only advance their operands. Command46
