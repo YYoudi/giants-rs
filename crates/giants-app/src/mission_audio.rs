@@ -1293,11 +1293,7 @@ fn update(world: &mut World) {
         }
         let mut mounted = engine.mounted.take().unwrap();
         if owned::requested()
-            && let Err(error) = (|| -> Result<(), String> {
-                owned::reserve(world, &mut mounted)?;
-                owned::reserve_damage(world, &mut mounted)?;
-                Ok(())
-            })()
+            && let Err(error) = owned::reserve(world, &mut mounted)
         {
             error!(
                 "mission_owned_audio_reserve_failed ticket={} error={error}",
@@ -1314,6 +1310,10 @@ fn update(world: &mut World) {
                 let cues = world
                     .resource::<crate::mission_runtime::Runtime>()
                     .owned_impact_cues(mounted.ticket)?;
+                // The ordinary partial Mecc consumes the same real local pain
+                // transport as the owned primary; preparation is not an
+                // inspection-backend feature or a playback acknowledgment.
+                owned::reserve_damage(world, &mut mounted)?;
                 owned::impact::reserve(world, &mut mounted, &cues)
             })()
         {
