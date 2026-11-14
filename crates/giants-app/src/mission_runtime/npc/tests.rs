@@ -770,6 +770,7 @@ fn inject_nonlethal(runtime: &mut Runtime, ticket: u64) -> Id {
         fields.position[2] + 3.,
     ];
     let hit = giants_game::mecc_pistol::WorldHit {
+        source: None,
         object: 1,
         serial: 1,
         motion: giants_game::damage_impulse::Motion {

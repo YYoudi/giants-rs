@@ -677,6 +677,7 @@ mod tests {
             .hit(
                 91,
                 giants_game::mecc_pistol::WorldHit {
+                    source: None,
                     object: id,
                     serial: 1,
                     point,
@@ -739,6 +740,7 @@ mod tests {
         assert!(state.mission_colliders().iter().any(|o| o.fields.id == id));
         let mut random = giants_game::audio_parameters::Random(17);
         let hit = giants_game::mecc_pistol::WorldHit {
+            source: None,
             object: id,
             serial: 1,
             point,
@@ -825,6 +827,7 @@ mod tests {
         let point = owner.fields.position;
         let limit = owner.damage.limit;
         let hit = |amount| giants_game::mecc_pistol::WorldHit {
+            source: None,
             object: id,
             serial: 1,
             point,
@@ -917,6 +920,7 @@ mod tests {
             .map(|t| t.vertices)
             .collect::<Vec<_>>();
         let hit = |serial, amount| giants_game::mecc_pistol::WorldHit {
+            source: None,
             object: id,
             serial,
             point,

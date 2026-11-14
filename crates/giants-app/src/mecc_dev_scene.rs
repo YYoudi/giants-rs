@@ -255,10 +255,14 @@ impl State {
             return Err("owned Mecc firing cannot use the development pistol simulation".into());
         }
         let (origin, aim) = self.combat_pose().map_err(|e| e.to_string())?;
+        let camera = self.camera().1;
         let held = held && self.alive();
-        self.mission_pistol
+        let pistol = self
+            .mission_pistol
             .as_mut()
-            .ok_or("selected mission weapon is not prepared")?
+            .ok_or("selected mission weapon is not prepared")?;
+        pistol.source_camera(camera)?;
+        pistol
             .step(dt, origin, aim, held, terrain, &self.projectile_objects)
             .map_err(str::to_owned)
     }
