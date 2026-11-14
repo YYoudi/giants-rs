@@ -153,6 +153,25 @@ controls do not establish rendered acceptance, reciprocal damage or death.
 Prototype PS2 `ripper_move` remains an unknown attribution; see the central
 method and symbol navigation index. No new identity is confirmed.
 
+Local build source `8a3752967e7480ee3c4572bca162928c59b70015`, GNU executable
+SHA256 `d9f9fa7893cf85671abbc889c3ab1025830519197b7c471f5507f9ed9657dce3`:
+the routed rendered Wife encounter observes five actual classic class90 launches
+and repeated movement after mode45, returning through the ordinary pursuit/fire
+loop beyond the previous refusal. No living-AI quarantine occurs in this attempt.
+Its stricter continuous-mode41 capture endpoint is not reached by frame12000:
+exit101 after about194 seconds, no capture. This is positive scoped continuation
+evidence and a failed close-pursuit endpoint, not complete encounter acceptance.
+Actual projectile contacts still refuse unbound world/radial damage services.
+
+On the same executable, separate Windows clicks enter **Preview tools -> Browse
+all missions -> Mecc Story2 -> The Wife**, Escape skips the cinematic, Escape
+returns to the mission list, and re-entry/skip/return work. Both sessions release
+their actor/GPU owners. A brief key input is not a Windows combat receipt. The
+normal launch has no replay, probe or NPC-enable environment. Full Windows-aimed
+encounter, reciprocal injuries and death remain unverified. Workspace1,096 Rust
+tests (241 ignored),45 Python tests, fmt and strict Clippy pass; the private
+25-row helper comparison and actual-constructor late-failure control also pass.
+
 ## Historical Ripper integration receipts
 
 Earlier startup-policy build: source `b7cc590`, GNU executable SHA256

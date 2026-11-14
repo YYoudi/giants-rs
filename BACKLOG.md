@@ -294,8 +294,12 @@ dirt context, reciprocal marker and audio contracts, without forced NPC motion.
 Twenty-five bounded original-helper controls agree; actual source constructors
 check the shared owner bridge and retained writes after late sound failure.
 The five-degree classic close gate is corrected by four additional native
-counterexamples. New rendered acceptance is still required before main/build
-delivery; existing .13.3 download remains the last published receipt.
+counterexamples. Build `8a37529` then observes five actual classic shots and
+repeated movement/pursuit after mode45 without living-AI quarantine; the stricter
+mode41 capture endpoint still times out (exit101/no capture). Separate actual
+Windows menu entry, cinematic skip, return, re-entry and clean release pass.
+These scoped results do not establish reciprocal combat or a complete encounter.
+See OWNED_NPCS.md for the executable identity; .13.3 remains the public download.
 
 Next NPC delivery: acquire and connect the genuine shared-world guards that
 block reciprocal contact, alongside the actual radial recipients and positive
