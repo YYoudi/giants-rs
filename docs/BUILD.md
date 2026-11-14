@@ -8,6 +8,14 @@ under supplied hits/time, canonical metadata, complete wood-effect expiry and
 replacement collision ownership. These are intermediate CPU controls; normal
 menu/input/render and campaign regressions remain required.
 
+The muted rendered building fixture also accepts class102 in Story2's Starving
+entry: set `GIANTS_MISSION_BUILDING_CLASS=102` with the existing building probe
+and choose `destroyed` or `settled`. It supplies normal navigation, look, jet and
+fire, then observes actual foliage retirement, source wood effects/audio and
+the independent stump; `settled` additionally requires complete effect expiry
+and fresh stump contacts. This is a test driver, not a feature switch. Keep its
+exact-build receipt separate from CPU and real Windows-input evidence.
+
 For source no-shot surface checks, the existing muted offscreen
 building input fixture accepts `GIANTS_MISSION_BUILDING_CAPTURE=unchanged`.
 It selects an already admitted source state0 mesh, supplies ordinary contact,
