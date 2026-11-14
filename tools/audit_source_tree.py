@@ -45,7 +45,8 @@ REVIEWED_ATTRIBUTION_LABELS = {'crates/giants-game/src/ripper_primary_turn.rs': 
                                    'a0c4addf0a738b4bf910f9f730d85fd8410c09ffed60c7ba683fd7de201a868a',
                                    'b95db50f67716523141c0bf3d11ccf1928ea2299c48f39fea32501ee09f0c44f',
                                    'bbf89e34ec9cc515385bb66664e978ce79f2ba20d1ec47764e936d95a704fc34'},
- 'docs/SYMBOL_NAVIGATION.md': {'01e32dd58e2c6046541c1faeb5280bc7ed1c4f4d4a19d0a29aa639420bc40daf',
+ 'docs/SYMBOL_NAVIGATION.md': {'bab1a95dbc653b862c479c1f0d4f02907e542586cbc25c4d5985c86484ef4998',
+                               '01e32dd58e2c6046541c1faeb5280bc7ed1c4f4d4a19d0a29aa639420bc40daf',
                                '03e8861c2ecbe4903cf621c55c5db2fb033667893ec92292a22e8bc778b3851c',
                                '0d55775d69b6004163df1693a6a096fbfaef5ccdebcaa97aa98a9655a3c06369',
                                '10095ce35c431a67ebb92a38dfe5657e2ba9f6726a73ee274226d4871a7595bb',
@@ -72,6 +73,11 @@ REVIEWED_ATTRIBUTION_LABELS = {'crates/giants-game/src/ripper_primary_turn.rs': 
                                '649c65e331b31019c5529089c3a134b48ca0f5e7fa38fab353773800a66fce71',
                                '68be833a7ea484145b14dc1a3b98ed0e093bcfa48e0ebee68da7b522e3e259e8',
                                '6a2c8a08a3d3678d0b9c5b035ab2775fa267a94a33f8a4492fab3a5555c61093',
+                               '2238304170349433dab36ecf8f1727afc81e7d8e8fd3086d7aaf3e0a59c35777',
+                               '0841b622e3a2fcbb568ecfa343295a1285218a96ae8b8b00ad309982326d2736',
+                               '29020fa098f26746f2dc8e3fc585de038c3693bdf42bab05f205ac7fd7218f4b',
+                               '67e98798a96ac460d3afcda1fab6d139ec49c948a5d91b3d9af7c216d8065015',
+                               '9fd50c038add1f37d5876955b261138a33fda7a568ce79046756671fba08f2a8',
                                '6a6f4cc3338364fd742f50db811993a1709c0ed390d98fc397e847a9f1636a97',
                                '7318289ec0febb0e42994630d51c5ed4fbaa0a877a19c431087f94a3d29cf26b',
                                '73f6c89fb54c84a0d1afde6fecf09b99a8fef464342d94695472a3e9f2c66a94',
@@ -112,6 +118,9 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('67e98798a96ac460d3
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('29020fa098f26746f2dc8e3fc585de038c3693bdf42bab05f205ac7fd7218f4b')
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('0841b622e3a2fcbb568ecfa343295a1285218a96ae8b8b00ad309982326d2736')
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('bab1a95dbc653b862c479c1f0d4f02907e542586cbc25c4d5985c86484ef4998')
+
+# Reviewed merged minimal symbol index; both lanes and unknown statuses retained.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('57a6c15df729acf8c5d6c12c9cc91c3f3ce7bbb49f25eef3af0c41c8893280c3')
 
 # Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # branch. Reviewed as a VP8-only image without embedded metadata. Keep its

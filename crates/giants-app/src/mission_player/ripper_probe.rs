@@ -35,6 +35,7 @@ pub(crate) fn validate(app: &App) -> Result<(), String> {
     if !enabled() {
         return Ok(());
     }
+    target_class()?;
     check(
         &std::env::var("GIANTS_MISSION_REPLAY").unwrap_or_default(),
         &std::env::var("GIANTS_SHOWCASE_WORLD").unwrap_or_default(),
@@ -48,6 +49,17 @@ pub(crate) fn validate(app: &App) -> Result<(), String> {
             || crate::frontend_scene::objective_interaction_probe(),
         flights()?,
     )
+}
+fn target_class() -> Result<Option<i32>, String> {
+    match std::env::var("GIANTS_MISSION_RIPPER_TARGET_CLASS")
+        .ok()
+        .as_deref()
+    {
+        None => Ok(None),
+        Some("73") => Ok(Some(73)),
+        Some("230") => Ok(Some(230)),
+        _ => Err("Ripper diagnostic target class must be an actual class73 or class230".into()),
+    }
 }
 pub(super) struct Input {
     pub axes: Vec2,
@@ -67,6 +79,13 @@ pub(super) struct Navigation {
     chase_actor: Option<giants_game::resident_states::Id>,
     chase_origin: Option<[f32; 3]>,
     chase_first_shot: Option<u32>,
+    previous_target_mode: Option<u32>,
+    retreat_completed: bool,
+    route: Option<super::route_probe::Route>,
+    route_actor: Option<giants_game::resident_states::Id>,
+    approach_done: bool,
+    escape: super::route_probe::Escape,
+    close_origin: Option<[f32; 3]>,
 }
 impl Navigation {
     fn thrust(&mut self, distance: f32, relative_height: f32, fuel: f32) -> bool {
@@ -89,14 +108,41 @@ pub(super) fn input(
     runtime: &mut Runtime,
     ticket: u64,
     step: u32,
+    terrain: &giants_formats::gti::Terrain,
 ) -> Result<Input, String> {
     let position = state.mission_snapshot().0;
-    let snapshot = runtime.ripper_input_snapshot(ticket, position)?;
-    let chase = std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CHASE").as_deref() == Ok("1");
+    let snapshot = runtime.ripper_input_snapshot(ticket, position, target_class()?)?;
+    let retreat = std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_RETREAT").as_deref() == Ok("1");
+    let close = std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CLASSIC_CLOSE").as_deref() == Ok("1");
+    let routed = retreat || close;
+    let chase =
+        routed || std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CHASE").as_deref() == Ok("1");
     if chase && navigation.chase_actor != snapshot.target_actor {
         navigation.chase_actor = snapshot.target_actor;
-        navigation.chase_origin = snapshot.target;
+        navigation.chase_origin = snapshot.target_position;
         navigation.chase_first_shot = None;
+        navigation.previous_target_mode = None;
+        navigation.retreat_completed = false;
+        navigation.close_origin = None;
+    }
+    if close {
+        if snapshot.target_mode == Some(41) {
+            if navigation.close_origin.is_none() {
+                navigation.close_origin = snapshot.target_position;
+            }
+        } else {
+            navigation.close_origin = None;
+        }
+    }
+    if retreat {
+        if navigation.previous_target_mode == Some(43) && snapshot.target_mode == Some(31) {
+            navigation.retreat_completed = true;
+            println!(
+                "mission_ripper_retreat_observed ticket={ticket} step={step} owner={:?} from_mode=43 to_mode=31 source=current_owned_actor forced_pose=false",
+                snapshot.target_actor
+            );
+        }
+        navigation.previous_target_mode = snapshot.target_mode;
     }
     if chase
         && snapshot.projectile_source.is_some()
@@ -106,7 +152,7 @@ pub(super) fn input(
     }
     let chase_moved = navigation
         .chase_origin
-        .zip(snapshot.target)
+        .zip(snapshot.target_position)
         .is_some_and(|(a, b)| (a[0] - b[0]).hypot(a[1] - b[1]) >= 20.);
     let mut input = Input {
         axes: Vec2::ZERO,
@@ -114,7 +160,16 @@ pub(super) fn input(
         boost: false,
         // Read-only endpoints over ordinary consumers. No damage, impact or
         // availability is supplied by selecting a diagnostic capture target.
-        capture: if chase {
+        capture: if close {
+            snapshot.target_mode == Some(41)
+                && snapshot.target_has_launch
+                && navigation
+                    .close_origin
+                    .zip(snapshot.target_position)
+                    .is_some_and(|(a, b)| (a[0] - b[0]).hypot(a[1] - b[1]) >= 20.)
+        } else if retreat {
+            navigation.retreat_completed
+        } else if chase {
             chase_moved
                 && snapshot.flight_revision >= flights()?
                 && snapshot.projectile_source == snapshot.target_actor
@@ -140,8 +195,28 @@ pub(super) fn input(
         let dx = target[0] - position[0];
         let dy = target[1] - position[1];
         let distance = dx.hypot(dy);
+        let waypoint = if routed && !navigation.approach_done && distance > 250. {
+            if navigation.route_actor != snapshot.target_actor {
+                navigation.route = Some(super::route_probe::Route::prepare(
+                    terrain,
+                    position,
+                    snapshot.target_position.unwrap_or(target),
+                    0.35,
+                )?);
+                navigation.route_actor = snapshot.target_actor;
+            }
+            navigation
+                .route
+                .as_mut()
+                .and_then(|route| route.next(position))
+        } else {
+            navigation.approach_done |= routed;
+            None
+        };
         let camera = state.subjective_inputs().0;
-        let aim = if chase
+        let aim = if let Some(waypoint) = waypoint {
+            waypoint
+        } else if chase
             || std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CONTINUATION").as_deref() == Ok("1")
         {
             [target[0], target[1], target[2] + 8.]
@@ -176,17 +251,30 @@ pub(super) fn input(
         }
         let previous = (navigation.recharging, navigation.climbing);
         let fuel = state.mission_snapshot().1;
-        input.thrust = navigation.thrust(distance, position[2] - target[2], fuel);
+        // Input pilot only: use the actual local terrain clearance. A distant
+        // low target cannot justify walking into the departure ridge forever.
+        let clearance = position[2] - snapshot.floor_height;
+        if let Some(waypoint) = waypoint {
+            let (axes, thrust, boost) =
+                navigation
+                    .escape
+                    .commands(position, waypoint, fuel, &mut navigation.recharging);
+            input.axes = Vec2::from_array(axes);
+            input.thrust = thrust;
+            input.boost = boost;
+        } else {
+            input.thrust = navigation.thrust(distance, clearance, fuel);
+            input.boost = input.thrust && step.is_multiple_of(360);
+        }
         if previous != (navigation.recharging, navigation.climbing) || step.is_multiple_of(240) {
             println!(
-                "mission_ripper_supplied_jet ticket={ticket} step={step} fuel={fuel} relative_height={} held={} recharging={} climbing={} supplied_input_only=true os_input=false",
+                "mission_ripper_supplied_jet ticket={ticket} step={step} fuel={fuel} relative_height={} terrain_clearance={clearance} held={} recharging={} climbing={} player={position:?} waypoint={waypoint:?} supplied_input_only=true os_input=false",
                 position[2] - target[2],
                 input.thrust,
                 navigation.recharging,
                 navigation.climbing
             );
         }
-        input.boost = input.thrust && step.is_multiple_of(360);
     }
     Ok(input)
 }

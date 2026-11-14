@@ -45,6 +45,133 @@ Unsupported actor continuations retain their last completed visual submission
 with its old frame number; their next AI/animation/contact frame is not supplied.
 Linked markers stay owned until scope retirement, with no fake per-marker cleanup.
 
+### Surface-linked melee correction (not a new combat delivery)
+
+The kind3 receiver now accepts a genuinely constructed, reciprocally linked
+class219/state48 surface marker on the attacking Ripper. This callback relation
+is separate from a transform parent and does not change the hit source to the
+marker. The previous blanket rejection excluded ordinarily surfaced attackers.
+Missing, foreign or broken reciprocal relationships still fail before world,
+health or controller services. The existing real world guards remain mandatory.
+
+Four additional original-PC observations with a supplied marker header produce
+the same health, impulse, reset, RNG and callback visits as the prior no-marker
+controls. These are bounded kind3 controls, not a natural encounter. The installed
+Rust regression constructs the real marker and checks successful supplied-guard
+delivery, retained ownership and refusal of a broken reverse link. The five
+existing canonical kind3 controls also pass. Prototype PS2 `ripper_move`,
+`hurt_object` and `mecc_shot` remain unknown relationships for these entries;
+no new attribution or platform-layout transfer is claimed.
+
+A longer supplied-command pursuit attempt on the published .13.3 executable
+exits101 at its diagnostic deadline without a capture. It observes later shots
+and a classic actor subsequently refused by the secondary-selection adapter.
+It does not establish pursuit acceptance or sustained combat. The short .13.3
+rendered receipt remains scoped as stated above. Required next runtime work is
+the actual shared-world guards, player projectile source and the reached classic
+attack-exit/animation continuation; special variant attacks and death remain open.
+
+### Classic attack-exit continuation (local, graphical acceptance pending)
+
+The ordinary class73 driver now connects mode43 to the acquired classic retreat
+helper. It requests the real reciprocal marker's closing mode strictly after
+the source animation threshold, then updates the actor personality; the variant
+retains its different write order. On a completed animation the classic uses its
+own cue, returns to mode31 and restores the source buried-speed parameter.
+Common motion, animation and marker retirement remain their existing owners.
+No position is forced and marking the child does not acknowledge its cleanup.
+The secondary adapter also admits the actual retreat animation instead of
+quarantining that actor at the attack exit.
+
+Sixteen original-PC helper contexts cover absent/present marker, unfinished/
+finished animation and the strict threshold boundary. The real no-op ground
+hook and absent-descriptor sound function execute; actor/target headers and
+channel samples are supplied. Rust comparisons retain those outcomes, while
+separate late-service failures check partial writes and no replay. An installed
+control uses the actual class73/marker constructors and checks the shared owner
+bridge, parameter restoration and retained child ownership. This is not whole
+native-world or ordinary graphical acceptance. Prototype PS2 `ripper_move`
+remains an unknown attribution for the classic helper and enclosing callback.
+
+The optional diagnostic can select an already present class73 or class230 actor.
+Its retreat endpoint observes the same owned actor change from43 to31; its
+pursuit displacement uses canonical actor positions, separately from animated
+draw centers. These are player-input diagnostics only, not feature switches,
+NPC pose writes, actual Windows inputs or an injury/death receipt.
+
+### Classic close pursuit after ranged fire (local)
+
+The routed rendered Wife attempt on source `d56a0e8` reaches the declared classic
+Ripper, observes its actual class90 shots and then exposes an unsupported mode41
+secondary selection. It exits101 without the retreat capture; this is a failed
+whole-encounter receipt, not graphical retreat acceptance. The earlier direct
+approaches on `00be6f7` and `0483def` remain navigation failures without captures.
+
+The ordinary driver now connects mode41 to the acquired stored-angle pursuit:
+current target validation, forward command only inside the source angular gate,
+actual destination, strict horizontal attack range and its class-specific cues.
+Loss of the target requests mode43; entering range requests mode42. The mode42
+animation selection is acquired, but its following primary/melee dispatch is
+still required. This does not fabricate damage or a completed attack callback.
+Twenty-two original helper contexts cover angles, distance boundaries, a vertically
+separated target, inactive/dead targets and the controlled-player suppression
+branch. Actor/target headers, globals and sound-registry absence are supplied.
+Rust compares the acquired steering/decisions, checks late audio failure without
+replay and uses installed constructors for the owned primary/target relation.
+Prototype PS2 lookup via `ripper_move` and the `ripper_chase` prefix supplies
+navigation candidates only; attribution remains unknown.
+
+The additional angular controls expose and correct an earlier shared-helper
+mistake: classic close pursuit uses its independently verified five-degree gate.
+The variant caller is unchanged; sharing a command writer does not establish
+identical caller constants.
+
+The read-only close-pursuit endpoint requires a real launch attributed to the
+same actor and at least20 horizontal units of canonical displacement within its
+continuous mode41 phase. It changes neither the attack range nor actor fields.
+Rendered acceptance of this new continuation remains pending; reciprocal damage,
+death, special attacks, other maps and full Windows/menu lifecycle remain open.
+
+### Classic orbit and burrowing continuation (local)
+
+The rendered attempt on source `297f2b3` reaches the real classic actors but
+refuses modes35/45 before its close-pursuit endpoint (exit101, no capture).
+Those actually reached branches, plus their buried mode36 continuation, now
+use the ordinary Session driver and secondary animation selection. They retain
+source orbit decisions, independent random draws, actual dirt-context requests,
+reciprocal marker closing, static terrain queries and positional sound requests.
+The completed burrowing animation enters mode36, not mode35. Common movement
+consumes the produced commands; no creature position or countdown is invented.
+
+Twenty-five original-helper controls compare orbit steering, near/far decisions,
+lost targets, body-word tests, vertical separation and animation boundaries.
+The original ground query executes on a supplied flat grid. Existing dirt is
+an opaque supplied identity in those controls, not successful FX construction.
+The separate installed-source control uses actual class73, marker and dirt
+constructors, including ownership retained after a late audio failure. These
+controls do not establish rendered acceptance, reciprocal damage or death.
+Prototype PS2 `ripper_move` remains an unknown attribution; see the central
+method and symbol navigation index. No new identity is confirmed.
+
+Local build source `8a3752967e7480ee3c4572bca162928c59b70015`, GNU executable
+SHA256 `d9f9fa7893cf85671abbc889c3ab1025830519197b7c471f5507f9ed9657dce3`:
+the routed rendered Wife encounter observes five actual classic class90 launches
+and repeated movement after mode45, returning through the ordinary pursuit/fire
+loop beyond the previous refusal. No living-AI quarantine occurs in this attempt.
+Its stricter continuous-mode41 capture endpoint is not reached by frame12000:
+exit101 after about194 seconds, no capture. This is positive scoped continuation
+evidence and a failed close-pursuit endpoint, not complete encounter acceptance.
+Actual projectile contacts still refuse unbound world/radial damage services.
+
+On the same executable, separate Windows clicks enter **Preview tools -> Browse
+all missions -> Mecc Story2 -> The Wife**, Escape skips the cinematic, Escape
+returns to the mission list, and re-entry/skip/return work. Both sessions release
+their actor/GPU owners. A brief key input is not a Windows combat receipt. The
+normal launch has no replay, probe or NPC-enable environment. Full Windows-aimed
+encounter, reciprocal injuries and death remain unverified. Workspace1,096 Rust
+tests (241 ignored),45 Python tests, fmt and strict Clippy pass; the private
+25-row helper comparison and actual-constructor late-failure control also pass.
+
 ## Historical Ripper integration receipts
 
 Earlier startup-policy build: source `b7cc590`, GNU executable SHA256

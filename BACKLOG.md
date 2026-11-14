@@ -340,6 +340,43 @@ publication. Preserve explicit missing reciprocal damage/death/close-melee and
 native fidelity limits; no invented guard/provider or forced NPC motion.
 
 
+The surface-linked kind3 adapter now accepts the actual reciprocal class219
+marker instead of rejecting every callback owner. Original-PC supplied-marker
+controls preserve the four prior receiver results; the installed Rust regression
+checks the real constructor, source attribution and broken-link refusal. This is
+a corrected dependency, not newly available ordinary damage. The longer .13.3
+pursuit diagnostic fails its endpoint and exposes a later classic secondary
+selection refusal after repeated shots. Acquire and connect the reached classic
+attack-exit/animation continuation before claiming sustained encounters; preserve
+the short published receipt and do not weaken its diagnostic to obtain success.
+The class73 mode43 primary and secondary are now locally connected, including
+the real reciprocal marker close, source animation threshold, class-specific
+sound and buried-speed restoration. Sixteen original helper contexts and the
+installed owner test pass; rendered acceptance remains pending. The real world
+combat guards, player projectile source, special attacks and death remain open.
+The routed `d56a0e8` Wife GPU attempt reaches classic actor162 and real class90
+launches, then refuses mode41 at step10204 (exit101/no capture). That reached
+close-pursuit primary/secondary is now locally connected with22 bounded native
+helper comparisons and source-owned target tests. It retains actual movement
+commands, horizontal range and cues. Mode42 entry animation is admitted; its
+primary and genuine kind3 injury consumer remain the next classic encounter
+blocker, alongside the shared-world guards. No completed melee or new public
+preview is claimed; see OWNED_NPCS.md for precise evidence and limitations.
+
+The subsequent `297f2b3` rendered encounter instead reaches modes35/45 and fails
+their unsupported selection (exit101/no capture). Classic modes35/36/45 now
+connect through the ordinary driver: real orbit decisions/commands, terrain,
+dirt context, reciprocal marker and audio contracts, without forced NPC motion.
+Twenty-five bounded original-helper controls agree; actual source constructors
+check the shared owner bridge and retained writes after late sound failure.
+The five-degree classic close gate is corrected by four additional native
+counterexamples. Build `8a37529` then observes five actual classic shots and
+repeated movement/pursuit after mode45 without living-AI quarantine; the stricter
+mode41 capture endpoint still times out (exit101/no capture). Separate actual
+Windows menu entry, cinematic skip, return, re-entry and clean release pass.
+These scoped results do not establish reciprocal combat or a complete encounter.
+See OWNED_NPCS.md for the executable identity; .13.3 remains the public download.
+
 Next NPC delivery: acquire and connect the genuine shared-world guards that
 block reciprocal contact, alongside the actual radial recipients and positive
 hit/Vimp-alert consumers. Source `6354f1d` / GNU executable

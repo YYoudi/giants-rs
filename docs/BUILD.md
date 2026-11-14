@@ -24,6 +24,46 @@ the independent stump; `settled` additionally requires complete effect expiry
 and fresh stump contacts. This is a test driver, not a feature switch. Keep its
 exact-build receipt separate from CPU and real Windows-input evidence.
 
+The local classic orbit continuation uses `cargo test --locked -p giants-game
+classic_orbit --target x86_64-pc-windows-gnu`. Private native controls require
+`GIANTS_RIPPER_CLASSIC_ORBIT_CONTROLS`; the installed constructor control
+requires `GIANTS_NPC_ROOT`. Use `-- --include-ignored` only with the corresponding
+inputs set. Neither test establishes ordinary graphical availability.
+
+The local mode41 continuation has `cargo test --locked -p giants-game
+classic_close --target x86_64-pc-windows-gnu`. The optional
+`native_classic_close_controls` test uses private identity-bound
+`GIANTS_RIPPER_CLASSIC_CLOSE_CONTROLS`; `source_classic_close_keeps_owner_and_uses_actual_target_before_motion`
+uses `GIANTS_NPC_ROOT` and `-- --ignored`. These are supplied-phase controls.
+The existing Ripper input diagnostic accepts
+`GIANTS_MISSION_RIPPER_CAPTURE_CLASSIC_CLOSE=1` with target class73 to require
+that actor's actual launch and at least20 units of continuous mode41 movement.
+It reuses the sampled player approach and writes no NPC state or attack range.
+
+For the local classic Ripper retreat, run `cargo test --locked -p giants-game
+classic_retreat --target x86_64-pc-windows-gnu`. The optional
+`source_classic_retreat_marks_real_child_and_restores_buried_parameter` test
+uses `GIANTS_NPC_ROOT` and `-- --ignored`; `native_classic_retreat_controls`
+uses private identity-bound `GIANTS_RIPPER_RETREAT_CONTROLS` with supplied phase
+inputs. None of these CPU checks establishes ordinary combat or rendering.
+The existing muted Story2 mission1 Ripper input diagnostic additionally accepts
+`GIANTS_MISSION_RIPPER_TARGET_CLASS=73` (or230) to select an actually declared
+actor and `GIANTS_MISSION_RIPPER_CAPTURE_RETREAT=1` to wait for the same actor's
+observed43-to31 transition. This supplies player commands only and enables no
+ordinary actor. A diagnostic deadline remains a failure, not capture acceptance.
+Its jet pilot uses actual local terrain clearance, rather than the distant
+target's altitude, so a low target does not prevent climbing the departure ridge.
+The retreat diagnostic reuses the terrain-route and obstacle-escape input pilot
+for the distant approach. This changes supplied player commands, never NPC AI,
+colliders or actor positions; route failure remains an explicit test failure.
+
+The optional `cargo test --locked -p giants-game source_kind3_accepts --target
+x86_64-pc-windows-gnu -- --ignored` control uses `GIANTS_NPC_ROOT`. It constructs
+the installed surface marker on a supplied mode68 attacker, verifies that the
+kind3 response retains the Ripper as source, and refuses a broken reciprocal
+link before services. World/receiver gates and the actor frame are supplied;
+this does not establish ordinary damage, a rendered encounter or Windows input.
+
 For source no-shot surface checks, the existing muted offscreen
 building input fixture accepts `GIANTS_MISSION_BUILDING_CAPTURE=unchanged`.
 It selects an already admitted source state0 mesh, supplies ordinary contact,
