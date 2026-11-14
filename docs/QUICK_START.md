@@ -46,6 +46,14 @@ and prints the launch arguments without opening a game window.
 
 ## What to expect
 
+In preview .14.1, open **Preview tools -> Browse all missions -> Mecc Story 2**.
+In **Starving!**, normal pistol hits can destroy the admitted palms: their foliage
+disappears with wood effects and sound, leaving a solid, separately damageable
+stump. Other tree profiles remain incomplete. In **The Road Home**, approach the
+wife to carry her, then reach the authored return destination. This starts the
+completion film and, after its natural end, enters **High Village**. That next
+mission's AI remains partial. No feature-enable script is needed for either path.
+
 The entry point is the integrated menu. Select a mission there. Openings may be
 skippable; resident Mecc controls are available only where the build can admit
 the required player state. Other entries may remain inspection views. Mission

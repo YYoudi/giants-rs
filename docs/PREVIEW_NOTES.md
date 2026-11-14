@@ -1,7 +1,7 @@
 # Windows development preview - preview-2026.11.14.1
 
-Runtime source: `a4ae1663fedab1186ab9fcfd0b93daef93de3851`.
-Executable SHA256: `1550b33954e56cbacd2ade66ada1ec6a81ef147f1dc48258abdfa019e0b055b2`.
+Runtime source: `115d7e5fd62289f8e7225e4a21ece2955b650668`.
+Executable SHA256: `da915c015244074166dcb172f1cf38da2f8cecf34d7495166bbbb601742ac9db`.
 
 Supply your own compatible PC installation. No original game data or executable
 is included in the independent runtime ZIP.
@@ -24,6 +24,25 @@ mouse holds jet thrust, Space adds nitro, R changes view and Escape returns to
 the menu or skips a film. The Wife's rescue and Starving's twenty-meat chains
 remain available. Acquired miniature/Ripper barracks now also receive ordinary
 pistol damage, source health stages, effects/audio and retirement.
+
+## Shared buildings and NPC scene
+
+This build includes the validated NPC main contribution through commit 9eff7e8.
+Ripper effects now use the actual current ordinary solid meshes after canonical
+barracks initialization or damage. Cached platform geometry still requires an
+exact ordered match; unresolved footprints are preserved. A regression control
+first reproduces the old failure with real building startup, then passes on
+both tickets with actual ground-impact descendants and geometry.
+
+Unsupported projectile contacts, including declared scenery, retain/quarantine
+only the affected shot until mission retirement. They acknowledge no damage,
+impact, death or retirement and do not stop independent actors or later shots.
+This does not implement enemy damage to buildings or complete reciprocal combat.
+
+Long close-pursuit diagnostics that missed their read-only endpoint remain
+failed, not graphical acceptance of melee or complete pursuit. Earlier isolated
+CPU tests omitted ordinary building startup; they have been corrected. Separate
+exact-executable building and mission checks determine this delivery's scope.
 
 ## Exact validation scope and remaining limits
 
@@ -59,8 +78,31 @@ fuel, readiness, expiry or film end. They do not certify real Windows-held input
 audible parity, complete native world execution or full visual fidelity.
 Prototype PS2 lookup preceded acquisition; no new cross-platform identity is
 confirmed. Earlier aliases and unknown attribution routes remain searchable.
-The owner's approximate99% AI-generated estimate and absence of comprehensive
+The owner's approximate 99% AI-generated estimate and absence of comprehensive
 human review remain unchanged.
+
+## Build and distribution checks
+
+1,109 portable Rust tests pass; 250 installation/private controls remain ignored
+in that run. Formatting and strict all-target Clippy pass. Installed controls
+and rendered supplied-input checks retain their separate evidence scopes.
+Technical notice collection covers 338 dependency and eleven toolchain entries,
+with 29 system DLL imports and no missing license texts. Checksums and technical
+distribution review are bound to the exact executable above.
+
+## Completed rendered regression scopes
+
+The same executable passes both ordinary palm phases, the carried RoadHome
+return/source-film/next-player scope, both barracks destruction/expiry routes,
+two live barracks cancellations/fresh entries, the complete admitted Starving
+and The Wife chains, offscreen menu lifecycle and selected Story4 source-terminal
+transport with rendered text and cleanup. These use supplied ordinary commands
+and real muted sinks; they do not certify Windows-held input or full fidelity.
+The strict RoadHome report retains the separate following High Village AI
+platform refusal. Interrupted and advanced NPC deadline diagnostics remain
+unaccepted; no complete close-combat or campaign claim is transferred from them.
+Concurrent main-source classic-melee changes after the receipt's runtime commit
+are preserved in Git, but are not included in this downloadable executable.
 
 ## Earlier delivery records (historical receipts)
 

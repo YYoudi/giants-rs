@@ -1,37 +1,41 @@
 # Preview releases and milestone integration
 
 
-## Preview .14.1 - palms, barracks and the carried-wife return
+## Published preview .14.1 - palms, barracks and the carried-wife return
 
 [Windows preview-2026.11.14.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.14.1)
-connects admitted palms to normal pistol damage, source wood effects/audio,
-exact foliage retirement and an independently colliding/damageable stump.
-Try **Preview tools -> Browse all missions -> Mecc Story 2 -> Starving!**.
-Choose **The Road Home**, approach the wife to pick her up and carry her to
-the authored objective: the real return now plays its completion film to the
-natural end and enters **High Village**. No feature-enable script is required.
-The acquired miniature/Ripper barracks reactions join the earlier buildings.
+adds ordinary palm damage, source wood effects/audio, exact foliage retirement
+and an independently colliding, damageable stump. In **Mecc Story 2 -> Starving!**,
+shoot a palm trunk with the normal pistol. **The Road Home** now accepts the
+carried-wife return, plays the real completion film to its natural end and enters
+**High Village**. No feature-enable script is needed. Acquired barracks reactions
+join the earlier building profiles, preserving the NPC main contribution.
 
-Rendered palm checks observe seventeen effect births/retirements, twelve hidden
-foliage parts and fresh contacts with the new stump. The RoadHome core-chain
-check passes, while the strict combined report retains the following High
-Village Ripper AI refusal on an unacquired platform cold command46. This is
-not High Village mission completion. Other trees, live wind/collision alignment,
-heavy-actor felling and native visual/audio fidelity remain open. Earlier failed
-controls remain failed; supplied ordinary inputs are separate from OS-held tests.
-See PREVIEW_NOTES.md, BUILDINGS.md and MISSION_PROGRESSION.md for exact scopes.
+Ripper effects use actual current ordinary solids after building initialization
+or damage, with exact separate guards for cached platform geometry. Unsupported
+declared projectile contacts retain only the affected shot without acknowledging
+damage/retirement or stopping independent AI. High Village's unacquired platform
+dependency remains explicit: core return acceptance does not certify its mission.
 
-Portable controls: 1,106 Rust /243 ignored,45 Python, formatting and strict
-all-target Clippy. Installed controls separately cover source startup, splash,
-barracks initialization, tree transfer/damage and complete effect expiry.
-Technical notice collection: 338 dependency /eleven toolchain entries and
-29 system DLL imports, with no package blockers. No new prototype PS2 function
-identity is confirmed; unknown routes and prior aliases remain searchable.
+The exact executable passes rendered palms, both barracks with complete expiry,
+two live cancellation/fresh-entry cycles, Starving and The Wife chains, carried
+return and selected Story4 cinematic/text/cleanup. Supplied controls and actual
+muted sinks remain distinct from Windows-held input and native fidelity.
+1,109 portable Rust tests / 250 ignored, 45 Python tests, formatting and strict Clippy pass.
+Notice collection: 338 dependency / eleven toolchain entries, 29 system DLL imports,
+no package blockers. Matching dashboard images carry the same source/tag/EXE.
+No new prototype PS2 attribution is confirmed; aliases and unknown routes remain.
 
-Runtime source: `a4ae1663fedab1186ab9fcfd0b93daef93de3851`.
-Executable SHA256: `1550b33954e56cbacd2ade66ada1ec6a81ef147f1dc48258abdfa019e0b055b2`.
-ZIP SHA256: `412349d72a00c89d51ab5c630f0379ad5827357c9fee8b59503c1a8b80379b1d`.
+Other trees, live wind/collision alignment, restricted building callbacks,
+generic platforms, mission-death credit, full combat and native fidelity remain
+open. Earlier failures/interrupted controls are retained. See PREVIEW_NOTES.md,
+BUILDINGS.md, OWNED_NPCS.md and MISSION_PROGRESSION.md for their precise scopes.
 
+Runtime source: `115d7e5fd62289f8e7225e4a21ece2955b650668`.
+Later concurrent source contributions on main are preserved separately and are
+not claimed as delivered in this fixed, tested runtime snapshot.
+Executable SHA256: `da915c015244074166dcb172f1cf38da2f8cecf34d7495166bbbb601742ac9db`.
+ZIP SHA256: `d40f34b298e3ea494bce2e4002e728aa0bc7baa6b39cb71d207268223ac28fe7`.
 
 ## Published preview .13.3 - ordinary Ripper movement and ranged attacks
 

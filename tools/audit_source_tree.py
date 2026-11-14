@@ -134,6 +134,8 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('9cc32cf970ac510a77
 # all-reference history review valid before that gallery update enters main;
 # this permits neither other images nor another path or modified bytes.
 REVIEWED_HISTORICAL_IMAGES = {
+    # Visually reviewed receipt-bound carried-wife display; metadata-free VP8.
+    'docs/gallery/media/273d6ff5e58cc5d0f9b72042a20f8b665bd359963bcad7759a334a448757bab0.webp': '273d6ff5e58cc5d0f9b72042a20f8b665bd359963bcad7759a334a448757bab0',
     # Visually reviewed final .14.1 display copies; exact metadata-free bytes.
     'docs/gallery/media/f76ca3d8c86a9cc69f2f774084aad7b72729009bc3f29632687ea644f2149ab2.webp': 'f76ca3d8c86a9cc69f2f774084aad7b72729009bc3f29632687ea644f2149ab2',
     'docs/gallery/media/6aebe218c788d9962ca334a415f7eab69b4973b737150bad74e85b334dd4d9fe.webp': '6aebe218c788d9962ca334a415f7eab69b4973b737150bad74e85b334dd4d9fe',

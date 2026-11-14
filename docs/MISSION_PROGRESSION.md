@@ -30,8 +30,8 @@ PC attributions; native music/world prechecks remain separate.
 The ordinary rendered return now picks up the declared wife, carries her to the
 authored destination, completes the real 1/1 counter, plays the source return film
 through its natural end and loads the following source mission. This control
-uses runtime `a4ae1663fedab1186ab9fcfd0b93daef93de3851`, executable SHA256
-`1550b33954e56cbacd2ade66ada1ec6a81ef147f1dc48258abdfa019e0b055b2`.
+uses runtime `115d7e5fd62289f8e7225e4a21ece2955b650668`, executable SHA256
+`da915c015244074166dcb172f1cf38da2f8cecf34d7495166bbbb601742ac9db`.
 The strict whole-chain report remains failed because the following High Village
 Ripper AI refuses an unacquired platform cold command46. A separately scoped
 acceptance verifies the actual return, natural film end and ordinary next player;

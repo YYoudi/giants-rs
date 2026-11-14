@@ -33,7 +33,10 @@ empty-opening admission, canonical detached splash/fade and exact opaque
 barracks command7 metadata are connected. The strict combined report remains
 failed on High Village Ripper AI's unacquired platform cold command46; separate
 core-chain acceptance does not waive that dependency or certify the next mission.
-Acquired barracks damage/effects are included in this same build. Preserve the
+Acquired barracks damage/effects are included in this same build. Ripper effects bind the current ordinary solid
+meshes after canonical initialization/damage while cached platforms keep exact
+guards. Unsupported declared projectile hits retain only that shot and do not
+acknowledge damage or stop independent AI. Preserve the
 previous failed receipts and distinct .13.3 NPC delivery. See BUILDINGS.md,
 MISSION_PROGRESSION.md and PREVIEW_NOTES.md for evidence and remaining limits.
 

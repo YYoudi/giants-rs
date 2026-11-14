@@ -1,16 +1,18 @@
 {
   "schema_version": 1,
   "tag": "preview-2026.11.14.1",
-  "source_commit": "a4ae1663fedab1186ab9fcfd0b93daef93de3851",
-  "executable_sha256": "1550b33954e56cbacd2ade66ada1ec6a81ef147f1dc48258abdfa019e0b055b2",
-  "archive_sha256": "412349d72a00c89d51ab5c630f0379ad5827357c9fee8b59503c1a8b80379b1d",
+  "source_commit": "115d7e5fd62289f8e7225e4a21ece2955b650668",
+  "executable_sha256": "da915c015244074166dcb172f1cf38da2f8cecf34d7495166bbbb601742ac9db",
+  "archive_sha256": "d40f34b298e3ea494bce2e4002e728aa0bc7baa6b39cb71d207268223ac28fe7",
   "checks": [
     "palm_stump_gpu",
     "road_home_return_gpu",
-    "building_guard_replacement_gpu",
-    "building_house_damage_gpu",
     "barracks_damage_gpu",
-    "barracks_cancel_reentry_gpu"
+    "barracks_cancel_reentry_gpu",
+    "wife_campaign_chain_gpu",
+    "starving_campaign_chain_gpu",
+    "offscreen_menu_cycles",
+    "selected_cinematic_transport"
   ],
   "limitations": [
     "palm_remaining_profiles",
