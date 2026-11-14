@@ -1,6 +1,38 @@
 # Preview releases and milestone integration
 
 
+## Published preview .14.2 - additional palms and checked wife-return chains
+
+[Windows preview-2026.11.14.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.14.2)
+adds ordinary class101 palm destruction in Story1 and other declared maps, alongside
+the existing class102 profile. Shoot a trunk with the normal pistol: exact static
+parts retire, source wood effects/audio play and a separately colliding/damageable
+class664 stump remains. The Road Home accepts the carried-wife return, plays its
+completion film naturally and enters High Village. No feature-enable script is
+needed. Starving, The Wife and RoadHome are checked on this same executable.
+
+The strict rendered class101 expiry/stump-contact and two live-effect cleanup
+cycles pass, as do both barracks, selected campaign chains, ordinary menu lifecycle
+and selected Story4 source-terminal transport, rendered text, cleanup and re-entry.
+A separate Windows check observes
+menu/entry, cinematic skip, R view change, a mouse shot, return and fresh gameplay.
+Sustained OS-held input, OS-aimed tree destruction, full encounters and native
+fidelity remain unverified. 1,117 portable Rust tests /257 ignored, 45 Python tests,
+formatting and strict Clippy pass. Notices: 338 dependencies, 11 toolchain entries
+and 29 DLL imports, with no missing entries. The download includes Ripper source
+through commit 7242798. Earlier lane-specific injury evidence does not certify
+full combat on this build.
+
+Eleven auxiliary class101 links, live wind/collision alignment, other vegetation,
+generic platform footprints, full named bridge construction, restricted callbacks
+and building objective credit remain explicit requirements. No new prototype PS2
+attribution is confirmed. Earlier failures/interrupted tests are retained.
+
+Runtime source: `3aa25533e0f200de0a6b72345d30107932a5f3f7`.
+Executable SHA256: `250b23fc9c8f31df182367fb4c54a239288d2ba1c8b90ea308f16f56e4c890f9`.
+ZIP SHA256: `43e9b981d531c4057ce4be73e14e2ec635134b36a7ccbf1594744fa9a58f45c2`.
+Later documentation commits do not change this fixed runtime receipt.
+
 ## Published preview .14.1 - palms, barracks and the carried-wife return
 
 [Windows preview-2026.11.14.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.14.1)

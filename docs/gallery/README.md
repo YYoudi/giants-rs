@@ -12,11 +12,14 @@ the earlier asset-free dashboard restriction only for these display captures.
 The private repository, reports, inputs, executables and research paths remain
 excluded. The archive was read without modifying it.
 
-`manifest.json` contains 304 comparison records, their labels, limitations and
-source revisions, plus two standalone build screenshots. Its `images` map pins
+The initial `manifest.json` import contained 304 comparison records, labels, limitations and
+source revisions, plus two standalone build screenshots. Its initial `images` map pinned
 the SHA-256 of 507 distinct WebP display copies: 502 historical images (from 508
 source PNG files) and five additional build/world-inspection captures.
-Only explicitly listed files are exported. Source paths and report links are not
+Later reviewed runtime captures are also pinned by the current manifest, with
+source/tag/executable identity. Current-download labels require all three to match;
+historical captures retain their earlier identities. Only explicitly listed files
+are exported. Source paths and report links are not
 retained. Image metadata was stripped; dimensions were preserved. WebP quality 90
 reduces approximately 692 MB of source PNGs to 89 MB. These lossy display copies
 must not be used for pixel-validation claims. Original PNGs remain private.

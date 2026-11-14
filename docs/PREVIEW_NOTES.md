@@ -1,269 +1,57 @@
-# Windows development preview - preview-2026.11.14.1
+# Windows development preview - preview-2026.11.14.2
 
-Runtime source: `115d7e5fd62289f8e7225e4a21ece2955b650668`.
-Executable SHA256: `da915c015244074166dcb172f1cf38da2f8cecf34d7495166bbbb601742ac9db`.
+Runtime source: `3aa25533e0f200de0a6b72345d30107932a5f3f7`.
+Executable SHA256: `250b23fc9c8f31df182367fb4c54a239288d2ba1c8b90ea308f16f56e4c890f9`.
 
-Supply your own compatible PC installation. No original game data or executable
-is included in the independent runtime ZIP.
+Supply your own compatible PC installation. The ZIP contains no original game
+data or executable. The independent Rust + Bevy runtime uses MinGW.
 
-## Test palms and the carried-wife return
+## Play the added trees and carried-wife return
 
-Open **Preview tools -> Browse all missions -> Mecc Story 2 -> Starving!**.
-Aim at a palm trunk and fire with left mouse. The admitted class102 palms have
-source health10: one accepted pistol damage12 hit destroys them. The wood effect
-and positional sound accompany foliage retirement; the source class664 stump
-keeps its own player/projectile collision and health100. Nine further accepted
-pistol hits retire that stump without inventing another burst. Other vegetation
-classes and heavy-actor felling are not delivered by this change.
+Open Preview tools -> Browse all missions -> Mecc Story 1 -> A Boy Called Timmy.
+Normal pistol hits now destroy admitted class101 palms as well as the class102
+palms previously delivered in Starving. One accepted damage12 hit exhausts source
+health10: exact model parts retire, the wood burst/sound plays and an independent
+class664 stump remains collidable and damageable. Nine further accepted pistol
+hits exhaust its health100 without inventing a second burst.
 
-Choose **The Road Home**, collect the declared wife by approaching her and
-carry her to the authored destination. The real return predicate now starts
-the completion film, which can finish naturally and enter **High Village**.
-No dedicated script or feature flag is needed. WASD/mouse move and aim, right
-mouse holds jet thrust, Space adds nitro, R changes view and Escape returns to
-the menu or skips a film. The Wife's rescue and Starving's twenty-meat chains
-remain available. Acquired miniature/Ripper barracks now also receive ordinary
-pistol damage, source health stages, effects/audio and retirement.
+In The Road Home, approach the declared wife, carry her to the authored return
+destination and let the completion film finish. The next ordinary High Village
+entry follows. Starving's twenty-meat return and The Wife's rescue chain are
+also checked on this executable. No feature-enable script is needed.
 
-## Shared buildings and NPC scene
+WASD/mouse move and aim; left mouse fires, right mouse holds jet thrust,
+Space adds nitro, R changes view, Escape skips a film or returns to the menu.
 
-This build includes the validated NPC main contribution through commit 9eff7e8.
-Ripper effects now use the actual current ordinary solid meshes after canonical
-barracks initialization or damage. Cached platform geometry still requires an
-exact ordered match; unresolved footprints are preserved. A regression control
-first reproduces the old failure with real building startup, then passes on
-both tickets with actual ground-impact descendants and geometry.
+## Validation and limits
 
-Unsupported projectile contacts, including declared scenery, retain/quarantine
-only the affected shot until mission retirement. They acknowledge no damage,
-impact, death or retirement and do not stop independent actors or later shots.
-This does not implement enemy damage to buildings or complete reciprocal combat.
+This exact executable passes rendered class101 destruction/expiry/stump contacts,
+two live-effect cancellation/fresh-entry cycles, both admitted barracks with
+expiry and cancellation, the selected Starving/The Wife/RoadHome chains, ordinary
+menu lifecycle and selected Story4 source-terminal transport with rendered text,
+cleanup and re-entry. Commands in these
+routes are supplied through normal gameplay services, with real muted sinks.
+A separate Windows check observes menu selection, cinematic skip, view toggle,
+a real mouse shot, return/cleanup and fresh gameplay entry. Sustained Windows-held
+movement/jet and OS-aimed tree destruction are not certified by these checks.
 
-Long close-pursuit diagnostics that missed their read-only endpoint remain
-failed, not graphical acceptance of melee or complete pursuit. Earlier isolated
-CPU tests omitted ordinary building startup; they have been corrected. Separate
-exact-executable building and mission checks determine this delivery's scope.
+The integrated NPC source retains living Ripper AI when a lethal pistol service
+is unsupported. Earlier source-lane repeated-injury, blood/audio and AI evidence
+remain separately scoped; this preview does not certify a complete encounter,
+lethal combat, death or all NPC callbacks. Real initial bridge collision geometry
+retains explicit unresolved platform-footprint and named-constructor requirements.
 
-## Exact validation scope and remaining limits
+Tree collision uses the acquired initial pose. Eleven class101 auxiliary links
+remain unresolved; binding-selected metadata admits only represented geometry,
+not a whole animation or actor. Other vegetation, wind alignment, restricted
+building callbacks, generic footprints, objective death-credit, full campaign
+continuity and native visual/audio fidelity remain open. No new PC/prototype PS2
+attribution is confirmed. Recovered names remain searchable with unknown status.
 
-Two exact-executable rendered palm routes observe real narrow contacts, normal
-weapon damage, all twelve old foliage parts hidden, source sound1559, seventeen
-effect births/seventeen retirements and two fresh narrow stump contacts after
-expiry. Installed controls separately verify independent stump damage/retirement.
-Stump/debris without normals use the shared acquired unlit RGB/alpha consumer;
-lit geometry retains its existing normal/cube owner. Palm collision currently
-uses the initial idle pose; live wind/collision alignment and native visual
-fidelity remain unverified. The close collision capture is not frame-aligned
-or a claim of pixel fidelity.
-
-The rendered RoadHome route actually picks up/carries/returns the wife, satisfies
-the source 1/1 counter, plays the real completion film through its natural end,
-releases the old ticket and enters the next ordinary Mecc scene. Fresh empty
-opening admission and the canonical detached splash/fade are connected. The
-following barracks retain their actual opaque command7 scalar before initial
-callbacks; its semantic meaning remains unknown.
-
-The strict whole-chain report remains **failed** on a distinct High Village
-Ripper AI dependency: a source platform cold command46 is not acquired. A
-separate core-return acceptance covers the requested transition and next player;
-it does not waive the AI refusal or certify High Village mission completion.
-Failed earlier opening, effect, renderer and input-route attempts remain failed
-history. Per-shot Ripper query failures now retain/quarantine that shot without
-inventing contact/damage or stopping independent actors; reciprocal combat and
-complete NPC continuations remain incomplete.
-
-These are rendered tests with supplied ordinary commands, actual gameplay
-owners, clocks and real muted sinks. They inject no pose, health, collision,
-fuel, readiness, expiry or film end. They do not certify real Windows-held input,
-audible parity, complete native world execution or full visual fidelity.
-Prototype PS2 lookup preceded acquisition; no new cross-platform identity is
-confirmed. Earlier aliases and unknown attribution routes remain searchable.
-The owner's approximate 99% AI-generated estimate and absence of comprehensive
-human review remain unchanged.
-
-## Build and distribution checks
-
-1,109 portable Rust tests pass; 250 installation/private controls remain ignored
-in that run. Formatting and strict all-target Clippy pass. Installed controls
-and rendered supplied-input checks retain their separate evidence scopes.
-Technical notice collection covers 338 dependency and eleven toolchain entries,
-with 29 system DLL imports and no missing license texts. Checksums and technical
-distribution review are bound to the exact executable above.
-
-## Completed rendered regression scopes
-
-The same executable passes both ordinary palm phases, the carried RoadHome
-return/source-film/next-player scope, both barracks destruction/expiry routes,
-two live barracks cancellations/fresh entries, the complete admitted Starving
-and The Wife chains, offscreen menu lifecycle and selected Story4 source-terminal
-transport with rendered text and cleanup. These use supplied ordinary commands
-and real muted sinks; they do not certify Windows-held input or full fidelity.
-The strict RoadHome report retains the separate following High Village AI
-platform refusal. Interrupted and advanced NPC deadline diagnostics remain
-unaccepted; no complete close-combat or campaign claim is transferred from them.
-Concurrent main-source classic-melee changes after the receipt's runtime commit
-are preserved in Git, but are not included in this downloadable executable.
-
-## Earlier delivery records (historical receipts)
-
-# Windows development preview - preview-2026.11.13.3
-
-Runtime source: `941342bffca063b6fd78b520dccd5515153ecd94`.
-Executable SHA256: `9a9ae9a4ca1902ecd3c2c46b7d9faf5b9b922bacdf7d7be7cf53d9517d77c962`.
-
-Supply your own compatible PC installation. Original assets, executables,
-captures and private research are excluded from this independent runtime ZIP.
-
-## Test ordinary Ripper movement and ranged attacks
-
-Open **Preview tools -> Browse all missions -> Mecc Story 2 -> The Wife**.
-Let the opening finish or press Escape to skip it. Approach the declared Rippers
-with WASD/mouse and the right-mouse jet. Left mouse fires the partial player
-pistol, Space adds nitro, R changes view and Escape returns to mission selection.
-No NPC flag or replay script is required for their ordinary admission or AI.
-
-The connected source Rippers can awaken, move, emerge, animate and launch their
-owned projectiles. The actual camera, loaded effect-quality constants and owned
-population now select their awakening effects; an unprovided selector previously
-stopped the ordinary Rippers before their movement. Their Session, terrain,
-player contacts, clocks, RNG, rendering and audio are shared with the main build.
-Existing building collision/damage/destruction/replacement services are retained.
-
-This is **movement and ranged-attack feedback, not complete reciprocal combat**.
-Player-pistol Ripper injury, enemy-hit shared guards, lethal reactions and full
-Ripper cleanup remain incomplete. An unsupported projectile consumer retains
-that failed shot until mission retirement without acknowledging damage. An
-unsupported actor continuation stops that actor and holds its last completed
-visual submission, without acknowledging a new animation/contact frame; other
-actors keep running. The variant's special close attacks remain unsupported.
-Do not interpret a held model, missing health change or quarantined shot as death.
-
-## Exact validation scope
-
-The identified executable passes a continuous rendered supplied-command The Wife
-route through a classic Ripper's approximately147-unit horizontal movement,
-emergence and actual class90 shot after the variant's unsupported branch is
-isolated. The private capture was inspected and the process exits0. The commands
-move/look/jet only the Mecc; no NPC pose, mode, health or availability is injected.
-Earlier failed candidates exposed the awakening-selector and shared-failure
-isolation gaps; their failures are not acceptance receipts.
-
-A separate visible launch with no replay/probe flags renders the normal menu.
-Windows control was then stopped by physical Escape; full Windows-held movement,
-mission entry/re-entry and an OS-played encounter are **not** validated here.
-There is no new damage/death or whole-game/native-fidelity acceptance.
-
-1,094 Rust tests /234 ignored,45 Python, formatting and strict Clippy pass on the
-combined integration. Installed source controls cover Ripper ground impacts on
-two tickets and house collision/damage/source-effect expiry. No new prototype PS2
-function attribution is confirmed. The approximately99% AI-generated estimate
-and absence of comprehensive human review remain unchanged.
-
-## Retained earlier main delivery
-
-# Windows development preview - preview-2026.11.13.2
-
-Runtime source: `b633f810de881c45cea8b7fb24250ec0314d47b8`.
-Executable SHA256: `bebbc7adbbe4147079970b212a946a4c8750bb436eb8a39aa9d15f32c8c3e516`.
-
-Supply your own compatible PC installation. Original assets, executables and
-private research are excluded from the download.
-
-## Test ordinary building collision and damage
-
-Open **Preview tools -> Browse all missions -> Mecc Story 2 -> Starving!**.
-Let the opening finish or press Escape to skip it. WASD/mouse move and aim,
-left mouse fires the partial pistol, hold right mouse for the jet, Space adds
-nitro, R changes view and Escape returns to the menu. No replay script or
-building flag enables collisions or damage.
-
-The entrance, columns and supported fences now block the player's actual mesh
-contacts. The entrance also receives ordinary pistol damage: its individual
-source health mesh changes through successive stages, with stone/debris/smoke,
-positional sounds and final disappearance. Its detached columns remain separate
-objects. Houses and small towers retain their own health, effects and retirement.
-Player, generic environment and projectile memberships remain separate; the
-player path does not invent generic footprints or walkable roofs.
-
-The guard tower now receives normal pistol damage, spawns its actual mixed
-debris/particle graph and positional sound, and is replaced by its own source
-base. The base retains independent player collision after the effects expire;
-it does not inherit the old tower's projectile membership. To try this nearby,
-select **Mecc Story 2 -> The Road Home**, then use ordinary movement/jet/aim to
-reach the guard tower. Seven hits reach its first health stage; thirty destroy
-it. No script enables this feature.
-
-The Story2 entry prepares 65 physical-player meshes, 31 generic environment
-meshes, 65 projectile candidates and 59 bounded damage owners across 18 classes.
-These are admission counts, not whole-game coverage. The source state0 table
-retains contact and unchanged geometry after three actual hits: a health word
-does not establish destructibility. The entrance's registered static-shadow
-identity is retained; shadow drawing remains separate.
-
-Replacement preparation is bounded to source classes 1127/1129; rendered guard
-acceptance covers class 1050 -> 1127, not every variant. Restricted-weapon/special
-scenery, other base-building callbacks, generic radial/Raster3 platform owners,
-mission-death credit and complete native effects/physics remain open.
-
-## Mission progression retained
-
-Starving hunts and collects twenty settled meat, then requires returning to the
-father on the starting plateau. Its authored collection/return predicates launch
-the next source film and continue into The Wife with cleared meat. In The Wife,
-reach the authored rescue destination: the 1/1 condition launches its actual
-six-director completion film. Its natural end enters The Road Home, whose nearby
-declared wife attaches through ordinary proximity pickup, carrying animation,
-load, response audio and notice delivery. F8 toggles objective hints. The next
-scene is reloaded; complete native inventory/world continuity is not claimed.
-
-## Exact-executable validation and limits
-
-Rendered supplied-command checks observe actual narrow player contact on the
-entrance, house, fence and small tower. Seven ordinary pistol hits reach the
-entrance's first stage; 28 retire it with all 124 source effect bodies expired.
-House retirement also takes 28 hits/124 expiries; the small tower takes five
-hits/29 expiries, the fence three hits/17 expiries. All observe actual draw and
-muted positional sinks. The guard's 30 hits create five rigid debris pieces
-and its separately rendered base. Actual source descendants bring the graph to
-85 births/85 retirements, with no active effect left; 24 fresh narrow contacts
-observe the base's own player mesh. Two guard-destruction/live-effect cancellation
-and fresh-entry cycles release all old effect/GPU owners. The shared rigid renderer
-uses the active ordinary mission camera/LOD after the opening owner is released.
-The tower fixture travels through the source entrance. These checks supply normal
-commands without pose, health, collider, fuel, readiness or expiry injection.
-
-Both complete Starving and The Wife rendered continuation chains pass again,
-including natural source-film ends, real muted sinks, ticket release and the
-following ordinary player. Three common Mecc movement/fire/jet/nitro/release
-cycles and actual landing dust/audio also pass. Menu lifecycle and the full
-selected cinematic/text/cleanup controls pass on this same executable.
-
-Separate actual Windows checks cover the normal menu, two Starving entries and
-opening skips, R view change, brief remapped-key fire, restored default-left-mouse
-fire, clean returns and close. They do not establish OS-aimed destruction,
-sustained held flight or full OS-played missions. Supplied navigation remains
-separately labeled.
-
-Building effects retain an explicit partial host-frame, terrain-only,
-birth-reference and asynchronous positional-audio preview profile. Native
-complete-list/force/audio scheduling, pixel/audio parity, broad actor AI,
-animation blending, other mission predicates, campaign failure/save restoration,
-Delphi/Kabuto gameplay and complete fidelity remain incomplete.
-
-1,013 portable Rust passes / 196 ignored, 45 Python passes, formatting and strict
-workspace/all-target Clippy pass. Independent original-PC controls cover the
-bounded player selection walk, registered shadow lookup/header/copies and the
-previous house/death-FX decisions; supplied/observed service boundaries do not
-establish full native world execution. Prototype PS2 lookup precedes acquisition.
-Search routes include `MeccPhysicsExApplyLocation`, `object_copy_personality`,
-`texture_add_file`, `house_process`, `house_shot`, `house_handle_destruction`,
-`deathfx_shot`, `deathfx_logic`, `object_allocate_type`,
-`object_copy_activedata`, `object_copy_posdirinfo` and
-`object_bbox_to_world_bbox`. No new PC-to-PS2 identity is confirmed; no
-prototype ABI/layout is imported.
-
-Technical collection: 338 dependency and eleven toolchain notice entries,
-29 system DLL imports. The ZIP is receipt-bound and must pass package validation.
-These checks do not establish third-party rights or comprehensive human review.
-The owner's approximate 99% AI-generated estimate describes authorship and is
-never a completion metric.
+Earlier failed and intentionally interrupted tests remain recorded. The supplied
+test pilot now releases escape boost once movement resumes; normal physics, fuel
+and mission predicates are unchanged. 1,117 portable Rust tests and 45 Python
+tests pass, with 257 Rust controls ignored. Formatting and strict Clippy pass.
+Dependency/toolchain notices are bound to this executable; see the package files.
+The owner's approximate 99% AI-generated estimate is not a completion metric;
+comprehensive human review has not taken place.

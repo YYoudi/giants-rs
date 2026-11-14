@@ -134,6 +134,10 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('9cc32cf970ac510a77
 # all-reference history review valid before that gallery update enters main;
 # this permits neither other images nor another path or modified bytes.
 REVIEWED_HISTORICAL_IMAGES = {
+    # Visually reviewed .14.2 Bevy display copies, metadata-free exact bytes.
+    'docs/gallery/media/98c5a936b528c4980d1e91f9a0a7348332c91d129acaf65fa544d942a42cf8e4.webp': '98c5a936b528c4980d1e91f9a0a7348332c91d129acaf65fa544d942a42cf8e4',
+    'docs/gallery/media/12160950c544ee43d3200d24ce71837fcd19f7d1201817fd3d11bfbef4e19ad3.webp': '12160950c544ee43d3200d24ce71837fcd19f7d1201817fd3d11bfbef4e19ad3',
+    'docs/gallery/media/d37b42051b90832de1047252d44456dd0322a1f1022786d6865f510e0928e975.webp': 'd37b42051b90832de1047252d44456dd0322a1f1022786d6865f510e0928e975',
     # Visually reviewed receipt-bound carried-wife display; metadata-free VP8.
     'docs/gallery/media/273d6ff5e58cc5d0f9b72042a20f8b665bd359963bcad7759a334a448757bab0.webp': '273d6ff5e58cc5d0f9b72042a20f8b665bd359963bcad7759a334a448757bab0',
     # Visually reviewed final .14.1 display copies; exact metadata-free bytes.

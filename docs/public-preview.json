@@ -1,23 +1,23 @@
 {
   "schema_version": 1,
-  "tag": "preview-2026.11.14.1",
-  "source_commit": "115d7e5fd62289f8e7225e4a21ece2955b650668",
-  "executable_sha256": "da915c015244074166dcb172f1cf38da2f8cecf34d7495166bbbb601742ac9db",
-  "archive_sha256": "d40f34b298e3ea494bce2e4002e728aa0bc7baa6b39cb71d207268223ac28fe7",
+  "tag": "preview-2026.11.14.2",
+  "source_commit": "3aa25533e0f200de0a6b72345d30107932a5f3f7",
+  "executable_sha256": "250b23fc9c8f31df182367fb4c54a239288d2ba1c8b90ea308f16f56e4c890f9",
+  "archive_sha256": "43e9b981d531c4057ce4be73e14e2ec635134b36a7ccbf1594744fa9a58f45c2",
   "checks": [
-    "palm_stump_gpu",
-    "road_home_return_gpu",
+    "static_palm_stump_gpu",
+    "palm_live_cancel_reentry_gpu",
+    "road_home_return_chain_gpu",
     "barracks_damage_gpu",
     "barracks_cancel_reentry_gpu",
     "wife_campaign_chain_gpu",
     "starving_campaign_chain_gpu",
     "offscreen_menu_cycles",
-    "selected_cinematic_transport"
+    "selected_cinematic_transport",
+    "windows_discrete_menu_view_fire_reentry"
   ],
   "limitations": [
     "palm_remaining_profiles",
-    "high_village_ai_platform",
-    "ordinary_controls_os_unverified",
     "ripper_combat_incomplete",
     "building_remaining_families",
     "building_fx_policy",
@@ -30,6 +30,9 @@
     "other_actor_ai",
     "vimp_fx_preview_policy",
     "meat_economy_outside_objectives",
-    "full_game_fidelity"
+    "full_game_fidelity",
+    "generic_platform_footprints",
+    "named_actor_constructor",
+    "sustained_os_controls_unverified"
   ]
 }

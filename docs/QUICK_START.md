@@ -46,8 +46,10 @@ and prints the launch arguments without opening a game window.
 
 ## What to expect
 
-In preview .14.1, open **Preview tools -> Browse all missions -> Mecc Story 2**.
-In **Starving!**, normal pistol hits can destroy the admitted palms: their foliage
+In preview .14.2, open **Preview tools -> Browse all missions -> Mecc Story 2**.
+For the added class101 palms, choose **Mecc Story 1 -> A Boy Called Timmy**.
+The same normal pistol destruction also remains available for class102 palms
+in **Starving!**: their foliage
 disappears with wood effects and sound, leaving a solid, separately damageable
 stump. Other tree profiles remain incomplete. In **The Road Home**, approach the
 wife to carry her, then reach the authored return destination. This starts the
@@ -87,11 +89,12 @@ back. Satisfying the return starts the following record's cinematic, then resume
 the player in **The Wife** with cleared meat. Read your ZIP's exact release notes:
 earlier .11.4 only collects meat and cannot complete this objective.
 
-Preview .14.1 also supports **The Road Home**: approach the declared wife to
+Preview .14.2 also checks **The Road Home**: approach the declared wife to
 pick her up, then carry her to the authored return destination. This starts the
-completion film and enters **High Village** after its natural end. High Village
-Ripper AI still has an explicit unacquired platform dependency; its full mission
-is not certified. Ordinary admitted palms can be shot and leave a separately
+completion film and enters **High Village** after its natural end. High Village's
+complete mission remains uncertified; generic platform footprints and full named
+actor initialization remain explicit requirements. Ordinary admitted palms can
+be shot and leave a separately
 colliding, damageable stump; other vegetation profiles remain incomplete.
 
 No diagnostic script enables supported normal actions. Other mission

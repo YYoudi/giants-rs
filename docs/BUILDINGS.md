@@ -1,5 +1,13 @@
 # Ordinary building collision and damage integration
 
+Preview .14.2 additionally delivers class101 palms: ordinary contact/pistol
+destruction, fourteen static-part retirements, source wood/audio, complete effect
+expiry, independent stump contacts and two live-effect cleanup/fresh-entry cycles.
+The same receipt checks Starving, The Wife and the carried RoadHome return through
+natural completion films and next-player entry. Windows discrete menu/view/fire
+checks are separate from supplied paths; sustained input and native fidelity remain
+open. The earlier .14.1 section and acquisition history below retain their scopes.
+
 Preview .14.1 adds ordinary palm damage, wood effects and an independently
 colliding/damageable source stump, and delivers the acquired barracks reactions.
 It retains the earlier house, entrance, fence, small-tower and guard profiles.
@@ -317,12 +325,14 @@ semantic meaning remains unknown; it is neither dropped nor assigned a guessed
 behavior. Actual-key/value checks precede the initial walk. F4 overrides and
 other unacquired states remain refused. Installed source initialization passes;
 the exact rendered RoadHome chain now passes this initialization. Following
-High Village Ripper AI still refuses an unacquired platform cold command46;
-no complete NPC/mission acceptance is claimed.
+The .14.1 strict route still reported High Village's unacquired platform
+command46. The .14.2 strict return/next-player route passes after the bounded
+collision projection acquisition; generic footprints and named actor construction
+remain explicit, and no complete High Village NPC/mission acceptance is claimed.
 
 ## Installed catalogue coverage audit
 
-Owner feedback adds ordinary destructible trees to the next integration work.
+The initial tree acquisition below predates the published class101/class102 scope above.
 The selected tree/state60 descriptor uses the same PC shot callback as the
 acquired scenery service. Its source replacement, wood effect and tree-specific
 payload inheritance remain separate consumers. Existing animated foliage does
@@ -340,7 +350,7 @@ without those links; evaluating an unrepresented node still fails. Source health
 the shared state60 shot contract, wood program and replacement664 remain separate
 owners. Installed CPU integration passes physical/projectile admission, damage,
 source effects/audio, the stump's independent damage and complete effect expiry.
-The unpublished source f4f90ca executable (SHA256
+The earlier unpublished source f4f90ca executable (SHA256
 `2b7e1fd3991fc5c0b43c26834d19eb7c64d3882e994cabb3a18eae128a9c0390`)
 also passes strict rendered Story1 contact/fire, fourteen static-part retirements,
 source sound1559, 17/17 effect expiry and seventeen fresh stump contacts. Two

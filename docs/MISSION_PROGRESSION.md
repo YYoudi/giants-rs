@@ -12,7 +12,10 @@ entry with its own declared wife picked up. The exact receipt, supplied-command
 scope and separate short OS checks are in [PREVIEW_NOTES.md](PREVIEW_NOTES.md).
 Preview .14.1 additionally validates the carried RoadHome return, natural completion
 film and ordinary High Village entry. Other predicates and full native continuity
-remain open; High Village NPC AI has a separate unacquired platform dependency.
+remain open. Preview .14.2 repeats the selected Starving/The Wife/RoadHome
+chains on its common building/NPC executable. Its collision projection retains
+source cursor records and usage masks; generic footprints and full named actor
+initialization remain explicit requirements. This is not High Village completion.
 
 ### RoadHome return correction - preview .14.1
 

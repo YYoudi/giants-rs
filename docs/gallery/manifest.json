@@ -4241,9 +4241,36 @@
     "media/99630cf95b902647f3b22e039fffe3a517408f52e81a6631c627b902fe8f0ff9.webp": "99630cf95b902647f3b22e039fffe3a517408f52e81a6631c627b902fe8f0ff9",
     "media/f76ca3d8c86a9cc69f2f774084aad7b72729009bc3f29632687ea644f2149ab2.webp": "f76ca3d8c86a9cc69f2f774084aad7b72729009bc3f29632687ea644f2149ab2",
     "media/6aebe218c788d9962ca334a415f7eab69b4973b737150bad74e85b334dd4d9fe.webp": "6aebe218c788d9962ca334a415f7eab69b4973b737150bad74e85b334dd4d9fe",
-    "media/273d6ff5e58cc5d0f9b72042a20f8b665bd359963bcad7759a334a448757bab0.webp": "273d6ff5e58cc5d0f9b72042a20f8b665bd359963bcad7759a334a448757bab0"
+    "media/273d6ff5e58cc5d0f9b72042a20f8b665bd359963bcad7759a334a448757bab0.webp": "273d6ff5e58cc5d0f9b72042a20f8b665bd359963bcad7759a334a448757bab0",
+    "media/98c5a936b528c4980d1e91f9a0a7348332c91d129acaf65fa544d942a42cf8e4.webp": "98c5a936b528c4980d1e91f9a0a7348332c91d129acaf65fa544d942a42cf8e4",
+    "media/12160950c544ee43d3200d24ce71837fcd19f7d1201817fd3d11bfbef4e19ad3.webp": "12160950c544ee43d3200d24ce71837fcd19f7d1201817fd3d11bfbef4e19ad3",
+    "media/d37b42051b90832de1047252d44456dd0322a1f1022786d6865f510e0928e975.webp": "d37b42051b90832de1047252d44456dd0322a1f1022786d6865f510e0928e975"
   },
   "screenshots": [
+    {
+      "title": "Additional palm destroyed; independent stump remains",
+      "image": "media/98c5a936b528c4980d1e91f9a0a7348332c91d129acaf65fa544d942a42cf8e4.webp",
+      "caption": "Story1 ordinary collision endpoint: normal pistol damage retires fourteen static-model parts, the source wood effect expires and fresh narrow contacts observe the independent stump. Supplied ordinary commands; live wind alignment and native visual fidelity remain unverified.",
+      "commit": "3aa25533e0f200de0a6b72345d30107932a5f3f7",
+      "preview_tag": "preview-2026.11.14.2",
+      "executable_sha256": "250b23fc9c8f31df182367fb4c54a239288d2ba1c8b90ea308f16f56e4c890f9"
+    },
+    {
+      "title": "The Wife rescue reaches Road Home with its declared carried actor",
+      "image": "media/12160950c544ee43d3200d24ce71837fcd19f7d1201817fd3d11bfbef4e19ad3.webp",
+      "caption": "After the rescue and natural six-director completion, the next ordinary mission picks up its declared wife with source carry load, notice and audio consumed. Matching downloadable executable; supplied ordinary commands. This image shows next-mission entry, not the later return destination or native fidelity.",
+      "commit": "3aa25533e0f200de0a6b72345d30107932a5f3f7",
+      "preview_tag": "preview-2026.11.14.2",
+      "executable_sha256": "250b23fc9c8f31df182367fb4c54a239288d2ba1c8b90ea308f16f56e4c890f9"
+    },
+    {
+      "title": "Carried-wife return and natural completion reach High Village",
+      "image": "media/d37b42051b90832de1047252d44456dd0322a1f1022786d6865f510e0928e975.webp",
+      "caption": "Actual next ordinary Mecc after RoadHome pickup, carried return, authored counter and natural source-film end. The strict selected route passes on this executable. This establishes next-player entry, not High Village mission completion, complete NPC combat or native fidelity.",
+      "commit": "3aa25533e0f200de0a6b72345d30107932a5f3f7",
+      "preview_tag": "preview-2026.11.14.2",
+      "executable_sha256": "250b23fc9c8f31df182367fb4c54a239288d2ba1c8b90ea308f16f56e4c890f9"
+    },
     {
       "title": "Palm destroyed; its independent stump stays solid",
       "image": "media/f76ca3d8c86a9cc69f2f774084aad7b72729009bc3f29632687ea644f2149ab2.webp",
