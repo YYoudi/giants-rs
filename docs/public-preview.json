@@ -1,14 +1,19 @@
 {
   "schema_version": 1,
-  "tag": "preview-2026.11.13.3",
-  "source_commit": "941342bffca063b6fd78b520dccd5515153ecd94",
-  "executable_sha256": "9a9ae9a4ca1902ecd3c2c46b7d9faf5b9b922bacdf7d7be7cf53d9517d77c962",
-  "archive_sha256": "23343da26dbcdfdc0676e3df56f387f0ebf946e0ce8f568bb1a6ff6c97fa519c",
+  "tag": "preview-2026.11.14.1",
+  "source_commit": "a4ae1663fedab1186ab9fcfd0b93daef93de3851",
+  "executable_sha256": "1550b33954e56cbacd2ade66ada1ec6a81ef147f1dc48258abdfa019e0b055b2",
+  "archive_sha256": "412349d72a00c89d51ab5c630f0379ad5827357c9fee8b59503c1a8b80379b1d",
   "checks": [
-    "ripper_movement_attack_gpu",
-    "normal_menu_visible"
+    "palm_stump_gpu",
+    "road_home_return_gpu",
+    "building_guard_replacement_gpu",
+    "building_house_damage_gpu"
   ],
   "limitations": [
+    "palm_remaining_profiles",
+    "high_village_ai_platform",
+    "ordinary_controls_os_unverified",
     "ripper_combat_incomplete",
     "building_remaining_families",
     "building_fx_policy",

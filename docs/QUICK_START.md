@@ -79,8 +79,15 @@ back. Satisfying the return starts the following record's cinematic, then resume
 the player in **The Wife** with cleared meat. Read your ZIP's exact release notes:
 earlier .11.4 only collects meat and cannot complete this objective.
 
-No diagnostic script enables supported normal actions. Subsequent mission
-completion, live Smartie AI, other enemies, general feeding/economy and complete
+Preview .14.1 also supports **The Road Home**: approach the declared wife to
+pick her up, then carry her to the authored return destination. This starts the
+completion film and enters **High Village** after its natural end. High Village
+Ripper AI still has an explicit unacquired platform dependency; its full mission
+is not certified. Ordinary admitted palms can be shot and leave a separately
+colliding, damageable stump; other vegetation profiles remain incomplete.
+
+No diagnostic script enables supported normal actions. Other mission
+completion, live Smartie AI, general feeding/economy and complete
 native world/inventory continuity remain incomplete. Authored herd declarations
 are used on supported Mecc maps; declarations on other character/multiplayer
 maps do not enable their gameplay.

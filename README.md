@@ -15,27 +15,26 @@ described below is published under the owner's explicit authorization.
 
 [Quick start](docs/QUICK_START.md) · [Build](docs/BUILD.md) · [Release policy](docs/RELEASES.md)
 
-Current Windows download: [preview-2026.11.13.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.13.3).
-Ordinary guard towers now receive pistol damage, shed source debris/particles
-with positional sound and leave an independently colliding base. Try **Mecc
-Story 2 -> The Road Home** through the mission browser. Earlier entrance,
-house, fence and small-tower damage/collision remains available. Other building
-families, weapon gates and mission death-credit remain incomplete; see
-[building coverage](docs/BUILDINGS.md).
+Current Windows download: [preview-2026.11.14.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.14.1).
+Ordinary palms now receive pistol damage, shed wood effects with positional
+sound and leave a separately colliding, damageable stump. The Road Home now
+accepts the carried-wife return, plays the completion film and enters High
+Village. Barracks damage joins the earlier building reactions; other tree and
+building families remain incomplete. See [building coverage](docs/BUILDINGS.md).
 
-Open **Preview tools -> Browse all missions -> Mecc Story 2 -> Starving!**.
+Open **Preview tools -> Browse all missions -> Mecc Story 2 -> Starving!**
+to test palms, or **The Road Home** to carry the declared wife to the objective.
 WASD/mouse move and aim, left mouse fires, hold right mouse for the jet, Space
 adds nitro, R changes view and Escape returns to the menu or skips a film.
-No replay flag enables building damage. **Starving!** still supports the actual
-twenty-meat return; **The Wife** supports rescue, natural completion film and
-the following **The Road Home** with its declared wife picked up.
+No replay flag enables damage or mission completion. Starving's twenty-meat
+return and The Wife's rescue chain remain connected.
 
-The exact executable passes rendered building damage/expiry/cancellation checks,
-both mission chains and common Mecc regressions with supplied commands and real
-muted sinks. Separate actual Windows checks cover menu entry/re-entry, opening
-skip, view and brief configured-key/default-mouse fire. Full OS-played destruction,
-native visual/audio fidelity and complete gameplay remain unverified. See
-[release notes](docs/PREVIEW_NOTES.md) and [BACKLOG.md](BACKLOG.md).
+Validation uses rendered supplied ordinary commands and real muted sinks.
+Real Windows-held input on this exact executable remains unverified. High
+Village's Ripper AI has an explicit missing platform dependency after entry;
+its full mission is not certified. Native visual/audio fidelity and complete
+gameplay remain unverified. See [release notes](docs/PREVIEW_NOTES.md) and
+[BACKLOG.md](BACKLOG.md).
 
 Engine contributors can use the reviewed [original symbol navigation](docs/SYMBOL_NAVIGATION.md)
 to find related Rust code from prototype PS2 names. Confirmed, probable and unknown
@@ -93,12 +92,12 @@ mean a complete playable feature. No global completion percentage is claimed.
 
 ### Campaigns and progression
 
-- [ ] **Complete Mecc campaign** — partial; Runtime integration. Preview .12.1 completes Starving. Preview .12.2 validates the ordinary The Wife rescue, natural six-director completion film and following RoadHome entry with the declared wife picked up. The remaining Mecc missions, encounters and complete campaign remain partial. See MISSION_PROGRESSION.md and BACKLOG.md.
+- [ ] **Complete Mecc campaign** — partial; Runtime integration. Preview .14.1 extends the admitted Starving/The Wife chains through RoadHome: actual carried-wife return, natural source completion film and ordinary High Village entry. High Village AI has an explicit missing platform dependency; remaining missions and complete campaign remain partial.
 - [ ] **Complete Delphi campaign** — todo; Runtime integration. All missions and character-specific objectives and encounters.
 - [ ] **Complete Kabuto campaign** — todo; Runtime integration. All missions, growth stages, encounters and ending.
-- [ ] **Mission objectives and scripts** — partial; Runtime integration. Preview .12.1 connects source collection/stationary proximity producers, quota/counter/notices and next-ticket/source-film continuation. Preview .12.2 validates The Wife 1/1 rescue and its separate completion-film owner. Death/moving/equipment and other predicate/record types remain unbound; no general mission VM completion claim.
-- [ ] **Chapter and mission continuity** — partial; Runtime integration. Preview .12.2 validates The Wife rescue -> natural source completion film -> ordinary RoadHome player, with that record's own declared selector3 wife, real proximity pickup, carrying load, audio and notice consumers. Separate Windows entry/pickup/re-entry checks pass. Native equipment, persistent-world, score/census and full save-game continuity remain incomplete.
-- [ ] **Complete cinematic playback** — partial; Runtime integration. Preview .12.2 validates the six The Wife completion directors through their natural source end, with drained real muted voices, canonical Session effects, source support poses/contact children and actual declared collision inputs. Reached source requests are acknowledged by director/offset; future declarations do not extend the animation. Native clock/RNG interleaving, raster platform footprints, animation blending and complete visual/audio fidelity remain unverified. See BACKLOG.md and MISSION_PROGRESSION.md.
+- [ ] **Mission objectives and scripts** — partial; Runtime integration. Preview .12.1 connects source collection/stationary proximity producers, quota/counter/notices and next-ticket/source-film continuation. Preview .12.2 validates The Wife 1/1 rescue and its separate completion-film owner. Death/moving/equipment and other predicate/record types remain unbound; no general mission VM completion claim. Preview .14.1 also validates the authored carried-wife RoadHome return; missing next-mission AI is recorded separately.
+- [ ] **Chapter and mission continuity** — partial; Runtime integration. Preview .14.1 validates the actual RoadHome carried return, source-film natural end and next ordinary Mecc. The strict combined check still reports High Village Ripper AI platform command46; this is not next-mission completion. Native equipment, persistent world and full saves remain incomplete.
+- [ ] **Complete cinematic playback** — partial; Runtime integration. Preview .12.2 validates the six The Wife completion directors through their natural source end, with drained real muted voices, canonical Session effects, source support poses/contact children and actual declared collision inputs. Reached source requests are acknowledged by director/offset; future declarations do not extend the animation. Native clock/RNG interleaving, raster platform footprints, animation blending and complete visual/audio fidelity remain unverified. See BACKLOG.md and MISSION_PROGRESSION.md. Preview .14.1 connects RoadHome completion, including the reached canonical detached splash and its source-duration fade boundary.
 - [ ] **Ending and credits flow** — todo; Runtime integration. Final sequence, credits presentation and return to menus.
 
 ### Meccs
@@ -158,7 +157,7 @@ mean a complete playable feature. No global completion percentage is claimed.
 - [ ] **All gameplay camera modes** — partial; Runtime integration. Complete source-driven player/cinematic cameras and projection across characters remain the scope. Download .11.1 retains the ordinary Mecc R view toggle and offers F7 initial Delphi/Kabuto body inspection from the normal mission browser. Kabuto reads actual owned look/size with a compatible external profile; free navigation/R reset retain inspection projection. Two OS entries per character pass. Native projection reset, same-identity player entry, startup gates and other playable controllers remain unfinished.
 - [ ] **Character HUDs, maps and objectives** — partial; Runtime integration. Health, fuel, magic, adrenaline, weapons, items, resources, targeting, map, notifications and score.
 - [ ] **Complete world and actor rendering** — partial; Runtime integration. Owned mission inspection now uploads camera-selected body models from the Session shared pose bank. Native controls match 1,280 selections and 256 complete model snapshots; six recorded Bevy endpoints cover automatic, forced and absent models. Full world visibility, part/material admission, subjective drawing, lighting, scenery and fidelity remain incomplete. See docs/OWNED_MODEL_DRAW.md.
-- [ ] **Scenery collisions and destruction** — partial; Runtime integration. Preview .13.2 adds ordinary guard-tower damage, mixed rigid debris/particle descendants, positional sound, retirement and an independently colliding source replacement base. It retains separate player/projectile/environment roles, earlier entrance/house/fence/tower reactions and an unchanged source state0 table under actual hits. Other replacements, restricted/special callbacks, generic radial/Raster3 platforms and mission death-credit remain open. See BUILDINGS.md and BACKLOG.md.
+- [ ] **Scenery collisions and destruction** — partial; Runtime integration. Preview .14.1 adds source class102 palm damage, exact foliage retirement, wood effects/audio and an independently colliding/damageable class664 stump, plus acquired barracks reactions. Earlier houses, entrances, fences and towers remain connected. Other trees, live wind/collision alignment, restricted callbacks, generic platforms and building objective credit remain open.
 - [ ] **Water and environmental presentation** — partial; Runtime integration. Waves, reflections, sky, fog, vegetation and environment interactions.
 - [ ] **Animations and active effects** — partial; Runtime integration. Preview .11.4 retains normal Mecc jet/projectile/landing feedback and adds actual Vimp hurt, blood, death FX, animated ghost and meat to the common renderer. Exact-build supplied-command GPU passages pass with real muted sinks. Death FX retain explicit host-frame/terrain/splat preview policies. Other AI, full native material/timing fidelity and cinematic world producers remain open.
 - [ ] **Music, voices and gameplay audio** — partial; Runtime integration. Music, dialogue/subtitles, footsteps, weapons, spells, ambience, spatial mixing and stopping/releasing sounds.

@@ -1,3 +1,69 @@
+# Windows development preview - preview-2026.11.14.1
+
+Runtime source: `a4ae1663fedab1186ab9fcfd0b93daef93de3851`.
+Executable SHA256: `1550b33954e56cbacd2ade66ada1ec6a81ef147f1dc48258abdfa019e0b055b2`.
+
+Supply your own compatible PC installation. No original game data or executable
+is included in the independent runtime ZIP.
+
+## Test palms and the carried-wife return
+
+Open **Preview tools -> Browse all missions -> Mecc Story 2 -> Starving!**.
+Aim at a palm trunk and fire with left mouse. The admitted class102 palms have
+source health10: one accepted pistol damage12 hit destroys them. The wood effect
+and positional sound accompany foliage retirement; the source class664 stump
+keeps its own player/projectile collision and health100. Nine further accepted
+pistol hits retire that stump without inventing another burst. Other vegetation
+classes and heavy-actor felling are not delivered by this change.
+
+Choose **The Road Home**, collect the declared wife by approaching her and
+carry her to the authored destination. The real return predicate now starts
+the completion film, which can finish naturally and enter **High Village**.
+No dedicated script or feature flag is needed. WASD/mouse move and aim, right
+mouse holds jet thrust, Space adds nitro, R changes view and Escape returns to
+the menu or skips a film. The Wife's rescue and Starving's twenty-meat chains
+remain available. Acquired miniature/Ripper barracks now also receive ordinary
+pistol damage, source health stages, effects/audio and retirement.
+
+## Exact validation scope and remaining limits
+
+Two exact-executable rendered palm routes observe real narrow contacts, normal
+weapon damage, all twelve old foliage parts hidden, source sound1559, seventeen
+effect births/seventeen retirements and two fresh narrow stump contacts after
+expiry. Installed controls separately verify independent stump damage/retirement.
+Stump/debris without normals use the shared acquired unlit RGB/alpha consumer;
+lit geometry retains its existing normal/cube owner. Palm collision currently
+uses the initial idle pose; live wind/collision alignment and native visual
+fidelity remain unverified. The close collision capture is not frame-aligned
+or a claim of pixel fidelity.
+
+The rendered RoadHome route actually picks up/carries/returns the wife, satisfies
+the source 1/1 counter, plays the real completion film through its natural end,
+releases the old ticket and enters the next ordinary Mecc scene. Fresh empty
+opening admission and the canonical detached splash/fade are connected. The
+following barracks retain their actual opaque command7 scalar before initial
+callbacks; its semantic meaning remains unknown.
+
+The strict whole-chain report remains **failed** on a distinct High Village
+Ripper AI dependency: a source platform cold command46 is not acquired. A
+separate core-return acceptance covers the requested transition and next player;
+it does not waive the AI refusal or certify High Village mission completion.
+Failed earlier opening, effect, renderer and input-route attempts remain failed
+history. Per-shot Ripper query failures now retain/quarantine that shot without
+inventing contact/damage or stopping independent actors; reciprocal combat and
+complete NPC continuations remain incomplete.
+
+These are rendered tests with supplied ordinary commands, actual gameplay
+owners, clocks and real muted sinks. They inject no pose, health, collision,
+fuel, readiness, expiry or film end. They do not certify real Windows-held input,
+audible parity, complete native world execution or full visual fidelity.
+Prototype PS2 lookup preceded acquisition; no new cross-platform identity is
+confirmed. Earlier aliases and unknown attribution routes remain searchable.
+The owner's approximate99% AI-generated estimate and absence of comprehensive
+human review remain unchanged.
+
+## Earlier delivery records (historical receipts)
+
 # Windows development preview - preview-2026.11.13.3
 
 Runtime source: `941342bffca063b6fd78b520dccd5515153ecd94`.

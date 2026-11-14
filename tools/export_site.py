@@ -14,6 +14,9 @@ FIELDS = ('id', 'kind', 'group', 'title', 'status', 'scope', 'detail')
 LABELS = {'done': 'Complete in stated scope', 'partial': 'Partial', 'todo': 'Not started'}
 PRIVATE = re.compile(r'[A-Za-z]:[\\/]|(?:evidence|\.local)[\\/]|Users[\\/]', re.I)
 PREVIEW_CHECKS = {
+    'palm_stump_gpu': 'Ordinary palm contact and pistol destruction hide twelve foliage parts, submit source wood effects/audio and leave a separately colliding stump; seventeen births/seventeen retirements and two fresh stump contacts after expiry. Supplied normal commands; other trees and native fidelity remain unverified',
+    'road_home_return_gpu': 'Actual carried-wife return satisfies the authored counter, plays the source completion film to its natural end and enters the next ordinary Mecc scene. The strict combined report retains the separate High Village AI platform refusal; this is not next-mission completion',
+    'barracks_damage_gpu': 'Acquired miniature and Ripper barracks receive ordinary pistol damage through source stages, effects/audio and retirement; rendered supplied-command acceptance and actual-clock expiry, without complete spawning AI or mission death-credit',
     'ripper_movement_attack_gpu': 'The Wife ordinary classic Ripper moves about147 source units, emerges and launches an actual owned projectile in the rendered common runtime; supplied Mecc commands only, no forced NPC state or reciprocal-damage claim',
     'normal_menu_visible': 'The same executable renders its normal Windows menu without replay or NPC activation flags; computer use stops before mission-input and re-entry acceptance',
     'building_guard_replacement_gpu': 'Ordinary guard damage, five rigid debris pieces, nested source particles and positional sound; 85 births/85 retirements and 24 fresh contacts on the independent source base after expiry. Supplied normal controls, not OS-aimed destruction or native fidelity',
@@ -45,6 +48,8 @@ PREVIEW_CHECKS = {
     'shared_body_focus_os': 'F7 focuses initial Delphi and Kabuto bodies from ordinary mission inspection; gameplay controls remain unavailable',
 }
 PREVIEW_LIMITS = {
+    'palm_remaining_profiles': 'Palm collision uses the acquired initial idle pose; live wind/collision alignment, other vegetation classes and heavy-actor felling remain unverified or unacquired',
+    'high_village_ai_platform': 'High Village ordinary player entry follows the completed return film, but Ripper AI refuses an unacquired source-platform cold command46; its full mission is not certified',
     'ripper_combat_incomplete': 'Reciprocal Ripper injury/death, special close attacks and full encounter/menu re-entry remain incomplete. Unsupported actors hold only their last completed visual pose and supply no fresh contacts; failed projectiles acknowledge no damage',
     'building_remaining_families': 'Generic actor radial/Raster3 platform owners, replacements beyond the acquired profiles, restricted-weapon/special scenery, other base-building callbacks and building-objective credit still require their real consumers; a configured health word alone does not imply destructibility',
     'building_fx_policy': 'Building FX use source burst and acquired mixed-scene resources with an explicit partial host-frame, terrain-only, birth-reference and asynchronous-audio profile; native complete-list/force/audio scheduling and pixel/audio parity remain unverified',

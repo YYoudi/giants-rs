@@ -10,7 +10,7 @@
       "title": "Complete Mecc campaign",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Preview .12.1 completes Starving. Preview .12.2 validates the ordinary The Wife rescue, natural six-director completion film and following RoadHome entry with the declared wife picked up. The remaining Mecc missions, encounters and complete campaign remain partial. See MISSION_PROGRESSION.md and BACKLOG.md."
+      "detail": "Preview .14.1 extends the admitted Starving/The Wife chains through RoadHome: actual carried-wife return, natural source completion film and ordinary High Village entry. High Village AI has an explicit missing platform dependency; remaining missions and complete campaign remain partial."
     },
     {
       "id": "campaign-delphi",
@@ -37,7 +37,7 @@
       "title": "Mission objectives and scripts",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Preview .12.1 connects source collection/stationary proximity producers, quota/counter/notices and next-ticket/source-film continuation. Preview .12.2 validates The Wife 1/1 rescue and its separate completion-film owner. Death/moving/equipment and other predicate/record types remain unbound; no general mission VM completion claim."
+      "detail": "Preview .12.1 connects source collection/stationary proximity producers, quota/counter/notices and next-ticket/source-film continuation. Preview .12.2 validates The Wife 1/1 rescue and its separate completion-film owner. Death/moving/equipment and other predicate/record types remain unbound; no general mission VM completion claim. Preview .14.1 also validates the authored carried-wife RoadHome return; missing next-mission AI is recorded separately."
     },
     {
       "id": "mission-continuity",
@@ -46,7 +46,7 @@
       "title": "Chapter and mission continuity",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Preview .12.2 validates The Wife rescue -> natural source completion film -> ordinary RoadHome player, with that record's own declared selector3 wife, real proximity pickup, carrying load, audio and notice consumers. Separate Windows entry/pickup/re-entry checks pass. Native equipment, persistent-world, score/census and full save-game continuity remain incomplete."
+      "detail": "Preview .14.1 validates the actual RoadHome carried return, source-film natural end and next ordinary Mecc. The strict combined check still reports High Village Ripper AI platform command46; this is not next-mission completion. Native equipment, persistent world and full saves remain incomplete."
     },
     {
       "id": "cinematics",
@@ -55,7 +55,7 @@
       "title": "Complete cinematic playback",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Preview .12.2 validates the six The Wife completion directors through their natural source end, with drained real muted voices, canonical Session effects, source support poses/contact children and actual declared collision inputs. Reached source requests are acknowledged by director/offset; future declarations do not extend the animation. Native clock/RNG interleaving, raster platform footprints, animation blending and complete visual/audio fidelity remain unverified. See BACKLOG.md and MISSION_PROGRESSION.md."
+      "detail": "Preview .12.2 validates the six The Wife completion directors through their natural source end, with drained real muted voices, canonical Session effects, source support poses/contact children and actual declared collision inputs. Reached source requests are acknowledged by director/offset; future declarations do not extend the animation. Native clock/RNG interleaving, raster platform footprints, animation blending and complete visual/audio fidelity remain unverified. See BACKLOG.md and MISSION_PROGRESSION.md. Preview .14.1 connects RoadHome completion, including the reached canonical detached splash and its source-duration fade boundary."
     },
     {
       "id": "ending-credits",
@@ -433,7 +433,7 @@
       "title": "Scenery collisions and destruction",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Preview .13.2 adds ordinary guard-tower damage, mixed rigid debris/particle descendants, positional sound, retirement and an independently colliding source replacement base. It retains separate player/projectile/environment roles, earlier entrance/house/fence/tower reactions and an unchanged source state0 table under actual hits. Other replacements, restricted/special callbacks, generic radial/Raster3 platforms and mission death-credit remain open. See BUILDINGS.md and BACKLOG.md."
+      "detail": "Preview .14.1 adds source class102 palm damage, exact foliage retirement, wood effects/audio and an independently colliding/damageable class664 stump, plus acquired barracks reactions. Earlier houses, entrances, fences and towers remain connected. Other trees, live wind/collision alignment, restricted callbacks, generic platforms and building objective credit remain open."
     },
     {
       "id": "water-environment",

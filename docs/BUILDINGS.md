@@ -1,7 +1,10 @@
 # Ordinary building collision and damage integration
 
-Preview .13.2 adds guard destruction/replacement to the .13.1 player collision
-and entrance-damage delivery. Exact regression acceptance is recorded below.
+Preview .14.1 adds ordinary palm damage, wood effects and an independently
+colliding/damageable source stump, and delivers the acquired barracks reactions.
+It retains the earlier house, entrance, fence, small-tower and guard profiles.
+Current exact-build acceptance is in PREVIEW_NOTES.md; the sections below retain
+the earlier acquisition and delivery history with their original evidence scope.
 Preview .12.3 was the first bounded ordinary-building delivery; preview .12.2
 did not enable it.
 BACKLOG.md owns detailed acceptance; RECONSTRUCTION_METHOD.md governs
@@ -59,7 +62,7 @@ Windows menu/entry/view/fire/return/re-entry checks pass. See PREVIEW_NOTES.md
 for their limits; sustained held input and OS-aimed destruction remain unverified.
 Display copies in the dashboard carry this same source/build identity.
 
-## Next ordinary family: The Wife barracks (not delivered)
+## Barracks acquisition history (intermediate controls before .14.1)
 
 The next installed-data sample contains two state98 barracks, classes1060 and
 1226, already present in the independent player/projectile mesh preparation.
@@ -282,7 +285,7 @@ credit or complete native-world/visual fidelity. Combined regressions, live
 cancellation/fresh entry and separate Windows acceptance remain required before
 publication; .13.2 remains the public build.
 
-## Palm/stump continuation (unpublished)
+## Palm/stump delivery - preview .14.1
 
 The admitted state60 palm class now uses its independently selected source
 collision model, shared acquired shot decisions and source health10. A supplied
@@ -297,7 +300,13 @@ The ordinary foliage render owner consumes retirement by the exact declaration
 key and keeps all old parts hidden through later wind/LOD updates. The installed
 CPU integration control observes the complete source wood graph, object sound
 requests, 17 births/17 retirements and persistent replacement roles across NPC
-contact refresh. This is not yet rendered acceptance. Collision uses the acquired
+contact refresh. Exact-executable rendered destroyed/settled routes now pass
+actual narrow contact, a lethal accepted pistol hit, twelve hidden foliage parts,
+source wood sound, seventeen effect births/retirements and two fresh stump
+contacts after expiry. The no-normal stump/debris use the shared acquired unlit
+RGB/alpha renderer; lit sources retain their normal/cube renderer. The capture
+is a close collision endpoint, not a pixel-aligned fidelity comparison.
+Collision uses the acquired
 initial idle tree pose; ongoing wind/collision clock alignment, heavy-actor
 felling, other tree classes and complete native fidelity remain open. A native
 callback or symbol name alone does not extend this scope.
@@ -307,7 +316,9 @@ source command7 scalar with its canonical owner before initialization. Its
 semantic meaning remains unknown; it is neither dropped nor assigned a guessed
 behavior. Actual-key/value checks precede the initial walk. F4 overrides and
 other unacquired states remain refused. Installed source initialization passes;
-combined rendered regressions remain required before publication.
+the exact rendered RoadHome chain now passes this initialization. Following
+High Village Ripper AI still refuses an unacquired platform cold command46;
+no complete NPC/mission acceptance is claimed.
 
 ## Installed catalogue coverage audit
 

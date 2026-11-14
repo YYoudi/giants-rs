@@ -4234,9 +4234,27 @@
     "media/9b97a6efb4a94e05cd5a191f930797e6def06291fcbc9141c11875681efdd42b.webp": "9b97a6efb4a94e05cd5a191f930797e6def06291fcbc9141c11875681efdd42b",
     "media/cf69f85e72326b3a0f05140bea912776df93d9e607b05f77e75288e988782a29.webp": "cf69f85e72326b3a0f05140bea912776df93d9e607b05f77e75288e988782a29",
     "media/06cf7a33aca7f6605075996727045686d1a03931c3643177e08329adc5633464.webp": "06cf7a33aca7f6605075996727045686d1a03931c3643177e08329adc5633464",
-    "media/53d6fc48475f3b3770d82c43232dce7fa8f60b7e2233536e1b55fba50cbd55be.webp": "53d6fc48475f3b3770d82c43232dce7fa8f60b7e2233536e1b55fba50cbd55be"
+    "media/53d6fc48475f3b3770d82c43232dce7fa8f60b7e2233536e1b55fba50cbd55be.webp": "53d6fc48475f3b3770d82c43232dce7fa8f60b7e2233536e1b55fba50cbd55be",
+    "media/1b3e91259cc71b4003e2c1b06a0509d5a133464c0dc5d3a224614cc22153e91f.webp": "1b3e91259cc71b4003e2c1b06a0509d5a133464c0dc5d3a224614cc22153e91f",
+    "media/89aaaa03ed85db7c12d79d86359bdda7923ca127b826308d538e1e53dc6e783a.webp": "89aaaa03ed85db7c12d79d86359bdda7923ca127b826308d538e1e53dc6e783a"
   },
   "screenshots": [
+    {
+      "title": "Palm destroyed; source stump keeps collision",
+      "image": "media/1b3e91259cc71b4003e2c1b06a0509d5a133464c0dc5d3a224614cc22153e91f.webp",
+      "caption": "Actual Starving collision endpoint after ordinary pistol destruction and all seventeen effect retirements. Twelve foliage parts stay hidden; two fresh narrow contacts observe the independent damageable stump. Close view includes the source damaged-palm geometry. Supplied ordinary commands; live wind/collision alignment and native visual fidelity remain unverified.",
+      "commit": "a4ae1663fedab1186ab9fcfd0b93daef93de3851",
+      "preview_tag": "preview-2026.11.14.1",
+      "executable_sha256": "1550b33954e56cbacd2ade66ada1ec6a81ef147f1dc48258abdfa019e0b055b2"
+    },
+    {
+      "title": "RoadHome return reaches High Village",
+      "image": "media/89aaaa03ed85db7c12d79d86359bdda7923ca127b826308d538e1e53dc6e783a.webp",
+      "caption": "Actual next ordinary Mecc scene after carrying the wife to the authored return, satisfying the counter and playing the completion film to its natural end. Supplied commands with real muted sinks. High Village Ripper AI still refuses an unacquired platform dependency; this image does not establish completion of that mission.",
+      "commit": "a4ae1663fedab1186ab9fcfd0b93daef93de3851",
+      "preview_tag": "preview-2026.11.14.1",
+      "executable_sha256": "1550b33954e56cbacd2ade66ada1ec6a81ef147f1dc48258abdfa019e0b055b2"
+    },
     {
       "title": "Guard destroyed; its base stays solid",
       "image": "media/cf69f85e72326b3a0f05140bea912776df93d9e607b05f77e75288e988782a29.webp",

@@ -17,24 +17,25 @@ separately validated ordinary integration and publication are recorded below.
 
 ## Active objective - ordinary buildings, collision and damage reactions
 
-Owner feedback, 13 November: add source destructible trees and fix the ordinary
-RoadHome return while carrying the wife. Keep both in the next delivery's
-acceptance. RoadHome's authored destination/film exist, but absent-opening
-admission leaves it in preview and prevents objective evaluation. The fresh-slot
-default and detached splash owner now pass the actual carried return and
-natural completion-film transport on an unpublished executable. That run exposes
-a following-mission barracks refusal: its source command7 scalar is now retained
-and checked on canonical owners, with installed Story2/Story4 initialization
-controls. A new combined rendered chain is still required.
-See MISSION_PROGRESSION.md. Tree/state60 uses the acquired common damage callback,
-and the bounded palm/stump owners now pass installed supplied-hit controls:
-separate player/projectile meshes, source wood graph (17 births/17 retirements),
-fifteen-word replacement transfer and independent stump damage. Foliage retirement
-is connected; ordinary rendered acceptance remains pending. Collision currently
-uses the acquired initial idle pose; live wind/collision cadence remains unverified. Do not apply house health-animation stages or
-declare every foliage class destructible. Retain the Story4 missing cold owner
-regression before publishing the new barracks work; the previous public .13.2
-receipt remains separate.
+Owner feedback delivered in preview .14.1: normal pistol hits destroy admitted
+class102 palms, hide their exact foliage owner, play the source wood burst/sound
+and leave a separately colliding/projectile/damageable class664 stump. Rendered
+supplied ordinary commands observe seventeen births/seventeen retirements and
+fresh stump contacts after expiry; installed controls separately cover nine
+further accepted damage12 hits retiring its health100 without a second burst.
+Collision uses the acquired initial idle pose; live wind/collision alignment,
+other tree families and heavy-actor felling remain open. Do not declare all
+vegetation destructible or assign house health-animation stages to a palm.
+
+The carried RoadHome return now satisfies its real counter, plays its source
+film to its natural end and enters High Village with the ordinary Mecc. Fresh
+empty-opening admission, canonical detached splash/fade and exact opaque
+barracks command7 metadata are connected. The strict combined report remains
+failed on High Village Ripper AI's unacquired platform cold command46; separate
+core-chain acceptance does not waive that dependency or certify the next mission.
+Acquired barracks damage/effects are included in this same build. Preserve the
+previous failed receipts and distinct .13.3 NPC delivery. See BUILDINGS.md,
+MISSION_PROGRESSION.md and PREVIEW_NOTES.md for evidence and remaining limits.
 
 Owner direction, 12 November 2026: connect the buildings already drawn on maps
 to player/projectile collisions, hitboxes and source damage reactions. Preserve
@@ -96,8 +97,9 @@ Remaining work, in player-impact order:
 2. Extend replacement and nested effects beyond the acquired 1127/1129 constructor
    profiles and rendered 1050 ->1127 acceptance. Preserve actual role/health/
    history ownership, complete cleanup and distinct source programs.
-3. Acquire restricted/special scenery and other base-building callbacks (including
-   states74/83/98), preserving weapon gates and authored indestructible cases.
+3. Acquire restricted/special scenery and remaining base-building callbacks
+   beyond the admitted state98 barracks, preserving weapon gates and authored
+   indestructible cases, including the separate states74/83 profiles.
    The next visible state98 family is The Wife's two barracks. Their source
    shot path wakes the building, alerts nearby actors, selects its own hit/death
    sounds and explosion family, then performs its conditional mission requests

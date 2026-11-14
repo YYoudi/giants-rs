@@ -112,6 +112,10 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('67e98798a96ac460d3
 # all-reference history review valid before that gallery update enters main;
 # this permits neither other images nor another path or modified bytes.
 REVIEWED_HISTORICAL_IMAGES = {
+    # Reviewed .14.1 Bevy display copies; exact metadata-free WebP bytes.
+    'docs/gallery/media/1b3e91259cc71b4003e2c1b06a0509d5a133464c0dc5d3a224614cc22153e91f.webp': '1b3e91259cc71b4003e2c1b06a0509d5a133464c0dc5d3a224614cc22153e91f',
+    'docs/gallery/media/89aaaa03ed85db7c12d79d86359bdda7923ca127b826308d538e1e53dc6e783a.webp': '89aaaa03ed85db7c12d79d86359bdda7923ca127b826308d538e1e53dc6e783a',
+
     # Concurrent .13.2 display copies pinned by the manifest at eafa3e4.
     # Visually reviewed VP8-only images; exact hashes, without embedded metadata.
     'docs/gallery/media/06cf7a33aca7f6605075996727045686d1a03931c3643177e08329adc5633464.webp':

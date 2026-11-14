@@ -1,5 +1,38 @@
 # Preview releases and milestone integration
 
+
+## Preview .14.1 - palms, barracks and the carried-wife return
+
+[Windows preview-2026.11.14.1](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.14.1)
+connects admitted palms to normal pistol damage, source wood effects/audio,
+exact foliage retirement and an independently colliding/damageable stump.
+Try **Preview tools -> Browse all missions -> Mecc Story 2 -> Starving!**.
+Choose **The Road Home**, approach the wife to pick her up and carry her to
+the authored objective: the real return now plays its completion film to the
+natural end and enters **High Village**. No feature-enable script is required.
+The acquired miniature/Ripper barracks reactions join the earlier buildings.
+
+Rendered palm checks observe seventeen effect births/retirements, twelve hidden
+foliage parts and fresh contacts with the new stump. The RoadHome core-chain
+check passes, while the strict combined report retains the following High
+Village Ripper AI refusal on an unacquired platform cold command46. This is
+not High Village mission completion. Other trees, live wind/collision alignment,
+heavy-actor felling and native visual/audio fidelity remain open. Earlier failed
+controls remain failed; supplied ordinary inputs are separate from OS-held tests.
+See PREVIEW_NOTES.md, BUILDINGS.md and MISSION_PROGRESSION.md for exact scopes.
+
+Portable controls: 1,106 Rust /243 ignored,45 Python, formatting and strict
+all-target Clippy. Installed controls separately cover source startup, splash,
+barracks initialization, tree transfer/damage and complete effect expiry.
+Technical notice collection: 338 dependency /eleven toolchain entries and
+29 system DLL imports, with no package blockers. No new prototype PS2 function
+identity is confirmed; unknown routes and prior aliases remain searchable.
+
+Runtime source: `a4ae1663fedab1186ab9fcfd0b93daef93de3851`.
+Executable SHA256: `1550b33954e56cbacd2ade66ada1ec6a81ef147f1dc48258abdfa019e0b055b2`.
+ZIP SHA256: `412349d72a00c89d51ab5c630f0379ad5827357c9fee8b59503c1a8b80379b1d`.
+
+
 ## Published preview .13.3 - ordinary Ripper movement and ranged attacks
 
 [Windows preview-2026.11.13.3](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.13.3)
