@@ -31,6 +31,15 @@ audio requests at release; they do not survive into the next ticket's transport.
 The test window is closed afterwards. These short real inputs do not establish
 an OS-aimed Ripper fight or post-combat death/cleanup.
 
+On the same executable, the separate incoming-hit route also exits0 (about150
+seconds, inspected HUD90). Actual class90 projectile246 reaches the controlled
+Mecc at step10287: damage0 ->10, matching controller/HUD health90 and a changed
+canonical/controller velocity response. Actual muted local sinks start cues1504
+and1684. The observer waits240 following fixed steps. This adds ranged injury
+and the controller impulse to the receipt, rather than inferring damage from a
+visible shot. The outgoing/incoming runs are separate; they are not one complete
+fight, a death or a native recoil-fidelity comparison.
+
 The earlier `6dc4dd4` executable
 `10eb8b9f3c03e4313c2abd857f237c0ad5019cc9516c72756d6124679a7d80a4`
 already rendered actual shot5 /actor162 /damage12 and30 particles, but its queued

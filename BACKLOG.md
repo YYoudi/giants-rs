@@ -336,6 +336,12 @@ quads, 30 following active steps and an actual attached muted cue1266 sink.
 The previous executable's cancelled hurt cue exposed the missing completed-actor
 audio position; the corrected owner also passes the installed two-ticket frame
 control. This is a local nonlethal hit delivery, not part of preview .14.1.
+The same executable's separate incoming route also passes (exit0, about150
+seconds, inspected HUD90): actual class90 projectile246 applies10 damage and
+copies the directional velocity response into the real Mecc controller, with
+actual muted local cues1504/1684. This verifies both directions in two rendered
+runs, not a single full fight or a death. Actual Windows default-mouse fire and
+menu/fresh-entry cleanup also pass on this exact executable.
 Ripper lethal services, player lethal continuation and the full death/menu loop
 remain required. Keep the prototype PS2 lookup step before native continuation;
 no new naming attribution is confirmed. See OWNED_NPCS.md for precise scope.
