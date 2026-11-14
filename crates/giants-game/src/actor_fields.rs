@@ -234,9 +234,17 @@ impl Fields {
                     out.configuration[18] = gunlist.len() as u32;
                 }
                 // These records only advance the source cursor in this D build.
-                0x1c | 0x32 | 0x38 => {}
-                // State allocation and payload attributes have their own owner.
-                0x1e | 0x1f | 0x3c | 0x44 | 0x7a | 0x7b | 0x7c | 0x83 => {}
+                0x1c | 0x32 | 0x37 | 0x38 => {}
+                // Prototype PS2 `fx_find` / `fx_load` are unknown naming routes.
+                // The PC named trailing binding can trigger work during base
+                // construction; a collision-only projection cannot admit it.
+                0x57 => return Err(
+                    "actor named constructor binding needs its registry and initialization owner"
+                        .into(),
+                ),
+                // State allocation, usage masks and payload attributes have
+                // their separate owners; these are not personality flag stores.
+                0x1e | 0x1f | 0x3c | 0x44 | 0x46 | 0x7a | 0x7b | 0x7c | 0x83 => {}
                 0x21 => {
                     let center = float(1)?;
                     out.configuration[22] = center.to_bits();
@@ -367,6 +375,105 @@ impl Fields {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    #[ignore = "requires GIANTS_BUILDING_ROOT; actual static collision inputs and retained unresolved platforms, not rendered world/actor admission"]
+    fn installed_story1_collision_projection_keeps_constructor_and_platform_boundaries() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());
+        let menu = crate::mission_selection::MissionMenu::parse(
+            &std::fs::read(root.join("Bin/w_Story1.bin")).unwrap(),
+            0,
+            true,
+        )
+        .unwrap();
+        let packet =
+            crate::mission_loading::prepare(&root, menu.request("Story1", 0).unwrap()).unwrap();
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let terrain = packet.world_asset(&root).unwrap().terrain;
+        let world = crate::cinematic_timed::world::Prepared::load(&plan, &terrain).unwrap();
+        assert!(
+            !world.unresolved.is_empty(),
+            "footprints must remain unresolved, not become empty successes"
+        );
+        let players = crate::declared_mesh_scene::prepare_players(&plan, &terrain);
+        let shots = crate::declared_mesh_scene::prepare_projectiles(&plan, &terrain);
+        assert!(players.records.iter().any(|r| r.class == 257));
+        assert!(shots.records.iter().any(|r| r.class == 257));
+        for class in [53, 509] {
+            let cold = crate::collider_init::cold_projection(plan.resources(), class).unwrap();
+            assert_eq!(cold.template.usage[0] & 1, 1);
+            assert_eq!(cold.initial.usage, cold.template.usage);
+        }
+        let spec = specification::Prepared::load_registered(plan.resources(), 257).unwrap();
+        assert_eq!(
+            Fields::load(plan.resources(), 257, &spec).unwrap_err(),
+            "actor named constructor binding needs its registry and initialization owner"
+        );
+    }
+    #[test]
+    #[ignore = "requires GIANTS_BUILDING_ROOT; class257 cursor with explicitly unbound named constructor record; no platform/AI admission"]
+    fn installed_platform_ignored_word_keeps_fields_and_unbound_constructor_guard() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());
+        let mut resources = SceneResources::load(&root, "w_Story1.bin", "English").unwrap();
+        let spec = specification::Prepared::load_registered(&resources, 257).unwrap();
+        let original = resources.classes.models.programs[&257][0]
+            .program
+            .as_ref()
+            .unwrap()
+            .records
+            .clone();
+        assert!(original.iter().any(|r| r.opcode == 0x37));
+        let body = original
+            .iter()
+            .filter(|r| !matches!(r.opcode, 0x37 | 0x57))
+            .flat_map(|r| r.bytes.iter().copied())
+            .collect::<Vec<_>>();
+        resources.classes.models.programs.get_mut(&257).unwrap()[0].program =
+            Ok(giants_formats::class_program::parse(&body).unwrap());
+        let actor = Fields::load(&resources, 257, &spec).unwrap().words();
+        let collision = crate::collider_copy::Fields::cold_declaration(&resources, 257)
+            .unwrap()
+            .words();
+        for operand in [0_u32, 1, 0x3f800000, 0x7fc00000, u32::MAX] {
+            let body = original
+                .iter()
+                .filter(|r| r.opcode != 0x57)
+                .flat_map(|r| {
+                    if r.opcode == 0x37 {
+                        let mut bytes = vec![0x37];
+                        bytes.extend_from_slice(&operand.to_le_bytes());
+                        bytes
+                    } else {
+                        r.bytes.clone()
+                    }
+                })
+                .collect::<Vec<_>>();
+            resources.classes.models.programs.get_mut(&257).unwrap()[0].program =
+                Ok(giants_formats::class_program::parse(&body).unwrap());
+            assert_eq!(Fields::load(&resources, 257, &spec).unwrap().words(), actor);
+            assert_eq!(
+                crate::collider_copy::Fields::cold_declaration(&resources, 257)
+                    .unwrap()
+                    .words(),
+                collision
+            );
+        }
+        let body = original
+            .iter()
+            .flat_map(|r| r.bytes.iter().copied())
+            .collect::<Vec<_>>();
+        resources.classes.models.programs.get_mut(&257).unwrap()[0].program =
+            Ok(giants_formats::class_program::parse(&body).unwrap());
+        assert_eq!(
+            Fields::load(&resources, 257, &spec).unwrap_err(),
+            "actor named constructor binding needs its registry and initialization owner"
+        );
+        assert_eq!(
+            crate::collider_copy::Fields::cold_declaration(&resources, 257)
+                .unwrap()
+                .words(),
+            collision
+        );
+    }
     #[test]
     #[ignore = "requires GIANTS_BUILDING_ROOT; actual Reaperman class fields with controlled ignored operands, no world actor/frame admission"]
     fn installed_reaperman_ignored_vector_keeps_header_fields_and_cursor() {

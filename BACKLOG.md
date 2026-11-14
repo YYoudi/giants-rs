@@ -37,6 +37,20 @@ now permits another authored menu entry while retaining exclusive muted input
 and actual resident/startup prerequisites. Repeat expiry, fresh stump contact,
 live cancellation and campaign checks on the resulting new executable.
 
+The exact .14.1 executable independently reproduces Story1's earlier Ripper
+platform refusal. The class101 settled route nevertheless observes source
+destruction, fourteen hidden parts, 17/17 effect expiry and seventeen fresh stump
+contacts; its strict report remains failed on the separate source-world need.
+The next collision reader retains the acquired D cursor-only32/37/38 records and
+the distinct usage-mask bit from46. A named class57 record writes outside the
+collision projection but can dispatch work during full base construction: its
+registry/initialization owner remains an explicit actor prerequisite. No binding,
+world activation or successful callback is fabricated. Installed Story1 controls
+now retain real initial bridge player/projectile meshes and all 27 unresolved
+platform candidates; the geometry preflight passes without pretending those
+footprints or the bridge's full actor constructor are implemented. Repeat rendered
+strict acceptance and combined regressions before another publication.
+
 Owner feedback delivered in preview .14.1: normal pistol hits destroy admitted
 class102 palms, hide their exact foliage owner, play the source wood burst/sound
 and leave a separately colliding/projectile/damageable class664 stump. Rendered

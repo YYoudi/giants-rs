@@ -111,11 +111,20 @@ impl Fields {
                         return Err("cold collider footprint size variant is unacquired".into());
                     }
                 }
+                // The acquired D class dispatcher only advances this operand.
+                // No collision, actor or global field store is inferred from it.
+                0x32 | 0x37 | 0x38 => {}
+                // This writer changes only the named trailing constructor
+                // fields, outside this collision projection. Its raw record
+                // remains in the class program. Full actor construction can
+                // dispatch that binding and still requires its actual owner;
+                // neither the lookup nor that constructor is admitted here.
+                0x57 => {}
                 // Usage masks have their separate Instance owner. Texture
                 // descriptors and state effect-name bindings do not belong to
                 // this scalar collision projection; their services stay separate.
                 0x02 | 0x14 | 0x17 | 0x18 | 0x1b | 0x1d | 0x1e | 0x23 | 0x25 | 0x2a | 0x31
-                | 0x49 | 0x2f | 0x4d | 0x4f | 0x50 | 0x7a | 0x7b | 0x7c | 0x83 | 0xff => {}
+                | 0x46 | 0x49 | 0x2f | 0x4d | 0x4f | 0x50 | 0x7a | 0x7b | 0x7c | 0x83 | 0xff => {}
                 other => {
                     return Err(format!(
                         "cold collider command {other:02x} outside checked field profile"

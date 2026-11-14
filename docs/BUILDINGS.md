@@ -344,6 +344,18 @@ This is not yet rendered class101 acceptance or a newer public preview. The
 ordinary menu/contact/fire/retirement/cleanup and campaign checks remain required;
 live animation/collision scheduling and the state27 canopy remain separate.
 
+Story1's shared source-world preflight also encounters bridge declarations.
+The D class reader's32/37/38 records only advance their operands. Command46
+sets a distinct copied usage-mask bit; it must not become a personality flag.
+The acquired collision projection excludes class57's named trailing fields,
+while preserving the source record. The full actor reader still requires that
+binding's registry and initialization consumer: native base construction can
+dispatch a request, so this is not an ignored actor command or a ready actor.
+Prototype `fx_find` / `fx_load` remain unknown attribution search routes.
+Installed controls retain initial bridge player/projectile geometry and all
+unresolved platform candidates. Generic footprints and named constructor work
+remain separate requirements; no empty successful platform query replaces them.
+
 A read-only continuation now visits all 56 nonempty mission/catalogue contexts
 in the inspected installation, using the same world list and mission parser as
 the browser. All instance plans prepare; their 246 distinct classes include

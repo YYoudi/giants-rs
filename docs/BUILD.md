@@ -44,6 +44,13 @@ existing showcase selection. It still requires an exclusive muted offscreen
 replay and the ordinary startup/resident prerequisites; it forces no character,
 readiness or pose and does not enable the building feature in normal play.
 
+With `GIANTS_BUILDING_ROOT`, the installed game controls
+`installed_platform_ignored_word_keeps_fields_and_unbound_constructor_guard`
+and `installed_story1_collision_projection_keeps_constructor_and_platform_boundaries`
+check independent class-reader/collision projections, actual source usage masks,
+the still-unbound named actor initializer and retained unresolved footprints.
+They do not admit a complete bridge constructor, native world or rendered AI.
+
 The optional app controls
 `installed_palm_damage_keeps_source_stump_owner_and_independent_hits` and
 `installed_following_mission_barracks_retain_opaque_command7_and_initialize`
