@@ -127,6 +127,14 @@ mod tests {
             assert_ne!(previous_owner, Some(owner));
             assert!(
                 runtime
+                    .initialize_normal_mecc_health(ticket + 100, &mut controller)
+                    .is_err()
+            );
+            runtime
+                .initialize_normal_mecc_health(ticket, &mut controller)
+                .unwrap();
+            assert!(
+                runtime
                     .active
                     .as_ref()
                     .unwrap()
@@ -145,6 +153,13 @@ mod tests {
                 runtime
                     .publish_controlled_mecc_motion(ticket, step, motion)
                     .unwrap();
+                if step == 1 {
+                    assert!(
+                        runtime
+                            .initialize_normal_mecc_health(ticket, &mut controller)
+                            .is_err()
+                    );
+                }
                 assert!(runtime.advance_normal_mecc_hit_clock(ticket, step).unwrap());
                 if step == 1 {
                     runtime.bind_normal_combat_globals(ticket).unwrap();

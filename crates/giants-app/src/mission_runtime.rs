@@ -516,6 +516,27 @@ impl Runtime {
             .specification(offset)?
             .as_ref())
     }
+    pub(crate) fn initialize_normal_mecc_health(
+        &self,
+        ticket: u64,
+        controller: &mut crate::mecc_dev_scene::State,
+    ) -> Result<(), String> {
+        let active = self
+            .active
+            .as_ref()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("initial Mecc health ticket absent")?;
+        if active.owned_mecc.is_some() || active.controlled_mecc_owner.is_some() {
+            return Err("initial Mecc health cannot replace an active controller".into());
+        }
+        let owner = active.player_owner()?;
+        let health = active.resident_states.mecc_health(owner)?;
+        controller.initialize_normal_health(health)?;
+        println!(
+            "mission_mecc_initial_health ticket={ticket} owner={owner:?} health={health:?} source=constructed_session before_first_motion=true"
+        );
+        Ok(())
+    }
     pub(crate) fn publish_controlled_mecc_motion(
         &mut self,
         ticket: u64,

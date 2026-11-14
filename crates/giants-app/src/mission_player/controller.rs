@@ -29,6 +29,7 @@ pub(crate) struct Controller {
     pub(crate) replay_done: bool,
     was_active: bool,
     owned_motion_failed: bool,
+    normal_health_bound: bool,
     world_signals_failed: bool,
     npc_failed: bool,
     ripper_failed: bool,
@@ -344,6 +345,7 @@ impl Controller {
             audio_active: false,
             audio_special: -1,
             state,
+            normal_health_bound: false,
             remainder: 0.,
             flight_audio_dt: 0.,
             boost_press: Default::default(),
@@ -578,6 +580,25 @@ pub(super) fn update(
             continue;
         }
         controller.was_active = true;
+        if !controller.owned_backend && !controller.normal_health_bound {
+            if !controller.owned_motion_failed {
+                let result =
+                    runtime.initialize_normal_mecc_health(controller.ticket, &mut controller.state);
+                match result {
+                    Ok(()) => controller.normal_health_bound = true,
+                    Err(error) => {
+                        controller.owned_motion_failed = true;
+                        error!(
+                            "mission_mecc_initial_health_refused ticket={} error={error}",
+                            controller.ticket
+                        );
+                    }
+                }
+            }
+            if !controller.normal_health_bound {
+                continue;
+            }
+        }
         if !controller.owned_backend
             && let Err(error) = controller.refresh_contacts(&mut runtime)
         {
