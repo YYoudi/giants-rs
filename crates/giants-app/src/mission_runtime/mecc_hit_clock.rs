@@ -68,6 +68,9 @@ mod tests {
         );
         let asset = Arc::new(packet.world_asset(&root).unwrap());
         let mut runtime = Runtime::default();
+        let mut configuration = crate::startup_configuration::Configuration::begin();
+        runtime.normal_combat_globals = configuration.take_combat_process();
+        assert!(configuration.take_combat_process().is_none());
         let mut previous_timer = 10f32;
         let mut previous_owner = None;
         for ticket in [9601, 9602] {
@@ -97,6 +100,7 @@ mod tests {
             let (scene_root, actors, blocked, residents, bindings) =
                 super::super::spawn(&mut Commands::new(&mut queue, &world), ticket, &mut payload);
             queue.apply(&mut world);
+            let campaign = Some(campaign::State::prepare(&payload.packet, &payload.plan));
             runtime.active = Some(Active {
                 ticket,
                 root: scene_root,
@@ -111,7 +115,7 @@ mod tests {
                 reported: false,
                 pickup: None,
                 landing: None,
-                campaign: None,
+                campaign,
                 cinematic_epoch: giants_game::animation_epoch::Stamp::default(),
                 variant_random: giants_game::audio_parameters::Random(1),
                 audio_registry: None,
@@ -121,6 +125,14 @@ mod tests {
             });
             let owner = runtime.active.as_ref().unwrap().player_owner().unwrap();
             assert_ne!(previous_owner, Some(owner));
+            assert!(
+                runtime
+                    .initialize_normal_mecc_health(ticket + 100, &mut controller)
+                    .is_err()
+            );
+            runtime
+                .initialize_normal_mecc_health(ticket, &mut controller)
+                .unwrap();
             assert!(
                 runtime
                     .active
@@ -141,7 +153,21 @@ mod tests {
                 runtime
                     .publish_controlled_mecc_motion(ticket, step, motion)
                     .unwrap();
+                if step == 1 {
+                    assert!(
+                        runtime
+                            .initialize_normal_mecc_health(ticket, &mut controller)
+                            .is_err()
+                    );
+                }
                 assert!(runtime.advance_normal_mecc_hit_clock(ticket, step).unwrap());
+                if step == 1 {
+                    runtime.bind_normal_combat_globals(ticket).unwrap();
+                    let process = runtime.normal_combat_globals.as_ref().unwrap();
+                    assert_eq!(process.world_suppressed(ticket), Ok(ticket == 9602));
+                    assert!(process.world_suppressed(ticket + 100).is_err());
+                    assert_eq!(process.receiver_gates(ticket), Ok((false, false)));
+                }
                 assert!(!runtime.advance_normal_mecc_hit_clock(ticket, step).unwrap());
                 if step == 1 {
                     let a = runtime.active.as_ref().unwrap();
@@ -159,8 +185,37 @@ mod tests {
             }
             let active = runtime.active.as_ref().unwrap();
             let current = active.resident_states.mecc_countdown_world().unwrap();
+            if ticket == 9601 {
+                // Supplied failure invocation at this CPU boundary, using the
+                // actual source counts and clock; not a normal lethal receipt.
+                let c = active.campaign.as_ref().unwrap().as_ref().unwrap();
+                runtime
+                    .normal_combat_globals
+                    .as_mut()
+                    .unwrap()
+                    .request_failure(ticket, c.progress.counter as i32, c.program.required, 0.016)
+                    .unwrap();
+            }
             assert!(current < previous_timer);
             assert_eq!(active.variant_random.0, rng);
+            if ticket == 9602 {
+                let a = runtime.active.as_mut().unwrap();
+                let c = a.campaign.as_mut().unwrap().as_mut().unwrap();
+                // Supplied reached completion at this CPU boundary. Remove
+                // the later consumer's packet to prove early invalidation.
+                c.progress.counter = c.program.required as u32;
+                c.completed = true;
+                a.payload.packet = super::super::tests::payload().packet;
+                assert!(runtime.take_campaign_completion(ticket).is_err());
+                assert!(
+                    runtime
+                        .normal_combat_globals
+                        .as_ref()
+                        .unwrap()
+                        .world_suppressed(ticket)
+                        .is_err()
+                );
+            }
             super::super::clear(&mut runtime, &mut Commands::new(&mut queue, &world));
             queue.apply(&mut world);
             assert!(runtime.active.is_none());

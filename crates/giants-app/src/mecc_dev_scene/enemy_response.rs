@@ -17,6 +17,19 @@ pub(crate) struct EnemyFrame<'a> {
     pub receiver: EnemyReceiver<'a>,
 }
 impl State {
+    /// Initial ordinary binding only; the caller supplies the constructed
+    /// Session owner's fields before the first controlled motion publication.
+    pub(crate) fn initialize_normal_health(
+        &mut self,
+        health: giants_game::mecc_damage::State,
+    ) -> Result<(), String> {
+        if self.owned_pose.is_some() || self.body.source.is_none() {
+            return Err("initial health requires the ordinary source Mecc body".into());
+        }
+        self.health = health;
+        Ok(())
+    }
+
     /// Borrow the actual controller's health/velocity independently of its
     /// immutable environment. No copied controller or copied collision world.
     pub(crate) fn enemy_hit_frame(&mut self) -> Result<EnemyFrame<'_>, String> {
@@ -48,15 +61,19 @@ impl EnemyReceiver<'_> {
         expected_owner: Id,
         response: HitResponse,
     ) -> Result<(), String> {
-        let after = response.validate_controller(
-            session,
-            expected_owner,
-            self.pose,
-            HitState {
-                health: *self.health,
-                velocity: *self.velocity,
-            },
-        )?;
+        let current = HitState {
+            health: *self.health,
+            velocity: *self.velocity,
+        };
+        let after = response
+            .validate_controller(session, expected_owner, self.pose, current)
+            .map_err(|error| {
+                format!(
+                    "{error}; controller={current:?}; callback_before={:?}; callback_after={:?}",
+                    response.before(),
+                    response.after()
+                )
+            })?;
         *self.health = after.health;
         *self.velocity = after.velocity;
         Ok(())

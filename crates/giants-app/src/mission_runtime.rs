@@ -27,6 +27,7 @@ pub(crate) struct CampaignCompletion {
 #[cfg(test)]
 mod barracks_tests;
 mod campaign;
+mod combat_globals;
 mod landing;
 mod mecc_hit_clock;
 mod npc;
@@ -53,6 +54,13 @@ impl bevy::app::Plugin for Plugin {
                 .chain()
                 .after(crate::frontend_scene::runtime_events),
         );
+        let process = app
+            .world_mut()
+            .get_resource_mut::<crate::startup_configuration::Configuration>()
+            .and_then(|mut config| config.take_combat_process());
+        app.world_mut()
+            .resource_mut::<Runtime>()
+            .normal_combat_globals = process;
     }
 }
 #[derive(Component)]
@@ -200,6 +208,7 @@ impl Active {
 }
 #[derive(Resource, Default)]
 pub struct Runtime {
+    normal_combat_globals: Option<giants_game::mission_guard_state::Process>,
     normal_mecc_hit_clock: giants_game::controlled_mecc_hit_clock::Clock,
     pending: Option<Pending>,
     active: Option<Active>,
@@ -508,6 +517,27 @@ impl Runtime {
             .ok_or("player state resources unbound")?
             .specification(offset)?
             .as_ref())
+    }
+    pub(crate) fn initialize_normal_mecc_health(
+        &self,
+        ticket: u64,
+        controller: &mut crate::mecc_dev_scene::State,
+    ) -> Result<(), String> {
+        let active = self
+            .active
+            .as_ref()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("initial Mecc health ticket absent")?;
+        if active.owned_mecc.is_some() || active.controlled_mecc_owner.is_some() {
+            return Err("initial Mecc health cannot replace an active controller".into());
+        }
+        let owner = active.player_owner()?;
+        let health = active.resident_states.mecc_health(owner)?;
+        controller.initialize_normal_health(health)?;
+        println!(
+            "mission_mecc_initial_health ticket={ticket} owner={owner:?} health={health:?} source=constructed_session before_first_motion=true"
+        );
+        Ok(())
     }
     pub(crate) fn publish_controlled_mecc_motion(
         &mut self,
@@ -1319,7 +1349,9 @@ impl Runtime {
         let owner = self
             .normal_landing_owner(ticket)
             .ok_or("Ripper controlled Mecc absent")?;
-        self.advance_normal_rippers_with_combat(
+        let guard_binding = self.bind_normal_combat_globals(ticket);
+        let mut globals = self.normal_combat_globals.take();
+        let result = self.advance_normal_rippers_with_combat(
             ticket,
             step,
             frame.camera,
@@ -1328,8 +1360,25 @@ impl Runtime {
                 owner,
                 receiver: frame.receiver,
                 device,
+                globals: globals.as_mut(),
+                guard_binding,
             },
-        )
+        );
+        // Latch the reached unported lethal writer before a menu cancellation
+        // can retire this Session. Waiting for another hit could lose it.
+        if let Some(process) = globals.as_mut()
+            && self
+                .active
+                .as_ref()
+                .filter(|a| a.ticket == ticket)
+                .and_then(|a| a.resident_states.mecc_health(owner).ok())
+                .is_some_and(|h| h.damage >= h.limit)
+            && !matches!(process.world_suppressed(ticket), Ok(true))
+        {
+            process.observe_unbound_writer("controlled-player lethal primary/failure producer");
+        }
+        self.normal_combat_globals = globals;
+        result
     }
     fn advance_normal_rippers_with_combat(
         &mut self,
@@ -1570,6 +1619,13 @@ impl Runtime {
         };
         if !c.completed || c.queued {
             return Ok(None);
+        }
+        // Observe the reached writer before fallible film/continuation work.
+        // Failure of a later consumer must not restore known-clear guards.
+        if let Some(globals) = self.normal_combat_globals.as_mut() {
+            globals.observe_unbound_writer(
+                "source completion precheck/clock/health-suppression writer",
+            );
         }
         let packet = &a.payload.packet;
         let world = packet.world.as_ref().ok_or("completed world absent")?;

@@ -13,6 +13,8 @@ pub(crate) struct RipperInputSnapshot {
     pub impact: Option<([f32; 3], u64)>,
     /// Absent before the actual partial-controller owner is published.
     pub mecc_damage: Option<f32>,
+    pub mecc_remaining: Option<f32>,
+    pub mecc_limit: Option<f32>,
     pub quarantine_step: Option<u64>,
 }
 impl Runtime {
@@ -70,6 +72,10 @@ impl Runtime {
             })
             .max_by_key(|v| v.0);
         let flight_revision = projectile.map_or(0, |v| v.0);
+        let health = active
+            .controlled_mecc_owner
+            .map(|owner| session.mecc_health(owner))
+            .transpose()?;
         Ok(RipperInputSnapshot {
             quarantine_step: active
                 .payload
@@ -100,10 +106,9 @@ impl Runtime {
             projectile_source: projectile.map(|v| v.2),
             flight_revision,
             projectile: projectile.map(|v| v.1),
-            mecc_damage: active
-                .controlled_mecc_owner
-                .map(|owner| session.mecc_health(owner).map(|health| health.damage))
-                .transpose()?,
+            mecc_damage: health.map(|h| h.damage),
+            mecc_remaining: health.map(|h| h.remaining()),
+            mecc_limit: health.map(|h| h.limit),
             impact: self
                 .active
                 .as_ref()

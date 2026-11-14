@@ -50,6 +50,13 @@ the independent stump; `settled` additionally requires complete effect expiry
 and fresh stump contacts. This is a test driver, not a feature switch. Keep its
 exact-build receipt separate from CPU and real Windows-input evidence.
 
+The Ripper hit diagnostic's `GIANTS_MISSION_RIPPER_CAPTURE_HIT=1` endpoint has
+priority over its shared chase navigation. It requires positive canonical damage,
+an actual matching controller health decrease visible after rounding, and two
+following ordinary frames for HUD publication. A pursuit capture, a Session-only
+mutation or a refused controller response is not injury acceptance. Ordinary
+admission and attacks require none of these diagnostic variables.
+
 The classic mode42 helper comparison is `cargo test --locked -p giants-game
 native_classic_melee_controls --target x86_64-pc-windows-gnu -- --ignored`, with
 private `GIANTS_RIPPER_CLASSIC_MELEE_CONTROLS` set. Contact cases stop before

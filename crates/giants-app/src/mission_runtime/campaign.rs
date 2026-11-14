@@ -1,6 +1,7 @@
 //! Owned ordinary Bevy mission objectives. This owner uses acquired PC
-//! predicates and source records. It does not install snapshots for the native
-//! world's still-unbound music/precheck, failure or impact-suppression services.
+//! predicates and source records. Its completion boolean is transport state,
+//! never a native combat flag. The separate process guard owner invalidates
+//! knowledge when an unported completion/precheck writer is actually requested.
 use giants_game::{
     mission_notice, mission_objectives,
     resident_states::{Id, Session},

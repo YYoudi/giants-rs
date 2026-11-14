@@ -57,6 +57,14 @@ states and F4 overrides keep their existing guards. The exact .14.1 rendered
 return now passes that initialization and reaches the ordinary next player, with
 the separate High Village AI limitation described above.
 
+The ordinary damage guard projection has a separate persistent process owner in
+`mission_guard_state`. Configuration/source-entry writes and actual ticket
+retirement qualify its bounded values; campaign `completed` is never substituted
+for native completion or failure. A reached unported completion writer invalidates
+guard knowledge before fallible continuation work, even without a combat scope.
+This does not replace the mission/film flow below. See OWNED_NPCS.md for native
+control boundaries and remaining ordinary injury/lethal acceptance.
+
 ## Separate declarations, predicates and transport
 
 The world supplies ordered scenario records and a separate mission-slot name
