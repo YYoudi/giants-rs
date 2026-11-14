@@ -552,6 +552,24 @@ impl ActorWorldServices for Callbacks<'_, '_> {
                 self.random,
                 &mut services,
             )?,
+            (73, 42) => session.update_ripper_classic_melee_with_mecc(
+                id,
+                input,
+                primary::ClassicMeleeContext {
+                    attack_range: scalar(0xd8)?,
+                    damage: scalar(0x3e8)?,
+                    orbit: giants_game::ripper_turn_completion::Parameters::from_globals(
+                        self.globals,
+                    )
+                    .map_err(|e| e.to_string())?,
+                },
+                self.frame.step,
+                self.random,
+                &mut Melee {
+                    primary: &mut services,
+                    combat: self.combat,
+                },
+            )?,
             (230, 68) => session.update_ripper_variant_melee_with_mecc(
                 id,
                 input,

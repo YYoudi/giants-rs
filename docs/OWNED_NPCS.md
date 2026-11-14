@@ -121,8 +121,9 @@ The ordinary driver now connects mode41 to the acquired stored-angle pursuit:
 current target validation, forward command only inside the source angular gate,
 actual destination, strict horizontal attack range and its class-specific cues.
 Loss of the target requests mode43; entering range requests mode42. The mode42
-animation selection is acquired, but its following primary/melee dispatch is
-still required. This does not fabricate damage or a completed attack callback.
+animation selection is acquired. Its following primary/melee dispatch is now
+connected as described below; actual world guards remain required. This does
+not fabricate damage or a completed attack callback.
 Twenty-two original helper contexts cover angles, distance boundaries, a vertically
 separated target, inactive/dead targets and the controlled-player suppression
 branch. Actor/target headers, globals and sound-registry absence are supplied.
@@ -139,7 +140,7 @@ identical caller constants.
 The read-only close-pursuit endpoint requires a real launch attributed to the
 same actor and at least20 horizontal units of canonical displacement within its
 continuous mode41 phase. It changes neither the attack range nor actor fields.
-Rendered acceptance of this new continuation remains pending; reciprocal damage,
+The later `c97c8d0` receipt below accepts the scoped rendered close pursuit; reciprocal damage,
 death, special attacks, other maps and full Windows/menu lifecycle remain open.
 
 ### Classic orbit and burrowing continuation (local)
@@ -181,6 +182,75 @@ normal launch has no replay, probe or NPC-enable environment. Full Windows-aimed
 encounter, reciprocal injuries and death remain unverified. Workspace1,096 Rust
 tests (241 ignored),45 Python tests, fmt and strict Clippy pass; the private
 25-row helper comparison and actual-constructor late-failure control also pass.
+
+### Classic close attack continuation (local, encounter acceptance pending)
+
+The ordinary class73 mode42 now aims through the acquired wide-angle writer.
+On animation completion it consumes the source orbit draws, returns to mode35,
+then requests kind3 injury only inside the independently verified 3D range.
+The range and damage use the classic class globals, separately from class230.
+Lost targets keep the classic cue and retreat state. No synthetic projectile,
+damage acknowledgment or successful world guard is introduced.
+
+Fourteen original-helper controls compare unfinished/finished animation,
+angles, exact range boundaries, vertical separation, lost/suppressed targets
+and random-state/side-effect ordering. Five contact cases stop before the real
+kind3 consumer; they prove the request, not native damage. Canonical Session
+controls then exercise the shared controlled-Mecc receiver with explicitly
+supplied guards, health/recoil publication, stale-response rejection and retained
+orbit/state after receiver refusal. Actual marker-constructor controls cover
+both Ripper classes and reject a broken reciprocal link. Prototype PS2 searches
+via `ripper_move`, `ripper_shot`, `hurt_object` and `mecc_shot` confirm no new
+identity. The previous aliases and platform differences remain intact.
+
+Four further original-PC controls execute the actual direct kind3 wrapper,
+dispatcher and cold controlled-Mecc receiver with a supplied classic Ripper
+header, actual source motion, explicit world guards and empty sound registry.
+Two original CRT float draws replay the separately verified caller prefix;
+these are composed controls, not the whole live primary/world schedule. Rust
+matches actual health, flags, recoil velocity, timer, random state and terminal
+call counts. Supplied guards still do not establish an ordinary producer.
+
+The input diagnostic now allows24,000 frames to observe repeated attack cycles
+after the distant approach; its capture predicate and ordinary NPC admission
+are unchanged. Rendered acceptance of this new attack remains pending. The real
+world failure/completion and health-suppression producers, outgoing player
+projectile identity, reciprocal injury/death and full encounter remain open.
+
+Local GNU build source `c97c8d07ac42766d4c72245a7ba067e8a5828b47`, executable
+SHA256 `7e8ac6995434e06a6cfb7fe9b8a45a97699cea9a2fc0b8c6f0f563bec8ec6717`:
+the routed rendered Wife diagnostic passes the unchanged strict close-pursuit
+endpoint (exit0, about152 seconds, capture inspected). The same declared
+class73 actor has an attributed real launch and at least20 horizontal units of
+canonical movement continuously in mode41. Burrowing mode45/36 and subsequent
+surface/attack states also run. Inputs are supplied to the ordinary Mecc only;
+this is not Windows-aimed combat, successful kind3 damage or death acceptance.
+The separate longer retreat observation exits101 after24,000 frames/about265
+seconds without its requested capture. The classic remains stationary in mode36
+late in that run; no completed close attack is established. The reused pursuit
+pilot holds the player at about200 units after a shot, so that attempt does not
+properly seek melee contact. The injury diagnostic now uses the same terrain
+route but continues ordinary player movement toward contact. Its endpoint still
+requires actual positive controlled-Mecc damage; the fix changes no NPC field,
+range, random stream or damage result. Verify that approach before attributing
+the stationary buried actor to a missing native clock or changing its AI.
+
+The corrected approach on source `6d8349d9c954ea4091d012b6d88d919927d3085d`,
+GNU executable SHA256
+`5e3bead4d884271396554591a14e2ad4fcc950d2f1367709895792eac37a2ac1`,
+reaches an actual declared classic actor's mode42 in the ordinary rendered
+runtime (completed frame17760). At17774 its finished primary reaches the shared
+kind3 request and refuses the still-unbound failure/completion guards. This is
+the real runtime producer/consumer boundary, not a supplied attack state or
+successful injury. Other classic actors continue moving/orbiting and firing.
+The positive-damage diagnostic exits101 at24,000 frames/about291 seconds without
+a capture; no Mecc damage or death is acknowledged. The earlier mode36 stall
+does not justify inventing a clock or forcing motion: the continued actual
+player input also observes repeated buried movement and other declared actors.
+The next blocker is the genuine shared-world guard producer, followed by the
+receiver's independent health-suppression guards. Keep the mission lane's flow
+and the outgoing player-projectile prerequisite distinct. No new preview is
+published and the complete encounter objective remains active.
 
 ## Historical Ripper integration receipts
 

@@ -1,8 +1,11 @@
 // Supplied owned-frame boundary, source mode and services. These controls use
 // the canonical public primary/receiver path; they establish no world admission.
 fn canonical_melee_fixture(session: &mut Session) -> (Id, Id, Random) {
+    canonical_melee_fixture_for_class(session, 230)
+}
+fn canonical_melee_fixture_for_class(session: &mut Session, class: i32) -> (Id, Id, Random) {
     let (_, target, random) = controlled_fixture(session);
-    let source = fixture_actor(session, 230, 23);
+    let source = fixture_actor(session, class, 23);
     let actor = session.residents.get_mut(&source.serial).unwrap();
     let fields = actor.construction_fields.as_mut().unwrap();
     fields.position = [4., 6., 2.];
@@ -33,7 +36,7 @@ fn canonical_melee_fixture(session: &mut Session) -> (Id, Id, Random) {
     });
     session.prepare_ripper_primary(source).unwrap();
     let mut combat = session.state23_snapshot(source).unwrap();
-    combat.mode = 68;
+    combat.mode = if class == 73 { 42 } else { 68 };
     combat.retaliation = Some(target);
     session
         .residents
@@ -180,27 +183,88 @@ fn run_canonical_melee(
 ) -> Result<crate::ripper_primary_turn::Outcome, String> {
     let peers = session.perception_subset(&[target])?;
     let frame = peers.frame()?;
-    session.update_ripper_variant_melee_with_mecc(
-        source,
-        crate::ripper_primary_turn::FrameInput {
-            context: crate::state23_entry::Context {
-                paused: false,
-                native_mode: 0,
-                parent_state: None,
-                player: None,
-                delta: 0.1,
+    let input = crate::ripper_primary_turn::FrameInput {
+        context: crate::state23_entry::Context {
+            paused: false,
+            native_mode: 0,
+            parent_state: None,
+            player: None,
+            delta: 0.1,
+        },
+        frame: &frame,
+        range: 500.,
+    };
+    if session.get(source).unwrap().class == 73 {
+        session.update_ripper_classic_melee_with_mecc(
+            source,
+            input,
+            crate::ripper_primary_turn::ClassicMeleeContext {
+                attack_range: 20.,
+                damage: 35.,
+                orbit: crate::ripper_turn_completion::Parameters {
+                    radius: [8., 20.],
+                    seconds: 4.,
+                },
             },
-            frame: &frame,
-            range: 500.,
-        },
-        crate::ripper_primary_turn::VariantMeleeContext {
-            attack_range: 20.,
-            damage: 35.,
-        },
-        1,
-        random,
-        services,
-    )
+            1,
+            random,
+            services,
+        )
+    } else {
+        session.update_ripper_variant_melee_with_mecc(
+            source,
+            input,
+            crate::ripper_primary_turn::VariantMeleeContext {
+                attack_range: 20.,
+                damage: 35.,
+            },
+            1,
+            random,
+            services,
+        )
+    }
+}
+
+#[test]
+fn canonical_classic_melee_reaches_shared_receiver_after_orbit_and_retains_refusal() {
+    for fail in [None, Some("gates")] {
+        let mut session = Session::new(1870 + u64::from(fail.is_some()));
+        let (source, target, mut random) = canonical_melee_fixture_for_class(&mut session, 73);
+        let mut host = CanonicalMeleeHost {
+            fail,
+            local: Some(local_melee_state(&session, target)),
+            ..Default::default()
+        };
+        let result = run_canonical_melee(&mut session, source, target, &mut random, &mut host);
+        assert_eq!(result.is_err(), fail.is_some(), "{result:?}");
+        assert_eq!(session.state23_combat(source).unwrap().mode, 35);
+        let state = session.ripper_primary(source).unwrap().state();
+        assert_eq!(state.timer, 4.);
+        assert!((8. ..20.).contains(&state.orbit.radius));
+        assert_eq!(
+            session.mecc_health(target).unwrap().damage,
+            if fail.is_some() { 0. } else { 35. }
+        );
+        assert_eq!(
+            host.events,
+            if fail.is_some() {
+                vec!["world", "gates"]
+            } else {
+                vec!["world", "gates", "recoil", "terminal"]
+            }
+        );
+        let count = host.events.len();
+        assert!(run_canonical_melee(&mut session, source, target, &mut random, &mut host).is_err());
+        assert_eq!(host.events.len(), count);
+        if let Some(response) = host.response {
+            assert!(
+                response
+                    .validate_controller(&session, target, melee_pose(), response.before())
+                    .is_err()
+            );
+        }
+        assert!(session.enemy_projectile(source).is_none());
+    }
 }
 fn local_melee_state(session: &Session, target: Id) -> crate::controlled_mecc::HitState {
     crate::controlled_mecc::HitState {
@@ -271,20 +335,24 @@ fn canonical_kind3_copies_actual_health_velocity_once_and_finishes_generic_tail(
 }
 
 #[test]
-#[ignore = "Requires GIANTS_NPC_ROOT; actual marker constructor with supplied mode68, frame and receiver guards, not ordinary combat acceptance"]
+#[ignore = "Requires GIANTS_NPC_ROOT; actual marker constructor with supplied mode42/68, frame and receiver guards, not ordinary combat acceptance"]
 fn source_kind3_accepts_reciprocal_surface_marker_without_using_it_as_hit_owner() {
     let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
     let resources =
         crate::scene_resources::SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
-    for broken in [false, true] {
+    for (class, broken) in [(73, false), (73, true), (230, false), (230, true)] {
         let mut session = Session::new(1840 + u64::from(broken));
-        let (source, target, mut random) = canonical_melee_fixture(&mut session);
+        let (source, target, mut random) = canonical_melee_fixture_for_class(&mut session, class);
         let marker = crate::primary_surface_marker::Factory::new(&resources)
             .construct(&mut session, source)
             .unwrap();
         let links = (session.surface_link(source), session.surface_link(marker));
         if broken {
-            session.residents.get_mut(&marker.serial).unwrap().surface_link = None;
+            session
+                .residents
+                .get_mut(&marker.serial)
+                .unwrap()
+                .surface_link = None;
         }
         let mut host = CanonicalMeleeHost {
             local: Some(local_melee_state(&session, target)),
@@ -299,8 +367,14 @@ fn source_kind3_accepts_reciprocal_surface_marker_without_using_it_as_hit_owner(
             result.unwrap();
             assert_eq!(host.events, ["world", "gates", "recoil", "terminal"]);
             assert_eq!(session.mecc_health(target).unwrap().damage, 35.);
-            assert_eq!(session.state23_combat(source).unwrap().owner, Some((marker, 219)));
-            assert_eq!((session.surface_link(source), session.surface_link(marker)), links);
+            assert_eq!(
+                session.state23_combat(source).unwrap().owner,
+                Some((marker, 219))
+            );
+            assert_eq!(
+                (session.surface_link(source), session.surface_link(marker)),
+                links
+            );
             assert_eq!(host.response.unwrap().source(), source);
         }
     }
@@ -312,6 +386,16 @@ fn native_canonical_kind3_controls() {
         std::env::var("GIANTS_MECC_KIND3_CONTROLS").expect("private kind3 controls path"),
     )
     .unwrap();
+    compare_native_kind3_controls(&contents, 230);
+}
+#[test]
+#[ignore = "Requires GIANTS_CLASSIC_KIND3_CONTROLS; actual native cold Mecc/direct kind3 with supplied class73 header, guards and separately replayed two-draw caller prefix; not live world or graphics"]
+fn native_classic_kind3_controls() {
+    let contents =
+        std::fs::read_to_string(std::env::var("GIANTS_CLASSIC_KIND3_CONTROLS").unwrap()).unwrap();
+    compare_native_kind3_controls(&contents, 73);
+}
+fn compare_native_kind3_controls(contents: &str, class: i32) {
     let mut count = 0;
     for line in contents
         .lines()
@@ -322,11 +406,11 @@ fn native_canonical_kind3_controls() {
             .map(|s| u32::from_str_radix(s, 16).unwrap())
             .collect();
         assert_eq!(w.len(), 20);
-        if w[19] != 230 {
+        if w[19] != class as u32 {
             continue;
         }
         let mut session = Session::new(1840 + count);
-        let (source, target, mut random) = canonical_melee_fixture(&mut session);
+        let (source, target, mut random) = canonical_melee_fixture_for_class(&mut session, class);
         let mut host = CanonicalMeleeHost {
             world: w[0] != 0 || w[1] != 0,
             disabled: w[2] != 0,

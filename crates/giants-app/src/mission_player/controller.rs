@@ -403,7 +403,9 @@ impl Controller {
             landing_capture: std::env::var("GIANTS_MISSION_REPLAY").as_deref()
                 == Ok("campaign-landing-pose"),
             finish_step: if ripper_probe::enabled() {
-                12000
+                // Observe repeated source attack/orbit cycles after approach.
+                // The capture predicate and ordinary runtime are unchanged.
+                24000
             } else if Self::campaign_probe() {
                 120000
             } else if Self::vimp_contact_probe() {

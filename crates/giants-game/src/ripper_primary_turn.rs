@@ -14,6 +14,8 @@ use crate::{
 };
 mod classic_orbit;
 pub use classic_orbit::ClassicOrbitParameters;
+mod classic_melee;
+pub use classic_melee::ClassicMeleeContext;
 mod cooldown;
 pub use cooldown::VariantCooldownContext;
 #[derive(Clone, Debug)]
@@ -103,6 +105,7 @@ mod tests {
     include!("ripper_primary_turn/retreat_tests.rs");
     include!("ripper_primary_turn/classic_close_tests.rs");
     include!("ripper_primary_turn/classic_orbit_tests.rs");
+    include!("ripper_primary_turn/classic_melee_tests.rs");
     struct Backend {
         removals: u32,
         sounds: u32,
@@ -1445,6 +1448,7 @@ pub enum Outcome {
     CompletedRetreat,
     CompletedClassicClose,
     CompletedClassicOrbit,
+    CompletedClassicMelee,
 }
 #[derive(Clone, Debug)]
 pub struct Machine<K, E> {
@@ -1623,6 +1627,7 @@ enum Branch<'a, K> {
     Retreat(f32),
     ClassicClose(f32),
     ClassicOrbit(ClassicOrbitParameters),
+    ClassicMelee(ClassicMeleeContext),
     Turn(Parameters),
     Pursuit(f32),
     Emergence(f32),
@@ -2094,6 +2099,7 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Branch::VariantRetreat => 71,
             Branch::Retreat(_) => 43,
             Branch::ClassicClose(_) => 41,
+            Branch::ClassicMelee(_) => 42,
             Branch::ClassicOrbit(_) => {
                 if !matches!(original.entry.mode, 35 | 36 | 45) {
                     return Err("classic orbit requires mode35/36/45".into());
@@ -2269,6 +2275,14 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
                     self.failed = Some(error.clone());
                     return Err(error);
                 }
+            }
+        } else if let Branch::ClassicMelee(parameters) = branch {
+            if let Err(error) =
+                classic_melee::advance(&mut state, frame, parameters, random, services)
+            {
+                self.state = state;
+                self.failed = Some(error.clone());
+                return Err(error);
             }
         } else if let Branch::ClassicOrbit(parameters) = branch {
             if let Err(error) =
@@ -2770,6 +2784,8 @@ impl<K: Copy + Ord, E: Copy> Machine<K, E> {
             Outcome::CompletedClassicClose
         } else if matches!(branch, Branch::ClassicOrbit(_)) {
             Outcome::CompletedClassicOrbit
+        } else if matches!(branch, Branch::ClassicMelee(_)) {
+            Outcome::CompletedClassicMelee
         } else if matches!(branch, Branch::Awakening(_)) {
             Outcome::CompletedAwakening
         } else if mode == 32 {

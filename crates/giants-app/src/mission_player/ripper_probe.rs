@@ -114,7 +114,8 @@ pub(super) fn input(
     let snapshot = runtime.ripper_input_snapshot(ticket, position, target_class()?)?;
     let retreat = std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_RETREAT").as_deref() == Ok("1");
     let close = std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CLASSIC_CLOSE").as_deref() == Ok("1");
-    let routed = retreat || close;
+    let hit = std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_HIT").as_deref() == Ok("1");
+    let routed = retreat || close || hit;
     let chase =
         routed || std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CHASE").as_deref() == Ok("1");
     if chase && navigation.chase_actor != snapshot.target_actor {
@@ -179,7 +180,7 @@ pub(super) fn input(
                 .quarantine_step
                 .is_some_and(|at| u64::from(step) >= at + 120)
                 && snapshot.flight_revision >= flights()?
-        } else if std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_HIT").as_deref() == Ok("1") {
+        } else if hit {
             snapshot.mecc_damage.is_some_and(|damage| damage > 0.)
         } else if std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_IMPACT").as_deref() == Ok("1") {
             snapshot
@@ -242,7 +243,13 @@ pub(super) fn input(
             input.axes = Vec2::Y;
         }
         // Supplied player retreat; never an NPC position or mode write.
-        if chase && let Some(first) = navigation.chase_first_shot {
+        // Injury observation must actually approach contact. The earlier
+        // pursuit capture deliberately stops the player at range; reusing
+        // that hold prevents the normal source close attack from being tried.
+        if chase
+            && !hit
+            && let Some(first) = navigation.chase_first_shot
+        {
             if step < first + 240 {
                 input.axes = Vec2::NEG_Y;
             } else if distance < 200. {

@@ -50,6 +50,18 @@ the independent stump; `settled` additionally requires complete effect expiry
 and fresh stump contacts. This is a test driver, not a feature switch. Keep its
 exact-build receipt separate from CPU and real Windows-input evidence.
 
+The classic mode42 helper comparison is `cargo test --locked -p giants-game
+native_classic_melee_controls --target x86_64-pc-windows-gnu -- --ignored`, with
+private `GIANTS_RIPPER_CLASSIC_MELEE_CONTROLS` set. Contact cases stop before
+injury. `cargo test --locked -p giants-game canonical_ --target
+x86_64-pc-windows-gnu` covers the shared receiver with explicit supplied guards.
+The actual marker-constructor regression uses `GIANTS_NPC_ROOT` and the ignored
+`source_kind3_accepts_reciprocal_surface_marker_without_using_it_as_hit_owner`.
+None establishes ordinary world-guard availability or a rendered lethal encounter.
+The separate ignored `native_classic_kind3_controls` uses private
+`GIANTS_CLASSIC_KIND3_CONTROLS`; it compares the actual cold original receiver
+with supplied classic source/guards and separately replayed caller RNG draws.
+
 The local classic orbit continuation uses `cargo test --locked -p giants-game
 classic_orbit --target x86_64-pc-windows-gnu`. Private native controls require
 `GIANTS_RIPPER_CLASSIC_ORBIT_CONTROLS`; the installed constructor control
