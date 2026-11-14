@@ -373,6 +373,16 @@ boundary are independently acquired PC behavior. Private controls stop before
 that menu's effects; this establishes neither its UI/restart owner nor live
 world initialization, guards or ordinary Ripper combat. Earlier PC aliases remain
 in the private identity-bound record; no PS2 signature/layout is imported.
+
+The same unknown `mission_fail` route and the `mission_init` search prefix also
+lead to [`mission_guard_state::Process`](../crates/giants-game/src/mission_guard_state.rs)
+and the ordinary `mission_runtime::combat_globals` binding. These own separate
+process/configuration/source-entry field writes; they do not confirm another
+prototype identity or import a layout. Native prefix and cold receiver controls,
+actual source scope, persistent failure and explicit unbound-writer invalidation
+remain separate from whole native-world/UI and rendered lethal acceptance. See
+[OWNED_NPCS.md](OWNED_NPCS.md) for the precise current partial-process scope.
+
 ## Building damage search routes
 
 The literal prototype PS2 names `house_process`, `house_shot` and

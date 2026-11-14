@@ -52,13 +52,24 @@ pub(in crate::mission_runtime) struct Normal<'a, 'p, D> {
     pub owner: Id,
     pub receiver: crate::mecc_dev_scene::EnemyReceiver<'p>,
     pub device: &'a mut D,
+    pub globals: Option<&'a mut giants_game::mission_guard_state::Process>,
+    pub guard_binding: Result<(), String>,
 }
 impl<D: giants_game::resident_states::MeccImpactVoice> MeccEnemyHitServices for Normal<'_, '_, D> {
     fn gates(&mut self, session: &Session, target: Id) -> Result<MeccEnemyHitGates, String> {
         if target != self.owner || session.get(target).is_none() {
             return Err("Ripper receiver differs from the current normal Mecc owner".into());
         }
-        Err("Ripper hit requires actual shared-world edit/health-suppression guards".into())
+        self.guard_binding.as_ref().map_err(Clone::clone)?;
+        let globals = self
+            .globals
+            .as_deref()
+            .ok_or("Ripper receiver requires actual process guard owner")?;
+        let (globally_disabled, health_suppressed) = globals.receiver_gates(target.ticket())?;
+        Ok(MeccEnemyHitGates {
+            globally_disabled,
+            health_suppressed,
+        })
     }
     fn recoil(
         &mut self,
@@ -91,9 +102,19 @@ impl<D: giants_game::actor_retirement::Services + giants_game::resident_states::
         if session.get(self.owner).is_none() {
             return Err("Ripper shared-world request lost its controlled Mecc".into());
         }
-        // The campaign's portable counter and a living Mecc cannot substitute
-        // for this native owner. No clear snapshot or readiness is fabricated.
-        Err("Ripper hit requires actual shared-world failure/completion guards".into())
+        self.guard_binding.as_ref().map_err(Clone::clone)?;
+        let globals = self
+            .globals
+            .as_deref_mut()
+            .ok_or("Ripper hit requires actual process guard owner")?;
+        let health = session.mecc_health(self.owner)?;
+        if health.damage >= health.limit {
+            globals.require_unbound_transition(
+                self.owner.ticket(),
+                "controlled-player lethal primary/failure producer",
+            )?;
+        }
+        globals.world_suppressed(self.owner.ticket())
     }
 }
 

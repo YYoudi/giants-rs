@@ -330,6 +330,16 @@ Other declared Rippers keep moving and firing. The next ordinary combat blocker
 is now precisely the shared-world guard producer and subsequent receiver guards;
 do not bypass them or present the attack request as injury/death acceptance.
 
+The local persistent guard projection now connects actual launch/configuration
+and parsed source-scenario ownership. It preserves failure and uncertainty across
+ticket retirement and never maps the portable campaign boolean to native guards.
+Reached unsupported completion/lethal writers invalidate knowledge before later
+consumers. Native poisoned-prefix controls, a cold original receiver without
+injected world guards, and actual Wife/two-Session binding checks support this
+bounded owner. Verify a real injury on an identified rendered executable next;
+whole native-world prechecks, completion/health transitions, lethal/restart and
+reciprocal Ripper injury/death remain open. See OWNED_NPCS.md for exact limits.
+
 Next NPC delivery: acquire and connect the genuine shared-world guards that
 block reciprocal contact, alongside the actual radial recipients and positive
 hit/Vimp-alert consumers. Source `6354f1d` / GNU executable

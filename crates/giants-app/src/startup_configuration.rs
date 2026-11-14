@@ -6,6 +6,7 @@ use giants_game::startup_playback::Playback;
 #[derive(Resource)]
 pub(crate) struct Configuration {
     playback: Playback,
+    combat_process: Option<giants_game::mission_guard_state::Process>,
 }
 
 impl Configuration {
@@ -15,10 +16,22 @@ impl Configuration {
     pub(crate) fn begin() -> Self {
         let mut playback = Playback::default();
         playback.begin_configuration();
-        Self { playback }
+        let mut combat_process = giants_game::mission_guard_state::Process::start_process();
+        combat_process
+            .begin_configuration()
+            .expect("fresh process configuration prefix");
+        Self {
+            playback,
+            combat_process: Some(combat_process),
+        }
     }
 
     pub(crate) fn playback(&self) -> Playback {
         self.playback
+    }
+    pub(crate) fn take_combat_process(
+        &mut self,
+    ) -> Option<giants_game::mission_guard_state::Process> {
+        self.combat_process.take()
     }
 }

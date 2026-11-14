@@ -806,6 +806,7 @@ pub mod font_layout;
 pub mod font_rasterizer;
 pub mod message_presentation;
 pub mod mission_failure;
+pub mod mission_guard_state;
 pub mod mission_messages;
 pub mod mission_notice;
 pub mod mission_objectives;

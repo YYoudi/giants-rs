@@ -9,6 +9,46 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Main integration of Ripper movement and attacks
 
+### Persistent damage-guard ownership (local, rendered injury pending)
+
+`mission_guard_state::Process` now owns the bounded PC process fields instead
+of returning a clear snapshot for each hit. The normal launch transfers this
+owner exactly once from configuration into the common runtime. The verified
+image initialization is followed by actual configuration and source-scenario
+prefix writes: configuration clears health suppression, whereas scenario entry
+clears completion and failure elapsed time while preserving failure/edit/health.
+Image values alone expose no scenario or hit capability. A binding requires the
+actual current ordinary Mecc, parsed kind2 scenario/slot, acquired objective
+producer and matching ticket. Actual retirement receipts permit a new scope;
+they never clear a failed or uncertain process.
+
+The objective owner's portable completion boolean is not a native guard value.
+A reached completion request invalidates knowledge before fallible film work,
+including missions with no combat scope. A reached unbound lethal player writer
+also invalidates it. New tickets, menu return and configuration retries cannot
+turn that uncertainty into successful guards. Timed-failure command18 remains
+outside this binding. The acquired failure-request method retains its actual
+clock/count writes and unresolved menu boundary; its CPU invocation is not a
+new ordinary death/restart producer. Normal startup exposes no native cheat/edit
+writer; adding one requires updating this same persistent owner.
+
+Independent original-PC controls execute configuration and scenario prefixes
+with poisoned words to check their different preservation/reset behavior. A
+separate actual cold-Mecc/kind3 control applies injury after original prefixes
+and construction without externally writing the four guard fields. Models,
+source header/motion, clock/TLS and missing transport boundaries remain explicit;
+these controls do not establish the whole native startup, UI or world scheduler.
+The installed Wife lifecycle control checks actual source binding, unique launch
+ownership, foreign-ticket refusal and preservation of a supplied failure request
+across two real Session teardowns. None establishes rendered injury yet.
+
+This is an ordinary partial-process projection, not full native-world fidelity.
+Unsupported completion/health-transition, player lethal primary, player-pistol
+source identity, Ripper hurt/blood/death and full OS encounter remain required.
+Prototype PS2 `mission_init`/`mission_fail` and related configuration search
+routes remain unknown identities. Follow the central reconstruction method;
+private controls/inputs and old aliases stay outside the public tree.
+
 The source integration combines the existing ordinary Ripper component with
 current main, preserving building collision, damage, destruction and replacement
 services. Declared class73/230 actors share the normal Mecc Session, source

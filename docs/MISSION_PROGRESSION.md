@@ -12,6 +12,14 @@ entry with its own declared wife picked up. The exact receipt, supplied-command
 scope and separate short OS checks are in [PREVIEW_NOTES.md](PREVIEW_NOTES.md).
 RoadHome completion, other mission predicates and full native continuity remain open.
 
+The ordinary damage guard projection has a separate persistent process owner in
+`mission_guard_state`. Configuration/source-entry writes and actual ticket
+retirement qualify its bounded values; campaign `completed` is never substituted
+for native completion or failure. A reached unported completion writer invalidates
+guard knowledge before fallible continuation work, even without a combat scope.
+This does not replace the mission/film flow below. See OWNED_NPCS.md for native
+control boundaries and remaining ordinary injury/lethal acceptance.
+
 ## Separate declarations, predicates and transport
 
 The world supplies ordered scenario records and a separate mission-slot name
