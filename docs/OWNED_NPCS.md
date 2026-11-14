@@ -17,8 +17,18 @@ services and ordinary NPC renderer. Their acquired ranged attacks construct and
 fly actual owned projectiles; ground reactions retain the existing named effects
 and positional audio. No flag or script enables these actors in normal play.
 
+Ripper effects consume the ordinary controller's current solid meshes, including
+canonical barracks initialization and damage stages. Only the separately cached
+platform projection remains immutable: its ordered identities, fields, bounds
+and triangles must still match, and unresolved footprint candidates remain real
+dependencies. The earlier whole-scene comparison rejected the barracks' actual
+initial health-frame geometry. The installed missed-ground-impact control now
+performs normal building initialization before advancing the NPCs. This supplies
+no moving-platform service or additional native-world scheduling proof.
+
 A missing projectile impact consumer now quarantines that projectile, retaining
-its canonical partial state until mission retirement. It stops neither unrelated
+its canonical partial state until mission retirement, including pending declared
+scenery contacts. It stops neither unrelated
 living AI nor later shots, acknowledges no damage, invents no death/retirement
 and never replays the failed callback. Full component faults and unsupported
 primary continuations remain explicit failures. Close melee and reciprocal

@@ -1,5 +1,29 @@
 # Build on Windows with MinGW
 
+## Build and launch the ordinary menu
+
+Start with the common application and a user-supplied compatible game folder.
+From the repository root, with Rust's GNU Windows toolchain and MinGW available:
+
+```powershell
+. ./tools/dev-env.ps1
+cargo run --locked --release -p giants-app --target x86_64-pc-windows-gnu -- --mecc-menu
+```
+
+The graphical picker selects the installation when needed. Follow
+[QUICK_START.md](QUICK_START.md) for normal missions and controls. For a recorded
+distributable build, commit runtime changes and run `tools/build_preview.ps1`
+with a fresh output directory; preserve its source/executable receipt.
+
+## Validate the delivered interaction
+
+Run the synthetic commands below, then exercise the requested interaction in
+the rendered common application, including its effects/audio, mission transition
+or cancellation and fresh entry. Keep supplied-command evidence separate from
+real Windows input and native fidelity. Follow [GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md)
+and [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md); optional CPU controls
+support the ordinary path and do not replace its acceptance.
+
 For long rendered acceptance, keep each receipt-bound run in a fresh private
 output directory with separate logs, terminal report and process identity.
 Prefer a hidden independent background launcher for long serial suites. Before
@@ -7,6 +31,8 @@ restarting after a lost tool session, check the recorded PID and exact command
 line to avoid duplicate games. A missing terminal report establishes neither
 a native crash nor a passing run. Preserve completed cases and resume only the
 unfinished scopes; do not discard failed or interrupted evidence.
+
+## Optional installed reconstruction controls
 
 The optional app controls
 `installed_palm_damage_keeps_source_stump_owner_and_independent_hits` and

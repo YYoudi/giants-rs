@@ -4237,32 +4237,51 @@
     "media/53d6fc48475f3b3770d82c43232dce7fa8f60b7e2233536e1b55fba50cbd55be.webp": "53d6fc48475f3b3770d82c43232dce7fa8f60b7e2233536e1b55fba50cbd55be",
     "media/1b3e91259cc71b4003e2c1b06a0509d5a133464c0dc5d3a224614cc22153e91f.webp": "1b3e91259cc71b4003e2c1b06a0509d5a133464c0dc5d3a224614cc22153e91f",
     "media/89aaaa03ed85db7c12d79d86359bdda7923ca127b826308d538e1e53dc6e783a.webp": "89aaaa03ed85db7c12d79d86359bdda7923ca127b826308d538e1e53dc6e783a",
-    "media/a36686977bdd39ad7166fad9c71438c77b2b577a30ae9be98b2ae652152fc3b3.webp": "a36686977bdd39ad7166fad9c71438c77b2b577a30ae9be98b2ae652152fc3b3"
+    "media/a36686977bdd39ad7166fad9c71438c77b2b577a30ae9be98b2ae652152fc3b3.webp": "a36686977bdd39ad7166fad9c71438c77b2b577a30ae9be98b2ae652152fc3b3",
+    "media/99630cf95b902647f3b22e039fffe3a517408f52e81a6631c627b902fe8f0ff9.webp": "99630cf95b902647f3b22e039fffe3a517408f52e81a6631c627b902fe8f0ff9",
+    "media/f76ca3d8c86a9cc69f2f774084aad7b72729009bc3f29632687ea644f2149ab2.webp": "f76ca3d8c86a9cc69f2f774084aad7b72729009bc3f29632687ea644f2149ab2",
+    "media/6aebe218c788d9962ca334a415f7eab69b4973b737150bad74e85b334dd4d9fe.webp": "6aebe218c788d9962ca334a415f7eab69b4973b737150bad74e85b334dd4d9fe"
   },
   "screenshots": [
     {
-      "title": "Palm destroyed; source stump keeps collision",
+      "title": "Palm destroyed; its independent stump stays solid",
+      "image": "media/f76ca3d8c86a9cc69f2f774084aad7b72729009bc3f29632687ea644f2149ab2.webp",
+      "caption": "Actual Starving collision endpoint: normal pistol destruction hides twelve foliage parts, all seventeen wood-effect bodies retire and two fresh narrow contacts observe the independent damageable stump. Close view with source damaged-palm geometry; supplied ordinary commands. Live wind/collision alignment and native visual fidelity remain unverified.",
+      "commit": "115d7e5fd62289f8e7225e4a21ece2955b650668",
+      "preview_tag": "preview-2026.11.14.1",
+      "executable_sha256": "da915c015244074166dcb172f1cf38da2f8cecf34d7495166bbbb601742ac9db"
+    },
+    {
+      "title": "Carried-wife return reaches High Village",
+      "image": "media/6aebe218c788d9962ca334a415f7eab69b4973b737150bad74e85b334dd4d9fe.webp",
+      "caption": "Actual next ordinary Mecc scene after carrying the wife to the authored return and playing the source completion film to its natural end. Supplied ordinary commands with real muted sinks. The separate High Village Ripper AI platform dependency remains unacquired; this is not completion of that mission.",
+      "commit": "115d7e5fd62289f8e7225e4a21ece2955b650668",
+      "preview_tag": "preview-2026.11.14.1",
+      "executable_sha256": "da915c015244074166dcb172f1cf38da2f8cecf34d7495166bbbb601742ac9db"
+    },
+    {
+      "title": "Intermediate candidate: Palm destroyed; independent stump remains solid",
+      "image": "media/99630cf95b902647f3b22e039fffe3a517408f52e81a6631c627b902fe8f0ff9.webp",
+      "caption": "Unpublished intermediate candidate; superseded before the preview was released. Actual Starving endpoint on the consolidated build: normal pistol destruction hides twelve foliage parts, all seventeen wood-effect bodies retire and two fresh narrow contacts observe the independent damageable stump. Close collision view; supplied ordinary commands, with live wind/collision alignment and native visual fidelity still unverified.",
+      "commit": "2c0465787777e321693adca2fc5ef50d5070a8a9"
+    },
+    {
+      "title": "Intermediate candidate: Palm destroyed; source stump keeps collision",
       "image": "media/1b3e91259cc71b4003e2c1b06a0509d5a133464c0dc5d3a224614cc22153e91f.webp",
-      "caption": "Actual Starving collision endpoint after ordinary pistol destruction and all seventeen effect retirements. Twelve foliage parts stay hidden; two fresh narrow contacts observe the independent damageable stump. Close view includes the source damaged-palm geometry. Supplied ordinary commands; live wind/collision alignment and native visual fidelity remain unverified.",
-      "commit": "a4ae1663fedab1186ab9fcfd0b93daef93de3851",
-      "preview_tag": "preview-2026.11.14.1",
-      "executable_sha256": "1550b33954e56cbacd2ade66ada1ec6a81ef147f1dc48258abdfa019e0b055b2"
+      "caption": "Unpublished intermediate candidate, superseded after the shared effects-world correction. Actual Starving collision endpoint after ordinary pistol destruction and all seventeen effect retirements. Twelve foliage parts stay hidden; two fresh narrow contacts observe the independent damageable stump. Close view includes the source damaged-palm geometry. Supplied ordinary commands; live wind/collision alignment and native visual fidelity remain unverified.",
+      "commit": "a4ae1663fedab1186ab9fcfd0b93daef93de3851"
     },
     {
-      "title": "The Wife rescue enters RoadHome carrying her",
+      "title": "Intermediate candidate: The Wife rescue enters RoadHome carrying her",
       "image": "media/a36686977bdd39ad7166fad9c71438c77b2b577a30ae9be98b2ae652152fc3b3.webp",
-      "caption": "Actual ordinary RoadHome player after the authored The Wife rescue, all six completion directors finishing naturally and the next declared wife being picked up. Real carrying load, notice and muted audio consumers are checked separately. Supplied normal commands; the complete carried return is covered by the separate High Village endpoint, not this starting image.",
-      "commit": "a4ae1663fedab1186ab9fcfd0b93daef93de3851",
-      "preview_tag": "preview-2026.11.14.1",
-      "executable_sha256": "1550b33954e56cbacd2ade66ada1ec6a81ef147f1dc48258abdfa019e0b055b2"
+      "caption": "Unpublished intermediate candidate, superseded after the shared effects-world correction. Actual ordinary RoadHome player after the authored The Wife rescue, all six completion directors finishing naturally and the next declared wife being picked up. Real carrying load, notice and muted audio consumers are checked separately. Supplied normal commands; the complete carried return is covered by the separate High Village endpoint, not this starting image.",
+      "commit": "a4ae1663fedab1186ab9fcfd0b93daef93de3851"
     },
     {
-      "title": "RoadHome return reaches High Village",
+      "title": "Intermediate candidate: RoadHome return reaches High Village",
       "image": "media/89aaaa03ed85db7c12d79d86359bdda7923ca127b826308d538e1e53dc6e783a.webp",
-      "caption": "Actual next ordinary Mecc scene after carrying the wife to the authored return, satisfying the counter and playing the completion film to its natural end. Supplied commands with real muted sinks. High Village Ripper AI still refuses an unacquired platform dependency; this image does not establish completion of that mission.",
-      "commit": "a4ae1663fedab1186ab9fcfd0b93daef93de3851",
-      "preview_tag": "preview-2026.11.14.1",
-      "executable_sha256": "1550b33954e56cbacd2ade66ada1ec6a81ef147f1dc48258abdfa019e0b055b2"
+      "caption": "Unpublished intermediate candidate, superseded after the shared effects-world correction. Actual next ordinary Mecc scene after carrying the wife to the authored return, satisfying the counter and playing the completion film to its natural end. Supplied commands with real muted sinks. High Village Ripper AI still refuses an unacquired platform dependency; this image does not establish completion of that mission.",
+      "commit": "a4ae1663fedab1186ab9fcfd0b93daef93de3851"
     },
     {
       "title": "Guard destroyed; its base stays solid",

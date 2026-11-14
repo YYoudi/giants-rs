@@ -121,12 +121,21 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('bab1a95dbc653b862c
 
 # Reviewed merged minimal symbol index; both lanes and unknown statuses retained.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('57a6c15df729acf8c5d6c12c9cc91c3f3ce7bbb49f25eef3af0c41c8893280c3')
+# Concurrent minimal index adds process/configuration guard search routes only;
+# the existing unknown attribution and no-layout-import qualifications remain.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('5f479681589fc1461eab9ded86dba93f9916c8b0852975d36d2e5738753a5d4e')
 
 # Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # branch. Reviewed as a VP8-only image without embedded metadata. Keep its
 # all-reference history review valid before that gallery update enters main;
 # this permits neither other images nor another path or modified bytes.
 REVIEWED_HISTORICAL_IMAGES = {
+    # Visually reviewed final .14.1 display copies; exact metadata-free bytes.
+    'docs/gallery/media/f76ca3d8c86a9cc69f2f774084aad7b72729009bc3f29632687ea644f2149ab2.webp': 'f76ca3d8c86a9cc69f2f774084aad7b72729009bc3f29632687ea644f2149ab2',
+    'docs/gallery/media/6aebe218c788d9962ca334a415f7eab69b4973b737150bad74e85b334dd4d9fe.webp': '6aebe218c788d9962ca334a415f7eab69b4973b737150bad74e85b334dd4d9fe',
+
+    # Reviewed consolidated .14.1 palm display copy; exact metadata-free bytes.
+    'docs/gallery/media/99630cf95b902647f3b22e039fffe3a517408f52e81a6631c627b902fe8f0ff9.webp': '99630cf95b902647f3b22e039fffe3a517408f52e81a6631c627b902fe8f0ff9',
     # Visually reviewed .14.1 carried-wife Bevy display copy, no metadata.
     'docs/gallery/media/a36686977bdd39ad7166fad9c71438c77b2b577a30ae9be98b2ae652152fc3b3.webp': 'a36686977bdd39ad7166fad9c71438c77b2b577a30ae9be98b2ae652152fc3b3',
     # Reviewed .14.1 Bevy display copies; exact metadata-free WebP bytes.
