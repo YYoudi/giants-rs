@@ -9,7 +9,37 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Main integration of Ripper movement and attacks
 
-### Partial-pistol Ripper receiver (local, rendered acceptance pending)
+### Partial-pistol Ripper receiver (local rendered nonlethal injury)
+
+The merged continuation source `282417b52cbca5ac7f2b33433fc08850feac1a47`, GNU
+executable SHA256
+`c5e805558ee931a5611a1bda0bdf41a9a13c489639a8cfbcc074d6a03f80fee6`,
+passes the rendered Wife approach/fire endpoint (exit0, about159 seconds; private
+image inspected). Its ninth genuine pistol shot hits actual classic actor163:
+damage0 ->12, 49 particles /98 uploaded blood quads, followed by30 ordinary fixed
+steps with the target active. Cue1266 starts on an actual muted sink attached to
+that same actor. No NPC pose, damage, guards, RNG or availability is injected.
+The diagnostic stops firing after its first accepted injury; this proves neither
+lethal Ripper services nor a full fight, death or Windows-aimed encounter.
+
+The same executable separately passes the actual Windows menu path, first
+cinematic skip, ordinary default left-mouse shot, R view, return and fresh Wife
+entry with its natural opening. Another default-mouse shot succeeds on the fresh
+ticket. Tickets1/3 each release185 residents, with zero remaining resident bytes,
+registrations, entities and audio assets. The first return still had pending
+audio requests at release; they do not survive into the next ticket's transport.
+The test window is closed afterwards. These short real inputs do not establish
+an OS-aimed Ripper fight or post-combat death/cleanup.
+
+The earlier `6dc4dd4` executable
+`10eb8b9f3c03e4313c2abd857f237c0ad5019cc9516c72756d6124679a7d80a4`
+already rendered actual shot5 /actor162 /damage12 and30 particles, but its queued
+hurt cue was cancelled because ordinary Rippers had no audio-position owner.
+The corrected transport reads current canonical fields only for declared actors
+with a real completed frame. It invents no presentation-position mirror; absent,
+foreign or quarantined owners remain unavailable. The installed two-ticket
+Wife-frame control checks that position contract. Its graphical result above is
+separate from the callback's16 zero-blood/no-registry native controls.
 
 The ordinary selected pistol now binds to the constructed controlled Mecc before
 its first motion. Each emitted class38 shot retains its actual definition,
@@ -44,7 +74,8 @@ the private worksheet retains pinned binary identities and old PC aliases.
 The new `GIANTS_MISSION_RIPPER_CAPTURE_PISTOL=1` diagnostic supplies only normal
 Mecc commands and requires actual nonlethal canonical Ripper damage, a still-live
 completed target and blood quads. Ordinary firing needs no diagnostic variable.
-Verify the exact rebuilt executable before claiming this interaction delivered.
+This local receipt is outside the published .14.1 executable; common preview
+publication remains the integration lane's responsibility.
 
 ### Persistent damage-guard ownership and rendered nonlethal injury
 

@@ -326,8 +326,16 @@ emission/contact receipt into the nonlethal Ripper callback, source retaliation,
 shared blood and audio queue. It preserves source class/amount/range/camera,
 current actor ownership, guards and failed-attempt retention without inventing a
 canonical state77 actor. Sixteen original callback/cohort controls and emission
-provenance tests pass. Render the real Wife approach/fire/blood path on the exact
-new executable next; CPU controls alone do not deliver reciprocal combat.
+provenance tests support this bounded callback; the separate graphical result
+below establishes the local nonlethal path.
+Source `282417b` / GNU executable
+`c5e805558ee931a5611a1bda0bdf41a9a13c489639a8cfbcc074d6a03f80fee6`
+now passes the merged-main rendered Wife route (exit0, about159 seconds, image
+inspected): real shot9 /classic actor163 /damage12, 49 particles /98 uploaded blood
+quads, 30 following active steps and an actual attached muted cue1266 sink.
+The previous executable's cancelled hurt cue exposed the missing completed-actor
+audio position; the corrected owner also passes the installed two-ticket frame
+control. This is a local nonlethal hit delivery, not part of preview .14.1.
 Ripper lethal services, player lethal continuation and the full death/menu loop
 remain required. Keep the prototype PS2 lookup step before native continuation;
 no new naming attribution is confirmed. See OWNED_NPCS.md for precise scope.
