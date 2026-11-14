@@ -323,6 +323,12 @@ stationary in mode36. Its supplied player pilot holds at200 units after a shot.
 The injury diagnostic now keeps its actual terrain-route approach through that
 standoff; its positive-damage endpoint is unchanged. Test this real approach and
 finished attack before inventing a timer decrement or forcing an NPC position.
+That corrected `6d8349d` approach reaches a declared classic mode42 at17760,
+then its finished primary/kind3 request at17774 refuses the actual unbound
+failure/completion guards. The24,000-frame run exits101/no capture/no damage.
+Other declared Rippers keep moving and firing. The next ordinary combat blocker
+is now precisely the shared-world guard producer and subsequent receiver guards;
+do not bypass them or present the attack request as injury/death acceptance.
 
 Next NPC delivery: acquire and connect the genuine shared-world guards that
 block reciprocal contact, alongside the actual radial recipients and positive

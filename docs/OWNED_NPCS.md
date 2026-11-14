@@ -225,6 +225,23 @@ requires actual positive controlled-Mecc damage; the fix changes no NPC field,
 range, random stream or damage result. Verify that approach before attributing
 the stationary buried actor to a missing native clock or changing its AI.
 
+The corrected approach on source `6d8349d9c954ea4091d012b6d88d919927d3085d`,
+GNU executable SHA256
+`5e3bead4d884271396554591a14e2ad4fcc950d2f1367709895792eac37a2ac1`,
+reaches an actual declared classic actor's mode42 in the ordinary rendered
+runtime (completed frame17760). At17774 its finished primary reaches the shared
+kind3 request and refuses the still-unbound failure/completion guards. This is
+the real runtime producer/consumer boundary, not a supplied attack state or
+successful injury. Other classic actors continue moving/orbiting and firing.
+The positive-damage diagnostic exits101 at24,000 frames/about291 seconds without
+a capture; no Mecc damage or death is acknowledged. The earlier mode36 stall
+does not justify inventing a clock or forcing motion: the continued actual
+player input also observes repeated buried movement and other declared actors.
+The next blocker is the genuine shared-world guard producer, followed by the
+receiver's independent health-suppression guards. Keep the mission lane's flow
+and the outgoing player-projectile prerequisite distinct. No new preview is
+published and the complete encounter objective remains active.
+
 ## Historical Ripper integration receipts
 
 Earlier startup-policy build: source `b7cc590`, GNU executable SHA256
