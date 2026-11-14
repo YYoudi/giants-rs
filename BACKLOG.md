@@ -306,7 +306,7 @@ and real kind3 request to the canonical controlled-Mecc receiver. Fourteen
 bounded original-helper contexts agree, stopping before injury in contact cases;
 canonical supplied-guard controls cover health/recoil, late refusal and stale
 response rejection. Actual reciprocal marker constructors pass for both classes.
-The actual ordinary world guards remain unbound; no newly working injury or
+At that checkpoint the ordinary world guards remain unbound; no working injury or
 death is claimed. Build/render this continuation before treating it as encounter
 acceptance. Preserve the central naming lookup before the next native work.
 
@@ -321,7 +321,7 @@ another acquisition cycle on unrelated timers or UI while the encounter blocks.
 The longer `c97c8d0` retreat observation fails at24,000 frames, with the classic
 stationary in mode36. Its supplied player pilot holds at200 units after a shot.
 The injury diagnostic now keeps its actual terrain-route approach through that
-standoff; its positive-damage endpoint is unchanged. Test this real approach and
+standoff. Test this real approach and
 finished attack before inventing a timer decrement or forcing an NPC position.
 That corrected `6d8349d` approach reaches a declared classic mode42 at17760,
 then its finished primary/kind3 request at17774 refuses the actual unbound
@@ -336,12 +336,28 @@ ticket retirement and never maps the portable campaign boolean to native guards.
 Reached unsupported completion/lethal writers invalidate knowledge before later
 consumers. Native poisoned-prefix controls, a cold original receiver without
 injected world guards, and actual Wife/two-Session binding checks support this
-bounded owner. Verify a real injury on an identified rendered executable next;
+bounded owner. The identified `2893dc5` rendered receipt below adds nonlethal injury;
 whole native-world prechecks, completion/health transitions, lethal/restart and
 reciprocal Ripper injury/death remain open. See OWNED_NPCS.md for exact limits.
 
-Next NPC delivery: acquire and connect the genuine shared-world guards that
-block reciprocal contact, alongside the actual radial recipients and positive
+The rendered attempt must use the actual Session-owned initial controller
+health. The strict `091e7b7` injury run exposes generic shield100 versus actual
+shield0: canonical injury precedes a refused controller copy (exit101, no image).
+The earlier build20 pursuit capture with HUD100 is not injury evidence. The
+corrected source binds the constructed health/shield/flags before first motion,
+retains strict hit validation and rejects replacement after publication.
+Source `2893dc5` / executable SHA256
+`4fce34524e400b812377f2dcfa461e9764c2789d30ffc5d11eb120d785a4507b`
+now passes the strict rendered endpoint (exit0, about162 seconds, image inspected):
+actual classic actor162 deals25, and Session/controller/HUD all show health75.
+The supplied commands move only the Mecc. Velocity is unchanged in this contact;
+no recoil/death or OS-combat acceptance follows. The later unprepared local pain
+voice quarantines the attacker after the accepted injury. Connect that requested
+voice through the actual shared transport next, then repeat the complete attack
+cycle before broadening to unrelated services. Preview .13.3 remains unchanged.
+
+Next NPC delivery: finish rendered reciprocal contact through the connected
+bounded guard owner, alongside the actual radial recipients and positive
 hit/Vimp-alert consumers. Source `6354f1d` / GNU executable
 `cd1d57ba0e8016fcf467081ef513c8b912aa81e9fd25456fd24ebcca3760877f`
 renders two supplied-command Wife attempts: one reaches its diagnostic deadline

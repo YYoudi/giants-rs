@@ -9,7 +9,43 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Main integration of Ripper movement and attacks
 
-### Persistent damage-guard ownership (local, rendered injury pending)
+### Persistent damage-guard ownership and rendered nonlethal injury
+
+Source `2893dc5ae2b570343d834a46b18caed065f567ee`, GNU executable SHA256
+`4fce34524e400b812377f2dcfa461e9764c2789d30ffc5d11eb120d785a4507b`,
+passes the strict rendered Wife injury endpoint (exit0, about162 seconds;
+private capture inspected). Declared classic class73 actor162 reaches its real
+melee callback at step10633: canonical damage0 ->25, actual controller and HUD
+health100 ->75. The recorded velocity is unchanged for this contact; this is not
+visible recoil acceptance. Only ordinary Mecc movement/look/jet commands are
+supplied; no NPC pose, state, damage, guard or availability is injected.
+
+The actual controller copy succeeds before a later local pain-voice preparation
+refusal quarantines that attacker. Other AI continues, but this is not a complete
+attack-cycle/audio acceptance. Prepare the real requested local voice through
+the shared transport next; do not acknowledge it with a silent no-op. Reciprocal
+player-pistol injury, Ripper death, lethal player continuation and full Windows
+combat remain open. This local receipt does not update public preview .13.3.
+
+The ordinary partial controller now initializes health, shield and flags from
+its actual constructed Session owner before its first motion publication. Its
+previous generic shield100 differed from the source owner's shield0 and caused
+the strict callback-before comparison to reject the real injury response. The
+binding is once per controller; foreign tickets, owned-primary controllers and
+already published motion refuse initial replacement. Hit response validation
+remains strict; damage is not applied a second time.
+
+Build `091e7b7` / executable SHA256
+`5a7ac462577a14ecc0508818e3207fb00521043440b92afd65b730bc46274bde`
+exposes that mismatch in a rendered ordinary Wife route: classic melee reaches
+the receiver, changes canonical health, then fails the actual controller copy.
+It exits101 at24,000 steps without a capture. Later lethal refusal is not player
+death acceptance. The preceding build20 image with health100 was accepted by a
+weaker pursuit branch, not injury; it must not be cited as a damage result.
+The injury diagnostic now prioritizes its own endpoint over chase: canonical
+positive damage, matching actual controller health, a visible rounded decrease
+and two following ordinary frames. The `2893dc5` result above accepts the bounded
+nonlethal health transfer; it does not erase the failed earlier result.
 
 `mission_guard_state::Process` now owns the bounded PC process fields instead
 of returning a clear snapshot for each hit. The normal launch transfers this
@@ -40,10 +76,11 @@ source header/motion, clock/TLS and missing transport boundaries remain explicit
 these controls do not establish the whole native startup, UI or world scheduler.
 The installed Wife lifecycle control checks actual source binding, unique launch
 ownership, foreign-ticket refusal and preservation of a supplied failure request
-across two real Session teardowns. None establishes rendered injury yet.
+across two real Session teardowns. These CPU controls alone establish no rendered
+injury; that separate bounded result is recorded above.
 
 This is an ordinary partial-process projection, not full native-world fidelity.
-Unsupported completion/health-transition, player lethal primary, player-pistol
+Unsupported completion/health-transition, local pain-voice preparation, player lethal primary, player-pistol
 source identity, Ripper hurt/blood/death and full OS encounter remain required.
 Prototype PS2 `mission_init`/`mission_fail` and related configuration search
 routes remain unknown identities. Follow the central reconstruction method;
