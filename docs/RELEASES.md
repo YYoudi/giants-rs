@@ -1,18 +1,5 @@
 # Preview releases and milestone integration
 
-## Validated main Ripper continuation - awaiting common preview
-
-Main `7242798` contains runtime `f940069`, with ordinary Ripper movement/ranged
-attacks, bounded reciprocal nonlethal damage and continued living AI after an
-unsupported lethal pistol contact. The receipt-bound local executable and
-rendered/Windows evidence are recorded in [OWNED_NPCS.md](OWNED_NPCS.md). Enter
-**Preview tools -> Browse all missions -> Mecc Story 2 -> The Wife**; no NPC
-activation flag is required. This source is newer than the `.14.1` download.
-Main CI passed; no downloadable CI artifact or new public preview is claimed.
-The main integration lane owns the combined package/dashboard release. The
-isolated death/health-item dependencies do not gate delivery of this baseline.
-
-
 ## Published preview .14.2 - additional palms and checked wife-return chains
 
 [Windows preview-2026.11.14.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.14.2)
@@ -44,6 +31,17 @@ Runtime source: `3aa25533e0f200de0a6b72345d30107932a5f3f7`.
 Executable SHA256: `250b23fc9c8f31df182367fb4c54a239288d2ba1c8b90ea308f16f56e4c890f9`.
 ZIP SHA256: `43e9b981d531c4057ce4be73e14e2ec635134b36a7ccbf1594744fa9a58f45c2`.
 Later documentation commits do not change this fixed runtime receipt.
+
+### Included Ripper baseline and separate encounter evidence
+
+Preview .14.2 includes runtime `f940069` through main `7242798`: ordinary Ripper
+movement/ranged attacks, bounded reciprocal nonlethal damage and continued living
+AI after an unsupported lethal pistol contact. The separate NPC-lane executable
+and its rendered/Windows encounter evidence remain recorded in
+[OWNED_NPCS.md](OWNED_NPCS.md); that receipt is not the downloadable executable.
+Enter **Preview tools -> Browse all missions -> Mecc Story 2 -> The Wife** with
+no NPC activation flag. Combined building/campaign acceptance uses the .14.2
+receipt above. Isolated death/health-item research remains outside this delivery.
 
 ## Published preview .14.1 - palms, barracks and the carried-wife return
 
