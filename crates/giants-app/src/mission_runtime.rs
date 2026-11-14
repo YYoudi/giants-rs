@@ -704,6 +704,16 @@ impl Runtime {
                 .as_ref()?;
             return (fields.object_flags & 0xc000 == 0).then_some(fields.position);
         }
+        if let Some(position) = active
+            .payload
+            .rippers
+            .as_ref()
+            .ok()
+            .and_then(Option::as_ref)
+            .and_then(|rippers| rippers.audio_position(&active.resident_states, id))
+        {
+            return Some(position);
+        }
         if active.resident_states.positional_impact(id).is_some() {
             let fields = active
                 .resident_states

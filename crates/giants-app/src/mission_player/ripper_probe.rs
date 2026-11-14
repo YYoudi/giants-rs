@@ -190,7 +190,7 @@ pub(super) fn input(
         capture: if pistol {
             snapshot
                 .pistol_hit
-                .is_some_and(|(_, _, at)| u64::from(step) >= at + 2)
+                .is_some_and(|(_, _, at)| u64::from(step) >= at + 30)
                 && snapshot
                     .pistol_target_health
                     .is_some_and(|(damage, limit)| damage > 0. && damage < limit)

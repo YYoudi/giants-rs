@@ -953,7 +953,7 @@ fn process(
                 Event::ActorSound { owner, sound, kind } => {
                     if actor_position(world, mounted.ticket, owner).is_none() {
                         println!(
-                            "mission_actor_audio_cancelled ticket={} owner={owner:?} sound={sound} retired_before_start=true playback_acknowledged=false",
+                            "mission_actor_audio_cancelled ticket={} owner={owner:?} sound={sound} owner_unavailable_before_start=true playback_acknowledged=false",
                             mounted.ticket
                         );
                         continue;

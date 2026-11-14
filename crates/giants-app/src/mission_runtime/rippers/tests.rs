@@ -382,6 +382,24 @@ fn current_frames(marker_fixture: bool, retirement_fixture: bool, approach_fixtu
                 assert_eq!(contacts.iter().filter(|v| v.actor.class == 73).count(), 4);
                 assert_eq!(contacts.iter().filter(|v| v.actor.class == 230).count(), 1);
                 for snapshot in &contacts {
+                    let fields = runtime
+                        .active
+                        .as_ref()
+                        .unwrap()
+                        .resident_states
+                        .get(snapshot.actor.id)
+                        .unwrap()
+                        .construction_fields
+                        .as_ref()
+                        .unwrap();
+                    assert_eq!(
+                        runtime.actor_audio_position(ticket, snapshot.actor.id),
+                        Some(fields.position)
+                    );
+                    assert_eq!(
+                        runtime.actor_audio_position(ticket + 1000, snapshot.actor.id),
+                        None
+                    );
                     assert_eq!(snapshot.frame, number);
                     assert_eq!(snapshot.actor.state, 23);
                     assert!(!snapshot.triangles.is_empty());

@@ -32,6 +32,22 @@ impl state23_hurt::Sounds<Id> for Sounds<'_> {
     }
 }
 impl State {
+    pub(in crate::mission_runtime) fn audio_position(
+        &self,
+        session: &Session,
+        id: Id,
+    ) -> Option<[f32; 3]> {
+        if self.driver.failed()
+            || self.actor_quarantined(id)
+            || !self.bound.as_ref()?.1.iter().any(|owner| owner.id == id)
+        {
+            return None;
+        }
+        self.driver.completed(id)?;
+        let fields = session.get(id)?.construction_fields.as_ref()?;
+        (fields.object_flags & 0x8000 == 0 && fields.position.into_iter().all(f32::is_finite))
+            .then_some(fields.position)
+    }
     pub(in crate::mission_runtime) fn pistol_hit_snapshot(&self) -> Option<(Id, u32, u64, bool)> {
         self.last_pistol_hit.map(|(id, serial, step)| {
             (
