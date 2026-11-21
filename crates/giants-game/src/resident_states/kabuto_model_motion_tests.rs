@@ -30,7 +30,91 @@ fn source_kabuto_animation_gravity_uses_model_phase_and_retains_primary() {
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; real completed ANM/model buffers, stale/failed/foreign phase guards; supplied independent physical contexts, no GPU or gameplay claim"]
 fn source_kabuto_body_uses_completed_animation_buffers_and_refuses_stale_phases() {
-    run_model_with_body(true, false, false, None, true);
+    run_model_with_body(true, false, false, None, true, None);
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; composed owned query/filter with supplied ray/bounds/world entries; no App/GPU/input claim"]
+fn source_kabuto_owned_query_publishes_target_and_caller_before_services() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::Success),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; late marker refusal must retain query and clock prefix and quarantine replay"]
+fn source_kabuto_owned_query_retains_late_refusal() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::Failure),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; removed owner cannot be restored after a required query service"]
+fn source_kabuto_owned_query_does_not_restore_removed_owner() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::Clear),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; query must reread real reference and pose after mutating marker entry"]
+fn source_kabuto_owned_query_rereads_marker_effects() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::Mutate),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; a replacement Session must not inherit the old query failure"]
+fn source_kabuto_owned_query_does_not_quarantine_replacement_session() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::Replace),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; composed query/effect publication with supplied transform; no GPU or input claim"]
+fn source_kabuto_query_feedback_updates_real_final_effect() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::Feedback),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; required feedback transform refusal retains query prefix and prevents replay"]
+fn source_kabuto_query_feedback_retains_transform_refusal() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::FeedbackFailure),
+    );
 }
 #[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private post-gravity control inputs/receipts; no window or sound"]
@@ -196,7 +280,7 @@ fn run_model(
     resources: bool,
     handoff: Option<super::held_reference_tests::Case>,
 ) {
-    run_model_with_body(animation, control, resources, handoff, false);
+    run_model_with_body(animation, control, resources, handoff, false, None);
 }
 fn run_model_with_body(
     animation: bool,
@@ -204,6 +288,7 @@ fn run_model_with_body(
     resources: bool,
     handoff: Option<super::held_reference_tests::Case>,
     body: bool,
+    query: Option<super::reference_frame_tests::Case>,
 ) {
     let (factory, _) = super::transition_tests::factories();
     let (foreign, _) = super::transition_tests::factories();
@@ -223,6 +308,7 @@ fn run_model_with_body(
         .unwrap();
     let mut resource_controls = resource_tests::Controls::default();
     resource_controls.handoff = handoff;
+    resource_controls.query = query;
     let mut commits = super::animation_commit_tests::Controls::default();
     let mut actions = super::action_select_tests::Controls::default();
     let mut tails = super::primary_tail_tests::Controls::default();

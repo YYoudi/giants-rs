@@ -120,6 +120,12 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('630f5f7c50c1127f43
 # Reviewed one raw ELF navigation spelling with explicit unknown attribution,
 # no assigned signature/ABI, plus the existing minimal aliases; sole exact path.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('d99403e6e5da2cf1c07ee6440450d7a3d17bcaf5ba623d4eff8ffac477c880d8')
+# Reviewed one additional owned-feedback source link on the same explicitly
+# unknown Kabuto navigation route; existing minimal aliases, no corpus/ABI.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('f12884a872dd0308b7d40b77d053145b59eacd4d6fba9a2ac9086e082b599ec1')
+# Reviewed concurrent pub-body navigation update: minimal source links and
+# qualified unknown/probable relationships, without raw research records.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('15d087de79951c0ef76ee93f7593f626f2b1ccbc10df0ba56725bb74fd02f205')
 
 
 # Reviewed minimal navigation aliases in two concurrent history blobs and
@@ -135,6 +141,14 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('57a6c15df729acf8c5
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('5f479681589fc1461eab9ded86dba93f9916c8b0852975d36d2e5738753a5d4e')
 # Reviewed combined index retains both lanes and the same unknown guard routes.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('9cc32cf970ac510a77dbca8d772b6e080de0de0e4a1789bbcdf57aa7ca6ae890')
+# Reviewed concurrent index revisions: unknown held-placement and pub movement
+# search routes, existing minimal aliases and explicit ABI/evidence limits only.
+# Exact Git blobs at this sole path; other hazard rules remain active.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].update({
+    '3a208dc7d5a3603ffadd19a396c1b3389ee91617af4043456bb5ba16d0e95d7e',
+    '3725a3c659030e18be1c93baa53cfc9761f8b0f41dad63a90586336f72a338ce',
+    'df352e4d2e90eadd8957ba0a968b5181d2b3230b986e29a6b2841e679ec97e6c',
+})
 
 # Reviewed pub cold-owner and common-motion navigation; unknown statuses and
 # live collision prerequisites retained, no private table or listing published.
@@ -147,10 +161,13 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('3725a3c659030e18be
 # no private table, listing or new confirmed correspondence. Exact sole path.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('15d087de79951c0ef76ee93f7593f626f2b1ccbc10df0ba56725bb74fd02f205')
 
-# Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # Reviewed concurrent index adds only seven unknown held-placement navigation
 # lines and retains the existing minimal aliases and ABI/evidence limits.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('3a208dc7d5a3603ffadd19a396c1b3389ee91617af4043456bb5ba16d0e95d7e')
+
+# Reviewed combined index retains pub body and Kabuto feedback navigation,
+# existing minimal aliases and explicit unknown/probable scope; exact sole path.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('255008d2688ae59bb2a4d50cb96c7c8bb0c9519fe2fcc8aeaeab17728cc77b72')
 
 # Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # branch. Reviewed as a VP8-only image without embedded metadata. Keep its

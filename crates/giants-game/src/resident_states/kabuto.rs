@@ -55,6 +55,13 @@ mod primary_tail;
 #[cfg(test)]
 #[path = "kabuto_primary_tail_tests.rs"]
 mod primary_tail_tests;
+#[path = "kabuto_query_feedback.rs"]
+mod query_feedback;
+#[path = "kabuto_reference_frame.rs"]
+mod reference_frame;
+#[cfg(test)]
+#[path = "kabuto_reference_frame_tests.rs"]
+mod reference_frame_tests;
 #[path = "kabuto_reference_query.rs"]
 mod reference_query;
 #[cfg(test)]
@@ -1114,6 +1121,9 @@ impl Session {
         fields.dispatch_context = context;
         fields.configuration[14] |= 0xe00;
         fields.object_flags |= 0x40010000;
+        // The acquired generic constructor clears this header scalar before
+        // cold Kabuto binding; registration alone does not supply it.
+        actor.kabuto_effect_scalar = Some(0.);
         actor.affine_cache = Some(super::OwnedAffine {
             value: crate::actor_affine::Cache {
                 flags: 0,

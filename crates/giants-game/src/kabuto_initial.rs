@@ -49,6 +49,7 @@ pub struct Group {
     pub(crate) resource_phase_view: Option<crate::kabuto_resource_phase::View>,
     /// Typed current/held identities; raw pointer cells in the payload stay zero.
     pub(crate) reference_links: [Option<Id>; 3],
+    pub(crate) reference_query: crate::kabuto_reference_frame::Phase,
     pub(crate) held_reference_entered: Option<u64>,
     pub(crate) held_reference_running: bool,
     pub(crate) held_reference_completed: Option<u64>,
@@ -306,6 +307,45 @@ impl Factory {
         bounds: impl FnMut(&Session, Id) -> Result<([f32; 3], [f32; 3]), String>,
     ) -> Result<crate::kabuto_reference_query::Selection<Id>, String> {
         session.query_kabuto_reference(owner, &self.resources, number, ray, bounds)
+    }
+    /// Ordered query and retained-target publication on this actual owner/frame.
+    /// Caller geometry and world services are required; no primary is completed.
+    pub fn advance_reference_query(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        ray: crate::kabuto_reference_query::Ray,
+        services: &mut impl crate::kabuto_reference_frame::Services,
+    ) -> Result<crate::kabuto_reference_frame::View, String> {
+        session.advance_kabuto_reference_query(owner, &self.resources, number, ray, services)
+    }
+    pub fn captured_query_frame(
+        &self,
+        session: &Session,
+        owner: Id,
+        number: u64,
+    ) -> Result<crate::kabuto_reference_frame::View, String> {
+        session.captured_kabuto_query_frame(owner, &self.resources, number)
+    }
+    /// Final-effect scalar/transform publication after this frame's real query.
+    /// The following mode, transition and reaction phases remain required.
+    pub fn advance_query_feedback(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        services: &mut impl crate::kabuto_query_feedback::Services,
+    ) -> Result<crate::kabuto_query_feedback::View, String> {
+        session.advance_kabuto_query_feedback(owner, &self.resources, number, services)
+    }
+    pub fn captured_query_feedback(
+        &self,
+        session: &Session,
+        owner: Id,
+        number: u64,
+    ) -> Result<crate::kabuto_query_feedback::View, String> {
+        session.captured_kabuto_query_feedback(owner, &self.resources, number)
     }
     pub fn advance_resources(
         &self,
@@ -657,6 +697,7 @@ impl Factory {
             resource_phase_completed: None,
             resource_phase_view: None,
             reference_links: [None; 3],
+            reference_query: crate::kabuto_reference_frame::Phase::default(),
             held_reference_entered: None,
             held_reference_running: false,
             held_reference_completed: None,

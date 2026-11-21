@@ -49,6 +49,39 @@ The public .14.2 package and dashboard capture receipt remain unchanged.
 Validation on the combined source: 1,118 portable Rust tests (261 ignored), three targeted installed
 controls, strict workspace Clippy, formatting and all 45 Python tests pass.
 
+## Kabuto query final-effect feedback - source dependency
+
+The completed owned query now drives its actual final effect's scalar/flags and
+required transform/position publication. The cold scalar producer is retained;
+a missing transform provider refuses with the query prefix preserved. A bounded
+native comparison covers both caller branches and the strict narrowed-value
+clamp, using a supplied transform entry. Two installed controls cover owned
+publication and refusal. Scalar/mode, geometry transition/early tail and reaction
+admission still need ordered frame binding before ordinary movement. This adds
+no real-input/GPU acceptance, screenshot or download; preview .14.2 is unchanged.
+
+Validation: 1,119 portable Rust tests pass (266 ignored), both installed feedback
+controls and the five preceding query controls pass. The bounded feedback
+comparison agrees on 512 cases/12,544 words. Format, strict workspace Clippy,
+45 Python tests and site/JavaScript checks pass. These remain component checks.
+
+## Kabuto owned query stage - source dependency
+
+The ordered Session query now feeds the retained-target filter and actual caller
+clock checkpoint on the same actor/frame. Five installed CPU controls cover
+successful publication, late refusal, owner removal, replacement Session and
+callback mutations. The filter's separate 512-case native comparison still
+agrees after this composition. Ordinary App ray/world/camera/input producers,
+post-query reaction/action admission and continuous primary completion remain
+unfinished. All four initializer gates remain pending. This adds no playable
+controls, screenshot, GPU acceptance or Windows download; preview .14.2 and its
+immutable receipt remain unchanged.
+
+Validation: 1,118 portable Rust tests pass (264 ignored), all five installed
+query controls pass, and format, strict workspace Clippy, 45 Python tests and
+site/JavaScript checks pass. These establish component and regression coverage,
+not ordinary gameplay acceptance.
+
 ## Kabuto retained caller values - source dependency
 
 The resource phase now retains its actual caller-local checkpoint, and the

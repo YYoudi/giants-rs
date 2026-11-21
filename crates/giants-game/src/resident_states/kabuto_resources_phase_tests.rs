@@ -96,6 +96,7 @@ pub(super) struct Controls {
     outputs: String,
     cases: usize,
     pub(super) handoff: Option<super::super::held_reference_tests::Case>,
+    pub(super) query: Option<super::super::reference_frame_tests::Case>,
 }
 impl Controls {
     #[allow(clippy::too_many_arguments)]
@@ -210,6 +211,10 @@ impl Controls {
                 .is_err()
         );
         if self.cases == 512 {
+            if let Some(case) = self.query {
+                super::super::reference_frame_tests::probe(factory, foreign, s, id, number, case);
+                return;
+            }
             if let Some(case) = self.handoff {
                 super::super::held_reference_tests::probe(factory, foreign, s, id, number, case);
                 return;
