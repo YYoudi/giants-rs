@@ -62,6 +62,11 @@ mod query_geometry;
 #[cfg(test)]
 #[path = "kabuto_query_geometry_tests.rs"]
 mod query_geometry_tests;
+#[path = "kabuto_reaction_admission.rs"]
+mod reaction_admission;
+#[cfg(test)]
+#[path = "kabuto_reaction_admission_tests.rs"]
+mod reaction_admission_tests;
 #[path = "kabuto_reference_frame.rs"]
 mod reference_frame;
 #[cfg(test)]

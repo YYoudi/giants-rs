@@ -153,6 +153,42 @@ fn source_kabuto_query_geometry_retains_late_projection_refusal() {
     );
 }
 #[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; real query/geometry->common reaction producer/consumer, supplied sound/network/clock entries"]
+fn source_kabuto_reaction_admission_uses_retained_caller_and_live_state() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::Reaction),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; late sound-provider refusal retains flags and query/mode prefix"]
+fn source_kabuto_reaction_admission_retains_provider_refusal() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::ReactionFailure),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; unacquired global request must stop before sound/clock/charge"]
+fn source_kabuto_reaction_admission_refuses_unacquired_request() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::ReactionDeferred),
+    );
+}
+#[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private post-gravity control inputs/receipts; no window or sound"]
 fn source_kabuto_control_force_uses_owned_animated_state_and_preserves_primary() {
     run_model(true, true, false, None);

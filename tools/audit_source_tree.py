@@ -126,6 +126,9 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('f12884a872dd0308b7
 # Reviewed owned mode/geometry source link on the same unknown parent route;
 # no new attribution, original layout or corpus records are published.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('5559448c8901cd330bc0f4ad34db0b9de704344116870dc6bf1a637226d257ae')
+# Reviewed bounded common-reaction source link on the same unknown parent
+# navigation route; existing aliases retained, no corpus or new attribution.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('cb6657ca2d42847f94211674103bc2e9bf9481d758c162c09a2e2f5f51b27ceb')
 # Reviewed concurrent minimal navigation revisions: qualified marker/held-pose
 # and pub-body source routes only, without raw corpus or imported layouts.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].update({

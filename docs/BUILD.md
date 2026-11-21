@@ -1,5 +1,17 @@
 # Build on Windows with MinGW
 
+For the owned common reaction caller, set `GIANTS_KABUTO_ROOT` to the compatible
+supplied installation and run:
+
+```powershell
+cargo test --locked -p giants-game source_kabuto_reaction_admission --target x86_64-pc-windows-gnu -- --ignored --test-threads=1
+```
+
+These three CPU controls compose the preceding query/mode/geometry stages,
+consume retained caller data, check real flag/physics-cache stores and supplied
+sound/transport/clock effects, and refuse an unacquired request without advancing
+charge or selection. They do not exercise ordinary input, a GPU or a full primary.
+
 The owned query-to-geometry continuation has three installed CPU controls. With
 `GIANTS_KABUTO_ROOT` set to the compatible supplied installation, run:
 

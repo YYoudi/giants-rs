@@ -7,7 +7,9 @@ and [`kabuto_reference_target`](../crates/giants-game/src/kabuto_reference_targe
 with owned query feedback in
 [`kabuto_query_feedback`](../crates/giants-game/src/kabuto_query_feedback.rs)
 and the mode/geometry continuation in
-[`kabuto_query_geometry`](../crates/giants-game/src/kabuto_query_geometry.rs).
+[`kabuto_query_geometry`](../crates/giants-game/src/kabuto_query_geometry.rs),
+then the bounded common reaction caller in
+[`kabuto_reaction_admission`](../crates/giants-game/src/kabuto_reaction_admission.rs).
 They retain acquired caller locals and the consumed query clock. This assigns
 no prototype routine identity, ABI or complete controller implementation; its
 signature interpretation remains unassigned.

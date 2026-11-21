@@ -356,6 +356,39 @@ path and are not acknowledged by this field proof.
 
 ## Resource caller checkpoint and query-clock handoff
 
+`Factory::advance_reaction_admission` now consumes the real completed
+query/geometry continuation and retained resource decision/caller checkpoint.
+The owned resource adapter deliberately retains its earlier mode/channel sample
+across callbacks, refreshing only fields reread by the native caller. Reaction
+input therefore uses that existing producer; it supplies no guessed default
+behavior, clip, previous selection or wrap flag.
+
+The common path preserves flag-history and input stores before later predicates,
+the queued-selection handoff, required sound-stop/notification ordering and its
+retained-time packet alias. The conditional cooldown uses its actual object-clock
+provider and wide subtraction, then stores the configured rate and refreshes the
+owned physical cache. Target metadata and external animation flags require real
+owned resources. Missing typed related-target ownership is an explicit refusal.
+
+Held reactions, global requests, special controls/clips, definition events and
+flagged-target policies remain required continuations. The owned facade preserves
+the completed prefix and quarantines replay when such work or a provider is
+unavailable. Queued selection and primary-tail results are directed exits, not
+completed consumers. Resource charge and following animation policies still
+precede the ordinary locomotion selector. No initializer/history/primary is
+acknowledged by this common caller.
+
+A separate 512-case native/source control agrees on 11,640 words, including
+caller data and declared sound/transport mutations. Held/global variants stop at
+their first unacquired body; other special branches are outside this control.
+Original clock/eligibility helpers execute, while sound/transport are supplied
+entries, not body, playback or network proof. Three installed controls compose
+the real preceding Session stages and verify common output, late-provider refusal
+and an unsupported request. Deliberately different current actor mode/clip values
+verify that admission uses the retained resource sample. These are independent
+supplied contexts, not observed gameplay changes. These are CPU dependencies, not ordinary gameplay,
+whole-primary equivalence or new graphical acceptance.
+
 `Factory::advance_query_geometry` now consumes the completed query feedback and
 runs the acquired scalar/mode, animation/effect transition and geometry-header
 projection on the same owner/frame. The mode uses the raw global frame interval,

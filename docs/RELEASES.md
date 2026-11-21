@@ -1,5 +1,23 @@
 # Preview releases and milestone integration
 
+## Kabuto common reaction caller - source dependency
+
+The common reaction caller now consumes actual owned query/geometry and retained
+resource/caller state. It preserves flag-history stores, directed selection/tail
+exits, required sound/transport alias ordering and conditional cooldown/rate
+updates. Specialized reaction bodies remain explicit missing continuations.
+The separate 512-case native/source prefix comparison and three installed
+composition/refusal controls do not establish a complete reaction, primary or
+ordinary controls. The existing action prefix/following animation policies,
+ordinary App producers and continuous frame completion remain open. All four
+initializer gates remain pending. Preview .14.2 is unchanged; no new screenshot,
+GPU/input acceptance or Windows download is claimed.
+
+Validation: 1,120 portable Rust tests pass (272 ignored), all three installed
+reaction controls and the preceding three query-geometry controls pass. The
+bounded native comparison agrees on 512 cases/11,640 words. Format, strict
+workspace Clippy, 45 Python tests and site/JavaScript checks pass.
+
 ## Kabuto owned mode and geometry continuation - source dependency
 
 The owned query/feedback frame now drives the existing scalar/mode,

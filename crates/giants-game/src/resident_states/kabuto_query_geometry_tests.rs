@@ -87,7 +87,7 @@ pub(super) fn probe(
     case: Case,
     animation: &mut crate::actor_animation_phase::Services<'_>,
 ) {
-    let active = case != Case::GeometryIdle;
+    let active = matches!(case, Case::GeometryCamera | Case::GeometryFailure);
     let fail = case == Case::GeometryFailure;
     let header = s
         .kabuto_group(owner)
@@ -261,4 +261,10 @@ pub(super) fn probe(
         world.controls + world.cameras + world.notifications.len() + world.sounds.len(),
         calls
     );
+    if matches!(
+        case,
+        Case::Reaction | Case::ReactionFailure | Case::ReactionDeferred
+    ) {
+        super::reaction_admission_tests::probe(factory, foreign, s, owner, number, case);
+    }
 }

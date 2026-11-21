@@ -53,9 +53,16 @@ projection inputs remain required and lazy. A nonzero resulting mode requests
 the primary tail instead of admitting ordinary reaction/locomotion work.
 Three installed supplied-context controls cover the ordinary mode, selected
 camera projection and late refusal; separate native mode/header comparisons
-remain component evidence. Next: connect actual reaction/action admission before
-the locomotion selector, then ordinary App input/camera/world and continuous
-frame completion. Stable supplied contexts are not real-input availability.
+remain component evidence. The common reaction caller now consumes those real
+owner/frame outputs and retained resource decision/caller values. It preserves
+flag-history stores, directed queued-selection/tail exits, sound/notification
+alias ordering and the conditional object-clock cooldown/rate update. Held,
+global-request, special action/clip/definition-event and flagged-target bodies
+remain explicit required continuations; missing producers are never defaults.
+Next: bind the existing resource-driven action prefix and its following ordinary
+animation policies before the locomotion selector, then ordinary App
+input/camera/world and continuous frame completion. Stable supplied contexts are
+not real-input availability. No complete reaction/primary is claimed.
 This does not advance startup gates, acknowledge history or make Kabuto playable.
 
 ## Source naming and continuation requirement
