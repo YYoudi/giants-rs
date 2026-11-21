@@ -433,7 +433,7 @@
       "title": "Scenery collisions and destruction",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Preview .14.2 adds source class101 palm damage alongside class102: exact model retirement, wood effects/audio and an independently colliding/damageable class664 stump. Rendered expiry/contact and live cleanup pass. Earlier houses, entrances, fences, towers and barracks remain connected. Other trees, live wind alignment, restricted callbacks, generic platforms and building objective credit remain open. Newer unpublished source preserves both usage masks in actor/collision headers; class686 still requires canonical gameplay integration and the pub live pose/physics owner remains missing."
+      "detail": "Preview .14.2 adds source class101 palm damage alongside class102: exact model retirement, wood effects/audio and an independently colliding/damageable class664 stump. Rendered expiry/contact and live cleanup pass. Earlier houses, entrances, fences, towers and barracks remain connected. Other trees, live wind alignment, restricted callbacks, generic platforms and building objective credit remain open. Newer source, outside the downloadable build, preserves both usage masks in actor/collision headers; class686 still requires canonical gameplay integration and the pub live pose/physics owner remains missing."
     },
     {
       "id": "water-environment",

@@ -4,6 +4,10 @@ The complete scope is retained in PROGRESS.json and the generated README checkli
 No complete game feature is currently marked done. Acquired CPU services are not
 automatically wired into the main menu-to-mission build.
 
+The owner's active main-lane objective remains ordinary building collision and
+damage below. Concurrent Kabuto dependency notes retain their separate source
+and acceptance scope; they do not replace that objective or update the download.
+
 ## Kabuto startup dependency - 21 November 2026
 
 Kabuto lane follow-up, 21 November 2026: common mission preparation now supplies
@@ -67,7 +71,7 @@ configuration and collision projection through one shared reader. The newly
 acquired class686 record changes only its secondary mask. Seven original-PC
 preservation/cursor controls and the actual class686 cold constructor expose and
 then resolve the earlier lost scalar; the corrected projected comparison matches
-73 words. This is an unpublished dependency, not another preview or ordinary
+73 words. This is a source-only dependency, not another preview or ordinary
 class686 admission. Its constructor/frame guards remain intact. Story4 mission2
 declares this barracks; its projectile mesh now prepares while its player mesh
 and canonical damage/effect owner still require integration.
