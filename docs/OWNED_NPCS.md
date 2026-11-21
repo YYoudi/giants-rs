@@ -85,9 +85,12 @@ both arithmetic profiles. These controls cover clocks only. The failed rendered
 run remains a failure; a fresh executable still needs encounter acceptance.
 The next candidate reaches ordinary pistol death after damage 12/24/36, then
 fails on a stale environment projection following the lethal flags change.
-The caller now explicitly refreshes that existing projection after death and
-after the corpse's inactive marker; it replays neither initialization nor AI.
-This second run also remains a failed rendered acceptance until retested.
+The caller now explicitly refreshes that existing projection after death;
+it replays neither initialization nor AI. The following run executes the corpse
+countdown and holds the unimplemented fragment graph independently. Its endpoint
+fails because it also tried refreshing the now-inactive corpse without a new
+finalization. Inactive owners must instead leave the completed-contact set.
+These failed runs remain separate from the fresh executable's acceptance.
 
 The NPC branch now provides
 `Session::damage_ripper_from_partial_pistol_with_death`. It consumes the same
