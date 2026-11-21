@@ -211,6 +211,9 @@ REVIEWED_HISTORICAL_IMAGES = {
     'docs/gallery/media/d4710d638d15205eda7b2d3997b22dd25a93c228b1e88970cddc7cbc91ec7fbc.webp':
         'd4710d638d15205eda7b2d3997b22dd25a93c228b1e88970cddc7cbc91ec7fbc',
 }
+# Reviewed Ripper common-retirement navigation prose; no corpus export.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('efe9c66cabd03f388efc4578ca474a6b83fcf7f55008c833c643e323ecbacf1b')
+
 
 
 def approved_images(root):
