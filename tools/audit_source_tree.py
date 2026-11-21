@@ -114,6 +114,10 @@ REVIEWED_ATTRIBUTION_LABELS = {'crates/giants-game/src/ripper_primary_turn.rs': 
 # Reviewed merged navigation prose; existing minimal aliases and statuses retained.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('67e98798a96ac460d3afcda1fab6d139ec49c948a5d91b3d9af7c216d8065015')
 
+# Reviewed index revision: one unknown Kabuto navigation candidate and existing
+# minimal PC aliases only. Exact normalized Git blob and sole path; no corpus.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('630f5f7c50c1127f43091993623584334b4cf49e2967afb5f3e709574d267f2a')
+
 
 # Reviewed minimal navigation aliases in two concurrent history blobs and
 # the .14.1 status-only index update; all other hazard rules stay active.

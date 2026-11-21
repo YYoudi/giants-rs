@@ -1,5 +1,32 @@
 # Preview releases and milestone integration
 
+## Kabuto completed-animation body buffers - CPU dependency
+
+The shared body snapshot can now consume Kabuto's actual completed ANM/gravity
+epoch and model buffers. Stale, failed and wrong-family phases are refused;
+Delphi retains its own completion contract. The installed control verifies
+changing finite vertices, buffer ownership and retirement across independent
+physical contexts, alongside the Delphi physical/body regression. This consumer
+is not yet called by an ordinary Kabuto controller. It acknowledges no native
+primary completion or initializer and adds no GPU/input acceptance, capture or
+Windows preview. The .14.2 package and its receipt remain unchanged.
+
+## Kabuto cold animation payload - later source dependency
+
+The common menu-to-mission preparation now loads external cold animation
+definitions into its Kabuto factory. Three installed App controls cover actual
+spawn/body ownership, missing-metadata diagnostics, cache release/fresh entry
+and the existing explicit inspection camera. This supplies data for future live
+animation; it does not complete native world reset scheduling or acknowledge any
+of the four pending initializers. Kabuto gameplay remains unavailable. No new
+Windows preview or graphical evidence is claimed by this source-only change;
+the frozen .14.2 package and its checksums remain unchanged.
+
+Validation: 1,117 portable Rust tests pass (258 ignored), format and strict
+workspace Clippy pass, and the existing Mecc/Delphi installed menu controls pass.
+All 45 Python tests and site/JavaScript checks pass. These are dependency and
+regression checks; this milestone has no new real-input or GPU acceptance.
+
 ## Published preview .14.2 - additional palms and checked wife-return chains
 
 [Windows preview-2026.11.14.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.14.2)

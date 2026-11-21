@@ -28,6 +28,11 @@ fn source_kabuto_animation_gravity_uses_model_phase_and_retains_primary() {
     run_model(true, false, false, None);
 }
 #[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; real completed ANM/model buffers, stale/failed/foreign phase guards; supplied independent physical contexts, no GPU or gameplay claim"]
+fn source_kabuto_body_uses_completed_animation_buffers_and_refuses_stale_phases() {
+    run_model_with_body(true, false, false, None, true);
+}
+#[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private post-gravity control inputs/receipts; no window or sound"]
 fn source_kabuto_control_force_uses_owned_animated_state_and_preserves_primary() {
     run_model(true, true, false, None);
@@ -191,6 +196,15 @@ fn run_model(
     resources: bool,
     handoff: Option<super::held_reference_tests::Case>,
 ) {
+    run_model_with_body(animation, control, resources, handoff, false);
+}
+fn run_model_with_body(
+    animation: bool,
+    control: bool,
+    resources: bool,
+    handoff: Option<super::held_reference_tests::Case>,
+    body: bool,
+) {
     let (factory, _) = super::transition_tests::factories();
     let (foreign, _) = super::transition_tests::factories();
     let mut s = Session::new(991);
@@ -225,6 +239,22 @@ fn run_model(
     let mut targeted = 0;
     let radius = s.kabuto_group(id).unwrap().radius;
     let root = std::path::PathBuf::from(std::env::var("GIANTS_KABUTO_ROOT").unwrap());
+    let body_plan = body.then(|| {
+        let source = crate::world_source::resolve(&root, "Kstory1").unwrap();
+        let menu = crate::mission_selection::MissionMenu::parse(
+            &std::fs::read(root.join("Bin").join(source.catalog)).unwrap(),
+            u32::MAX,
+            true,
+        )
+        .unwrap();
+        crate::mission_loading::prepare(&root, menu.request("Kstory1", 0).unwrap())
+            .unwrap()
+            .instance_plan(&root, "English")
+            .unwrap()
+    });
+    let mut previous_body: Option<crate::player_body::Prepared> = None;
+    let mut body_samples = 0;
+    let mut changed_body_samples = 0;
     let globals =
         giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
             .unwrap();
@@ -705,6 +735,18 @@ fn run_model(
                     .is_err()
             );
             assert_eq!(before, super::motion_tests::snapshot(&s, id));
+            if let Some(plan) = &body_plan {
+                assert!(previous_body.as_ref().is_none_or(|b| !b.current(&s)));
+                assert!(
+                    crate::player_body::Prepared::from_kabuto_frame(
+                        plan.resources(),
+                        &mut s,
+                        id,
+                        number,
+                    )
+                    .is_err()
+                );
+            }
             let view = factory
                 .advance_animation_gravity(
                     &mut s,
@@ -746,6 +788,90 @@ fn run_model(
             assert_eq!(view.stamp, services.stamp.0);
             assert_eq!(s.counts(), counts);
             assert_eq!((0..15).map(|i| s.list(i)).collect::<Vec<_>>(), lists);
+            if let Some(plan) = &body_plan {
+                let snapshot = super::motion_tests::snapshot(&s, id);
+                assert!(
+                    crate::player_body::Prepared::from_kabuto_frame(
+                        plan.resources(),
+                        &mut s,
+                        id,
+                        0,
+                    )
+                    .is_err()
+                );
+                assert!(
+                    crate::player_body::Prepared::from_kabuto_frame(
+                        plan.resources(),
+                        &mut s,
+                        id,
+                        number + 1,
+                    )
+                    .is_err()
+                );
+                assert!(
+                    crate::player_body::Prepared::from_delphi_frame(
+                        plan.resources(),
+                        &mut s,
+                        id,
+                        number,
+                    )
+                    .is_err()
+                );
+                let rendered = crate::player_body::Prepared::from_kabuto_frame(
+                    plan.resources(),
+                    &mut s,
+                    id,
+                    number,
+                )
+                .unwrap();
+                if previous_body
+                    .as_ref()
+                    .is_some_and(|old| old.positions != rendered.positions)
+                {
+                    changed_body_samples += 1;
+                }
+                assert!(rendered.current(&s));
+                assert_eq!(
+                    rendered.positions.len(),
+                    rendered.model.mesh.positions.len()
+                );
+                assert_eq!(
+                    rendered.positions,
+                    s.actor_model_positions(id, 0).unwrap().unwrap()
+                );
+                assert!(rendered.positions.iter().flatten().all(|v| v.is_finite()));
+                assert!(!rendered.vertices(0).is_empty());
+                assert_eq!(snapshot, super::motion_tests::snapshot(&s, id));
+                // This negative control invalidates a completed partial phase;
+                // it does not supply a runtime failure/recovery producer.
+                s.residents
+                    .get_mut(&id.serial)
+                    .unwrap()
+                    .kabuto_group
+                    .as_mut()
+                    .unwrap()
+                    .geometry_transition_failure = Some("body refusal control".into());
+                assert!(!rendered.current(&s));
+                assert!(
+                    crate::player_body::Prepared::from_kabuto_frame(
+                        plan.resources(),
+                        &mut s,
+                        id,
+                        number,
+                    )
+                    .is_err()
+                );
+                s.residents
+                    .get_mut(&id.serial)
+                    .unwrap()
+                    .kabuto_group
+                    .as_mut()
+                    .unwrap()
+                    .geometry_transition_failure = None;
+                assert!(rendered.current(&s));
+                previous_body = Some(rendered);
+                body_samples += 1;
+            }
             assert!(
                 factory
                     .advance_animation_gravity(
@@ -909,6 +1035,15 @@ fn run_model(
     actions.finish();
     tails.finish();
     assert!(moving > 300);
+    if body {
+        assert!(body_samples > 500);
+        assert!(
+            changed_body_samples > 0,
+            "completed animation samples must change body vertices"
+        );
+        s.clear();
+        assert!(!previous_body.unwrap().current(&s));
+    }
     if let Some(p) = std::env::var_os("GIANTS_KABUTO_MODEL_INPUTS") {
         std::fs::write(p, inputs).unwrap();
     }

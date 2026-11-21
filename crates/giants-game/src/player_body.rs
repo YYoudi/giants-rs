@@ -1,5 +1,5 @@
 //! Owned player-body presentation: immutable initial inspection or a completed
-//! Delphi phase's shared deformation cache. Neither path advances a primary.
+//! character phase's shared deformation cache. Neither path advances a primary.
 use crate::{
     resident_states::{Id, Session},
     scene_resources::{ModelAsset, SceneResources},
@@ -24,6 +24,20 @@ struct Evaluated {
     number: u64,
     epoch: u32,
     cache: [u32; 3],
+    phase: Phase,
+}
+#[derive(Clone, Copy)]
+enum Phase {
+    Delphi,
+    Kabuto,
+}
+impl Phase {
+    fn completed_epoch(self, session: &Session, owner: Id, number: u64) -> Result<u32, String> {
+        match self {
+            Self::Delphi => completed_delphi_epoch(session, owner, number),
+            Self::Kabuto => completed_kabuto_epoch(session, owner, number),
+        }
+    }
 }
 fn cache_words(cache: crate::vertex_cache::Cache) -> [u32; 3] {
     [cache.epoch, cache.seconds.to_bits(), cache.animation]
@@ -51,6 +65,35 @@ fn completed_delphi_epoch(session: &Session, owner: Id, number: u64) -> Result<u
     session.actor_current_affine(owner)?;
     Ok(actor.mecc_animation_stamp)
 }
+fn completed_kabuto_epoch(session: &Session, owner: Id, number: u64) -> Result<u32, String> {
+    let actor = session.get(owner).ok_or("body owner absent or foreign")?;
+    let group = session
+        .kabuto_group(owner)
+        .ok_or("body Kabuto group absent")?;
+    let fields = actor
+        .construction_fields
+        .as_ref()
+        .ok_or("body fields absent")?;
+    if actor.class != 1
+        || actor.seed.storage.state() != 1
+        || number == 0
+        || group.motion_history != Some(number)
+        || group.animation_gravity_completed != Some(number)
+        || group.cleaned_up
+        || group.geometry_transition_failure.is_some()
+        || actor.mecc_animation_stamp == 0
+        || actor.channels != Some(fields.channels)
+        || fields.object_flags & 0x40008000 != 0
+        || session
+            .specification(owner)
+            .is_none_or(|s| !std::sync::Arc::ptr_eq(s, &group.declared_class))
+    {
+        return Err("body requires its completed unfailed Kabuto animation phase".into());
+    }
+    session.current_reference_matrices(owner)?;
+    session.actor_current_affine(owner)?;
+    Ok(actor.mecc_animation_stamp)
+}
 impl Prepared {
     /// Consume the actual phase/ANM owners, then run the existing model-buffer
     /// producer at that epoch. No scratch epoch, history or initializer is added.
@@ -61,7 +104,27 @@ impl Prepared {
         owner: Id,
         number: u64,
     ) -> Result<Self, String> {
-        let epoch = completed_delphi_epoch(session, owner, number)?;
+        Self::from_frame(resources, session, owner, number, Phase::Delphi)
+    }
+    /// Consume Kabuto's actual completed ANM/gravity phase and its shared model
+    /// buffers. This advances neither native primary/history nor initializer
+    /// readiness. A cold inspection or a failed/foreign phase cannot supply it.
+    pub fn from_kabuto_frame(
+        resources: &SceneResources,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+    ) -> Result<Self, String> {
+        Self::from_frame(resources, session, owner, number, Phase::Kabuto)
+    }
+    fn from_frame(
+        resources: &SceneResources,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        phase: Phase,
+    ) -> Result<Self, String> {
+        let epoch = phase.completed_epoch(session, owner, number)?;
         session.prepare_actor_positions(owner, 0, epoch, false)?;
         let cache = session
             .actor_model_cache(owner, 0)?
@@ -83,6 +146,7 @@ impl Prepared {
                     number,
                     epoch,
                     cache: cache_words(cache),
+                    phase,
                 },
             )),
         )
@@ -191,7 +255,7 @@ impl Prepared {
                     .is_some_and(|s| std::sync::Arc::ptr_eq(s, &self.specification))
                 && a.channels == Some(self.channels)
                 && self.evaluated.as_ref().is_none_or(|e| {
-                    completed_delphi_epoch(session, self.owner, e.number) == Ok(e.epoch)
+                    e.phase.completed_epoch(session, self.owner, e.number) == Ok(e.epoch)
                         && session.actor_model_cache(self.owner, 0).is_ok_and(|cache| {
                             cache.is_some_and(|cache| cache_words(cache) == e.cache)
                         })
