@@ -169,6 +169,10 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('3a208dc7d5a3603ffa
 # existing minimal aliases and explicit unknown/probable scope; exact sole path.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('255008d2688ae59bb2a4d50cb96c7c8bb0c9519fe2fcc8aeaeab17728cc77b72')
 
+# Reviewed concurrent eight-line unknown marker-start navigation addition;
+# existing aliases and explicit startup/ABI limitations retained, sole exact path.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('f253f1706804f8a0ba0e0332c87423d9b2978efc231aef8d7cbfea1e8825f22e')
+
 # Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # branch. Reviewed as a VP8-only image without embedded metadata. Keep its
 # all-reference history review valid before that gallery update enters main;

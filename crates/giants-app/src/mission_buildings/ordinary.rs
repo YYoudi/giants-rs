@@ -45,6 +45,9 @@ pub(crate) struct Bodies {
     failure: Option<String>,
 }
 impl Bodies {
+    pub(crate) fn collision_identities(&self) -> impl Iterator<Item = u32> + '_ {
+        self.entries.iter().map(|e| e.object)
+    }
     pub(crate) fn prepare(
         plan: &Plan,
         terrain: &giants_formats::gti::Terrain,

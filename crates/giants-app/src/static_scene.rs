@@ -751,11 +751,19 @@ pub fn apply_view(
         }
         match &rendered.material {
             MaterialHandle::Rgb(handle) => {
-                if let Some(mut material) = materials.rgb.get_mut(handle) {
+                if scene.body_poses.contains_key(&instance.key) {
                     let source_to_bevy = Mat4::from_cols(Vec4::X, -Vec4::Z, Vec4::Y, Vec4::W);
-                    material.world_from_bevy = source_to_bevy
+                    let matrix = source_to_bevy
                         * Mat4::from_cols_array(&instance.matrix).transpose()
                         * source_to_bevy.inverse();
+                    if materials
+                        .rgb
+                        .get(handle)
+                        .is_some_and(|m| m.world_from_bevy != matrix)
+                        && let Some(mut material) = materials.rgb.get_mut(handle)
+                    {
+                        material.world_from_bevy = matrix;
+                    }
                 }
             }
             MaterialHandle::Lit(handle) => {

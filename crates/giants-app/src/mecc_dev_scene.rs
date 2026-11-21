@@ -789,6 +789,7 @@ impl State {
             .iter()
             .map(|o| o.fields.id)
             .chain(projectile_colliders.objects.iter().map(|o| o.fields.id))
+            .chain(buildings.ordinary.collision_identities())
             .max()
             .unwrap_or(1)
             .checked_add(1)
