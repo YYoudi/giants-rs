@@ -22,6 +22,8 @@ pub(super) struct Driver {
     pub(super) projectile_failures: BTreeMap<Id, String>,
     pub(super) first_quarantine_step: Option<u64>,
     pub(super) actor_failures: BTreeMap<Id, String>,
+    pub(super) retired: BTreeSet<Id>,
+    pub(super) retirement_holds: BTreeMap<Id, String>,
     held_markers: BTreeSet<Id>,
     pub(super) flights: BTreeMap<Id, u64>,
 }
@@ -839,7 +841,7 @@ impl State {
                     .copied()
             })
             .collect::<Vec<_>>();
-        if owners.len() != self.expected.len() {
+        if owners.len() + self.driver.retired.len() != self.expected.len() {
             return Err("Ripper common-list owner absent".into());
         }
         // All owned position histories precede this component's callbacks.
@@ -937,6 +939,7 @@ impl State {
         self.advance_projectile_flight(session, frame, random, sounds, device)?;
         self.advance_impact_effects(session, frame, random)?;
         self.advance_death_effects(session, frame, random);
+        self.retire_corpses(session, frame, device)?;
         if self.driver.sample.is_none() {
             println!(
                 "mission_ripper_component ticket={} completed_actors={} source=normal_mecc_component current_owned_pose=true perception=controlled_player_subset active_fx=false combat_complete=false native_world_verified=false",

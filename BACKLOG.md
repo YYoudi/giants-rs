@@ -356,6 +356,14 @@ helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## NPC lane in progress - ordinary Rippers in The Wife
 
+Next continuation implements bounded corpse core retirement with actual
+external-owner release, source-list removal and non-respawning declaration
+history. Native cleanup fixtures and installed ownership/failure controls cover
+that dependency. Rendered ordinary retirement plus post-death cancellation and
+fresh entry remain required on the new receipt. Incoming-reference/cascade
+clearing, health frame/glow/collection and active death children remain open;
+do not acknowledge them from this unreferenced core path.
+
 Lethal continuation now has the real partial-pistol callback adapter, preserving
 actor/shot/context identity domains, actual effect alias cleanup and failed
 prefix ownership. Installed class73/230 composition covers success and two late

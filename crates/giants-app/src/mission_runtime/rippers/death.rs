@@ -160,6 +160,89 @@ impl State23Services for Services<'_> {
     }
 }
 impl State {
+    pub(in crate::mission_runtime) fn corpse_retired(&self, id: Id) -> bool {
+        self.driver.retired.contains(&id)
+    }
+
+    pub(super) fn retire_corpses(
+        &mut self,
+        session: &mut Session,
+        frame: &live::Frame<'_>,
+        device: &mut impl giants_game::actor_retirement::Services,
+    ) -> Result<(), String> {
+        struct Release<'a, D> {
+            contexts: &'a mut Pool<Id>,
+            device: &'a mut D,
+        }
+        impl<D: giants_game::actor_retirement::Services> giants_game::actor_retirement::Services
+            for Release<'_, D>
+        {
+            fn release(&mut self, session: &mut Session, id: Id) -> Result<(), String> {
+                self.contexts.release_recipient_prepared(id)?;
+                self.device.release(session, id)
+            }
+        }
+        // Preserve common-list order. A held reference grants no release; a
+        // failed actual release is quarantined individually without replay.
+        let owners = self
+            .bound
+            .as_ref()
+            .ok_or("Ripper owners absent at retirement")?
+            .1
+            .clone();
+        for id in session.list(0) {
+            let Some(owner) = owners.iter().find(|owner| owner.id == id) else {
+                continue;
+            };
+            if self.driver.actor_failures.contains_key(&id)
+                || session.actor_world_flags(id)? & 0x8000 == 0
+            {
+                continue;
+            }
+            if let Err(error) = session.check_dead_ripper_retirement(id, owner.declaration.key) {
+                if self.driver.retirement_holds.get(&id) != Some(&error) {
+                    eprintln!(
+                        "mission_ripper_corpse_retirement_held ticket={} owner={id:?} reason={error} release_started=false",
+                        frame.ticket
+                    );
+                    self.driver.retirement_holds.insert(id, error);
+                }
+                continue;
+            }
+            let result = session.cleanup_dead_ripper(
+                id,
+                owner.declaration.key,
+                &mut Release {
+                    contexts: self
+                        .contexts
+                        .as_mut()
+                        .ok_or("Ripper contexts absent at corpse retirement")?,
+                    device,
+                },
+            );
+            match result {
+                Ok(counts) => {
+                    self.driver.remove_completed(id);
+                    self.driver.retired.insert(id);
+                    self.driver.retirement_holds.remove(&id);
+                    self.geometry.1.remove(&id);
+                    println!(
+                        "mission_ripper_corpse_retired ticket={} owner={id:?} residents={} payload_bytes={} registrations={} source=ordinary_completed_corpse external_owners_released=true declaration_history_retained=true",
+                        frame.ticket, counts.residents, counts.payload_bytes, counts.registrations
+                    );
+                }
+                Err(error) => {
+                    eprintln!(
+                        "mission_ripper_corpse_retirement_failed ticket={} owner={id:?} error={error} independent_ai_continues=true",
+                        frame.ticket
+                    );
+                    self.driver.quarantine_actor(id, frame.step, error);
+                }
+            }
+        }
+        Ok(())
+    }
+
     pub(super) fn advance_death_effects(
         &mut self,
         session: &mut Session,

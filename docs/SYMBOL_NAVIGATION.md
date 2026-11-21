@@ -150,6 +150,13 @@ in the private record. This dependency does not establish a playable death.
 
 ## Ripper animation search route
 
+Ripper corpse retirement also uses the literal prototype PS2 names
+`object_destroy` and `object_free_all_allocated_data` as **unknown** search
+routes to `resident_states/ripper_retirement`. The acquired PC state23 table has
+no state destructor. Its common core release remains distinct from death,
+reference clearing, real external-owner release and declaration history; no
+prototype memory layout or signature is imported.
+
 The literal prototype PS2 symbol `objanim_walker` is an **unknown** navigation
 candidate for the shared `animation_loop` clock stage. The acquired PC
 debug-1.1 four-channel prefix keeps inherited clocks outside a new descriptor's

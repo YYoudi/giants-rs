@@ -57,6 +57,7 @@ mod ripper_retreat;
 mod ripper_variant;
 mod surface_frame;
 pub use surface_frame::{Frame as SurfaceMarkerFrame, View as SurfaceFrameView};
+mod ripper_retirement;
 mod vimp_ghost;
 mod vimp_radial_signal;
 mod vimp_retirement;
@@ -452,6 +453,7 @@ pub struct Resident {
     cold_alert_target: Option<Id>,
     barracks: Option<barracks::Owned>,
     ripper_damage: ripper_damage::Owned,
+    ripper_retirement: ripper_retirement::Owned,
     mecc_special: Option<crate::mecc_special::Initialized>,
     delphi_special: Option<crate::delphi_special::State>,
     delphi_copy_source: Option<crate::delphi_special::CopySource>,
@@ -574,6 +576,7 @@ pub struct Session {
     specifications: BTreeMap<u64, OwnedSpecification>,
     state_resources: BTreeMap<u64, Arc<crate::state_resources::Prepared>>,
     declarations: BTreeMap<crate::declared_residents::Key, Id>,
+    retired_declarations: BTreeMap<crate::declared_residents::Key, Id>,
     messages: crate::mission_messages::Queue,
     links: Links,
     position_buffers: crate::actor_position_buffers::Bank,
@@ -611,6 +614,7 @@ impl Session {
             specifications: BTreeMap::new(),
             state_resources: BTreeMap::new(),
             declarations: BTreeMap::new(),
+            retired_declarations: BTreeMap::new(),
             messages: crate::mission_messages::Queue::default(),
             links: Links::default(),
             position_buffers: crate::actor_position_buffers::Bank::default(),
@@ -727,6 +731,7 @@ impl Session {
                 cold_alert_target: None,
                 barracks: None,
                 ripper_damage: Default::default(),
+                ripper_retirement: Default::default(),
                 mecc_special: None,
                 mecc_hit_relations_cleared: false,
                 delphi_special: None,
@@ -10326,7 +10331,7 @@ impl Session {
         key: crate::declared_residents::Key,
         construct: impl FnOnce(&mut Self) -> Result<Id, String>,
     ) -> Result<Id, String> {
-        if self.declarations.contains_key(&key) {
+        if self.declarations.contains_key(&key) || self.retired_declarations.contains_key(&key) {
             return Err("actor declaration already constructed".into());
         }
         let id = construct(self)?;
@@ -10339,6 +10344,11 @@ impl Session {
     }
     pub fn declaration(&self, key: crate::declared_residents::Key) -> Option<Id> {
         self.declarations.get(&key).copied()
+    }
+    /// Historical source identity after a witnessed core retirement. This is
+    /// not a live actor reference and cannot authorize respawn in the same scope.
+    pub fn retired_declaration(&self, key: crate::declared_residents::Key) -> Option<Id> {
+        self.retired_declarations.get(&key).copied()
     }
     /// Preserve command7 after declaration construction, before any callback.
     /// Prototype PS2 `mission_init` is an unknown attribution navigation route;
@@ -11582,6 +11592,7 @@ impl Session {
         self.position_buffers.clear();
         self.state_resources.clear();
         self.declarations.clear();
+        self.retired_declarations.clear();
         self.messages = crate::mission_messages::Queue::default();
         self.mecc_events = None;
         self.kabuto_events = None;

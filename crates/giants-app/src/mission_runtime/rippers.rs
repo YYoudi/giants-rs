@@ -261,11 +261,26 @@ impl State {
             return Err("Ripper component ticket differs".into());
         }
         for &owner in owners {
-            Self::check(session, ticket, owner)?;
+            if self.driver.retired.contains(&owner.id) {
+                if session.get(owner.id).is_some()
+                    || session.declaration(owner.declaration.key).is_some()
+                    || session.retired_declaration(owner.declaration.key) != Some(owner.id)
+                {
+                    return Err("retired Ripper declaration lost its historical identity".into());
+                }
+            } else {
+                Self::check(session, ticket, owner)?;
+            }
         }
         Ok(View {
-            class73: owners.iter().filter(|o| o.declaration.class == 73).count(),
-            class230: owners.iter().filter(|o| o.declaration.class == 230).count(),
+            class73: owners
+                .iter()
+                .filter(|o| o.declaration.class == 73 && !self.driver.retired.contains(&o.id))
+                .count(),
+            class230: owners
+                .iter()
+                .filter(|o| o.declaration.class == 230 && !self.driver.retired.contains(&o.id))
+                .count(),
         })
     }
 }

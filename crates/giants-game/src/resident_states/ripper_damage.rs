@@ -116,7 +116,7 @@ impl Session {
                 Ok(false)
             }
         }
-        self.update_ripper_owned_primary(
+        let result = self.update_ripper_owned_primary(
             id,
             input,
             random,
@@ -132,7 +132,20 @@ impl Session {
                     services,
                 )
             },
-        )
+        );
+        if matches!(
+            result,
+            Ok(crate::ripper_primary_turn::Outcome::CompletedCorpse)
+        ) && self.actor_world_flags(id)? & 0x8000 != 0
+        {
+            // Witness the source corpse callback, not caller-supplied flags.
+            self.residents
+                .get_mut(&id.serial)
+                .unwrap()
+                .ripper_retirement
+                .marked = true;
+        }
+        result
     }
     pub(super) fn ripper_damage_is_running(&self, id: Id) -> bool {
         self.get(id).is_some_and(|actor| {

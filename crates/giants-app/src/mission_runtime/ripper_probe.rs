@@ -21,7 +21,7 @@ pub(crate) struct RipperInputSnapshot {
     pub pistol_target_active: bool,
     pub blood_quads: usize,
     pub unsupported_lethal: Option<(giants_game::resident_states::Id, u32, u64, Option<u64>)>,
-    pub death: Option<(giants_game::resident_states::Id, u64, bool, bool)>,
+    pub death: Option<(giants_game::resident_states::Id, u64, bool, bool, bool)>,
 }
 impl Runtime {
     pub(crate) fn ripper_input_snapshot(
@@ -88,11 +88,13 @@ impl Runtime {
             death: component
                 .and_then(|c| c.death_snapshot())
                 .map(|(id, _, step)| {
+                    let retired = component.is_some_and(|c| c.corpse_retired(id));
                     (
                         id,
                         step,
-                        session.actor_world_flags(id).is_ok_and(|f| f & 0x8000 != 0),
+                        retired || session.actor_world_flags(id).is_ok_and(|f| f & 0x8000 != 0),
                         component.is_some_and(|c| c.actor_quarantined(id)),
+                        retired,
                     )
                 }),
             unsupported_lethal: component.and_then(|c| c.unsupported_lethal_snapshot()),

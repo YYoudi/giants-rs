@@ -195,7 +195,7 @@ pub(super) fn input(
         capture: if death {
             snapshot
                 .death
-                .is_some_and(|(_, _, marked, failed)| marked && !failed)
+                .is_some_and(|(_, _, marked, failed, retired)| marked && retired && !failed)
         } else if lethal_boundary {
             snapshot
                 .unsupported_lethal
@@ -362,12 +362,12 @@ pub(super) fn input(
             );
         }
     }
-    if death && let Some((id, at, marked, failed)) = snapshot.death {
+    if death && let Some((id, at, marked, failed, retired)) = snapshot.death {
         input.axes = Vec2::NEG_Y;
         input.fire = false;
         if step.is_multiple_of(240) || marked || failed {
             println!(
-                "mission_ripper_death_observed ticket={ticket} step={step} owner={id:?} lethal_step={at} corpse_marked={marked} actor_failed={failed} source=ordinary_partial_pistol supplied_player_commands=true forced_actor_pose=false core_retirement_completed=false full_death_fx_complete=false"
+                "mission_ripper_death_observed ticket={ticket} step={step} owner={id:?} lethal_step={at} corpse_marked={marked} actor_failed={failed} source=ordinary_partial_pistol supplied_player_commands=true forced_actor_pose=false core_retirement_completed={retired} full_death_fx_complete=false"
             );
         }
     }

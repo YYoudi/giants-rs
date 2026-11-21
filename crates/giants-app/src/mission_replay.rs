@@ -11,6 +11,9 @@ pub(crate) fn vimp_interaction_probe() -> bool {
 pub(crate) fn objective_interaction_probe() -> bool {
     std::env::var("GIANTS_MISSION_OBJECTIVE_PROBE").as_deref() == Ok("1")
 }
+fn ripper_cancellation_cycles() -> bool {
+    std::env::var("GIANTS_MISSION_RIPPER_CYCLES").as_deref() == Ok("2")
+}
 pub(crate) fn kabuto_body_inspection_replay() -> bool {
     matches!(
         std::env::var("GIANTS_MISSION_REPLAY").as_deref(),
@@ -236,6 +239,16 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
         cycles = 2;
     }
     install_skip_probe(app);
+    if let Ok(value) = std::env::var("GIANTS_MISSION_RIPPER_CYCLES") {
+        if value != "2"
+            || !crate::mission_player::ripper_probe::enabled()
+            || std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_DEATH").as_deref() != Ok("1")
+            || building_interaction_probe()
+        {
+            return Err("Ripper cancellation cycles require the exclusive lethal supplied-input diagnostic and value2".into());
+        }
+        cycles = 2;
+    }
     let entry = matches!(
         std::env::var("GIANTS_MISSION_REPLAY").ok().as_deref(),
         Some(
@@ -513,6 +526,17 @@ fn drive(
                         replay.completed += 1;
                         println!(
                             "mission_building_cycle_released cycles={} remaining_entities=0 runtime_idle=true",
+                            replay.completed
+                        );
+                        if replay.completed < replay.cycles {
+                            replay.stage = 0;
+                            return;
+                        }
+                    }
+                    if ripper_cancellation_cycles() {
+                        replay.completed += 1;
+                        println!(
+                            "mission_ripper_cycle_released cycles={} remaining_entities=0 runtime_idle=true supplied_menu_requests=true os_input=false",
                             replay.completed
                         );
                         if replay.completed < replay.cycles {
@@ -805,6 +829,23 @@ fn drive(
                 );
                 println!(
                     "mission_building_cancel_requested ticket={} births={births} retired={retired} active={active} supplied_input_only=true",
+                    frontend.flow.ticket
+                );
+                cancel_mission(&mut frontend, &mut cancelled);
+                replay.stage = 2;
+                return;
+            }
+            if playing
+                && ripper_cancellation_cycles()
+                && controllers.iter().any(|controller| controller.replay_done)
+                && environment.presentation_ready()
+                && pipelines.0
+            {
+                // The endpoint consumes a real lethal/corpse/core-retirement
+                // receipt. Cancel/re-enter through the existing menu owners;
+                // never supply actor removal, readiness or successful cleanup.
+                println!(
+                    "mission_ripper_cancel_requested ticket={} corpse_retirement_observed=true supplied_menu_requests=true os_input=false",
                     frontend.flow.ticket
                 );
                 cancel_mission(&mut frontend, &mut cancelled);

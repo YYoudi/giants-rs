@@ -4,7 +4,7 @@ use std::{collections::BTreeMap, sync::Arc};
 #[derive(Default)]
 pub(super) struct Geometry(
     BTreeMap<i32, Arc<giants_game::scene_resources::ModelAsset>>,
-    BTreeMap<Id, super::super::npc::Draw>,
+    pub(super) BTreeMap<Id, super::super::npc::Draw>,
 );
 impl State {
     pub(in crate::mission_runtime) fn draws(
@@ -24,6 +24,7 @@ impl State {
             .unwrap()
             .1
             .iter()
+            .filter(|owner| !self.driver.retired.contains(&owner.id))
             .map(|owner| (owner.id, owner.declaration.class))
             .chain(self.driver.markers().map(|id| (id, 219)))
             .chain(
@@ -38,7 +39,17 @@ impl State {
             if self.driver.actor_failures.contains_key(&id) {
                 // Hold the last actually completed submission, with its old
                 // frame number. This acknowledges no new AI/ANM/contact frame.
-                if let Some(last) = self.geometry.1.get(&id) {
+                if session.get(id).is_some_and(|actor| {
+                    actor.construction_fields.as_ref().is_some_and(|fields| {
+                        giants_game::draw_routes::admit(
+                            u32::from(actor.seed.storage.state()),
+                            fields.object_flags,
+                            0,
+                        )
+                        .ordinary
+                    })
+                }) && let Some(last) = self.geometry.1.get(&id)
+                {
                     result.push(last.clone());
                 }
                 continue;

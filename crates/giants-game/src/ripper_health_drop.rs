@@ -153,6 +153,8 @@ impl PickupDefinition {
 
 #[derive(Clone, Copy, Debug)]
 pub struct Owned {
+    /// Historical birth attribution, not a live native parent/exclusion link.
+    /// It remains identifiable after the source Ripper's core retirement.
     pub owner: Id,
     pub amount: i32,
     pub owner_delay: f32,

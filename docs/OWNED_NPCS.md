@@ -76,6 +76,23 @@ No native implementation or prototype PS2 attribution changes in this delivery.
 
 ### Ordinary lethal callback composition in progress
 
+The next NPC-branch continuation now connects witnessed corpse completion to
+the common external-release/core-unlink path. It retains the declaration as
+history, excludes retired IDs from draw/contact/frame owners, and prevents the
+same source key from allocating again before the scope is cleared. State23 has
+no PC destructor; four original-PC common-cleanup fixtures observe one actor,
+88 payload bytes and three registrations released, with survivor memberships
+preserved. Their incoming-reference variants exercise the native reference
+clearer; the new Rust retirement remains bounded to already unreferenced corpses
+and does not claim that wider clearing/cascade contract.
+
+Installed Rust core controls supply terminal state/witness and external release,
+checking both classes, held references, late failure without replay, replacement
+scope protection and declaration history. They are not ordinary death proof.
+The new executable still needs rendered retirement and post-death menu cycles.
+An internal two-cycle observer requests the existing cancel/re-entry paths only
+after actual core retirement; it supplies no removal or successful cleanup.
+
 Identified local rendered check: runtime
 `a67c9f999c9e28e050a5434c6f4cd9e45d4ce7c9`, MinGW executable SHA256
 `4df8deb4ebce6b8384b3940070ece5cefc268f97561cdf1a2901cb3303ddaf86`.
