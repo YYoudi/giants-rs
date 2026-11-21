@@ -154,6 +154,12 @@ native control supplies the already acquired selected-player header bit. Rust
 uses the actual cold player factory and ordinary contact producer. Test cue/stat
 consumers remain explicit supplied boundaries, not device/counter readiness.
 
+After merging main's concurrent building/Kabuto work, this NPC branch passes
+1,118 portable Rust tests (264 ignored), all six installed health controls,
+formatting and strict workspace Clippy. These are source-contract/regression
+results, not a new executable, rendered death or publication receipt. The
+common `.14.2` download remains the independently tested living baseline.
+
 These services remain isolated from the ordinary lethal callback. Next bind the
 actual runtime world/cue/controller/stat consumers, active health glows, death
 effects and source target/marker/group/corpse retirement, then validate the full

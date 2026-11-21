@@ -76,8 +76,11 @@ fn primary_words(session: &Session, item: Id) -> Vec<u32> {
             .storage
             .data()
             .unwrap()
-            .chunks_exact(4)
-            .map(|w| u32::from_le_bytes(w.try_into().unwrap())),
+            .as_chunks::<4>()
+            .0
+            .iter()
+            .copied()
+            .map(u32::from_le_bytes),
     );
     actual
 }

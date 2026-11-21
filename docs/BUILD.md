@@ -70,6 +70,17 @@ to compare the actual declaration and six original full-health/injured/dead
 eligibility cases after source weapon loading. No contact or healing is supplied.
 See OWNED_NPCS.md before continuing this dependency.
 
+The optional health primary/collection controls additionally use
+`GIANTS_RIPPER_HEALTH_PRIMARY_CONTROLS`, `GIANTS_RIPPER_HEALTH_AIR_CONTROLS` and
+`GIANTS_RIPPER_HEALTH_COLLECTION_CONTROLS` for private original-PC comparisons.
+Run the ignored game tests `native_health_primary_grounded_prefix`,
+`native_health_air_prefix` and `native_health_collection` with `GIANTS_NPC_ROOT`.
+They exercise actual source births, owned ANM/clock/affine, motion/timers,
+normal-controller contact production and canonical health response. Plane,
+selected-player native fields and cue/stat consumers have explicit supplied
+boundaries; native collection stops before the missing statistic lookup. These
+controls neither enable the feature nor establish an ordinary kill/rendered drop.
+
 `installed_static_palm_preserves_unresolved_auxiliary_links_and_damages_its_own_stump`
 uses `GIANTS_BUILDING_ROOT` for class101's actual binding dependencies, separately
 retained unresolved auxiliary links, physical/projectile admission, source shot
