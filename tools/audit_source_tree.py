@@ -214,6 +214,10 @@ REVIEWED_HISTORICAL_IMAGES = {
 # Reviewed Ripper common-retirement navigation prose; no corpus export.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('efe9c66cabd03f388efc4578ca474a6b83fcf7f55008c833c643e323ecbacf1b')
 
+# Reviewed concurrent navigation-only prose revisions; other checks retained.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('51530a263a66b2e0229ac80b7f17e4c032b568213f76d74a9fa4f1f2502c730c')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('cb6657ca2d42847f94211674103bc2e9bf9481d758c162c09a2e2f5f51b27ceb')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('28e3604c59fd21b71869b23fe031e5e1d67366b987d05618776f8d3cd35eed36')
 
 
 def approved_images(root):
