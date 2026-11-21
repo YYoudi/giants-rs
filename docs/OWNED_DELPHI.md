@@ -52,6 +52,34 @@ identities and cleanup. The context-one live held-pose service remains outside
 this constructor contract. Attribution remains unknown under the pinned PC and
 prototype PS2 identities; no ABI, recovered name or readiness is inferred.
 
+### Normal camera across cold type activation
+
+`player_camera::Normal` connects the required generic-entry camera callbacks and
+type-projection callback to the same borrowed mode, selected-owner and pose/chase
+states. The generic actor uses the external default coefficient record; Delphi
+uses its actual class record after replacement. No new camera history is created
+at the character switch. Each projection queries the current viewport/depth
+provider, including caches changed by the preceding view. Real world queries
+and projection/view sinks remain required. Views carry the actual Session Id.
+Completed matrix/state effects survive a later failure; subsequent work refuses.
+
+One original PC sequence agrees with the binding on five projection matrices,
+three view matrices, all four root-field checkpoints, lens requests and retained
+chase values. It runs generic startup, same-Id activation and two following Delphi
+camera invocations with live depth-cache feedback. Normal context, fresh chase
+initialization, pose, clock/input, a flat terrain grid and empty mesh world are
+supplied. Original math and CPU viewport writers run; device submissions are
+captured. This validates the component connection, not an ordinary App entry or
+graphical fidelity. Installed failure controls additionally retain terrain,
+projection and view-transport failures and reject replay/retired identities.
+
+This binding admits only the local negative-reference ordinary mode-zero view.
+The caller must establish direct angles and exclude authored/forced/alternate
+world, shake and scaled-input branches. Global startup/reset provenance, actual
+ordinary-world providers and App scheduling remain upstream, followed by the
+player primary/physical/held-copy/input loop. Reusing confirmed common camera
+kernels establishes no additional prototype PS2 attribution or gameplay claim.
+
 ## Evaluated body consumer - intermediate dependency
 
 F7 in the ordinary free-camera inspection now returns to the loaded Delphi

@@ -47,6 +47,14 @@ replay and cleanup. `source_delphi_retained_player_attempt` additionally checks
 a late missing-child resource on that same identity. Pose and projection sink
 remain supplied; neither control runs complete startup or ordinary input.
 
+With both `GIANTS_DELPHI_ROOT` and `GIANTS_DELPHI_EXECUTABLE`, the ignored
+`source_delphi_camera_keeps_generic_owner_history_and_live_projection_caches`
+game test connects the same owned generic actor, mode/owner/chase state and
+required projection/view sinks through cold Delphi replacement. It checks live
+depth-cache feedback and retained terrain/transport failures. Normal context,
+initial pose cache, pose/clock/input and a flat/empty world remain supplied;
+neither a complete source-world startup nor ordinary rendered input is verified.
+
 `installed_static_palm_preserves_unresolved_auxiliary_links_and_damages_its_own_stump`
 uses `GIANTS_BUILDING_ROOT` for class101's actual binding dependencies, separately
 retained unresolved auxiliary links, physical/projectile admission, source shot

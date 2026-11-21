@@ -1764,6 +1764,16 @@ The observations deliberately stop the generic entry at a required provider and
 run type activation separately; they do not acknowledge complete startup or
 ordinary Delphi controls. No new playable preview is claimed.
 
+The required generic camera and type-projection callbacks now have a bounded
+normal binding in `player_camera::Normal`. It borrows the same mode/owner/chase
+state across retyping and queries live viewport/depth parameters for every
+projection. One PC/Rust sequence agrees on five projections, three views, root
+fields and retained chase values. Its normal context, fresh chase boundary,
+pose/clock/input, flat/empty world and device sinks are supplied; installed
+controls preserve failures and cleanup. App must still produce real startup/
+reset provenance, direct normal context and world/renderer consumers and schedule
+this path before the full player loop. This does not deliver ordinary Delphi.
+
 Current observable delivery: enter a Reaper mission through the common menu,
 retain the actual declared Delphi owner/held/copy group, then connect supported
 keyboard/mouse movement, jump and camera. **Construction is now connected:**
