@@ -32,6 +32,13 @@ fn installed_normal_pub_consumes_shared_clock_and_persistent_collision_prefixes(
     payload.player = Ok(player);
     payload.world = Ok(asset.clone());
     payload.packet = packet;
+    payload.models = Arc::new(
+        giants_game::static_geometry::Scene::prepare_normal_initial_with_terrain(
+            &plan,
+            &Default::default(),
+            &asset.terrain,
+        ),
+    );
     payload.plan = plan;
     let mut ecs = World::new();
     let mut queue = CommandQueue::default();
@@ -77,21 +84,51 @@ fn installed_normal_pub_consumes_shared_clock_and_persistent_collision_prefixes(
     let owners = initial
         .iter()
         .map(|p| {
+            let active = runtime.active.as_ref().unwrap();
+            let instance = active
+                .payload
+                .models
+                .instances
+                .iter()
+                .find(|i| i.key == p.key)
+                .expect("published pose must address an actual rigid renderer instance");
+            assert_eq!(instance.class, 53);
+            let index = if p.key.0 {
+                active
+                    .payload
+                    .plan
+                    .world_entries
+                    .iter()
+                    .position(|e| e.declaration.source_offset == p.key.1)
+            } else {
+                active
+                    .payload
+                    .plan
+                    .entries
+                    .iter()
+                    .position(|e| e.serialized.source_offset == p.key.1)
+            }
+            .expect("render offset must resolve to its authored declaration");
+            assert_ne!(
+                index, p.key.1,
+                "fixture must distinguish index and file offset"
+            );
             let key = giants_game::declared_residents::Key {
                 scope: if p.key.0 {
                     giants_game::declared_residents::Scope::World
                 } else {
                     giants_game::declared_residents::Scope::Mission
                 },
-                index: p.key.1,
+                index,
             };
-            runtime
+            let owner = runtime
                 .active
                 .as_ref()
                 .unwrap()
                 .resident_states
                 .declaration(key)
-                .unwrap()
+                .unwrap();
+            (owner, (p.key.0, index))
         })
         .collect::<Vec<_>>();
     for number in 1..=30 {
@@ -107,7 +144,7 @@ fn installed_normal_pub_consumes_shared_clock_and_persistent_collision_prefixes(
         // Rebuild the ordinary transient suffix with supplied contact input;
         // persistent pub entries must survive the same truncation boundary.
         viewer.set_mission_contacts(424, vec![]).unwrap();
-        for (pose, owner) in poses.iter().zip(&owners) {
+        for (pose, (owner, declaration)) in poses.iter().zip(&owners) {
             let session = &runtime.active.as_ref().unwrap().resident_states;
             let body = session.ordinary_building_body(*owner).unwrap();
             assert_eq!(body.steps(), u64::from(number) + 1);
@@ -130,7 +167,13 @@ fn installed_normal_pub_consumes_shared_clock_and_persistent_collision_prefixes(
                     .normal_projectile_registry()
                     .declarations
                     .iter()
-                    .filter(|d| d.object.id == body.collision_identity())
+                    .filter(|d| {
+                        d.object.id == body.collision_identity()
+                            && d.target
+                                == giants_game::enemy_projectile_scene::Target::Declaration(
+                                    *declaration,
+                                )
+                    })
                     .count(),
                 1
             );
@@ -147,7 +190,7 @@ fn installed_normal_pub_consumes_shared_clock_and_persistent_collision_prefixes(
             .is_err()
     );
     runtime.active.as_mut().unwrap().resident_states.clear();
-    for owner in owners {
+    for (owner, _) in owners {
         assert!(
             runtime
                 .active

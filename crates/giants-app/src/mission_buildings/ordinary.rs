@@ -19,11 +19,13 @@ pub(crate) struct Pose {
 }
 struct Entry {
     key: Key,
+    render_key: giants_game::static_geometry::SourceKey,
     object: u32,
     owner: Option<Id>,
 }
 pub(crate) struct Frame {
     pub pose: Pose,
+    pub declaration: Key,
     pub player: giants_game::player_world_collision::Object,
     pub configured_health: u32,
 }
@@ -53,17 +55,26 @@ impl Bodies {
         terrain: &giants_formats::gti::Terrain,
     ) -> Result<Self, String> {
         let mut entries = Vec::new();
-        for (world, index, class) in plan
+        for (world, index, class, offset) in plan
             .world_entries
             .iter()
             .enumerate()
-            .map(|(i, p)| (true, i, p.declaration.object_type))
-            .chain(
-                plan.entries
-                    .iter()
-                    .enumerate()
-                    .map(|(i, p)| (false, i, p.serialized.object_type)),
-            )
+            .map(|(i, p)| {
+                (
+                    true,
+                    i,
+                    p.declaration.object_type,
+                    p.declaration.source_offset,
+                )
+            })
+            .chain(plan.entries.iter().enumerate().map(|(i, p)| {
+                (
+                    false,
+                    i,
+                    p.serialized.object_type,
+                    p.serialized.source_offset,
+                )
+            }))
         {
             if class != 53 {
                 continue;
@@ -78,6 +89,7 @@ impl Bodies {
                     scope: if world { Scope::World } else { Scope::Mission },
                     index,
                 },
+                render_key: (world, offset),
                 object,
                 owner: None,
             });
@@ -141,9 +153,10 @@ impl Bodies {
                 let body = session.ordinary_building_body(owner)?;
                 let f = body.fields();
                 Ok(Frame {
+                    declaration: entry.key,
                     pose: Pose {
                         ticket,
-                        key: (entry.key.scope == Scope::World, entry.key.index),
+                        key: entry.render_key,
                         position: f.current,
                         scale: f.scale,
                         matrix: body.affine()?.matrix,

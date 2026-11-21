@@ -128,7 +128,9 @@ cargo test --locked -p giants-app installed_normal_pub_consumes_shared_clock_and
 
 It initializes the real Story1 declarations and map collision/platform candidates,
 checks one advancement per shared clock sample and persistence through a supplied
-NPC suffix rebuild. It does not replace GPU/contact/shot or Windows-input checks.
+NPC suffix rebuild. Published poses must resolve to actual ordinary renderer
+instances by source-file offset; projectile attribution independently retains
+the declaration ordinal. It does not replace GPU/contact/shot or Windows-input checks.
 
 `installed_barracks_secondary_usage_preserves_other_fields_and_constructor_boundary`
 uses `GIANTS_BUILDING_ROOT` to check class686's actual secondary usage record,

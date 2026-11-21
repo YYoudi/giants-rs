@@ -128,7 +128,9 @@ impl World {
     }
     /// Input navigation only, never an ordinary gameplay capability gate.
     pub(crate) fn probe_terrain_route(&self, object: u32) -> bool {
-        self.is_barracks(object) || self.owners.get(&object).is_some_and(|o| o.tree.is_some())
+        self.is_barracks(object)
+            || self.owners.get(&object).is_some_and(|o| o.tree.is_some())
+            || self.ordinary.collision_identities().any(|id| id == object)
     }
     /// Input fixture only: approach the Story2 small tower through the nearby
     /// entrance's declared origin. This returns a command destination, never an

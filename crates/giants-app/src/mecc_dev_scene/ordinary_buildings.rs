@@ -21,6 +21,11 @@ impl State {
         self.buildings.ordinary.frames(session, session.ticket())
     }
     pub(crate) fn publish_ordinary_building(&mut self, frame: &Frame) -> Result<(), String> {
+        // Projectile attribution uses declaration ordinals; drawing uses file offsets.
+        let declaration = (
+            frame.declaration.scope == giants_game::declared_residents::Scope::World,
+            frame.declaration.index,
+        );
         let fields = frame.player.fields;
         if let Some(object) = self.mesh_objects[..self.static_mesh_objects]
             .iter_mut()
@@ -79,14 +84,14 @@ impl State {
                 .enumerate()
                 .find(|(_, p)| p.id == fields.id)
             {
-                if self.static_projectile_declarations.get(index) != Some(&frame.pose.key) {
+                if self.static_projectile_declarations.get(index) != Some(&declaration) {
                     return Err("pub projectile identity belongs to another declaration".into());
                 }
                 *object = projectile;
             } else {
                 self.projectile_objects
                     .insert(self.static_projectile_objects, projectile);
-                self.static_projectile_declarations.push(frame.pose.key);
+                self.static_projectile_declarations.push(declaration);
                 self.static_projectile_objects += 1;
             }
         }

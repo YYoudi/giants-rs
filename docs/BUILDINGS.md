@@ -11,6 +11,14 @@ outside the .14.2 download until graphical/contact/shot and lifecycle acceptance
 on a receipt-bound candidate. The source dependency sections below retain their
 earlier narrower controls.
 
+The first graphical candidate exposed an index/offset mismatch: collision
+attribution uses declaration ordinals, while rigid instances use source-file
+offsets. These identities are now carried separately, with an installed
+consumer lookup regression. That rejected candidate also timed out during its
+supplied approach; it provided no completed contact/shot/capture acceptance.
+The input fixture now uses terrain routing for pubs, without changing their
+pose, physics, health or ordinary input admission.
+
 Preview .14.2 additionally delivers class101 palms: ordinary contact/pistol
 destruction, fourteen static-part retirements, source wood/audio, complete effect
 expiry, independent stump contacts and two live-effect cleanup/fresh-entry cycles.
