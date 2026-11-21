@@ -15,6 +15,16 @@ dependency, not new playable controls. Next on Kabuto's ordinary path: live
 animation/input/physical frame ownership and camera/startup admission; all four
 initializer requirements remain pending. Attack/feed/growth follow basic movement.
 
+The body-buffer dependency now consumes Kabuto's completed ANM epoch into shared
+body position/normal buffers, with explicit stale/failure/retirement guards and
+separate Delphi provenance. Installed independent-context controls are CPU
+evidence; the common App does not yet call this path. Ordinary frame scheduling,
+earlier action admission and real world/camera/context producers remain required.
+Do not transplant fixture marker resets into the controller. A continuous native
+control retained its first graphics-resource refusal before a grounded walking
+loop was established; no procedural-material identity is assigned from that
+failure alone.
+
 ## Source naming and continuation requirement
 
 Owner clarification, 11 November 2026: contributors familiar with prototype PS2

@@ -1,5 +1,16 @@
 # Preview releases and milestone integration
 
+## Kabuto completed-animation body buffers - CPU dependency
+
+The shared body snapshot can now consume Kabuto's actual completed ANM/gravity
+epoch and model buffers. Stale, failed and wrong-family phases are refused;
+Delphi retains its own completion contract. The installed control verifies
+changing finite vertices, buffer ownership and retirement across independent
+physical contexts, alongside the Delphi physical/body regression. This consumer
+is not yet called by an ordinary Kabuto controller. It acknowledges no native
+primary completion or initializer and adds no GPU/input acceptance, capture or
+Windows preview. The .14.2 package and its receipt remain unchanged.
+
 ## Kabuto cold animation payload - later source dependency
 
 The common menu-to-mission preparation now loads external cold animation

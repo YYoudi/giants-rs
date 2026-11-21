@@ -14,6 +14,17 @@ cache release/fresh entry, missing-file refusal and explicit diagnostic camera
 reuse. They do not exercise real input, live animation, GPU fidelity or gameplay
 admission. Four initializers remain pending.
 
+The acquired Kabuto animation-to-body buffer consumer has a separate installed
+CPU control, with the same `GIANTS_KABUTO_ROOT` input:
+
+```powershell
+cargo test --locked -p giants-game source_kabuto_body_uses_completed_animation_buffers --target x86_64-pc-windows-gnu -- --ignored
+```
+
+This uses independent supplied physical contexts and real preceding ANM phases,
+checks changing body vertices and rejects stale/failed/wrong-family phases. It
+does not run a continuous controller, a render device or ordinary input.
+
 ## Build and launch the ordinary menu
 
 Start with the common application and a user-supplied compatible game folder.

@@ -354,6 +354,23 @@ owned reset contract. World scheduling remains pending.
 Any procedural pose callbacks belong to the still-unacquired primary/animation
 path and are not acknowledged by this field proof.
 
+## Completed animation body buffers - CPU dependency
+
+`player_body::Prepared::from_kabuto_frame` consumes the actual completed owned
+ANM/gravity phase and its shared position buffers, current references, affine
+matrix and epoch. It prepares the existing body/material/normal snapshot from
+those vertices. It creates no inspection epoch and advances no primary, frame
+history or initializer. Delphi retains its separate phase provenance through
+the shared snapshot implementation.
+
+The installed control exercises more than 500 independent supplied physical
+contexts through the real preceding Kabuto phases. It checks buffer identity,
+finite vertices, changing deformation, stale/wrong-family/failed-phase refusal
+and retirement. These fixtures reset between contexts; they do not establish
+continuous ordinary scheduling. The normal App still has no Kabuto controller
+calling this consumer, and its initial body remains inspection-only. No new
+GPU capture, real-input acceptance or downloadable Kabuto feature follows.
+
 ## External definitions and cold animation cache
 
 The common application's Kabuto mission preparation now reads these definitions
