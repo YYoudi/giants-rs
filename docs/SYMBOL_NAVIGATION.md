@@ -1,5 +1,12 @@
 # Original symbol navigation
 
+Kabuto navigation candidate: the literal prototype PS2 name `kabuto_init` is
+searchable in [`kabuto_animation_cache`](../crates/giants-game/src/kabuto_animation_cache.rs).
+Its relationship to the acquired PC cold cache prefix remains **unknown**. This
+broad initialization name is a search route, not a confirmed cache-function name
+or evidence of live animation/gameplay. The common App now supplies external cold
+definitions to its owned factory; native reset scheduling remains unfinished.
+
 This manually reviewed index lets an engine contributor search literal prototype
 PS2 names and find the related Rust code. It is a small navigation aid, not an
 export of the private symbol corpus or a complete PC-to-PS2 attribution table.

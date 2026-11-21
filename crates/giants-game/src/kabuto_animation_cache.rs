@@ -3,6 +3,8 @@
 //! cryptographic authentication; the original executable is never bundled.
 //! Owns cache data and its acquired reset flag; world dispatch scheduling remains
 //! separate from this resource service.
+//! Prototype PS2 navigation candidate: `kabuto_init`. Its correspondence to
+//! this PC cache prefix is unknown; it is not a recovered cache-function name.
 use crate::specification;
 use std::{path::Path, sync::Arc};
 

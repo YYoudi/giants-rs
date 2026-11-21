@@ -4,6 +4,17 @@ The complete scope is retained in PROGRESS.json and the generated README checkli
 No complete game feature is currently marked done. Acquired CPU services are not
 automatically wired into the main menu-to-mission build.
 
+## Kabuto startup dependency - 21 November 2026
+
+Kabuto lane follow-up, 21 November 2026: common mission preparation now supplies
+the acquired external animation definitions to its cold factory. The actual
+menu/spawn control checks 62 entries/61 resolved nodes, exact specification
+ownership, release and a fresh cache on re-entry. Missing metadata retains the
+actor identity and an explicit blocker. This is an intermediate startup
+dependency, not new playable controls. Next on Kabuto's ordinary path: live
+animation/input/physical frame ownership and camera/startup admission; all four
+initializer requirements remain pending. Attack/feed/growth follow basic movement.
+
 ## Source naming and continuation requirement
 
 Owner clarification, 11 November 2026: contributors familiar with prototype PS2

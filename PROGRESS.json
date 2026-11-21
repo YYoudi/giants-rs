@@ -208,7 +208,7 @@
       "title": "Kabuto movement and growth",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Complete Kabuto movement, growth, combat, feeding and size-dependent interactions remain open. Download .11.1 exposes static initial-body inspection through Browse all missions -> Kabuto -> F7, using actual owned look/size and a compatible external camera profile. Two OS entries, R reset and clean return pass. ProjectionReset, AnimationCache, ProceduralMaterial and GeometryRegistration remain pending; startup/warm order and live primary/input are missing. No playable Kabuto claim follows."
+      "detail": "Complete Kabuto movement, growth, combat, feeding and size-dependent interactions remain open. Download .11.1 exposes static initial-body inspection through Browse all missions -> Kabuto -> F7, using actual owned look/size and a compatible external camera profile. Two OS entries, R reset and clean return pass. Later source loads external cold animation definitions into the common mission payload, with cache ownership/re-entry and missing-metadata controls. Live animation is not connected. ProjectionReset, AnimationCache, ProceduralMaterial and GeometryRegistration remain pending; startup/warm order and live primary/input are missing. No playable Kabuto claim follows."
     },
     {
       "id": "kabuto-feeding",

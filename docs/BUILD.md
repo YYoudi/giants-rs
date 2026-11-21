@@ -1,5 +1,19 @@
 # Build on Windows with MinGW
 
+Kabuto cold animation data in the common mission payload uses the supplied
+installation's `Giants.exe`; `GIANTS_KABUTO_EXECUTABLE` overrides that metadata
+file. It is read only, never launched. Run the installed lifecycle controls with
+`GIANTS_KABUTO_ROOT` set to a compatible installation:
+
+```powershell
+cargo test --locked -p giants-app source_kabuto_ --target x86_64-pc-windows-gnu -- --ignored
+```
+
+These controls exercise ordinary menu request/spawn ownership, cold definitions,
+cache release/fresh entry, missing-file refusal and explicit diagnostic camera
+reuse. They do not exercise real input, live animation, GPU fidelity or gameplay
+admission. Four initializers remain pending.
+
 ## Build and launch the ordinary menu
 
 Start with the common application and a user-supplied compatible game folder.

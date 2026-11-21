@@ -1,5 +1,21 @@
 # Preview releases and milestone integration
 
+## Kabuto cold animation payload - later source dependency
+
+The common menu-to-mission preparation now loads external cold animation
+definitions into its Kabuto factory. Three installed App controls cover actual
+spawn/body ownership, missing-metadata diagnostics, cache release/fresh entry
+and the existing explicit inspection camera. This supplies data for future live
+animation; it does not complete native world reset scheduling or acknowledge any
+of the four pending initializers. Kabuto gameplay remains unavailable. No new
+Windows preview or graphical evidence is claimed by this source-only change;
+the frozen .14.2 package and its checksums remain unchanged.
+
+Validation: 1,117 portable Rust tests pass (258 ignored), format and strict
+workspace Clippy pass, and the existing Mecc/Delphi installed menu controls pass.
+All 45 Python tests and site/JavaScript checks pass. These are dependency and
+regression checks; this milestone has no new real-input or GPU acceptance.
+
 ## Published preview .14.2 - additional palms and checked wife-return chains
 
 [Windows preview-2026.11.14.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.14.2)
