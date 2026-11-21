@@ -365,6 +365,10 @@ constructor/audio services and the mode94 no-mana countdown, with current
 camera/quality inputs and source-family preflight. This implementation awaits a
 fresh identified rendered run; public .14.2 is unchanged. Active death bodies,
 health frame/glow/collection and core corpse retirement remain incomplete.
+The first candidate's rendered run stopped on an ordinary ANM clock refusal
+before a lethal contact. A shared clock correction now preserves inherited
+out-of-duration times and the acquired directional wrap; ten native prefix
+cases agree. Preserve that failed run and require a fresh rendered receipt.
 OWNED_NPCS.md records the scope. Continue this runtime wiring directly; do not
 claim a kill from context preparation or spend the next turn on scalar variants.
 

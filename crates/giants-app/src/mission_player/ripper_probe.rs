@@ -266,7 +266,9 @@ pub(super) fn input(
         let distance = dx.hypot(dy);
         input.fire = pistol
             && !(death && snapshot.death.is_some())
-            && if lethal_boundary {
+            && if death {
+                true
+            } else if lethal_boundary {
                 snapshot.unsupported_lethal.is_none()
             } else {
                 snapshot.pistol_hit.is_none()

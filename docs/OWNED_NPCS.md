@@ -76,6 +76,14 @@ No native implementation or prototype PS2 attribution changes in this delivery.
 
 ### Ordinary lethal callback composition in progress
 
+The first rendered lethal-candidate run failed before death: the shared ANM
+clock rejected a retained time outside the newly selected clip's duration and
+the diagnostic stopped on that ordinary-component refusal. The clock now keeps
+the acquired directional wrap instead of requiring an already normalized input.
+Ten original-PC prefix cases agree for inherited positive/negative clocks in
+both arithmetic profiles. These controls cover clocks only. The failed rendered
+run remains a failure; a fresh executable still needs encounter acceptance.
+
 The NPC branch now provides
 `Session::damage_ripper_from_partial_pistol_with_death`. It consumes the same
 immutable emitted-shot receipt and routing/current-frame checks as the living

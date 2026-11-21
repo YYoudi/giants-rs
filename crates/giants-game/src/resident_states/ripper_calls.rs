@@ -94,7 +94,10 @@ impl Session {
             rates,
             seconds,
             crate::arithmetic::Precision::Double53,
-        )?;
+        )
+        .map_err(|error| {
+            format!("{error}; Ripper ANM owner={id:?} class={class} delta={seconds:?} rates={rates:?} channels={channels:?}")
+        })?;
         if tick.missing != 0 {
             return Err("Ripper ANM source descriptor absent".into());
         }

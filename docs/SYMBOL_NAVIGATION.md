@@ -150,6 +150,12 @@ in the private record. This dependency does not establish a playable death.
 
 ## Ripper animation search route
 
+The literal prototype PS2 symbol `objanim_walker` is an **unknown** navigation
+candidate for the shared `animation_loop` clock stage. The acquired PC
+debug-1.1 four-channel prefix keeps inherited clocks outside a new descriptor's
+duration and wraps in the playback direction. Bounded original-PC clock controls
+establish that behavior, not this symbol's identity or complete pose/events.
+
 The literal prototype PS2 name `ripper_animselect` is a navigation candidate
 for `Session::update_state23_animation` and the separate ordinary ANM consumer
 in `ripper_calls`. Its correspondence to the PC debug-1.1 secondary callback

@@ -1,5 +1,7 @@
 //! One unblended looping channel. Clip selection, callbacks and pose blending
 //! belong to separate stages; the caller supplies its playback-rate factor.
+//! Prototype PS2 search key `objanim_walker` remains unassigned to the acquired
+//! PC debug-1.1 channel prefix; no prototype signature or layout is imported.
 use crate::arithmetic::Precision;
 
 /// Channel reference speed zero selects unit playback. Its model-speed source
@@ -52,8 +54,10 @@ impl Clock {
             || !rate.is_finite()
             || duration <= 0.
             || dt < 0.
-            || self.seconds < 0.
-            || self.seconds > duration
+            // Selection retains the previous clip's clock; it need not fit
+            // the newly selected descriptor. The acquired PC channel loop
+            // normalizes it in the playback direction below, not on selection.
+            || f64::from(self.seconds).abs() / f64::from(duration) > 4096.
             || (rate * f64::from(dt)).abs() / f64::from(duration) > 4096.
         {
             return Err("animation loop outside finite bounded channel profile");
@@ -90,6 +94,35 @@ impl Clock {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn retained_clock_outside_new_clip_matches_pc_directional_wrap() {
+        // PC debug-1.1 channel prefix; supplied inherited clock/duration/rate.
+        // No pose or animation-event callback is covered by these words.
+        for precision in [Precision::Single24, Precision::Double53] {
+            for (seconds, dt, rate, expected) in [
+                (2., 1. / 60., 1., [1015580800, 1073741824, 1015580800, 1]),
+                (-0.5, 0., 1., [3204448256, 3204448256, 0, 0]),
+                (-0.5, 1. / 60., -1., [1047457520, 3204448256, 1015580800, 1]),
+                (2., 0., -1., [1073741824, 1073741824, 0, 0]),
+                (2., 0., 1., [0, 1073741824, 0, 1]),
+            ] {
+                let mut clock = Clock {
+                    seconds,
+                    ..Clock::default()
+                };
+                clock.advance(0.25, dt, rate, precision).unwrap();
+                assert_eq!(
+                    [
+                        clock.seconds.to_bits(),
+                        clock.previous.to_bits(),
+                        clock.overflow.to_bits(),
+                        u32::from(clock.wrapped)
+                    ],
+                    expected
+                );
+            }
+        }
+    }
     #[test]
     fn endpoint_and_reverse_wrap_keep_callback_interval() {
         let mut clock = Clock::default();
