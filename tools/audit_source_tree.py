@@ -148,6 +148,9 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('116cce10c8c5b59747
 # Reviewed concurrent minimal pub/Kabuto index; unknown/probable scopes retained.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('255008d2688ae59bb2a4d50cb96c7c8bb0c9519fe2fcc8aeaeab17728cc77b72')
 
+# Reviewed minimal Kabuto geometry navigation; identity and ABI remain unassigned.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('5559448c8901cd330bc0f4ad34db0b9de704344116870dc6bf1a637226d257ae')
+
 # Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # branch. Reviewed as a VP8-only image without embedded metadata. Keep its
 # all-reference history review valid before that gallery update enters main;
