@@ -362,13 +362,17 @@ prefix ownership. Installed class73/230 composition covers success and two late
 service failures; eight exact-PC mode8 null preparations agree without RNG or
 child creation. The ordinary NPC-branch caller now consumes real lethal
 constructor/audio services and the mode94 no-mana countdown, with current
-camera/quality inputs and source-family preflight. This implementation awaits a
-fresh identified rendered run; public .14.2 is unchanged. Active death bodies,
+camera/quality inputs and source-family preflight. Local runtime a67c9f9 now
+passes a rendered supplied-player encounter: source movement, reciprocal damage,
+ordinary lethal callback and corpse inactivity, with independent AI continuing.
+OWNED_NPCS.md pins its executable and precise evidence. Public .14.2 is unchanged. Active death bodies,
 health frame/glow/collection and core corpse retirement remain incomplete.
 The first candidate's rendered run stopped on an ordinary ANM clock refusal
 before a lethal contact. A shared clock correction now preserves inherited
 out-of-duration times and the acquired directional wrap; ten native prefix
-cases agree. Preserve that failed run and require a fresh rendered receipt.
+cases agree. Preserve that failed run and the subsequent geometry failures;
+the fresh successful receipt does not grant complete death FX, health collection
+or post-death menu cleanup/re-entry acceptance.
 OWNED_NPCS.md records the scope. Continue this runtime wiring directly; do not
 claim a kill from context preparation or spend the next turn on scalar variants.
 

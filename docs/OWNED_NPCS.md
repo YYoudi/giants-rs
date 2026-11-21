@@ -76,6 +76,26 @@ No native implementation or prototype PS2 attribution changes in this delivery.
 
 ### Ordinary lethal callback composition in progress
 
+Identified local rendered check: runtime
+`a67c9f999c9e28e050a5434c6f4cd9e45d4ce7c9`, MinGW executable SHA256
+`4df8deb4ebce6b8384b3940070ece5cefc268f97561cdf1a2901cb3303ddaf86`.
+The supplied ordinary-player-command encounter exits successfully after about
+113 seconds. Classic owner164 moves 95.2 horizontal units before death, receives
+pistol damage 12/24/36, and its class90 projectile inflicts Mecc damage10 with
+actual controller recoil. Pistol serial8 completes its lethal callback at
+step10404; mode94 runs normally and the corpse becomes inactive at11231 without
+quarantining it or the other AI. The inspected endpoint renders Mecc at health90
+after retreat; it does not show a complete death animation or fragment effect.
+
+The real health constructor creates item248 and the active death graph creates
+one hidden support owner before its unsupported child initialization is held.
+Neither health rendering/collection nor complete death FX is acknowledged.
+The corpse remains Session-owned until mission clear: inactive is not core
+retirement. A separate Windows check on this executable covers the normal start
+menu and F10 exit only; new OS combat, return/re-entry and post-death cleanup
+acceptance remain pending. Public .14.2 is unchanged. The source and local
+receipt are for common-lane integration, not a competing preview publication.
+
 The first rendered lethal-candidate run failed before death: the shared ANM
 clock rejected a retained time outside the newly selected clip's duration and
 the diagnostic stopped on that ordinary-component refusal. The clock now keeps
@@ -99,7 +119,7 @@ path, then validates actual lethal consumers before opening the callback.
 Unavailable consumers return a reason without damage, RNG or a failure latch.
 The NPC branch's ordinary caller now uses this entry with actual health/effect
 constructors, current camera/quality/count selection and positional audio queues.
-This implementation still awaits its new executable's rendered acceptance;
+The bounded rendered acceptance above now reaches death and inactivity;
 the public .14.2 executable is unchanged. Attached hierarchy, action100 groups
 and potentially mana-eligible player families remain explicit preflight refusals.
 
@@ -133,8 +153,8 @@ lookups remain unknown attributions; the previously confirmed corpse-helper
 identity is retained without importing its prototype signature or layout.
 
 Next finish the actual active death graph, health-object frame/glow/collection
-owners and corpse retirement, and validate the ordinary lethal path in a new
-identified executable. The installed
+owners and corpse retirement, and validate post-death menu cleanup/re-entry
+on that identified executable. The installed
 corpse mana parameters are nonzero: use the genuine player-list eligibility
 result and source countdown, rather than assuming zero mana or copying Vimp
 ghost/meat behavior. Keep working living AI available until these consumers can
