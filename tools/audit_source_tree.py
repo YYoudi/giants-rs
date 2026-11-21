@@ -133,6 +133,18 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('5f479681589fc1461e
 # Reviewed combined index retains both lanes and the same unknown guard routes.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('9cc32cf970ac510a77dbca8d772b6e080de0de0e4a1789bbcdf57aa7ca6ae890')
 
+# Reviewed bounded symbol-navigation prose revisions; existing labels only.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('b3563baf928aff1b583ecb41a2dd80472dfefa2ae8d01cbe921ac230184c48c6')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('5559448c8901cd330bc0f4ad34db0b9de704344116870dc6bf1a637226d257ae')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('f253f1706804f8a0ba0e0332c87423d9b2978efc231aef8d7cbfea1e8825f22e')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('255008d2688ae59bb2a4d50cb96c7c8bb0c9519fe2fcc8aeaeab17728cc77b72')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('15d087de79951c0ef76ee93f7593f626f2b1ccbc10df0ba56725bb74fd02f205')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('f12884a872dd0308b7d40b77d053145b59eacd4d6fba9a2ac9086e082b599ec1')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('d99403e6e5da2cf1c07ee6440450d7a3d17bcaf5ba623d4eff8ffac477c880d8')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('3a208dc7d5a3603ffadd19a396c1b3389ee91617af4043456bb5ba16d0e95d7e')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('3725a3c659030e18be1c93baa53cfc9761f8b0f41dad63a90586336f72a338ce')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('df352e4d2e90eadd8957ba0a968b5181d2b3230b986e29a6b2841e679ec97e6c')
+
 # Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # branch. Reviewed as a VP8-only image without embedded metadata. Keep its
 # all-reference history review valid before that gallery update enters main;
