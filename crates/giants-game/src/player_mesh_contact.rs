@@ -19,6 +19,7 @@ pub struct State {
     pub restitution: f32,
     pub retention: f32,
 }
+#[derive(Clone, Copy)]
 pub struct Triangle {
     pub vertices: [[f32; 3]; 3],
     pub part: u32,

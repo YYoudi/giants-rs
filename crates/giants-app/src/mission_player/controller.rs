@@ -498,6 +498,7 @@ pub(super) struct HostTime<'w> {
 }
 #[derive(bevy::ecs::system::SystemParam)]
 pub(super) struct AudioRequests<'w, 's> {
+    building_pose: MessageWriter<'w, crate::mission_buildings::ordinary::Pose>,
     building: MessageWriter<'w, crate::mission_buildings::Update>,
     local: MessageWriter<'w, crate::mission_audio::Request>,
     flight: MessageWriter<'w, crate::mission_flight_audio::Born>,
@@ -650,6 +651,25 @@ pub(super) fn update(
                     ticket: controller.ticket,
                     event,
                 });
+            }
+        }
+        if !controller.owned_backend
+            && !controller.building_failed
+            && !controller.world_signals_failed
+        {
+            match runtime.advance_normal_building_bodies(controller.ticket, &mut controller.state) {
+                Ok(poses) => {
+                    for pose in poses {
+                        audio.building_pose.write(pose);
+                    }
+                }
+                Err(error) => {
+                    controller.building_failed = true;
+                    error!(
+                        "mission_pub_body_refused ticket={} shared_clock=true error={error}",
+                        controller.ticket
+                    );
+                }
             }
         }
         let look_ready = windows

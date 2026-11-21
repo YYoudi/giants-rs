@@ -31,6 +31,8 @@ mod combat_globals;
 mod landing;
 mod mecc_hit_clock;
 mod npc;
+#[cfg(test)]
+mod ordinary_building_tests;
 mod ripper_probe;
 mod rippers;
 mod signals;
@@ -1583,6 +1585,18 @@ impl Runtime {
             .filter(|a| a.ticket == ticket)
             .ok_or("building initial ticket absent")?;
         active.player_owner()?;
+        let terrain = &active.payload.world.as_ref().map_err(Clone::clone)?.terrain;
+        state
+            .buildings
+            .ordinary
+            .start(&mut active.resident_states, terrain)?;
+        for frame in state
+            .buildings
+            .ordinary
+            .frames(&active.resident_states, ticket)?
+        {
+            state.publish_ordinary_building(&frame)?;
+        }
         if state
             .buildings
             .barracks_initial
@@ -1597,6 +1611,43 @@ impl Runtime {
             }
         }
         Ok(())
+    }
+    pub(crate) fn advance_normal_building_bodies(
+        &mut self,
+        ticket: u64,
+        state: &mut crate::mecc_dev_scene::State,
+    ) -> Result<Vec<crate::mission_buildings::ordinary::Pose>, String> {
+        let active = self
+            .active
+            .as_mut()
+            .filter(|a| a.ticket == ticket)
+            .ok_or("pub mission ticket absent")?;
+        let (sample, clock) = active
+            .payload
+            .signals
+            .current()
+            .ok_or("pub shared clock absent")?;
+        let areas = active.payload.signals.areas.snapshot(|id| {
+            active
+                .resident_states
+                .get(id)
+                .and_then(|a| a.construction_fields.as_ref())
+                .map(|f| f.dispatch_context)
+                .ok_or_else(|| "pub slow-area owner absent".into())
+        })?;
+        let frames = state.advance_ordinary_building_bodies(
+            &mut active.resident_states,
+            sample,
+            clock.seconds,
+            &areas,
+            &active.payload.world.as_ref().map_err(Clone::clone)?.terrain,
+        )?;
+        let mut poses = Vec::new();
+        for frame in frames {
+            state.publish_ordinary_building(&frame)?;
+            poses.push(frame.pose);
+        }
+        Ok(poses)
     }
     pub(crate) fn hit_normal_building(
         &mut self,

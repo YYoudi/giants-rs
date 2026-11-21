@@ -10,7 +10,7 @@ use giants_game::static_geometry::{Asset, Instance};
 use std::collections::{BTreeMap, BTreeSet};
 
 enum MaterialHandle {
-    Rgb,
+    Rgb(Handle<crate::prop_scene::Material>),
     Lit(Handle<crate::scenery_scene::Material>),
     Cube(Handle<crate::sword_scene::Material>),
 }
@@ -50,6 +50,8 @@ pub fn needs_setup(scene: Res<Scene>, existing: Query<(), With<RenderedRigid>>) 
 }
 #[derive(Resource)]
 pub struct Scene {
+    body_poses:
+        BTreeMap<giants_game::static_geometry::SourceKey, crate::mission_buildings::ordinary::Pose>,
     retired_houses: BTreeSet<giants_game::static_geometry::SourceKey>,
     source: std::sync::Arc<giants_game::static_geometry::Scene>,
     lights: Vec<giants_game::lighting::Directional>,
@@ -93,6 +95,18 @@ impl Ordinary {
     }
 }
 impl Scene {
+    fn current_instance<'a>(&self, instance: &'a Instance) -> std::borrow::Cow<'a, Instance> {
+        match self.body_poses.get(&instance.key) {
+            Some(pose) if instance.class == 53 => {
+                let mut current = instance.clone();
+                current.matrix = pose.matrix;
+                current.position = pose.position;
+                current.scale = pose.scale;
+                std::borrow::Cow::Owned(current)
+            }
+            _ => std::borrow::Cow::Borrowed(instance),
+        }
+    }
     pub fn ordinary_view(
         &self,
         sequence: &str,
@@ -112,6 +126,8 @@ impl Scene {
             .iter()
             .zip(&self.ordinary.masks)
             .map(|(instance, masks)| {
+                let current = self.current_instance(instance);
+                let instance = current.as_ref();
                 let masks = (*masks).ok()?;
                 // A zero mask is independent of the slot. An unresolved nonzero
                 // mask stays an explicit inspection limitation, never slot zero.
@@ -177,7 +193,8 @@ impl Scene {
         self.rendered
             .iter()
             .filter_map(|rendered| {
-                let instance = &self.source.instances[rendered.instance];
+                let current = self.current_instance(&self.source.instances[rendered.instance]);
+                let instance = current.as_ref();
                 if instance.detail(eye, lod_scale) != Ok(rendered.slot) {
                     return None;
                 }
@@ -232,6 +249,7 @@ impl Scene {
             return Err("mission rigid inspection rejects benchmark animation poses".into());
         }
         Ok(Self {
+            body_poses: BTreeMap::new(),
             retired_houses: BTreeSet::new(),
             ordinary: Ordinary::new(&source, config),
             source,
@@ -276,6 +294,7 @@ impl Scene {
         let lights = giants_game::lighting::first_world(config)?;
         let fog = config.fog;
         Ok(Self {
+            body_poses: BTreeMap::new(),
             retired_houses: BTreeSet::new(),
             ordinary: Ordinary::new(&source, config),
             source: std::sync::Arc::new(source),
@@ -531,6 +550,8 @@ pub fn setup(
     }
     let mut rendered = Vec::new();
     for (index, instance) in scene.source.instances.iter().enumerate() {
+        let current = scene.current_instance(instance);
+        let instance = current.as_ref();
         for slot in &instance.slots {
             let key = (instance.class, *slot);
             let asset = &scene.source.assets[&key];
@@ -619,10 +640,10 @@ pub fn setup(
                         .entity(entity)
                         .insert(MeshMaterial3d(handle.clone()));
                     owned.rgb.push(handle.id());
-                    MaterialHandle::Rgb
+                    MaterialHandle::Rgb(handle)
                 };
                 match &material {
-                    MaterialHandle::Rgb => {}
+                    MaterialHandle::Rgb(_) => {}
                     MaterialHandle::Lit(handle) => owned.lit.push(handle.id()),
                     MaterialHandle::Cube(handle) => owned.cube.push(handle.id()),
                 }
@@ -700,11 +721,12 @@ pub fn apply_view(
         .source
         .instances
         .iter()
-        .map(|p| p.detail(eye, lod_scale))
+        .map(|p| scene.current_instance(p).detail(eye, lod_scale))
         .collect();
     let mut visible = 0;
     for rendered in &scene.rendered {
-        let instance = &scene.source.instances[rendered.instance];
+        let current = scene.current_instance(&scene.source.instances[rendered.instance]);
+        let instance = current.as_ref();
         let asset = &scene.source.assets[&(instance.class, rendered.slot)];
         let selected = admission.show
             && !scene.retired_houses.contains(&instance.key)
@@ -728,7 +750,14 @@ pub fn apply_view(
             continue;
         }
         match &rendered.material {
-            MaterialHandle::Rgb => {}
+            MaterialHandle::Rgb(handle) => {
+                if let Some(mut material) = materials.rgb.get_mut(handle) {
+                    let source_to_bevy = Mat4::from_cols(Vec4::X, -Vec4::Z, Vec4::Y, Vec4::W);
+                    material.world_from_bevy = source_to_bevy
+                        * Mat4::from_cols_array(&instance.matrix).transpose()
+                        * source_to_bevy.inverse();
+                }
+            }
             MaterialHandle::Lit(handle) => {
                 if let Some(m) = materials.lit.get(handle) {
                     let parameters = m.parameters.clone();
@@ -817,5 +846,63 @@ pub(crate) fn house_updates(
             update.class,
             update.geometry.is_none()
         );
+    }
+}
+
+/// Use the same completed body pose as player/projectile collision. Custom
+/// source shaders consume matrices directly; an entity Transform alone is not
+/// the model transform. View admission updates their material buffers next.
+pub(crate) fn ordinary_pose_updates(
+    mut updates: MessageReader<crate::mission_buildings::ordinary::Pose>,
+    runtime: Res<crate::mission_runtime::Runtime>,
+    scene: Option<ResMut<Scene>>,
+    mut transforms: Query<&mut Transform>,
+) {
+    let Some(mut scene) = scene else {
+        updates.clear();
+        return;
+    };
+    for pose in updates.read() {
+        if runtime.active_ticket() != Some(pose.ticket) {
+            continue;
+        }
+        if !pose
+            .matrix
+            .iter()
+            .chain(&pose.position)
+            .all(|v| v.is_finite())
+            || !pose.scale.is_finite()
+            || pose.scale <= 0.
+        {
+            continue;
+        }
+        if !scene
+            .source
+            .instances
+            .iter()
+            .any(|i| i.key == pose.key && i.class == 53)
+        {
+            continue;
+        }
+        let first = scene.body_poses.insert(pose.key, pose.clone()).is_none();
+        let mut count = 0;
+        for rendered in &scene.rendered {
+            let initial = &scene.source.instances[rendered.instance];
+            if initial.key != pose.key || initial.class != 53 {
+                continue;
+            }
+            let current = scene.current_instance(initial);
+            let asset = &scene.source.assets[&(53, rendered.slot)];
+            if let Ok(mut transform) = transforms.get_mut(rendered.entity) {
+                *transform = sort_transform(asset, rendered.part, &current);
+                count += 1;
+            }
+        }
+        if first {
+            println!(
+                "mission_pub_draw ticket={} key={:?} parts={count} source=current_body_pose custom_shader_matrix=true",
+                pose.ticket, pose.key
+            );
+        }
     }
 }

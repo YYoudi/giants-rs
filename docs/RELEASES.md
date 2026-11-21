@@ -1,5 +1,17 @@
 # Preview releases and milestone integration
 
+## Pub ordinary consumers - candidate source after .14.2
+
+The acquired pub body now enters through ordinary mission initialization and
+advances once per actual shared world-clock sample. Persistent player, projectile
+and environment collisions share the pose sent to source rigid shader matrices,
+LOD/admission and sorting. Callbackless pub hits retain their distinct state7
+identity. Platform membership uses current pub geometry and preserves unresolved
+neighbour dependencies. The installed Story1 composition control passes with
+actual map candidates and duplicate clock requests; graphical contact, normal
+shots and cancellation/fresh entry on the common executable remain required.
+The current .14.2 download and its capture receipt remain unchanged.
+
 ## Pub body phase - source dependency after .14.2
 
 The pub's source-owned Session identity now retains fresh movement/history,

@@ -6,6 +6,7 @@ mod collision_replay;
 mod enemy_response;
 pub(crate) use enemy_response::{EnemyFrame, EnemyReceiver};
 mod mission_contacts;
+mod ordinary_buildings;
 #[cfg(test)]
 mod route_control;
 

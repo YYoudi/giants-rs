@@ -1,5 +1,16 @@
 # Ordinary building collision and damage integration
 
+Newer source connects the pub body to ordinary mission initialization and one
+advance per shared world-clock sample. The same completed pose supplies persistent
+player/projectile/environment meshes, callbackless hit observation and rigid
+shader matrices, LOD/admission and sort inputs. Rebuilding the NPC contact suffix
+retains these persistent entries. The pub's actual raster platform membership
+uses its current geometry; other nearby unprepared candidates remain errors.
+Missing candidate bounds cannot become a successful empty query. This is still
+outside the .14.2 download until graphical/contact/shot and lifecycle acceptance
+on a receipt-bound candidate. The source dependency sections below retain their
+earlier narrower controls.
+
 Preview .14.2 additionally delivers class101 palms: ordinary contact/pistol
 destruction, fourteen static-part retirements, source wood/audio, complete effect
 expiry, independent stump contacts and two live-effect cleanup/fresh-entry cycles.

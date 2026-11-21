@@ -94,8 +94,13 @@ primary, terrain/environment finalization and current bounds/ordered rigid
 collision geometry. Dirty-pool native controls establish fresh zero histories;
 32 initializations and 384 phase steps at 120 Hz match the original. The phase
 ordinal and failure latch reject double consumption and stale mesh/cache use.
-Next wire it into ordinary mission stepping and the actual object/platform
-population, player/projectile collisions and render transforms. Existing Ripper
+The ordinary consumer now starts it from its actual declaration, advances once
+per shared clock sample and publishes persistent player/projectile/environment
+meshes plus the same pose to rigid shader/LOD/admission/sort consumers. The actual
+Story1 map control covers its platform candidates and duplicate clock consumption;
+the NPC suffix boundary must preserve the new persistent owner. Next complete
+graphical ordinary contact/shot/pose and cancellation/fresh-entry acceptance on
+one recorded candidate, then coherent main/build/dashboard publication. Existing Ripper
 environment snapshots contain an empty mesh and cannot substitute for this pub
 provider; an empty platform list is not a successful query over a real map.
 The native control's explicitly empty population and additional snapshot helpers

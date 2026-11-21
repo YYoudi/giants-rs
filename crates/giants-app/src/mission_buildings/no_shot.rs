@@ -10,6 +10,7 @@ use std::collections::BTreeMap;
 
 struct Surface {
     class: i32,
+    state: u32,
     fields: Object,
     triangles: Vec<[[f32; 3]; 3]>,
     player: Option<(Vec<u32>, Vec<u32>)>,
@@ -88,6 +89,7 @@ impl Surfaces {
                 object.fields.id,
                 Surface {
                     class: record.class,
+                    state: 0,
                     fields: object.fields,
                     triangles: object.triangles.clone(),
                     player: physical.map(|p| (object_words(&p.fields), player_words(p))),
@@ -107,6 +109,25 @@ impl Surfaces {
     }
     pub(super) fn physical(&self, id: u32) -> bool {
         self.0.get(&id).is_some_and(|s| s.player.is_some())
+    }
+    pub(super) fn publish_pub(&mut self, frame: &super::ordinary::Frame) {
+        let p = &frame.player;
+        let surface = self.0.entry(p.fields.id).or_insert_with(|| Surface {
+            class: 53,
+            state: 7,
+            fields: p.fields,
+            triangles: vec![],
+            player: None,
+            position: frame.pose.position,
+            configured_health: frame.configured_health,
+            contacts: 0,
+            hits: 0,
+            serial: None,
+        });
+        surface.fields = p.fields;
+        surface.triangles = p.triangles.iter().map(|t| t.vertices).collect();
+        surface.player = Some((object_words(&p.fields), player_words(p)));
+        surface.position = frame.pose.position;
     }
     pub(super) fn contacts(&self, id: u32) -> u64 {
         self.0.get(&id).map_or(0, |s| s.contacts)
@@ -138,8 +159,8 @@ impl Surfaces {
             s.serial = Some(hit.serial);
             s.hits += 1;
             println!(
-                "mission_building_no_shot_hit ticket={ticket} object={} class={} serial={} hits={} source_state=0 callback_present=false configured_health_bits={} damage_store=false geometry_update=false source_retirement=false",
-                hit.object, s.class, hit.serial, s.hits, s.configured_health
+                "mission_building_no_shot_hit ticket={ticket} object={} class={} serial={} hits={} source_state={} callback_present=false configured_health_bits={} damage_store=false geometry_update=false source_retirement=false",
+                hit.object, s.class, hit.serial, s.hits, s.state, s.configured_health
             );
         }
         true

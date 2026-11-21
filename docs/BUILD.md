@@ -97,6 +97,16 @@ phase ordinals, retained partial failure, rejected replay/cache publication,
 cancellation and fresh ownership. It does not prove the ordinary map population,
 graphics, real controls or a new downloadable feature.
 
+The ordinary App consumer has a separate installed map control:
+
+```powershell
+cargo test --locked -p giants-app installed_normal_pub_consumes_shared_clock_and_persistent_collision_prefixes --target x86_64-pc-windows-gnu -- --ignored
+```
+
+It initializes the real Story1 declarations and map collision/platform candidates,
+checks one advancement per shared clock sample and persistence through a supplied
+NPC suffix rebuild. It does not replace GPU/contact/shot or Windows-input checks.
+
 `installed_barracks_secondary_usage_preserves_other_fields_and_constructor_boundary`
 uses `GIANTS_BUILDING_ROOT` to check class686's actual secondary usage record,
 actor/collision projections, preservation of unrelated fields and the still

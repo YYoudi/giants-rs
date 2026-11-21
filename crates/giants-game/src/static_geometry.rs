@@ -73,6 +73,7 @@ impl Asset {
         }
     }
 }
+#[derive(Clone)]
 pub struct Instance {
     pub key: SourceKey,
     pub class: i32,

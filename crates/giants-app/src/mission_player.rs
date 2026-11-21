@@ -24,6 +24,7 @@ impl bevy::app::Plugin for Plugin {
             app.add_plugins(MaterialPlugin::<actor_scene::LitMaterial>::default());
         }
         app.add_message::<crate::mission_buildings::Update>()
+            .add_message::<crate::mission_buildings::ordinary::Pose>()
             .init_resource::<State>()
             .add_systems(
                 Update,
@@ -44,6 +45,7 @@ impl bevy::app::Plugin for Plugin {
                 Update,
                 (
                     crate::static_scene::house_updates,
+                    crate::static_scene::ordinary_pose_updates,
                     crate::foliage_scene::building_updates,
                 )
                     .after(PlayerUpdate)

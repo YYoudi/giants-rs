@@ -4,6 +4,7 @@
 //! Other building families retain their collisions without a guessed callback.
 mod barracks;
 mod no_shot;
+pub(crate) mod ordinary;
 mod replacement;
 mod trees;
 use giants_game::{
@@ -58,6 +59,7 @@ struct Owner {
     tree: Option<[u32; 19]>,
 }
 pub(crate) struct World {
+    pub(crate) ordinary: ordinary::Bodies,
     pub(crate) barracks_initial: barracks::Initial,
     owners: BTreeMap<u32, Owner>,
     no_shot: no_shot::Surfaces,
@@ -81,6 +83,9 @@ pub(crate) struct HitResult {
     pub replacement: Option<usize>,
 }
 impl World {
+    pub(crate) fn publish_pub(&mut self, frame: &ordinary::Frame) {
+        self.no_shot.publish_pub(frame);
+    }
     /// Actual narrow contacts may belong to damage owners or admitted no-shot
     /// surfaces. Observation does not assign either a damage callback.
     pub(crate) fn observes_contact(&self, object: u32) -> bool {
@@ -481,6 +486,7 @@ impl World {
             classes.len()
         );
         Ok(Self {
+            ordinary: ordinary::Bodies::prepare(plan, terrain)?,
             barracks_initial: barracks::Initial::prepare(plan, globals)?,
             owners,
             no_shot: no_shot::Surfaces::prepare(plan, physical, colliders),
