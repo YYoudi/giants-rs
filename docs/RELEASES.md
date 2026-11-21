@@ -12,7 +12,7 @@ mesh publication remain required before the pub becomes a playable solid surface
 No new Windows preview, runtime capture or confirmed PS2 attribution is claimed.
 The public .14.2 package and dashboard capture receipt remain unchanged.
 
-Validation: 1,117 portable Rust tests (261 ignored), two targeted installed
+Validation on the combined source: 1,118 portable Rust tests (261 ignored), three targeted installed
 controls, strict workspace Clippy, formatting and all 45 Python tests pass.
 
 ## Kabuto retained caller values - source dependency
