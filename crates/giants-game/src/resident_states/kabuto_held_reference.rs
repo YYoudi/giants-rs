@@ -11,6 +11,20 @@ fn word(p: &[u8], at: usize) -> u32 {
 }
 
 impl Session {
+    pub(crate) fn captured_kabuto_resource_scratch(
+        &self,
+        owner: Id,
+        resources: &Resources,
+        number: u64,
+    ) -> Result<crate::kabuto_action_select::Scratch, String> {
+        self.check_kabuto_reference_owner(owner, resources, number)?;
+        self.kabuto_group(owner)
+            .and_then(|g| g.resource_phase_view)
+            .and_then(|v| v.resources)
+            .map(|v| v.caller_scratch)
+            .ok_or_else(|| "Kabuto caller scratch requires its completed resource sample".into())
+    }
+
     pub(crate) fn captured_kabuto_held_input(
         &self,
         owner: Id,

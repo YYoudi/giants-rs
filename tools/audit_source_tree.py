@@ -117,6 +117,9 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('67e98798a96ac460d3
 # Reviewed index revision: one unknown Kabuto navigation candidate and existing
 # minimal PC aliases only. Exact normalized Git blob and sole path; no corpus.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('630f5f7c50c1127f43091993623584334b4cf49e2967afb5f3e709574d267f2a')
+# Reviewed one raw ELF navigation spelling with explicit unknown attribution,
+# no assigned signature/ABI, plus the existing minimal aliases; sole exact path.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('d99403e6e5da2cf1c07ee6440450d7a3d17bcaf5ba623d4eff8ffac477c880d8')
 
 
 # Reviewed minimal navigation aliases in two concurrent history blobs and

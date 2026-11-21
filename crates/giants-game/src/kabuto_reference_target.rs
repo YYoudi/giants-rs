@@ -1,6 +1,8 @@
 //! Acquired post-query filtering and retained-reference transition. Actor
 //! lifetime, actual bounds, clock ownership and marker publication are services;
 //! this does not complete a Kabuto primary or admit a live player.
+//! Prototype PS2 `kabuto_move` is an unknown parent-primary navigation route,
+//! not an attributed name or signature for this PC component.
 use crate::kabuto_reference_query::Selection;
 
 #[derive(Clone, Copy, Debug)]
@@ -22,6 +24,22 @@ pub struct Pose {
     /// Three acquired source orientation coefficients. Their exact combination
     /// below is retained; this is not replaced by a conventional dot product.
     pub axis: [f32; 3],
+}
+/// Successful filter/retained-reference handoff. The caller still owns its
+/// invocation/frame guards; this sample is not selector or primary admission.
+#[derive(Clone, Copy, Debug)]
+pub struct View<K> {
+    owner: K,
+    clock_word: u32,
+}
+impl<K: Copy> View<K> {
+    pub fn owner(&self) -> K {
+        self.owner
+    }
+    /// The actual single-precision clock store used by this invocation.
+    pub fn clock_word(&self) -> u32 {
+        self.clock_word
+    }
 }
 pub trait Services<K> {
     fn bounds(&mut self, target: K) -> Result<Bounds, String>;
@@ -53,6 +71,18 @@ pub fn advance<K: Copy + Eq>(
     selection: Selection<K>,
     services: &mut impl Services<K>,
 ) -> Result<(), String> {
+    advance_with_clock(state, owner, source_reference_present, selection, services).map(|_| ())
+}
+
+/// The same acquired filter, retaining its actual caller clock store for the
+/// next component. This does not recompute time or complete caller admission.
+pub fn advance_with_clock<K: Copy + Eq>(
+    state: &mut State<K>,
+    owner: K,
+    source_reference_present: bool,
+    selection: Selection<K>,
+    services: &mut impl Services<K>,
+) -> Result<View<K>, String> {
     state.raw = selection.target;
     state.accepted = selection.target;
     state.score = selection.score;
@@ -135,12 +165,97 @@ pub fn advance<K: Copy + Eq>(
             state.retained = None;
         }
     }
-    Ok(())
+    Ok(View {
+        owner,
+        clock_word: (seconds as f32).to_bits(),
+    })
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    struct ClockOnly {
+        seconds: f64,
+        calls: usize,
+    }
+    impl Services<u32> for ClockOnly {
+        fn seconds(&mut self, _: &State<u32>) -> Result<f64, String> {
+            self.calls += 1;
+            Ok(self.seconds)
+        }
+        fn bounds(&mut self, _: u32) -> Result<Bounds, String> {
+            panic!("no selected target")
+        }
+        fn announce(&mut self, _: &State<u32>) -> Result<(), String> {
+            panic!("no selected target")
+        }
+        fn reset_marker(&mut self, _: &State<u32>) -> Result<(), String> {
+            panic!("no selected target")
+        }
+        fn parent(&mut self, _: u32) -> Result<Option<u32>, String> {
+            panic!("no retained target")
+        }
+        fn pose(&mut self) -> Result<Pose, String> {
+            panic!("no retained target")
+        }
+    }
+    #[test]
+    fn successful_query_carries_its_clock_without_requery_or_foreign_owner_publication() {
+        for seconds in [-0., 0., 1. / 60., 0.123456789] {
+            let mut state = State {
+                raw: None,
+                accepted: None,
+                retained: None,
+                remaining: 10.,
+                score: 0.,
+            };
+            let mut world = ClockOnly { seconds, calls: 0 };
+            let sample = advance_with_clock(
+                &mut state,
+                7,
+                false,
+                Selection {
+                    target: None,
+                    score: 0.,
+                },
+                &mut world,
+            )
+            .unwrap();
+            assert_eq!(sample.owner(), 7);
+            assert_eq!(world.calls, 1);
+            let mut scratch = crate::kabuto_action_select::Scratch {
+                packet_word: 3,
+                slot: 4,
+                retained_time: 0xdeadbeef,
+                flags: 5,
+                clear_flags: 6,
+                behavior: 8,
+                definition: 9,
+                blend_seconds: 0.25,
+                reference_speed: 12.,
+                speed_source: -1,
+            };
+            assert!(scratch.retain_reference_clock(8, &sample).is_err());
+            assert_eq!(scratch.retained_time, 0xdeadbeef);
+            scratch.retain_reference_clock(7, &sample).unwrap();
+            assert_eq!(scratch.retained_time, (seconds as f32).to_bits());
+            assert_eq!(
+                (
+                    scratch.packet_word,
+                    scratch.slot,
+                    scratch.flags,
+                    scratch.clear_flags,
+                    scratch.behavior,
+                    scratch.definition,
+                    scratch.blend_seconds.to_bits(),
+                    scratch.reference_speed.to_bits(),
+                    scratch.speed_source
+                ),
+                (3, 4, 5, 6, 8, 9, 0.25f32.to_bits(), 12f32.to_bits(), -1)
+            );
+            assert_eq!(world.calls, 1);
+        }
+    }
     struct LateFailure {
         marker: bool,
         announced: bool,

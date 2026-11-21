@@ -1,5 +1,6 @@
 # Preview releases and milestone integration
 
+<<<<<<< HEAD
 ## Pub cold ownership - source dependency after .14.2
 
 The ordinary Story1 pub now retains its authored cold resident identity,
@@ -14,6 +15,18 @@ The public .14.2 package and dashboard capture receipt remain unchanged.
 
 Validation: 1,117 portable Rust tests (261 ignored), two targeted installed
 controls, strict workspace Clippy, formatting and all 45 Python tests pass.
+=======
+## Kabuto retained caller values - source dependency
+
+The resource phase now retains its actual caller-local checkpoint, and the
+reference-target filter can return its consumed clock word without recomputation.
+Two independent 512-case native/source component controls agree, with installed
+factory/frame/retained-capture guards and a portable wrong-owner handoff check.
+The existing filter API is preserved. Earlier query/reaction/charge scheduling
+and ordinary controller admission remain open; these values do not complete a
+primary, history or initializer. No new GPU/input acceptance, screenshot or
+Windows preview is claimed. The frozen .14.2 receipt is unchanged.
+>>>>>>> origin/main
 
 ## Kabuto completed-animation body buffers - CPU dependency
 

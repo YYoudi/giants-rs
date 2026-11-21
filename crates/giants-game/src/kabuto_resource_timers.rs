@@ -1,5 +1,7 @@
 //! Acquired activity/resource timers and next-frame speed latch. The preceding
 //! alive/global guard, following action selection and live scheduling are separate.
+//! Prototype PS2 `kabuto_move` is an unknown navigation route to the parent
+//! primary; it does not identify this PC interval or import its signature.
 use crate::animation_frames;
 use giants_formats::global_data::GlobalData;
 
@@ -28,6 +30,9 @@ pub trait World {
 }
 #[derive(Clone, Copy, Debug)]
 pub struct View {
+    /// Actual caller-local values at the resource exit. Query/reaction/charge
+    /// phases can overwrite them before selection; this is not admission.
+    pub caller_scratch: crate::kabuto_action_select::Scratch,
     pub previous_frame: i32,
     pub current_frame: i32,
     pub activity: u32,
@@ -82,6 +87,7 @@ pub fn advance(
     g: &GlobalData,
     w: &mut impl World,
 ) -> Result<View, String> {
+    let caller_channel_flags = i.channels[0][8];
     if p.len() != 844
         || !i
             .model
@@ -238,6 +244,18 @@ pub fn advance(
         + f64::from(scalar(p, 0x164)?);
     put(p, 0x160, speed)?;
     Ok(View {
+        caller_scratch: crate::kabuto_action_select::Scratch {
+            packet_word: caller_channel_flags & 0x10,
+            slot: u32::MAX,
+            retained_time: t.to_bits(),
+            flags: 0x20,
+            clear_flags: 0,
+            behavior: 0,
+            definition: u32::MAX,
+            blend_seconds: 0.25,
+            reference_speed: 0.,
+            speed_source: -1,
+        },
         previous_frame,
         current_frame,
         activity,

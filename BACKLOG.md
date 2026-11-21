@@ -29,6 +29,13 @@ control retained its first graphics-resource refusal before a grounded walking
 loop was established; no procedural-material identity is assigned from that
 failure alone.
 
+The completed resource phase now owns its caller-local checkpoint, and the
+retained-reference filter can return the actual consumed clock word for that
+same owner's handoff. Separate native/source controls cover these components;
+the enclosing frame, query ownership/lifetime, reaction/charge admission and
+ordinary App producer/consumer order remain unfinished. The resource checkpoint
+must not be passed directly to the selector as proof of those missing phases.
+
 ## Source naming and continuation requirement
 
 Owner clarification, 11 November 2026: contributors familiar with prototype PS2
