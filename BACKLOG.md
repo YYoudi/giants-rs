@@ -1761,10 +1761,14 @@ controls cover ordering, stale storage, missing cache, no match, replay and
 cleanup. One PC/Rust component sequence agrees on 335 root field/cache words and
 all fifteen list orders at three checkpoints, with supplied marker caches,
 camera transport and matching disabled blending. Cache production and complete
-loader/camera startup are not compared by that sequence. The first local target
-turn deliberately refuses marker-copied storage
-until its first-ray comparison is acquired; it cannot fall back to constructor
-zeros. App still needs the real ordered entry/scheduler and source scene/water/
+loader/camera startup are not compared by that sequence. Its continuation now
+compares all six first-ray words with the PC's actual held lookup, matrix dispatch
+and normalization. The owned target caller consumes the copied owner cache while
+held/reference storage stays constructor-zero; it records this provenance
+separately from evaluated affines. An installed sequence connects actual marker,
+shell replacement, first targeting, physical/held placement and following-frame
+targeting. It retains required local-context and stale-cache refusals; clock,
+camera transport and flat world remain supplied. App still needs the real ordered entry/scheduler and source scene/water/
 input providers. This is a CPU dependency, not newly available Delphi gameplay.
 
 The acquired fresh generic shell can now be replaced by Delphi with its same

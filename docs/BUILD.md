@@ -44,8 +44,15 @@ With `GIANTS_DELPHI_ROOT`, the ignored game test
 the live marker list, raw cached transform transfer, retained same-Id replacement
 and projection/history ordering. It also retains no-match, missing-cache,
 foreign-session, replay and cleanup boundaries. Camera transport remains supplied;
-complete startup, the first marker-copied targeting turn and ordinary input remain
-unverified. The latter turn explicitly refuses unvalidated copied-cache use.
+complete startup and ordinary input remain unverified.
+
+With both `GIANTS_DELPHI_ROOT` and `GIANTS_DELPHI_EXECUTABLE`, the ignored game
+test `source_delphi_marker_copy_feeds_first_target_then_completed_held_frame`
+connects that real marker/shell/type sequence to first targeting, a physical frame,
+held placement and the next target turn. The first ray records copied-start
+provenance; later targeting consumes the completed frame. Camera transport,
+clock/commands and flat world remain supplied. Unproven local context, evaluated
+child caches and stale frames remain refused; no ordinary controls are admitted.
 
 With `GIANTS_DELPHI_ROOT`, run `cargo test --locked -p giants-game
 source_delphi_shell_retype --target x86_64-pc-windows-gnu -- --ignored` for the

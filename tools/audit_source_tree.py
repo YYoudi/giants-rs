@@ -142,6 +142,9 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('f253f1706804f8a0ba
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('f12884a872dd0308b7d40b77d053145b59eacd4d6fba9a2ac9086e082b599ec1')
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('15d087de79951c0ef76ee93f7593f626f2b1ccbc10df0ba56725bb74fd02f205')
 
+# Reviewed PR merge retains minimal unknown Kabuto and Delphi navigation routes.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('116cce10c8c5b59747b9427c9ade76d2134dad68f328fbe6352ce8f08f97f27f')
+
 # Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # branch. Reviewed as a VP8-only image without embedded metadata. Keep its
 # all-reference history review valid before that gallery update enters main;

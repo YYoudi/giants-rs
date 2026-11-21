@@ -29,9 +29,9 @@ fn reference_words(m: Matrix) -> [u32; 17] {
 }
 impl Session {
     /// Read the acquired held-origin route while the owned local caller runs.
-    /// Its first turn requires unchanged constructor storage; later turns read
-    /// the preceding completed placement. Marker-copied cold storage still
-    /// requires its own first-ray comparison. Current-frame guards stay intact.
+    /// Its first turn reads raw constructor or marker-copied owner storage and
+    /// unchanged constructor-zero child caches. Later turns read the preceding
+    /// completed placement. Current-frame guards stay intact.
     pub fn delphi_prephysical_target_ray(
         &self,
         owner: Id,
@@ -82,7 +82,6 @@ impl Session {
         if !actor.acquired_construction
             || initialized.held != child
             || actor.affine_cache.is_some()
-            || actor.cold_player_start_cache.is_some()
             || !held.acquired_construction
             || held.class != 669
             || held.seed.storage.profile() != Profile::Debug
@@ -95,13 +94,50 @@ impl Session {
                 "Delphi cold ray requires its unchanged acquired constructor caches".into(),
             );
         }
-        // These two header caches are zero in the acquired cold constructors;
-        // unlike an evaluated affine, they have no implicit identity last row.
+        // The held header remains constructor-zero. The owner's raw cache is
+        // either constructor-zero or the separate acquired marker copy below;
+        // zero storage has no implicit identity last row.
         let zero = Matrix {
             flags: 0,
             values: [0.; 16],
         };
         let reference = self.delphi_held_reference(child)?;
+        if let Some(cache) = actor.cold_player_start_cache {
+            let context = actor
+                .construction_fields
+                .as_ref()
+                .ok_or("Delphi start fields absent")?
+                .dispatch_context;
+            let held_context = held
+                .construction_fields
+                .as_ref()
+                .ok_or("Delphi start held fields absent")?
+                .dispatch_context;
+            let binding = self
+                .wield_binding(child)
+                .ok_or("Delphi start held binding absent")?;
+            if actor.constructor_mask != 0x11
+                || context != 1
+                || held_context != context
+                || binding.context != context
+            {
+                return Err(
+                    "Delphi copied start ray requires its inherited local shell and held context"
+                        .into(),
+                );
+            }
+            let parent = Matrix {
+                flags: cache.flags,
+                values: cache.matrix,
+            };
+            return Ok(Sample {
+                source: Source::ColdStartCopy,
+                ray: crate::delphi_target_ray::from_start_cache(
+                    parent, zero, reference, threshold,
+                )?,
+                second_column: [cache.matrix[1], cache.matrix[5], cache.matrix[9]],
+            });
+        }
         Ok(Sample {
             source: Source::ColdConstructor,
             ray: crate::delphi_target_ray::from_constructor_caches(
