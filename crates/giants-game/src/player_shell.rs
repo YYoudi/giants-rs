@@ -85,6 +85,34 @@ impl Factory {
     }
 }
 impl Entry {
+    /// Feed the actual source command39/index0 pose into the ordered shell and
+    /// required camera operations. Last declaration wins. An absent declaration
+    /// requires its inherited/default producer; it is never replaced with zero.
+    /// This does not acknowledge full world loading, the copied global scalar,
+    /// persistent camera reset provenance or mission admission.
+    pub fn initialize_declared_world_pose(
+        &mut self,
+        session: &mut Session,
+        world: &giants_formats::world::WorldConfig,
+        camera: &mut impl Camera,
+    ) -> Result<(), String> {
+        let declaration = world
+            .entry_poses
+            .iter()
+            .rev()
+            .find(|pose| pose.index == 0)
+            .ok_or(
+                "generic entry needs an explicit world pose or its acquired inherited producer",
+            )?;
+        self.initialize(
+            session,
+            WorldPose {
+                position: std::array::from_fn(|i| f32::from_bits(declaration.words[i])),
+                heading: f32::from_bits(declaration.words[3]),
+            },
+            camera,
+        )
+    }
     /// Copy the first eligible live Delphi marker after generic camera startup.
     /// This is the cold kind-3 marker operation, not continuity, type activation
     /// or successful mission admission. No match leaves the shell unchanged.

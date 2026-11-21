@@ -269,3 +269,99 @@ fn source_delphi_live_start_copies_stored_cache_and_keeps_player_identity() {
     assert!(incomplete.relocate_delphi_start(&mut foreign).is_err());
     assert_eq!(foreign.counts().residents, 0);
 }
+
+#[test]
+#[ignore = "Requires GIANTS_DELPHI_ROOT; source world pose -> actual shell fields, stops at required camera provider; not full startup"]
+fn source_delphi_world_declaration_reaches_shell_before_required_camera_boundary() {
+    let root = std::path::PathBuf::from(std::env::var("GIANTS_DELPHI_ROOT").unwrap());
+    let resources =
+        crate::scene_resources::SceneResources::load(&root, "w_Rstory1.bin", "English").unwrap();
+    let mut world =
+        giants_formats::world::parse_world(&std::fs::read(root.join("Bin/w_Rstory1.bin")).unwrap())
+            .unwrap();
+    let declaration = *world
+        .entry_poses
+        .iter()
+        .rev()
+        .find(|pose| pose.index == 0)
+        .unwrap();
+    let factory = player_shell::Factory::load(&resources).unwrap();
+    struct Camera {
+        words: [u32; 4],
+        calls: Vec<&'static str>,
+    }
+    impl player_shell::Camera for Camera {
+        fn change_view(&mut self, s: &mut Session, owner: Id, request: i32) -> Result<(), String> {
+            assert_eq!(request, 1);
+            self.calls.push("view");
+            let fields = s.get(owner).unwrap().construction_fields.as_ref().unwrap();
+            assert_eq!(fields.dispatch_context, 0);
+            assert_eq!(fields.position, [0.; 3]);
+            Ok(())
+        }
+        fn update_camera(&mut self, s: &mut Session, owner: Id) -> Result<(), String> {
+            self.calls.push("update");
+            let fields = s.get(owner).unwrap().construction_fields.as_ref().unwrap();
+            assert_eq!(fields.dispatch_context, 1);
+            assert_eq!(fields.position.map(f32::to_bits), self.words[..3]);
+            assert_eq!(fields.current, fields.position);
+            assert_eq!(fields.previous, fields.position);
+            assert_eq!(fields.angles[0].to_bits(), self.words[3]);
+            Err("required actual camera world/device provider".into())
+        }
+    }
+    let mut session = Session::new(2160);
+    let mut entry = factory.construct(&mut session).unwrap();
+    let owner = entry.owner();
+    let mut camera = Camera {
+        words: declaration.words,
+        calls: Vec::new(),
+    };
+    assert!(
+        entry
+            .initialize_declared_world_pose(&mut session, &world, &mut camera)
+            .unwrap_err()
+            .contains("required actual camera")
+    );
+    assert_eq!(entry.checkpoint(), player_shell::Checkpoint::PoseApplied);
+    assert_eq!(camera.calls, ["view", "update"]);
+    assert!(entry.failure().is_some());
+    assert!(
+        session
+            .get(owner)
+            .unwrap()
+            .cold_player_start_cache
+            .is_none()
+    );
+    assert!(session.actor_current_affine(owner).is_err());
+    assert!(entry.relocate_delphi_start(&mut session).is_err());
+    assert!(
+        entry
+            .initialize_declared_world_pose(&mut session, &world, &mut camera)
+            .is_err()
+    );
+    assert_eq!(camera.calls.len(), 2);
+    for absent in [false, true] {
+        let mut fresh = factory.construct(&mut session).unwrap();
+        if absent {
+            world.entry_poses.clear();
+        } else {
+            world
+                .entry_poses
+                .iter_mut()
+                .rev()
+                .find(|pose| pose.index == 0)
+                .unwrap()
+                .words[0] = f32::NAN.to_bits();
+        }
+        assert!(
+            fresh
+                .initialize_declared_world_pose(&mut session, &world, &mut camera)
+                .is_err()
+        );
+        assert_eq!(fresh.checkpoint(), player_shell::Checkpoint::Constructed);
+        assert_eq!(camera.calls.len(), 2);
+    }
+    session.clear();
+    assert!(session.get(owner).is_none());
+}

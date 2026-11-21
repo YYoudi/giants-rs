@@ -1751,6 +1751,19 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Delphi next steps
 
+The world reader now retains ordered command39 pose words and indexes. The
+generic shell can consume the last explicit index-zero declaration before its
+required camera update; missing/inherited and non-finite poses refuse without
+camera side effects. Nine installed declarations agree with the original PC's
+36 copied words, offsets and indexes. An installed owned-shell control retains
+the real camera-provider boundary and failed-entry ownership. A fifth normal-
+camera component profile also consumes this source pose through retained same-Id
+activation and following view updates, with supplied clock, flat world and sinks.
+This is declared
+source preparation and an entry component, not complete world loading or camera
+startup. Upstream global state and inherited/default producers remain separate;
+do not replace them with the older supplied control inputs.
+
 The cold entry now has an ordered live-marker consumer after generic camera
 startup. It selects the first eligible actual source marker, copies position,
 angles and all seventeen stored cache words, and preserves shell history and

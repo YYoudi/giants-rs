@@ -376,7 +376,11 @@ mod tests {
         let factory = crate::delphi_special::Factory::load(&resources, &globals, &weapons).unwrap();
         let shell = player_shell::Factory::load(&resources).unwrap();
         let catalog = camera_profile::ExecutableCatalog::read(&executable).unwrap();
-        for case in 0..4 {
+        let declared_world = giants_formats::world::parse_world(
+            &std::fs::read(root.join("Bin/w_Rstory1.bin")).unwrap(),
+        )
+        .unwrap();
+        for case in 0..5 {
             let mut session = Session::new(3540 + case);
             let mut entry = shell.construct(&mut session).unwrap();
             let owner = entry.owner();
@@ -424,15 +428,19 @@ mod tests {
                         reference: -1,
                     },
                 );
-                let entered = entry.initialize(
-                    &mut session,
-                    player_shell::WorldPose {
-                        position: [7., 8., 9.],
-                        heading: 32.,
-                    },
-                    &mut camera,
-                );
-                if case >= 2 {
+                let entered = if case == 4 {
+                    entry.initialize_declared_world_pose(&mut session, &declared_world, &mut camera)
+                } else {
+                    entry.initialize(
+                        &mut session,
+                        player_shell::WorldPose {
+                            position: [7., 8., 9.],
+                            heading: 32.,
+                        },
+                        &mut camera,
+                    )
+                };
+                if matches!(case, 2 | 3) {
                     assert!(entered.is_err());
                     assert_eq!(entry.checkpoint(), player_shell::Checkpoint::PoseApplied);
                     assert!(camera.projection().is_some());
@@ -522,14 +530,14 @@ mod tests {
             assert_eq!(owners.owner(), Some(owner));
             assert_eq!(
                 sink.projections.len(),
-                if case < 2 {
-                    if case == 0 { 4 } else { 3 }
+                if matches!(case, 0 | 1 | 4) {
+                    if case == 1 { 3 } else { 4 }
                 } else {
                     2
                 }
             );
             assert_eq!(sink.parameter_reads.len(), sink.projections.len());
-            if case < 2 {
+            if matches!(case, 0 | 1 | 4) {
                 assert_eq!(
                     sink.parameter_reads[2].depth_reference,
                     sink.views[0].viewport_origin
@@ -542,7 +550,7 @@ mod tests {
             assert_eq!(
                 sink.views.len(),
                 match case {
-                    0 => 2,
+                    0 | 4 => 2,
                     1 | 2 => 1,
                     _ => 0,
                 }

@@ -40,6 +40,13 @@ unfinished scopes; do not discard failed or interrupted evidence.
 ## Optional installed reconstruction controls
 
 With `GIANTS_DELPHI_ROOT`, the ignored game test
+`source_delphi_world_declaration_reaches_shell_before_required_camera_boundary`
+feeds the decoded world entry pose into the real generic shell. It checks view/
+pose/history order and retained camera failure, missing/non-finite source data,
+replay and cleanup. The required world/device camera provider deliberately
+remains unbound; this is neither complete startup nor ordinary movement.
+
+With `GIANTS_DELPHI_ROOT`, the ignored game test
 `source_delphi_live_start_copies_stored_cache_and_keeps_player_identity` checks
 the live marker list, raw cached transform transfer, retained same-Id replacement
 and projection/history ordering. It also retains no-match, missing-cache,
@@ -69,6 +76,10 @@ required projection/view sinks through cold Delphi replacement. It checks live
 depth-cache feedback and retained terrain/transport failures. Normal context,
 initial pose cache, pose/clock/input and a flat/empty world remain supplied;
 neither a complete source-world startup nor ordinary rendered input is verified.
+Its additional source-pose profile now reads the world index-zero declaration
+through the same shell entry, retained camera state and type activation. The
+initial reset/chase boundary, clock, flat/empty world and device sinks remain
+supplied; the original supplied-pose and failure profiles remain covered.
 
 `source_delphi_physical_owns_motion_shares_events_and_quarantines_failure` now
 also checks a generic-shell/context-one replacement beside the seven existing
