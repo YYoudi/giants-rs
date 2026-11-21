@@ -14,7 +14,7 @@ unchanged; no new GPU/input acceptance, screenshot or download is claimed.
 
 Validation: 1,120 portable Rust tests pass (269 ignored), all three installed
 query-geometry controls and the existing transition regression pass. Separate
-native comparisons agree on 768/7,816 mode words and 384/4,992 header words.
+native comparisons agree on 768 cases/7,816 mode words and 384 cases/4,992 header words.
 Format, strict workspace Clippy, 45 Python tests and site/JavaScript checks pass.
 
 ## Kabuto query final-effect feedback - source dependency
