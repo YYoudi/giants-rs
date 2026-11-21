@@ -1,5 +1,7 @@
 //! Geometry transition prefix inputs. Mode production, geometry-header/render
 //! consumers and whole-primary scheduling remain separate phases.
+//! Prototype PS2 `kabuto_move` is an unknown parent navigation route, not a
+//! confirmed routine identity or imported signature/layout for this prefix.
 use crate::{actor_affine, mecc_contact_materials, object_time_precision, resident_states::Id};
 use std::sync::Arc;
 
@@ -27,7 +29,7 @@ pub struct Sound {
     pub identifier: u32,
     pub action: SoundAction,
 }
-#[derive(Default, Debug)]
+#[derive(Default, Debug, Clone)]
 pub struct View {
     pub selections: u32,
     pub sound_calls: u32,

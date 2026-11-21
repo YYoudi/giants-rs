@@ -48,6 +48,22 @@ The public .14.2 package and dashboard capture receipt remain unchanged.
 
 Validation on the combined source: 1,118 portable Rust tests (261 ignored), three targeted installed
 controls, strict workspace Clippy, formatting and all 45 Python tests pass.
+## Kabuto owned mode and geometry continuation - source dependency
+
+The owned query/feedback frame now drives the existing scalar/mode,
+animation/effect transition and geometry-header projection. It retains actual
+actor stores, cold header ownership, shared animation contexts and the
+early-tail gate; projection inputs remain required and lazy. Three installed
+controls cover ordinary mode, supplied camera projection and late refusal.
+Separate 768-case mode and 384-case header comparisons remain component proof.
+Reaction/action admission, ordinary App providers and continuous frame completion
+still block playable Kabuto. All four initializer gates and preview .14.2 remain
+unchanged; no new GPU/input acceptance, screenshot or download is claimed.
+
+Validation: 1,120 portable Rust tests pass (269 ignored), all three installed
+query-geometry controls and the existing transition regression pass. Separate
+native comparisons agree on 768 cases/7,816 mode words and 384 cases/4,992 header words.
+Format, strict workspace Clippy, 45 Python tests and site/JavaScript checks pass.
 
 ## Kabuto query final-effect feedback - source dependency
 

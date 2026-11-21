@@ -5,7 +5,9 @@ The prototype PS2 raw ELF spelling `kabuto_move__FRC10CntrlInputif` is an
 [`kabuto_resource_timers`](../crates/giants-game/src/kabuto_resource_timers.rs)
 and [`kabuto_reference_target`](../crates/giants-game/src/kabuto_reference_target.rs),
 with owned query feedback in
-[`kabuto_query_feedback`](../crates/giants-game/src/kabuto_query_feedback.rs).
+[`kabuto_query_feedback`](../crates/giants-game/src/kabuto_query_feedback.rs)
+and the mode/geometry continuation in
+[`kabuto_query_geometry`](../crates/giants-game/src/kabuto_query_geometry.rs).
 They retain acquired caller locals and the consumed query clock. This assigns
 no prototype routine identity, ABI or complete controller implementation; its
 signature interpretation remains unassigned.

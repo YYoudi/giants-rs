@@ -1,5 +1,18 @@
 # Build on Windows with MinGW
 
+The owned query-to-geometry continuation has three installed CPU controls. With
+`GIANTS_KABUTO_ROOT` set to the compatible supplied installation, run:
+
+```powershell
+cargo test --locked -p giants-game source_kabuto_query_geometry --target x86_64-pc-windows-gnu -- --ignored --test-threads=1
+```
+
+They reuse the actual preceding phase's animation contexts/RNG/stamp, supply
+explicit command/clock/notification/camera inputs, check notification ordering,
+header publication, early-tail selection and retained effects on late refusal.
+Unused attachment/bounds services must not run on idle/camera paths. These are
+independent CPU contexts, not ordinary controls, a render device or gameplay.
+
 The final-effect query feedback has two installed CPU controls. Set
 `GIANTS_KABUTO_ROOT` to the supplied installation, then run:
 

@@ -71,6 +71,7 @@ pub mod kabuto_player;
 pub mod kabuto_post_control;
 pub mod kabuto_primary_tail;
 pub mod kabuto_query_feedback;
+pub mod kabuto_query_geometry;
 pub mod kabuto_reference_frame;
 pub mod kabuto_reference_query;
 pub mod kabuto_reference_ray;

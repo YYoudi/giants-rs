@@ -11,6 +11,9 @@ pub(super) enum Case {
     Mutate,
     Feedback,
     FeedbackFailure,
+    GeometryIdle,
+    GeometryCamera,
+    GeometryFailure,
 }
 struct World<'a> {
     factory: &'a Factory,
@@ -102,7 +105,12 @@ impl frame::Services for World<'_> {
                 self.moved_x = Some(f.position[0]);
                 Ok(())
             }
-            Case::Success | Case::Feedback | Case::FeedbackFailure => Ok(()),
+            Case::Success
+            | Case::Feedback
+            | Case::FeedbackFailure
+            | Case::GeometryIdle
+            | Case::GeometryCamera
+            | Case::GeometryFailure => Ok(()),
         }
     }
     fn parent(&mut self, s: &Session, target: Id) -> Result<Option<Id>, String> {
@@ -138,6 +146,7 @@ pub(super) fn probe(
     owner: Id,
     number: u64,
     case: Case,
+    animation: &mut crate::actor_animation_phase::Services<'_>,
 ) {
     let target = super::reference_query_tests::probe(factory, foreign, s, owner, number);
     let p = s.get(owner).unwrap().seed.storage.data().unwrap();
@@ -277,7 +286,14 @@ pub(super) fn probe(
         f.object_flags = flags;
         f.configuration[16] = mask;
     }
-    if matches!(case, Case::Feedback | Case::FeedbackFailure) {
+    if matches!(
+        case,
+        Case::Feedback
+            | Case::FeedbackFailure
+            | Case::GeometryIdle
+            | Case::GeometryCamera
+            | Case::GeometryFailure
+    ) {
         feedback_probe(
             factory,
             foreign,
@@ -286,6 +302,14 @@ pub(super) fn probe(
             target,
             number,
             case == Case::FeedbackFailure,
+        );
+    }
+    if matches!(
+        case,
+        Case::GeometryIdle | Case::GeometryCamera | Case::GeometryFailure
+    ) {
+        super::query_geometry_tests::probe(
+            factory, foreign, s, owner, target, number, case, animation,
         );
     }
 }

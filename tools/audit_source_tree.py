@@ -45,7 +45,8 @@ REVIEWED_ATTRIBUTION_LABELS = {'crates/giants-game/src/ripper_primary_turn.rs': 
                                    'a0c4addf0a738b4bf910f9f730d85fd8410c09ffed60c7ba683fd7de201a868a',
                                    'b95db50f67716523141c0bf3d11ccf1928ea2299c48f39fea32501ee09f0c44f',
                                    'bbf89e34ec9cc515385bb66664e978ce79f2ba20d1ec47764e936d95a704fc34'},
- 'docs/SYMBOL_NAVIGATION.md': {'b3563baf928aff1b583ecb41a2dd80472dfefa2ae8d01cbe921ac230184c48c6',
+ 'docs/SYMBOL_NAVIGATION.md': {'28e3604c59fd21b71869b23fe031e5e1d67366b987d05618776f8d3cd35eed36',
+                                'b3563baf928aff1b583ecb41a2dd80472dfefa2ae8d01cbe921ac230184c48c6',
                                 '5559448c8901cd330bc0f4ad34db0b9de704344116870dc6bf1a637226d257ae',
                                 '5f479681589fc1461eab9ded86dba93f9916c8b0852975d36d2e5738753a5d4e',
                                '57a6c15df729acf8c5d6c12c9cc91c3f3ce7bbb49f25eef3af0c41c8893280c3',
@@ -125,6 +126,15 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('d99403e6e5da2cf1c0
 # Reviewed one additional owned-feedback source link on the same explicitly
 # unknown Kabuto navigation route; existing minimal aliases, no corpus/ABI.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('f12884a872dd0308b7d40b77d053145b59eacd4d6fba9a2ac9086e082b599ec1')
+# Reviewed owned mode/geometry source link on the same unknown parent route;
+# no new attribution, original layout or corpus records are published.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('5559448c8901cd330bc0f4ad34db0b9de704344116870dc6bf1a637226d257ae')
+# Reviewed concurrent minimal navigation revisions: qualified marker/held-pose
+# and pub-body source routes only, without raw corpus or imported layouts.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].update({
+    'f253f1706804f8a0ba0e0332c87423d9b2978efc231aef8d7cbfea1e8825f22e',
+    '255008d2688ae59bb2a4d50cb96c7c8bb0c9519fe2fcc8aeaeab17728cc77b72',
+})
 # Reviewed concurrent pub-body navigation update: minimal source links and
 # qualified unknown/probable relationships, without raw research records.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('15d087de79951c0ef76ee93f7593f626f2b1ccbc10df0ba56725bb74fd02f205')
