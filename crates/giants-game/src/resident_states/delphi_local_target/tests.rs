@@ -674,6 +674,27 @@ fn source_delphi_local_phase_protects_typed_links_and_partial_proxy_construction
 #[ignore = "Requires GIANTS_DELPHI_ROOT and executable; actual held-cache epochs and candidate geometry, scripted terrain/view"]
 fn source_delphi_local_phase_reads_cold_then_previous_held_geometry() {
     use crate::delphi_target_ray::Source;
+    // A copied start cache has a different producer even if its bits happen
+    // to be zero. It cannot silently take the constructor-zero target route.
+    let (mut copied, player, copied_source, copied_globals, _) = setup(1406);
+    copied
+        .residents
+        .get_mut(&player.serial)
+        .unwrap()
+        .cold_player_start_cache = Some(crate::actor_affine::Cache {
+        flags: 0,
+        matrix: [0.; 16],
+    });
+    let mut refused = Plan {
+        geometry: Some(Arc::new(copied_source)),
+        ..Default::default()
+    };
+    assert!(
+        copied
+            .advance_delphi_local_target(player, context(player, 1, &copied_globals), &mut refused)
+            .is_err()
+    );
+    assert!(refused.ray_samples.is_empty());
     let (mut s, owner, source, g, _) = setup(1405);
     let source = Arc::new(source);
     let mut plan = Plan {

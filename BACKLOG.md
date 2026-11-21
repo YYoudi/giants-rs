@@ -1751,6 +1751,22 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Delphi next steps
 
+The cold entry now has an ordered live-marker consumer after generic camera
+startup. It selects the first eligible actual source marker, copies position,
+angles and all seventeen stored cache words, and preserves shell history and
+common-list identity. Retyping retains the copied raw cache on the same player;
+auxiliary children do not inherit it. Stored marker caches may be stale: this
+copy neither recomputes them nor certifies a current evaluated affine. Installed
+controls cover ordering, stale storage, missing cache, no match, replay and
+cleanup. One PC/Rust component sequence agrees on 335 root field/cache words and
+all fifteen list orders at three checkpoints, with supplied marker caches,
+camera transport and matching disabled blending. Cache production and complete
+loader/camera startup are not compared by that sequence. The first local target
+turn deliberately refuses marker-copied storage
+until its first-ray comparison is acquired; it cannot fall back to constructor
+zeros. App still needs the real ordered entry/scheduler and source scene/water/
+input providers. This is a CPU dependency, not newly available Delphi gameplay.
+
 The acquired fresh generic shell can now be replaced by Delphi with its same
 Id and retained common registration nodes. Context one survives into copies and
 held bindings; projection still precedes history/special/animation and the root's

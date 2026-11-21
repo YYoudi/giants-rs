@@ -135,6 +135,9 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('5f479681589fc1461e
 # Reviewed combined index retains both lanes and the same unknown guard routes.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('9cc32cf970ac510a77dbca8d772b6e080de0de0e4a1789bbcdf57aa7ca6ae890')
 
+# Reviewed minimal cold player-marker navigation route; attribution remains unknown.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('f253f1706804f8a0ba0e0332c87423d9b2978efc231aef8d7cbfea1e8825f22e')
+
 # Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # branch. Reviewed as a VP8-only image without embedded metadata. Keep its
 # all-reference history review valid before that gallery update enters main;

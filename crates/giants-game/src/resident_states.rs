@@ -473,6 +473,9 @@ pub struct Resident {
     mecc_physics_present: bool,
     mecc_physical_cycle: Option<crate::mecc_physical_cycle::Owned>,
     affine_cache: Option<OwnedAffine>,
+    /// Raw cache copied by cold player-marker placement. Historical storage,
+    /// never an evaluated/current affine or a renderer-readiness certificate.
+    cold_player_start_cache: Option<crate::actor_affine::Cache>,
     state23_animation_counter: i32,
     state23_animation_failed: bool,
     acquired_construction: bool,
@@ -741,6 +744,7 @@ impl Session {
                 mecc_physics_present: false,
                 mecc_physical_cycle: None,
                 affine_cache: None,
+                cold_player_start_cache: None,
                 state23_animation_counter: 0,
                 state23_animation_failed: false,
                 acquired_construction: false,

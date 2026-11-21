@@ -29,8 +29,9 @@ fn reference_words(m: Matrix) -> [u32; 17] {
 }
 impl Session {
     /// Read the acquired held-origin route while the owned local caller runs.
-    /// Its first turn reads constructor zeros; later turns read the preceding
-    /// completed placement. Ordinary completed-frame readers keep their guards.
+    /// Its first turn requires unchanged constructor storage; later turns read
+    /// the preceding completed placement. Marker-copied cold storage still
+    /// requires its own first-ray comparison. Current-frame guards stay intact.
     pub fn delphi_prephysical_target_ray(
         &self,
         owner: Id,
@@ -81,6 +82,7 @@ impl Session {
         if !actor.acquired_construction
             || initialized.held != child
             || actor.affine_cache.is_some()
+            || actor.cold_player_start_cache.is_some()
             || !held.acquired_construction
             || held.class != 669
             || held.seed.storage.profile() != Profile::Debug

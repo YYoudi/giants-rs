@@ -1,6 +1,71 @@
 use super::*;
 
 impl Session {
+    /// Ordered live-list consumer of the acquired cold kind-3 marker copy.
+    /// Literal prototype PS2 `mission_start_at_marker__Fi` is an unknown
+    /// attribution search route; no PC/prototype identity or ABI is inferred.
+    pub(crate) fn copy_delphi_start_to_shell(&mut self, owner: Id) -> Result<Option<Id>, String> {
+        self.check_player_shell(owner)?;
+        let shell = self.get(owner).unwrap();
+        if shell.constructor_mask != 0x11
+            || shell.construction_fields.as_ref().unwrap().dispatch_context != 1
+            || shell.cold_player_start_cache.is_some()
+            || shell.environment.is_some()
+            || shell.ordinary_motion.is_some()
+        {
+            return Err("Delphi marker copy requires its unchanged cold player shell".into());
+        }
+        let mut selected = None;
+        for id in self.list(0) {
+            let actor = self.get(id).ok_or("live player-start candidate absent")?;
+            if actor.class != 679 {
+                continue;
+            }
+            let fields = actor
+                .construction_fields
+                .as_ref()
+                .ok_or("marker fields absent")?;
+            let marker = actor
+                .herd_marker
+                .ok_or("marker header field owner absent")?;
+            if !crate::player_start::eligible_fields(
+                3,
+                actor.class,
+                fields.object_flags,
+                fields.configuration[14],
+                fields.action,
+                marker.index,
+            ) {
+                continue;
+            }
+            if !actor.acquired_construction
+                || actor.seed.storage.profile() != Profile::Debug
+                || actor.seed.storage.state() != 0
+                || actor.attachment.is_some()
+                || actor.presentation_parent.is_some()
+            {
+                return Err("eligible player marker outside acquired source construction".into());
+            }
+            // Native selection copies stored words even when their pose stamp
+            // is stale. Do not ask the current-affine reader or regenerate them.
+            let cache = actor
+                .affine_cache
+                .as_ref()
+                .ok_or("eligible marker raw cache unacquired")?
+                .value;
+            selected = Some((id, fields.position, fields.angles, cache));
+            break;
+        }
+        let Some((id, position, angles, cache)) = selected else {
+            return Ok(None);
+        };
+        let actor = self.residents.get_mut(&owner.serial).unwrap();
+        let fields = actor.construction_fields.as_mut().unwrap();
+        fields.position = position;
+        fields.angles = angles;
+        actor.cold_player_start_cache = Some(cache);
+        Ok(Some(id))
+    }
     /// Cold class0/state7 replacement only: retain the existing actor and list
     /// registrations while binding its acquired Delphi resources. Camera/world
     /// startup completion is a separate caller obligation.
@@ -56,6 +121,7 @@ impl Session {
         actor.channels = Some(channels);
         actor.acquired_construction = true;
         actor.constructor_mask = 0x11;
+        actor.cold_player_start_cache = old.cold_player_start_cache;
         self.residents.insert(
             owner.serial,
             staged.residents.remove(&owner.serial).unwrap(),
@@ -144,6 +210,9 @@ impl Session {
         pose: crate::player_shell::WorldPose,
     ) -> Result<(), String> {
         self.check_player_shell(owner)?;
+        if self.get(owner).unwrap().cold_player_start_cache.is_some() {
+            return Err("generic startup pose cannot overwrite copied player-start storage".into());
+        }
         let fields = self
             .residents
             .get_mut(&owner.serial)
@@ -163,6 +232,7 @@ impl Session {
 #[cfg(test)]
 mod tests {
     use super::*;
+    mod start;
     use crate::{camera_mode, camera_owner, camera_profile, player_shell};
     #[test]
     #[ignore = "Requires GIANTS_DELPHI_ROOT; acquired cold shell/type component, supplied pose and projection sink; no complete camera/startup or gameplay"]

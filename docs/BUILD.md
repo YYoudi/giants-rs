@@ -39,6 +39,14 @@ unfinished scopes; do not discard failed or interrupted evidence.
 
 ## Optional installed reconstruction controls
 
+With `GIANTS_DELPHI_ROOT`, the ignored game test
+`source_delphi_live_start_copies_stored_cache_and_keeps_player_identity` checks
+the live marker list, raw cached transform transfer, retained same-Id replacement
+and projection/history ordering. It also retains no-match, missing-cache,
+foreign-session, replay and cleanup boundaries. Camera transport remains supplied;
+complete startup, the first marker-copied targeting turn and ordinary input remain
+unverified. The latter turn explicitly refuses unvalidated copied-cache use.
+
 With `GIANTS_DELPHI_ROOT`, run `cargo test --locked -p giants-game
 source_delphi_shell_retype --target x86_64-pc-windows-gnu -- --ignored` for the
 fresh generic-shell replacement component. It checks the unchanged player Id,

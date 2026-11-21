@@ -530,6 +530,14 @@ This is related placement work; the name does not establish an exact PC
 counterpart, prototype ABI/layout or a whole child/world scheduling contract.
 Independent PC controls and scoped context ownership remain separate evidence.
 
+The literal prototype PS2 `mission_start_at_marker__Fi` provides an **unknown**
+search route to the ordered cold marker consumer in
+[`player_shell`](../crates/giants-game/src/resident_states/player_shell.rs)
+and the existing [`player_start`](../crates/giants-game/src/player_start.rs)
+selection kernel. The name alone does not establish a PC identity. The actual
+PC copy contract, cached storage, enclosing startup and first targeting turn
+remain separate evidence; no prototype ABI or memory layout is imported.
+
 This index publishes only selected names, reviewed navigation relationships and
 attribution status. Binary/ELF inputs, raw tables, listings, matching outputs,
 disassembly and detailed research remain private. The central method pins the

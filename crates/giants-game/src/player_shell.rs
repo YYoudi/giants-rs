@@ -37,6 +37,7 @@ pub enum Checkpoint {
     ViewApplied,
     PoseApplied,
     CameraApplied,
+    StartApplied,
 }
 /// Own the actual constructor identity even after a later service fails.
 /// This capability is not cloneable; an entered sequence cannot be replayed.
@@ -84,6 +85,17 @@ impl Factory {
     }
 }
 impl Entry {
+    /// Copy the first eligible live Delphi marker after generic camera startup.
+    /// This is the cold kind-3 marker operation, not continuity, type activation
+    /// or successful mission admission. No match leaves the shell unchanged.
+    pub fn relocate_delphi_start(&mut self, session: &mut Session) -> Result<Option<Id>, String> {
+        if self.checkpoint != Checkpoint::CameraApplied || self.failure.is_some() {
+            return Err("Delphi marker placement requires completed generic camera startup".into());
+        }
+        let selected = session.copy_delphi_start_to_shell(self.owner)?;
+        self.checkpoint = Checkpoint::StartApplied;
+        Ok(selected)
+    }
     pub fn owner(&self) -> Id {
         self.owner
     }
