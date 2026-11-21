@@ -7,6 +7,7 @@ use giants_game::{
 };
 pub(super) mod combat;
 mod contacts;
+mod death;
 mod draw;
 mod hurt;
 pub(super) use hurt::Hit as PistolHit;
@@ -38,6 +39,9 @@ pub(super) struct State {
     blood: giants_game::blood_particles::Pool,
     last_pistol_hit: Option<(Id, u32, u64)>,
     last_unsupported_lethal: Option<(Id, u32, u64)>,
+    health_factory: Result<giants_game::ripper_health_drop::Factory, String>,
+    death_effects: Vec<death::Effect>,
+    last_death: Option<(Id, u32, u64)>,
     marker_factory: giants_game::primary_surface_marker::Factory<'static>,
     projectile_factory: giants_game::primary_enemy_fire::Factory<'static>,
     controlled_contact_resources: Option<giants_game::controlled_mecc_contacts::Resources>,
@@ -116,6 +120,8 @@ impl State {
         let blood = giants_game::blood_particles::Pool::new(
             giants_game::blood_particles::Configuration::from_globals(&globals)?,
         )?;
+        let health_factory =
+            giants_game::ripper_health_drop::Factory::load(plan.resources(), &globals);
         Ok(Some(Self {
             expected,
             bound: None,
@@ -130,6 +136,9 @@ impl State {
             blood,
             last_pistol_hit: None,
             last_unsupported_lethal: None,
+            health_factory,
+            death_effects: vec![],
+            last_death: None,
             controlled_contact_resources: None,
             controlled_contact: None,
             projectile_scene: None,

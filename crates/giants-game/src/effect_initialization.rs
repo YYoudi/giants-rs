@@ -91,7 +91,7 @@ pub(crate) fn ripper_explosion(ops: &[u8]) -> bool {
 // children are behind the null-object gate. Original named mode8 controls
 // consume no RNG and allocate no child during this initial pass. Active child
 // emission and retirement remain separate required consumers.
-fn ripper_death_root(ops: &[u8]) -> bool {
+pub(crate) fn ripper_death_root(ops: &[u8]) -> bool {
     let prefix = [3, 6, 0x17, 0x1b, 0x21];
     if !ops.starts_with(&prefix) {
         return false;

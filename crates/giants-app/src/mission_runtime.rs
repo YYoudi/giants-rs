@@ -1482,6 +1482,7 @@ impl Runtime {
         step: u64,
         target: giants_game::resident_states::Id,
         hit: giants_game::mecc_pistol::WorldHit,
+        camera: [f32; 3],
     ) -> Result<Vec<crate::mission_audio::Event>, String> {
         self.bind_normal_combat_globals(ticket)?;
         let suppressed = self
@@ -1525,6 +1526,7 @@ impl Runtime {
                 step,
                 target,
                 projectile: hit,
+                camera,
                 routing: giants_game::hit_routing::Context {
                     blocked: [u32::from(suppressed), 0],
                     mode: 0,

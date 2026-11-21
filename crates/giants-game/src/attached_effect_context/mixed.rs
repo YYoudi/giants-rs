@@ -20,6 +20,24 @@ pub enum Step {
 #[cfg(test)]
 mod tests {
     use super::*;
+    struct NoSupportServices;
+    impl crate::resident_states::TimedEffectServices for NoSupportServices {
+        fn physical(&mut self, _: &mut Session, _: Actor, _: f32) -> Result<(), String> {
+            Err("untimed fixed support unexpectedly requested physical integration".into())
+        }
+        fn gravity(&mut self, _: &mut Session, _: Actor) -> Result<(), String> {
+            Err("untimed fixed support unexpectedly requested gravity".into())
+        }
+        fn retire(
+            &mut self,
+            _: &mut Session,
+            _: Actor,
+            _: &giants_formats::effect_image::Image,
+            _: Option<&crate::effect_scene::RetirementBinding>,
+        ) -> Result<(), String> {
+            Err("untimed support has no source lifetime retirement request".into())
+        }
+    }
     fn snapshot(session: &Session, id: Actor) -> Vec<u32> {
         let actor = session.get(id).unwrap();
         let f = actor.construction_fields.as_ref().unwrap();
@@ -49,6 +67,90 @@ mod tests {
         words.extend(session.timed_effect_fade(id).unwrap().map(f32::to_bits));
         words.extend((0xa0..0xdc).step_by(4).map(word));
         words
+    }
+    #[test]
+    #[ignore = "Requires GIANTS_NPC_ROOT and private GIANTS_RIPPER_DEATH_SUPPORT_CONTROLS; original support prefix BEFORE first child and three supplied-clock callbacks, no child/full graph/GPU/ordinary death proof"]
+    fn native_ripper_death_support_has_real_session_owner_without_invented_lifetime() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+        let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        let text = std::fs::read_to_string(
+            std::env::var_os("GIANTS_RIPPER_DEATH_SUPPORT_CONTROLS").unwrap(),
+        )
+        .unwrap();
+        let mut count = 0;
+        for name in ["fx_ripper_death_medium", "fx_ripper_death_large"] {
+            let mut session = Session::new(9847);
+            let mut pool = Pool::<Actor>::from_active_resources(session.ticket(), &resources);
+            let mut random = Random(1);
+            let (Creation::Prepared(context), _) = pool
+                .prepare_positional_invariant(name, [1.25, -2.5, 3.75], &mut random)
+                .unwrap()
+            else {
+                panic!("death support context absent");
+            };
+            pool.claim_positional_impact(context).unwrap();
+            let body = Timed::mixed_root_object(
+                &resources,
+                context,
+                pool.get(context).unwrap(),
+                0,
+                &mut random,
+            )
+            .unwrap();
+            let actor = session.adopt_timed_positioned(body).unwrap();
+            assert_eq!(random.0, 1);
+            let mut stamp = crate::animation_epoch::Stamp::default();
+            let mut steps = 0;
+            for line in text.lines().filter(|l| l.starts_with(name)) {
+                let mut parts = line.split_whitespace();
+                assert_eq!(parts.next().unwrap(), name);
+                let step = parts.next().unwrap().parse::<usize>().unwrap();
+                let seconds = parts.next().unwrap().parse::<f32>().unwrap();
+                let expected = parts
+                    .map(|v| u32::from_str_radix(v, 16).unwrap())
+                    .collect::<Vec<_>>();
+                assert_eq!(step, steps);
+                if step > 0 {
+                    let outcome = session
+                        .advance_timed_effect(actor, seconds, &mut stamp, &mut NoSupportServices)
+                        .unwrap();
+                    assert_eq!(
+                        outcome,
+                        if step == 1 {
+                            crate::timed_effect_object::Step::FirstFrame
+                        } else {
+                            crate::timed_effect_object::Step::Updated
+                        }
+                    );
+                }
+                let mut actual = snapshot(&session, actor);
+                actual.drain(16..19); // Native control omits unrelated angle fields.
+                assert_eq!(actual, expected, "{name} source support step {step}");
+                assert!(session.timed_effect_failure(actor).is_none());
+                assert_eq!(
+                    session
+                        .get(actor)
+                        .unwrap()
+                        .construction_fields
+                        .as_ref()
+                        .unwrap()
+                        .control_flags
+                        & 2,
+                    0
+                );
+                steps += 1;
+                count += 1;
+            }
+            assert_eq!(steps, 4);
+            assert_eq!(session.counts().residents, 1);
+            // Source has no lifetime: the support remains a real Session owner.
+            // Context still awaits its first child; no graph completion is claimed.
+            assert!(pool.get(context).is_some());
+            let released = session.clear();
+            assert_eq!((released.residents, released.payload_bytes), (1, 268));
+            assert_eq!(session.counts().residents, 0);
+        }
+        assert_eq!(count, 8);
     }
     #[test]
     #[ignore = "Requires GIANTS_NPC_ROOT and private GIANTS_RIPPER_EXECUTION_CONTROLS; actual canonical births/wait/context cleanup, supplied clocks/resources, no body scheduling/GPU/combat"]
@@ -687,10 +789,10 @@ impl Execution {
         }
         let program = context.program.as_ref().map_err(Clone::clone)?.clone();
         let image = context.source_image();
+        let ops = program.records.iter().map(|r| r.opcode).collect::<Vec<_>>();
         if context.position().is_none()
-            || !crate::effect_initialization::ripper_explosion(
-                &program.records.iter().map(|r| r.opcode).collect::<Vec<_>>(),
-            )
+            || !(crate::effect_initialization::ripper_explosion(&ops)
+                || crate::effect_initialization::ripper_death_root(&ops))
         {
             return Err("mixed execution requires the complete acquired source profile".into());
         }

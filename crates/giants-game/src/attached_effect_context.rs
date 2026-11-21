@@ -1363,6 +1363,12 @@ impl<K: Copy + Eq> Pool<K> {
     /// Only cancel an unadvanced preparation. Active entries must use their
     /// acquired cleanup owner, preserving actual emitted actors and registration.
     pub fn release_prepared(&mut self, id: Id) -> Result<Context<K>, String> {
+        self.check_prepared_release(id)?;
+        self.retire_context(id)
+    }
+    /// Inspect the real preparation state without removing it. Used before an
+    /// irreversible callback prefix, never as an active-effect readiness receipt.
+    pub fn check_prepared_release(&self, id: Id) -> Result<(), String> {
         self.get(id)
             .ok_or("prepared effect absent, foreign or stale")?;
         if self.slots[id.slot].sound_started
@@ -1371,7 +1377,7 @@ impl<K: Copy + Eq> Pool<K> {
         {
             return Err("effect activation began; context requires active cleanup".into());
         }
-        self.retire_context(id)
+        Ok(())
     }
     pub(crate) fn claim_positional_impact(&mut self, id: Id) -> Result<(), String> {
         self.get(id)

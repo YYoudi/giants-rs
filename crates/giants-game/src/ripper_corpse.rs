@@ -10,14 +10,22 @@ pub struct Parameters {
     pub large_mana: f32,
     pub medium_mana: f32,
 }
+impl Parameters {
+    pub fn from_globals(globals: &giants_formats::global_data::GlobalData) -> Result<Self, String> {
+        Ok(Self {
+            large_mana: globals.scalar(0x10e8).map_err(|e| e.to_string())?,
+            medium_mana: globals.scalar(0x10ec).map_err(|e| e.to_string())?,
+        })
+    }
+}
 
-pub trait Services<I> {
+pub trait Services<I, E = I> {
     /// Execute the actual nearby-recipient lookup and conditional creation.
     /// A genuine no-recipient result may return false. Missing ownership must
     /// return Err; neither invocation nor a guessed recipient is success.
     fn create_mana(
         &mut self,
-        corpse: &State<I>,
+        corpse: &State<I, E>,
         amount: f32,
         random: &mut Random,
     ) -> Result<bool, String>;
@@ -42,12 +50,12 @@ pub enum Outcome {
 /// The owning primary must latch that failure rather than retry this callback.
 /// This is not a whole primary, a lethal producer or a retirement receipt.
 #[doc(alias = "ripper_death_logic__FP6OBJECT")]
-pub fn ripper_death_logic<I: Copy>(
-    corpse: &mut State<I>,
+pub fn ripper_death_logic<I: Copy, E>(
+    corpse: &mut State<I, E>,
     global_seconds: f32,
     parameters: Parameters,
     random: &mut Random,
-    services: &mut impl Services<I>,
+    services: &mut impl Services<I, E>,
 ) -> Result<Outcome, String> {
     if !matches!(corpse.class, 73 | 230)
         || corpse.mode != 94

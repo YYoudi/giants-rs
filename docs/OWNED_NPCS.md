@@ -81,8 +81,21 @@ The NPC branch now provides
 immutable emitted-shot receipt and routing/current-frame checks as the living
 path, then validates actual lethal consumers before opening the callback.
 Unavailable consumers return a reason without damage, RNG or a failure latch.
-The existing ordinary caller still uses the nonlethal entry: this is not an
-enabled death or another playable delivery.
+The NPC branch's ordinary caller now uses this entry with actual health/effect
+constructors, current camera/quality/count selection and positional audio queues.
+This implementation still awaits its new executable's rendered acceptance;
+the public .14.2 executable is unchanged. Attached hierarchy, action100 groups
+and potentially mana-eligible player families remain explicit preflight refusals.
+
+Mode94 now runs the shared ordinary prefix, the source global countdown and the
+sound tail in the normal world schedule. Its no-mana path checks the actual
+source player-list family predicate, rather than assuming that controlling Mecc
+excludes every possible recipient. Marked corpses stop contributing draw/contact
+frames but retain their declared identity until core retirement is acquired.
+Death context execution failures are held individually, retaining actual prefixes
+without stopping other AI. Fragment/trail execution, active health/glow/collection
+and core corpse unlinking are still incomplete; prepared contexts and a marked
+corpse do not establish those features.
 
 Canonical damage state now retains `attached_effect_context::Id` separately
 from actor IDs. Completed primary publication and damage snapshots preserve the
@@ -103,8 +116,9 @@ This does not grant active fragment/decal/emitter execution. Fresh prototype PS2
 lookups remain unknown attributions; the previously confirmed corpse-helper
 identity is retained without importing its prototype signature or layout.
 
-Next connect the actual active death graph, health-object frame/glow/collection
-owners and mode94 corpse/retirement to the ordinary hit caller. The installed
+Next finish the actual active death graph, health-object frame/glow/collection
+owners and corpse retirement, and validate the ordinary lethal path in a new
+identified executable. The installed
 corpse mana parameters are nonzero: use the genuine player-list eligibility
 result and source countdown, rather than assuming zero mana or copying Vimp
 ghost/meat behavior. Keep working living AI available until these consumers can

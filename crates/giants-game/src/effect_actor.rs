@@ -799,6 +799,41 @@ impl Template {
         if ops == [3, 6, 8, 0x46, 0x40, 4, 7] {
             return self.scrolling_vertical_object(origin, context, offset);
         }
+        let mut complete = ops.clone();
+        complete.push(2);
+        if crate::effect_initialization::ripper_death_root(&complete) {
+            let mut initial = self.initial(
+                origin,
+                Placement::Position(context.position().unwrap()),
+                context.flags(),
+                false,
+            )?;
+            initial.fields.position[2] = (f64::from(initial.fields.position[2])
+                + f64::from(object_values::<1>(&object, 2)?[0]))
+                as f32;
+            for (at, value) in [3, 7, 11].into_iter().zip(initial.fields.position) {
+                initial.matrix.values[at] = value;
+            }
+            let size = object_values::<1>(&object, 3)?[0];
+            initial.size([size; 2], false)?;
+            initial.render_flags |= 0x10000;
+            initial.fields.object_flags |= 0x40000000;
+            return Ok(Configured {
+                initial,
+                fade: [0.; 4],
+                transparency: 0.,
+                visual: crate::effect_visual::Visual::untimed(size)?,
+                retirement: None,
+                ground: None,
+                source: image,
+                render: Default::default(),
+                hidden: true,
+                immediate: None,
+                forward_only: false,
+                particle_contact: false,
+                mixed_draw: true,
+            });
+        }
         let fixed = ops == [3, 6, 0x17, 8, 4, 7];
         let gravity = ops == [3, 6, 0x17, 0x0e, 9, 4, 7];
         let hidden = ops.starts_with(&[3, 6, 0x21, 0x1b, 4])

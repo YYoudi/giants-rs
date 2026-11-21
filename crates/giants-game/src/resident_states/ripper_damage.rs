@@ -67,6 +67,73 @@ impl<S: State23Services + ?Sized> state23_damage::Services<Id, crate::attached_e
 }
 
 impl Session {
+    /// Actual list3 family exclusion for the acquired Mecc-only corpse path.
+    /// A possible mana recipient requires its genuine mana/creation owner.
+    pub fn check_ripper_corpse_without_mana(&self) -> Result<(), String> {
+        for id in self.list(3) {
+            let actor = self.get(id).ok_or("corpse player-list owner absent")?;
+            let fields = actor
+                .construction_fields
+                .as_ref()
+                .ok_or("corpse player fields absent")?;
+            if fields.configuration[20] == 3 || actor.class == 1080 {
+                return Err("Ripper corpse has a potentially mana-eligible player family".into());
+            }
+        }
+        Ok(())
+    }
+    pub fn update_ripper_corpse_without_mana(
+        &mut self,
+        id: Id,
+        input: crate::ripper_primary_turn::FrameInput<'_, Id>,
+        global_seconds: f32,
+        parameters: crate::ripper_corpse::Parameters,
+        random: &mut Random,
+        services: &mut impl crate::ripper_primary_turn::Services<Id, crate::attached_effect_context::Id>,
+    ) -> Result<crate::ripper_primary_turn::Outcome, String> {
+        let mut corpse = self.state23_snapshot(id)?;
+        let amount = if corpse.class == 230 {
+            parameters.large_mana
+        } else {
+            parameters.medium_mana
+        };
+        if f64::from(corpse.timer) - f64::from(global_seconds) >= 0.
+            && amount != 0.
+            && corpse.control & 8 == 0
+        {
+            self.check_ripper_corpse_without_mana()?;
+        }
+        struct NoManaFamily;
+        impl crate::ripper_corpse::Services<Id, crate::attached_effect_context::Id> for NoManaFamily {
+            fn create_mana(
+                &mut self,
+                _: &RipperDamageState,
+                _: f32,
+                _: &mut Random,
+            ) -> Result<bool, String> {
+                // The actual source list3 was checked immediately above. This
+                // branch creates nothing and consumes no RNG in the PC helper.
+                Ok(false)
+            }
+        }
+        self.update_ripper_owned_primary(
+            id,
+            input,
+            random,
+            services,
+            |_, machine, input, random, services| {
+                machine.advance_corpse(
+                    input.context,
+                    &mut corpse,
+                    global_seconds,
+                    parameters,
+                    random,
+                    &mut NoManaFamily,
+                    services,
+                )
+            },
+        )
+    }
     pub(super) fn ripper_damage_is_running(&self, id: Id) -> bool {
         self.get(id).is_some_and(|actor| {
             actor.ripper_damage.active.is_some() && actor.ripper_damage.failed.is_none()

@@ -31,6 +31,7 @@ pub enum SizeCurve {
 #[derive(Clone, Debug)]
 pub struct Visual {
     configuration: Configuration,
+    lifetime_enabled: bool,
     pub age: f32,
     pub size: f32,
     /// Zero is opaque; one is fully transparent.
@@ -50,7 +51,8 @@ impl Visual {
         !self.first_frame
     }
     pub(crate) fn control_flags(&self) -> u32 {
-        2 | if self.fading_in { 0x800000 } else { 0 }
+        (if self.lifetime_enabled { 2 } else { 0 })
+            | if self.fading_in { 0x800000 } else { 0 }
             | if self.fading_out { 4 } else { 0 }
             | if self.configuration.start_size == self.configuration.end_size {
                 0
@@ -61,6 +63,37 @@ impl Visual {
                     SizeCurve::EaseOut => 0x100000,
                 }
             }
+    }
+    pub(crate) fn lifetime_enabled(&self) -> bool {
+        self.lifetime_enabled
+    }
+    /// An actual fixed-size support without a source lifetime command. Its
+    /// first animation pass remains real; no timer or expiry is invented.
+    pub(crate) fn untimed(size: f32) -> Result<Self, &'static str> {
+        if !size.is_finite() || size <= 0. {
+            return Err("untimed support requires a finite positive source size");
+        }
+        Ok(Self {
+            configuration: Configuration {
+                lifetime: 0.,
+                fade_in: 0.,
+                fade_out_start: 0.,
+                start_size: size,
+                end_size: size,
+            },
+            lifetime_enabled: false,
+            age: 0.,
+            size,
+            transparency: 0.,
+            first_frame: true,
+            expired: false,
+            fading_in: false,
+            fade_in_rate: 0.,
+            fading_out: false,
+            fade_out_rate: 0.,
+            size_curve: SizeCurve::Linear,
+            size_root: 0.,
+        })
     }
     /// A deferred effect resumes lifetime commands after its existing owner
     /// may already have consumed the source's one first-frame animation pass.
@@ -124,6 +157,7 @@ impl Visual {
         }
         Ok(Self {
             configuration,
+            lifetime_enabled: true,
             age: 0.,
             size: c.start_size,
             transparency: if fading_in { 1. } else { 0. },
@@ -153,6 +187,9 @@ impl Visual {
         if self.first_frame {
             self.first_frame = false;
             return Ok(Step::FirstFrame);
+        }
+        if !self.lifetime_enabled {
+            return Ok(Step::VisibleState);
         }
         let age = (f64::from(self.age) + f64::from(elapsed)) as f32;
         if !age.is_finite() {

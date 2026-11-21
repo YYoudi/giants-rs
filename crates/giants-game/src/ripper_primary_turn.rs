@@ -1449,6 +1449,7 @@ pub enum Outcome {
     CompletedClassicClose,
     CompletedClassicOrbit,
     CompletedClassicMelee,
+    CompletedCorpse,
 }
 #[derive(Clone, Debug)]
 pub struct Machine<K, E> {
@@ -1662,6 +1663,63 @@ fn footsteps(primary: [u32; 9]) -> Result<bool, &'static str> {
         .any(|at| now >= at && previous < at))
 }
 impl<K: Copy + Ord, E: Copy> Machine<K, E> {
+    /// Mode94 retains the shared ordinary prefix and source sound tail. The
+    /// corpse helper owns the global header countdown, not an object-local age.
+    #[allow(clippy::too_many_arguments)]
+    pub(crate) fn advance_corpse(
+        &mut self,
+        context: Context,
+        corpse: &mut crate::state23_damage::State<K, E>,
+        global_seconds: f32,
+        parameters: crate::ripper_corpse::Parameters,
+        random: &mut Random,
+        mana: &mut impl crate::ripper_corpse::Services<K, E>,
+        services: &mut impl Services<K, E>,
+    ) -> Result<Outcome, String> {
+        if self.failed.is_some()
+            || self.completed
+            || self.state.entry.mode != 94
+            || corpse.mode != 94
+            || corpse.class != self.state.entry.class
+        {
+            return Err("corpse primary requires its idle completed lethal owner".into());
+        }
+        let result: Result<Outcome, String> = (|| {
+            let Some(entry) =
+                state23_entry::ordinary_prefix(self.state.entry, context).map_err(str::to_owned)?
+            else {
+                return Ok(Outcome::Skipped);
+            };
+            self.state.entry = entry;
+            self.state.steering.flags = entry.flags;
+            self.state.steering.commands[..4].copy_from_slice(&entry.packed.to_le_bytes());
+            corpse.flags = entry.flags;
+            let corpse_result = crate::ripper_corpse::ripper_death_logic(
+                corpse,
+                global_seconds,
+                parameters,
+                random,
+                mana,
+            );
+            self.state.entry.flags = corpse.flags;
+            self.state.steering.flags = corpse.flags;
+            self.state.timer = corpse.timer;
+            corpse_result?;
+            if footsteps(self.state.primary).map_err(str::to_owned)? {
+                services.owner_sound(
+                    &self.state,
+                    if corpse.class == 73 { 1261 } else { 1238 },
+                    random,
+                )?;
+            }
+            self.completed = true;
+            Ok(Outcome::CompletedCorpse)
+        })();
+        if let Err(error) = &result {
+            self.failed = Some(error.clone());
+        }
+        result
+    }
     /// Classic mode41 uses stored-angle close steering, its actual horizontal
     /// attack range and source cues. Prototype PS2 `ripper_move` remains an
     /// unknown correspondence, distinct from the enclosing callback identity.

@@ -26,6 +26,9 @@ pub(super) struct Driver {
     pub(super) flights: BTreeMap<Id, u64>,
 }
 impl Driver {
+    pub(super) fn remove_completed(&mut self, id: Id) {
+        self.completed.remove(&id);
+    }
     pub(super) fn quarantine_actor(&mut self, id: Id, step: u64, error: String) {
         self.actor_failures.insert(id, error);
         self.first_quarantine_step.get_or_insert(step);
@@ -422,6 +425,14 @@ impl ActorWorldServices for Callbacks<'_, '_> {
             giants_game::arithmetic::Precision::Double53,
         )?;
         match (class, mode) {
+            (73 | 230, 94) => session.update_ripper_corpse_without_mana(
+                id,
+                input,
+                self.frame.seconds,
+                giants_game::ripper_corpse::Parameters::from_globals(self.globals)?,
+                self.random,
+                &mut services,
+            )?,
             (73, 0 | 31) => session.update_ripper_awakening_on_static_terrain(
                 id,
                 primary::AwakeningFrame {
@@ -621,6 +632,9 @@ impl ActorWorldServices for Callbacks<'_, '_> {
                 ));
             }
         };
+        if session.actor_world_flags(id)? & 0x8000 != 0 {
+            return Ok(());
+        }
         session.advance_ripper_common_motion(
             id,
             giants_game::resident_motion::Time {
@@ -639,7 +653,8 @@ impl ActorWorldServices for Callbacks<'_, '_> {
         let selection = self.effect_selection(session, id)?;
         let combat = session.state23_combat(id).ok_or("Ripper combat absent")?;
         let class = session.get(id).unwrap().class;
-        if !matches!((class, combat.mode), (73, 31..=39 | 41..=45) | (230, 61..=69 | 71)) {
+        if !matches!((class, combat.mode), (73, 31..=39 | 41..=45 | 94) | (230, 61..=69 | 71 | 94))
+        {
             return Err(format!(
                 "Ripper class{class} mode{} secondary requires an acquired ordinary selection",
                 combat.mode
@@ -829,7 +844,9 @@ impl State {
         }
         // All owned position histories precede this component's callbacks.
         for owner in &owners {
-            if !self.driver.actor_failures.contains_key(&owner.id) {
+            if !self.driver.actor_failures.contains_key(&owner.id)
+                && session.actor_world_flags(owner.id)? & 0xc000 == 0
+            {
                 session.begin_actor_frame_history(owner.id)?;
             }
         }
@@ -840,6 +857,10 @@ impl State {
             }
         }
         for owner in owners {
+            if session.actor_world_flags(owner.id)? & 0x8000 != 0 {
+                self.driver.completed.remove(&owner.id);
+                continue;
+            }
             if self.driver.actor_failures.contains_key(&owner.id) {
                 continue;
             }
@@ -876,6 +897,16 @@ impl State {
                     continue;
                 }
             };
+            if outcome == giants_game::actor_world_tick::Outcome::Inactive
+                && session.actor_world_flags(owner.id)? & 0x8000 != 0
+            {
+                self.driver.completed.remove(&owner.id);
+                println!(
+                    "mission_ripper_corpse_marked ticket={} owner={:?} core_retirement_completed=false",
+                    frame.ticket, owner.id
+                );
+                continue;
+            }
             if outcome != giants_game::actor_world_tick::Outcome::Updated {
                 return Err(format!(
                     "Ripper frame did not complete ordinary finalization: {outcome:?}"
@@ -905,6 +936,7 @@ impl State {
         self.advance_markers(session, frame, random, device)?;
         self.advance_projectile_flight(session, frame, random, sounds, device)?;
         self.advance_impact_effects(session, frame, random)?;
+        self.advance_death_effects(session, frame, random);
         if self.driver.sample.is_none() {
             println!(
                 "mission_ripper_component ticket={} completed_actors={} source=normal_mecc_component current_owned_pose=true perception=controlled_player_subset active_fx=false combat_complete=false native_world_verified=false",

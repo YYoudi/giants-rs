@@ -121,7 +121,8 @@ pub(super) fn input(
     let pistol = std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_PISTOL").as_deref() == Ok("1");
     let lethal_boundary =
         std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_LETHAL_BOUNDARY").as_deref() == Ok("1");
-    let pistol = pistol || lethal_boundary;
+    let death = std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_DEATH").as_deref() == Ok("1");
+    let pistol = pistol || lethal_boundary || death;
     let routed = retreat || close || hit || pistol;
     let chase =
         routed || std::env::var("GIANTS_MISSION_RIPPER_CAPTURE_CHASE").as_deref() == Ok("1");
@@ -191,7 +192,11 @@ pub(super) fn input(
         fire: false,
         // Read-only endpoints over ordinary consumers. No damage, impact or
         // availability is supplied by selecting a diagnostic capture target.
-        capture: if lethal_boundary {
+        capture: if death {
+            snapshot
+                .death
+                .is_some_and(|(_, _, marked, failed)| marked && !failed)
+        } else if lethal_boundary {
             snapshot
                 .unsupported_lethal
                 .is_some_and(|(_, _, at, completed)| {
@@ -260,6 +265,7 @@ pub(super) fn input(
         let dy = target[1] - position[1];
         let distance = dx.hypot(dy);
         input.fire = pistol
+            && !(death && snapshot.death.is_some())
             && if lethal_boundary {
                 snapshot.unsupported_lethal.is_none()
             } else {
@@ -351,6 +357,15 @@ pub(super) fn input(
                 input.thrust,
                 navigation.recharging,
                 navigation.climbing
+            );
+        }
+    }
+    if death && let Some((id, at, marked, failed)) = snapshot.death {
+        input.axes = Vec2::NEG_Y;
+        input.fire = false;
+        if step.is_multiple_of(240) || marked || failed {
+            println!(
+                "mission_ripper_death_observed ticket={ticket} step={step} owner={id:?} lethal_step={at} corpse_marked={marked} actor_failed={failed} source=ordinary_partial_pistol supplied_player_commands=true forced_actor_pose=false core_retirement_completed=false full_death_fx_complete=false"
             );
         }
     }

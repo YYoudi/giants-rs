@@ -814,7 +814,7 @@ impl Runtime {
             || b.fields.class != self.class
             || b.channels().iter().any(|c| c[4] != 0 || c[5] != 0)
             || b.fields.control_flags & !allowed != 0
-            || b.fields.control_flags & 2 == 0
+            || (b.fields.control_flags & 2 != 0) != self.visual.lifetime_enabled()
             || (b.fields.control_flags & 0x80 != 0) != physical
             || (physical && !matches!(b.placement, crate::effect_actor::Placement::Position(_)))
             || (b.fields.control_flags & (8 | 0x100000))

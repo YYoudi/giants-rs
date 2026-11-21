@@ -1492,6 +1492,7 @@ pub(super) fn update(
                                 u64::from(controller.steps) + 1,
                                 owner,
                                 hit,
+                                controller.state.subjective_inputs().0.position,
                             ) {
                                 Ok(events) => {
                                     for event in events {

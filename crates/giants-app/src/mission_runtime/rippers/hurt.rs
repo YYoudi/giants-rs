@@ -8,6 +8,7 @@ pub(in crate::mission_runtime) struct Hit {
     pub target: Id,
     pub projectile: giants_game::mecc_pistol::WorldHit,
     pub routing: giants_game::hit_routing::Context,
+    pub camera: [f32; 3],
 }
 struct Sounds<'a>(&'a mut Vec<crate::mission_audio::Event>);
 impl state23_hurt::Sounds<Id> for Sounds<'_> {
@@ -32,6 +33,9 @@ impl state23_hurt::Sounds<Id> for Sounds<'_> {
     }
 }
 impl State {
+    pub(in crate::mission_runtime) fn death_snapshot(&self) -> Option<(Id, u32, u64)> {
+        self.last_death
+    }
     pub(in crate::mission_runtime) fn unsupported_lethal_snapshot(
         &self,
     ) -> Option<(Id, u32, u64, Option<u64>)> {
@@ -81,6 +85,7 @@ impl State {
             target,
             projectile: hit,
             routing,
+            camera,
         } = hit;
         self.view(session, ticket)?;
         if self.driver.failed()
@@ -117,7 +122,22 @@ impl State {
                 .ok_or("Ripper drop parameter absent")? as i32,
             death_timer: self.globals.scalar(0x10f4).map_err(|e| e.to_string())?,
         };
-        let result = session.damage_ripper_from_partial_pistol(
+        let mut lethal_sounds = vec![];
+        let mut lethal = death::Services {
+            contexts: self
+                .contexts
+                .as_mut()
+                .ok_or("Ripper context owner absent")?,
+            factory: self.health_factory.as_ref(),
+            image: &self.image,
+            effects: &mut self.death_effects,
+            sounds: &mut lethal_sounds,
+            quality: self.globals.scalar(0x13e0).map_err(|e| e.to_string())?,
+            lite_distance: self.globals.scalar(0x1570).map_err(|e| e.to_string())?,
+            camera,
+            random: *random,
+        };
+        let result = session.damage_ripper_from_partial_pistol_with_death(
             target,
             completed,
             step,
@@ -131,7 +151,9 @@ impl State {
                 routing,
                 callback,
             },
+            &mut lethal,
         );
+        self.sounds.extend(lethal_sounds);
         match result {
             Ok(giants_game::resident_states::PartialPistolContact::Applied(outcome, counts)) => {
                 self.last_pistol_hit = Some((target, serial, step));
@@ -159,6 +181,8 @@ impl State {
             }
             Ok(giants_game::resident_states::PartialPistolContact::Died) => {
                 self.last_pistol_hit = Some((target, serial, step));
+                self.last_death = Some((target, serial, step));
+                self.driver.remove_completed(target);
                 println!(
                     "mission_ripper_pistol_death ticket={ticket} owner={target:?} serial={serial} step={step} callback_completed=true retirement_completed=false"
                 );
