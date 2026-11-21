@@ -148,6 +148,11 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('3725a3c659030e18be
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('15d087de79951c0ef76ee93f7593f626f2b1ccbc10df0ba56725bb74fd02f205')
 
 # Exact display copy pinned in the gallery manifest at 8c385dc, on a public
+# Reviewed concurrent index adds only seven unknown held-placement navigation
+# lines and retains the existing minimal aliases and ABI/evidence limits.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('3a208dc7d5a3603ffadd19a396c1b3389ee91617af4043456bb5ba16d0e95d7e')
+
+# Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # branch. Reviewed as a VP8-only image without embedded metadata. Keep its
 # all-reference history review valid before that gallery update enters main;
 # this permits neither other images nor another path or modified bytes.
