@@ -187,7 +187,7 @@ impl Factory {
         frame: crate::delphi_player::ColdFrame,
         blending: crate::animation_channels::Blending,
     ) -> crate::delphi_player::Attempt {
-        self.construct_player_fields_inner(s, frame, blending, None)
+        self.construct_player_fields_inner(s, frame, blending, None, None)
     }
     /// Ordered cold activation: projection precedes history, special children
     /// and initial animation selection. The caller supplies the actual camera
@@ -199,7 +199,42 @@ impl Factory {
         blending: crate::animation_channels::Blending,
         projection: &mut impl crate::delphi_player::ProjectionReset,
     ) -> crate::delphi_player::Attempt {
-        self.construct_player_fields_inner(s, frame, blending, Some(projection))
+        self.construct_player_fields_inner(s, frame, blending, Some(projection), None)
+    }
+    /// Replace the acquired fresh generic shell in place. This does not move it
+    /// to a mission marker or acknowledge the enclosing camera/world startup.
+    /// The actual current camera may already retain this same Id.
+    pub fn retype_player_shell_with_projection(
+        &self,
+        s: &mut Session,
+        shell: Id,
+        blending: crate::animation_channels::Blending,
+        projection: &mut impl crate::delphi_player::ProjectionReset,
+    ) -> crate::delphi_player::Attempt {
+        let frame = (|| {
+            s.check_player_shell(shell)?;
+            let fields = s.get(shell).unwrap().construction_fields.as_ref().unwrap();
+            Ok(crate::delphi_player::ColdFrame {
+                position: fields.position,
+                current: fields.current,
+                previous: fields.previous,
+                angles: fields.angles,
+            })
+        })();
+        match frame {
+            Ok(frame) => self.construct_player_fields_inner(
+                s,
+                frame,
+                blending,
+                Some(projection),
+                Some(shell),
+            ),
+            Err(error) => crate::delphi_player::Attempt {
+                owner: s.get(shell).map(|_| shell),
+                projection: crate::delphi_player::ProjectionStatus::NotReached,
+                result: Err(error),
+            },
+        }
     }
     fn construct_player_fields_inner(
         &self,
@@ -207,9 +242,10 @@ impl Factory {
         frame: crate::delphi_player::ColdFrame,
         blending: crate::animation_channels::Blending,
         mut projection: Option<&mut dyn crate::delphi_player::ProjectionReset>,
+        shell: Option<Id>,
     ) -> crate::delphi_player::Attempt {
         use crate::delphi_player::ProjectionStatus;
-        let mut published = None;
+        let mut published = shell.filter(|id| s.get(*id).is_some());
         let mut projection_status = ProjectionStatus::NotReached;
         let result = (|| {
             let mut input = self.owner.input();
@@ -225,7 +261,19 @@ impl Factory {
                 input.fields.current = frame.current;
                 input.fields.previous = frame.previous;
             }
-            let owner = s.construct_delphi_cold(input, 0x80000000)?;
+            let owner = if let Some(shell) = shell {
+                input.fields.dispatch_context = s
+                    .get(shell)
+                    .ok_or("shell owner absent")?
+                    .construction_fields
+                    .as_ref()
+                    .ok_or("shell fields absent")?
+                    .dispatch_context;
+                s.retype_player_shell_as_delphi(shell, input)?;
+                shell
+            } else {
+                s.construct_delphi_cold(input, 0x80000000)?
+            };
             published = Some(owner);
             s.initialize_delphi_player_look(owner)?;
             if let Some(service) = projection.as_mut() {
@@ -695,6 +743,51 @@ mod tests {
                 .contains("copy template absent")
         );
         assert_eq!(session.counts().residents, 1);
+        session.clear();
+        assert!(session.get(owner).is_none());
+        struct Projection(usize);
+        impl crate::delphi_player::ProjectionReset for Projection {
+            fn reset_projection(&mut self, session: &Session, owner: Id) -> Result<(), String> {
+                self.0 += 1;
+                assert_eq!(session.get(owner).unwrap().class, 3);
+                assert!(session.delphi_special(owner).is_none());
+                assert!(!session.list(3).contains(&owner));
+                // Explicit component sink; no renderer/startup acknowledgement.
+                Ok(())
+            }
+        }
+        let shell = crate::player_shell::Factory::load(&r).unwrap();
+        let owner = shell.construct(&mut session).unwrap().owner();
+        let before = session.counts();
+        let mut projection = Projection(0);
+        let attempt = factory.retype_player_shell_with_projection(
+            &mut session,
+            owner,
+            crate::animation_channels::Blending::Enabled,
+            &mut projection,
+        );
+        assert_eq!(attempt.owner, Some(owner));
+        assert_eq!(
+            attempt.projection,
+            crate::delphi_player::ProjectionStatus::Completed
+        );
+        assert!(attempt.result.unwrap_err().contains("copy template absent"));
+        assert_eq!(projection.0, 1);
+        assert_eq!(session.counts().residents, before.residents);
+        assert!(session.delphi_special_failure(owner).is_some());
+        assert!(!session.list(3).contains(&owner));
+        let retry = factory.retype_player_shell_with_projection(
+            &mut session,
+            owner,
+            crate::animation_channels::Blending::Enabled,
+            &mut projection,
+        );
+        assert_eq!(
+            retry.projection,
+            crate::delphi_player::ProjectionStatus::NotReached
+        );
+        assert!(retry.result.is_err());
+        assert_eq!(projection.0, 1);
         session.clear();
         assert!(session.get(owner).is_none());
     }

@@ -1,6 +1,7 @@
 //! Acquired generic player actor sequence before mission type activation.
 //! World-global reset/session scalar, the persistent camera lifecycle and later
-//! retyping remain upstream. Callback completion is not playable admission.
+//! successful startup remain upstream. Cold Delphi retyping retains this actor;
+//! callback completion is not playable admission.
 use crate::{
     actor_fields::Fields,
     object_lists::DirectFlags,

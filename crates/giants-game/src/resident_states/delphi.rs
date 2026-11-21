@@ -1167,6 +1167,15 @@ impl Session {
                 "Delphi player fields require their fresh completed cold special group".into(),
             );
         }
+        if actor.constructor_mask == 0x11 {
+            // The original allocation's common registrations survived the
+            // retype. Its class-specific membership is published only now.
+            for list in [4, 2, 3] {
+                self.links.remove_membership(list, id.serial);
+            }
+            self.links
+                .insert(3, id.serial, crate::object_links::Position::Head);
+        }
         let actor = self.residents.get_mut(&id.serial).unwrap();
         let fields = actor.construction_fields.as_mut().unwrap();
         fields.channels = selected;
@@ -1254,7 +1263,8 @@ impl Session {
             || fields.configuration != template.configuration
             || actor.attachment.is_some()
             || actor.presentation_parent.is_some()
-            || fields.dispatch_context != 0
+            || (fields.dispatch_context != 0
+                && !(fields.dispatch_context == 1 && actor.constructor_mask == 0x11))
             || fields.object_flags & 0x8000 != 0
             || !fields
                 .position
@@ -1338,6 +1348,7 @@ impl Session {
             .ok_or("Delphi held parent fields absent")?;
         let position = source.position;
         let yaw = source.angles[0];
+        let context = source.dispatch_context;
         let actor = self.get(child).ok_or("Delphi held child absent")?;
         if actor.class != 669
             || actor.constructor_mask != 0x20
@@ -1351,7 +1362,7 @@ impl Session {
         fields.position = position;
         fields.angles[0] = yaw;
         fields.object_flags |= 0x20400000;
-        fields.dispatch_context = 0;
+        fields.dispatch_context = context;
         actor.attachment = Some(Attachment {
             parent,
             child_reference: 0,
@@ -1362,7 +1373,7 @@ impl Session {
         actor.wield_binding = Some(crate::mecc_wield::Binding {
             parent,
             reference: 1,
-            context: 0,
+            context,
         });
         Ok(())
     }

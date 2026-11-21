@@ -145,7 +145,7 @@
       "title": "Delphi movement and water",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Complete Delphi movement, water, turbo, weapons and character interactions remain unimplemented in the ordinary application. Download .11.1 offers Preview tools -> Browse all missions -> Delphi first world -> free inspection -> F7 initial-body focus, R reset and Escape return; two actual OS entries pass. Ordered projection, shared look, evaluated body caches and generic class0/state7 shell are acquired dependencies. App must reuse that same shell identity through retyping and persistent camera update, then bind actual target/physical/held-copy/scene/water/input producers. Body inspection is not playable admission."
+      "detail": "Complete Delphi movement, water, turbo, weapons and character interactions remain unimplemented in the ordinary application. Download .11.1 offers Preview tools -> Browse all missions -> Delphi first world -> free inspection -> F7 initial-body focus, R reset and Escape return; two actual OS entries pass. Ordered projection, shared look, evaluated body caches and generic class0/state7 shell are acquired dependencies. Fresh shell retyping now retains the same Id, common registrations and context through ordered projection/special activation; PC/Rust component controls agree. App must supply successful persistent camera startup and use this path, then bind actual target/physical/held-copy/scene/water/input producers. Body inspection is not playable admission."
     },
     {
       "id": "delphi-sword",

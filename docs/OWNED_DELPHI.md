@@ -29,6 +29,29 @@ That missing entry contract cannot be replaced with a late projection reset.
 See BACKLOG.md for the remaining runtime producers; no playable Delphi or new
 confirmed prototype PS2 attribution follows.
 
+### Cold shell replacement with the same identity
+
+`delphi_special::Factory::retype_player_shell_with_projection` binds the acquired
+fresh generic shell to Delphi without allocating a second live player. It
+preserves its Id, pose/history, inherited context and common registration nodes.
+Projection precedes history, special children and initial animation; the root's
+class-specific registration follows them. Copies and held bindings inherit the
+actual parent context. Resource staging precedes replacement, and later failures
+retain the same owner and completed effects while refusing replay.
+
+Two original PC component observations agree with Rust on 9,502 cohort-field and
+root-payload words, contexts and fifteen ordered lists at three checkpoints.
+They distinguish a newly selected camera from a retained prior camera. The
+generic entry stops at its required lens/reference provider boundary; type
+activation then runs as a separate component. Pose, prior camera, viewport,
+disabled animation blending and the external projection sink are supplied.
+This does not complete persistent startup, rendering or ordinary input. Installed
+controls separately cover enabled blending, exact common node retention, no
+second root allocation, projection/late-child failure, replay, foreign/stale
+identities and cleanup. The context-one live held-pose service remains outside
+this constructor contract. Attribution remains unknown under the pinned PC and
+prototype PS2 identities; no ABI, recovered name or readiness is inferred.
+
 ## Evaluated body consumer - intermediate dependency
 
 F7 in the ordinary free-camera inspection now returns to the loaded Delphi

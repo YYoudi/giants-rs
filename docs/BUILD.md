@@ -39,6 +39,14 @@ unfinished scopes; do not discard failed or interrupted evidence.
 
 ## Optional installed reconstruction controls
 
+With `GIANTS_DELPHI_ROOT`, run `cargo test --locked -p giants-game
+source_delphi_shell_retype --target x86_64-pc-windows-gnu -- --ignored` for the
+fresh generic-shell replacement component. It checks the unchanged player Id,
+common registration nodes, inherited context, projection ordering, failure,
+replay and cleanup. `source_delphi_retained_player_attempt` additionally checks
+a late missing-child resource on that same identity. Pose and projection sink
+remain supplied; neither control runs complete startup or ordinary input.
+
 `installed_static_palm_preserves_unresolved_auxiliary_links_and_damages_its_own_stump`
 uses `GIANTS_BUILDING_ROOT` for class101's actual binding dependencies, separately
 retained unresolved auxiliary links, physical/projectile admission, source shot

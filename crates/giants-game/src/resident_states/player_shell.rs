@@ -1,6 +1,75 @@
 use super::*;
 
 impl Session {
+    /// Cold class0/state7 replacement only: retain the existing actor and list
+    /// registrations while binding its acquired Delphi resources. Camera/world
+    /// startup completion is a separate caller obligation.
+    pub(crate) fn retype_player_shell_as_delphi(
+        &mut self,
+        owner: Id,
+        input: Construction<'_>,
+    ) -> Result<(), String> {
+        self.check_player_shell(owner)?;
+        let old = self.get(owner).unwrap();
+        let fields = old.construction_fields.as_ref().unwrap();
+        if old.constructor_mask != 0x11
+            || old.environment.is_some()
+            || old.ordinary_motion.is_some()
+            || self.state_resources.contains_key(&owner.serial)
+            || !matches!(fields.dispatch_context, 0 | 1)
+            || fields.object_flags != 0
+            || fields.response_flags != 0x80000000
+            || fields.control_flags != 0
+            || fields.action != 0
+            || input.class != 3
+            || input.seed.storage.profile() != Profile::Debug
+            || input.seed.storage.state() != 3
+            || !input.seed.diagnostics.is_empty()
+            || input.fields.class != 3
+            || input.fields.dispatch_context != fields.dispatch_context
+            || input.fields.position != fields.position
+            || input.fields.current != fields.current
+            || input.fields.previous != fields.previous
+            || input.fields.object_flags != input.flags.active
+            || input.fields.configuration[14] != input.flags.personality
+        {
+            return Err("Delphi retyping requires its unchanged fresh generic player shell".into());
+        }
+        // Stage every fallible resource binding without allocating another live
+        // actor or advancing the world's next identity. Existing registrations
+        // stay in place through projection/history/special initialization.
+        let mut staged = Self::new(self.ticket);
+        staged.next = owner
+            .serial
+            .checked_sub(1)
+            .ok_or("invalid shell identity")?;
+        let id =
+            staged.register_with_mask(3, input.seed, input.bindings, input.flags, 0x80000000)?;
+        if id != owner {
+            return Err("staged shell identity differs".into());
+        }
+        staged.bind_specification(id, input.specification)?;
+        staged.bind_state_resources(id, input.state_resources)?;
+        let channels = input.fields.channels;
+        staged.bind_actor_fields(id, input.fields)?;
+        let actor = staged.residents.get_mut(&id.serial).unwrap();
+        actor.channels = Some(channels);
+        actor.acquired_construction = true;
+        actor.constructor_mask = 0x11;
+        self.residents.insert(
+            owner.serial,
+            staged.residents.remove(&owner.serial).unwrap(),
+        );
+        self.specifications.insert(
+            owner.serial,
+            staged.specifications.remove(&owner.serial).unwrap(),
+        );
+        self.state_resources.insert(
+            owner.serial,
+            staged.state_resources.remove(&owner.serial).unwrap(),
+        );
+        Ok(())
+    }
     pub(crate) fn construct_player_shell(
         &mut self,
         seed: &Seed,
@@ -95,6 +164,177 @@ impl Session {
 mod tests {
     use super::*;
     use crate::{camera_mode, camera_owner, camera_profile, player_shell};
+    #[test]
+    #[ignore = "Requires GIANTS_DELPHI_ROOT; acquired cold shell/type component, supplied pose and projection sink; no complete camera/startup or gameplay"]
+    fn source_delphi_shell_retype_retains_identity_context_and_registration_nodes() {
+        use crate::delphi_player::{ProjectionReset, ProjectionStatus};
+        let root = std::path::PathBuf::from(std::env::var("GIANTS_DELPHI_ROOT").unwrap());
+        let resources =
+            crate::scene_resources::SceneResources::load(&root, "w_Rstory1.bin", "English")
+                .unwrap();
+        let globals =
+            giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+                .unwrap();
+        let weapons = giants_formats::weapons::parse_with_profile(
+            &std::fs::read(root.join("Bin/weapondefs.bin")).unwrap(),
+            giants_formats::weapons::Profile::Debug,
+        )
+        .unwrap();
+        let shell = player_shell::Factory::load(&resources).unwrap();
+        let factory = crate::delphi_special::Factory::load(&resources, &globals, &weapons).unwrap();
+        struct Projection {
+            owner: Id,
+            next: u64,
+            memberships: Vec<(u64, u32)>,
+            calls: usize,
+            fail: bool,
+        }
+        impl ProjectionReset for Projection {
+            fn reset_projection(&mut self, session: &Session, owner: Id) -> Result<(), String> {
+                self.calls += 1;
+                assert_eq!(owner, self.owner);
+                assert_eq!(session.next, self.next);
+                assert_eq!(session.links.memberships(owner.serial), self.memberships);
+                let actor = session.get(owner).unwrap();
+                assert_eq!(actor.class, 3);
+                assert_eq!(actor.seed.storage.state(), 3);
+                let fields = actor.construction_fields.as_ref().unwrap();
+                assert_eq!(fields.dispatch_context, 1);
+                assert_eq!(fields.position, [7., 8., 9.]);
+                assert_eq!(fields.angles, [32., 0., 0.]);
+                assert!(!session.list(3).contains(&owner));
+                assert!(session.delphi_special(owner).is_none());
+                if self.fail {
+                    Err("supplied projection sink failure".into())
+                } else {
+                    Ok(())
+                }
+            }
+        }
+        for fail in [false, true] {
+            let mut session = Session::new(2140 + u64::from(fail));
+            let prior = shell.construct(&mut session).unwrap().owner();
+            let entry = shell.construct(&mut session).unwrap();
+            let owner = entry.owner();
+            // Explicit supplied initialized-shell component boundary. This does
+            // not run or acknowledge Entry's required persistent camera services.
+            session
+                .publish_player_shell_pose(
+                    owner,
+                    player_shell::WorldPose {
+                        position: [7., 8., 9.],
+                        heading: 32.,
+                    },
+                )
+                .unwrap();
+            let tail = shell.construct(&mut session).unwrap().owner();
+            let mut projection = Projection {
+                owner,
+                next: session.next,
+                memberships: session.links.memberships(owner.serial),
+                calls: 0,
+                fail,
+            };
+            let attempt = factory.retype_player_shell_with_projection(
+                &mut session,
+                owner,
+                crate::animation_channels::Blending::Enabled,
+                &mut projection,
+            );
+            assert_eq!(attempt.owner, Some(owner));
+            assert_eq!(projection.calls, 1);
+            assert_eq!(entry.checkpoint(), player_shell::Checkpoint::Constructed);
+            for &(node, list) in &projection.memberships {
+                assert_eq!(session.links.node_object(list, node).unwrap(), owner.serial);
+            }
+            if fail {
+                assert_eq!(attempt.projection, ProjectionStatus::Failed);
+                assert!(
+                    attempt
+                        .result
+                        .unwrap_err()
+                        .contains("projection sink failure")
+                );
+                assert_eq!(session.counts().residents, 3);
+                assert!(session.delphi_special(owner).is_none());
+                assert!(!session.list(3).contains(&owner));
+            } else {
+                assert_eq!(attempt.projection, ProjectionStatus::Completed);
+                let result = attempt.result.unwrap();
+                assert_eq!(result.owner, owner);
+                assert!(!result.camera_projection_reset_required);
+                assert_eq!(session.list(3).first(), Some(&owner));
+                assert_eq!(
+                    session.counts().residents,
+                    4 + 2 * result.special.copies.len()
+                );
+                assert_eq!(
+                    session.next,
+                    projection.next + 1 + 2 * result.special.copies.len() as u64
+                );
+                for copy in &result.special.copies {
+                    assert_eq!(session.delphi_copy_source(copy.actor).unwrap().owner, owner);
+                    assert_eq!(session.wield_binding(copy.held).unwrap().parent, copy.actor);
+                }
+                assert_eq!(
+                    session.wield_binding(result.special.held).unwrap().parent,
+                    owner
+                );
+                for id in session.list(0) {
+                    if id != prior && id != tail {
+                        assert_eq!(
+                            session
+                                .get(id)
+                                .unwrap()
+                                .construction_fields
+                                .as_ref()
+                                .unwrap()
+                                .dispatch_context,
+                            1
+                        );
+                    }
+                }
+                assert_eq!(
+                    session.wield_binding(result.special.held).unwrap().context,
+                    1
+                );
+            }
+            let counts = session.counts();
+            let retry = factory.retype_player_shell_with_projection(
+                &mut session,
+                owner,
+                crate::animation_channels::Blending::Enabled,
+                &mut projection,
+            );
+            assert!(retry.result.is_err());
+            assert_eq!(retry.projection, ProjectionStatus::NotReached);
+            assert_eq!(projection.calls, 1);
+            assert_eq!(session.counts(), counts);
+            let mut foreign = Session::new(9999);
+            let rejected = factory.retype_player_shell_with_projection(
+                &mut foreign,
+                owner,
+                crate::animation_channels::Blending::Enabled,
+                &mut projection,
+            );
+            assert!(rejected.result.is_err());
+            assert!(rejected.owner.is_none());
+            assert_eq!(foreign.counts().residents, 0);
+            session.clear();
+            assert!(session.get(owner).is_none());
+            assert!(
+                factory
+                    .retype_player_shell_with_projection(
+                        &mut session,
+                        owner,
+                        crate::animation_channels::Blending::Enabled,
+                        &mut projection,
+                    )
+                    .result
+                    .is_err()
+            );
+        }
+    }
     struct Camera {
         modes: camera_mode::State,
         owners: camera_owner::State<Id>,

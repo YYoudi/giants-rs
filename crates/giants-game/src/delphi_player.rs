@@ -1,5 +1,6 @@
 //! Acquired cold local-player fields around the Delphi special phase.
-//! Projection submission, live type changing and player scheduling are separate.
+//! Projection submission, arbitrary live type changing and player scheduling are
+//! separate. The acquired fresh generic shell can be retyped with the same Id.
 use crate::{
     actor_fields::Fields,
     animation_channels::{self, Blending, Channels, Request},
@@ -77,8 +78,9 @@ pub(crate) fn prepare(template: &Fields, frame: ColdFrame) -> Result<Fields, Str
     fields.previous = frame.current;
     fields.angles = frame.angles;
     fields.angles[1] = 0.;
-    // The cold generic shell supplies context zero. Arbitrary live actor
-    // inheritance, inventory teardown and dynamic type changes are not admitted.
+    // The standalone diagnostic starts with context zero. The validated fresh
+    // shell retype overrides it with its actual inherited context. Arbitrary live
+    // actor inheritance and inventory teardown are not admitted.
     fields.dispatch_context = 0;
     Ok(fields)
 }

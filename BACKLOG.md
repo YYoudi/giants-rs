@@ -1336,7 +1336,7 @@ See docs/PREVIEW_NOTES.md for controls, identities and bounded evidence.
 | --- | --- |
 | Normal Mecc / NPC children | All three special children now execute their acquired state0 history/common callback, ANM references and shared vertex-buffer producer. The renderer has no second channel clock. Full owned primary still needs actual impact, voice, damage-display, fire and collection consumers; the partial normal controller remains separate. |
 | Mecc projectile impact | Ordered executor and immediate context/zero-pose constructor prefix are integrated. `effect_burst::execution::Services` still has no canonical live constructor/command/finish backend. Immediate parent/reference placement, contact children and audio must execute in source order; projected spawns or a recorder cannot replace them. Canonical terrain-landing FX remain connected. |
-| Delphi | Ordered projection, shared look, evaluated body caches and generic class0/state7 shell are retained. F7 now focuses that initial body through the normal browser, with two actual OS entries and R reset verified. App still constructs a collapsed inspection owner. Reuse the shell identity through character retyping and persistent camera/lens update before projection/special initialization, then bind local-target/physical/held-copy scheduling, scene keys and water. A second player or late reset cannot satisfy entry. |
+| Delphi | Ordered projection, shared look, evaluated body caches and generic class0/state7 shell are retained. F7 now focuses that initial body through the normal browser, with two actual OS entries and R reset verified. App still constructs a collapsed inspection owner. Cold same-Id retyping now retains common nodes/context through ordered projection and special activation. Connect successful persistent camera/lens startup and that shell path, then bind local-target/physical/held-copy scheduling, scene keys and water. A second player or late reset cannot satisfy entry. |
 | Kabuto | The shared inspection camera reads the actual owner's look/size. F7 in free inspection now calls this service using compatible external coefficients; two actual OS entries and R reset pass on .11.1. Actual startup/warm ordering remains absent; `ProjectionReset`, `AnimationCache`, `ProceduralMaterial` and `GeometryRegistration` remain pending. Inspection acknowledges none of them or live input/primary admission. |
 | NPC population | All 134 supported Story2 neutral declarations have acquired callbacks, including references/eventless animation; Mecc children now feed the normal renderer. Class230 awakening constructs its actual marker. Live herd/Vimp admission still needs control factor, time/slow-area/noise population and shared RNG ordering. The App has no producer for the supplied installed-test contexts. Class230 later mode62 is not acquired. Do not acknowledge unsupported actors by updating only convenient ones. |
 | Flick timed effects | Virtual supports, canonical payloads, scoped expiry children and cancellation are retained alongside normal film ownership/transport. The menu renderer still uses preview timed playback. Migration requires source clock/RNG interleaving and detached-child ordinary preparation, including its acquired `physical_argument_word` and populated environment/footprint services. App has no producer for these native caller contracts. A Rust ID, zero or delta is no substitute; never run two simulations. Per-director seed1 remains an explicit preview policy. |
@@ -1750,6 +1750,19 @@ BACKLOG.md, PROGRESS.json, generated README and release notes are also shared:
 update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Delphi next steps
+
+The acquired fresh generic shell can now be replaced by Delphi with its same
+Id and retained common registration nodes. Context one survives into copies and
+held bindings; projection still precedes history/special/animation and the root's
+class registration follows completion. Two PC/Rust component observations agree
+on 9,502 field/payload words plus contexts and all fifteen list orders across
+three checkpoints; installed controls retain failure/replay/cleanup boundaries.
+This is an intermediate dependency only. App still needs the actual successful
+persistent camera/lens startup before this replacement, then the existing full
+primary/target/physical/held-copy and source scene/water/input producers below.
+The observations deliberately stop the generic entry at a required provider and
+run type activation separately; they do not acknowledge complete startup or
+ordinary Delphi controls. No new playable preview is claimed.
 
 Current observable delivery: enter a Reaper mission through the common menu,
 retain the actual declared Delphi owner/held/copy group, then connect supported
