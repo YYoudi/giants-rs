@@ -2,11 +2,54 @@
 //! natural caller admission and whole-primary scheduling remain separate.
 use crate::kabuto_action_select::Scratch;
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct Input {
     pub earlier_behavior: u32,
+    /// Retained payload selection, distinct from the earlier channel clip.
     pub previous_definition: i32,
     pub charge: f32,
+}
+
+#[derive(Clone, Copy, Debug)]
+pub struct View {
+    pub owner: crate::resident_states::Id,
+    pub number: u64,
+    pub input: Input,
+    /// Retain the original flag-2/flag-8 decisions for following policies.
+    pub entry_flags: u32,
+    pub caller: Scratch,
+    pub next: Next,
+}
+#[derive(Default)]
+pub(crate) struct Phase {
+    pub entered: Option<u64>,
+    pub running: bool,
+    pub completed: Option<u64>,
+    pub caller: Option<Scratch>,
+    pub view: Option<View>,
+    pub target: Option<crate::resident_states::Id>,
+}
+/// Required world operations. These providers must execute or refuse; the
+/// owned prefix does not substitute an empty status, RNG or target marker.
+pub trait Services {
+    fn target_status(
+        &mut self,
+        session: &mut crate::resident_states::Session,
+        owner: crate::resident_states::Id,
+        target: Option<crate::resident_states::Id>,
+        kind: u32,
+    ) -> Result<bool, String>;
+    fn random_two(
+        &mut self,
+        session: &mut crate::resident_states::Session,
+        owner: crate::resident_states::Id,
+    ) -> Result<u32, String>;
+    /// The acquired class/header bit, independently of retirement flags.
+    fn mark_target(
+        &mut self,
+        session: &mut crate::resident_states::Session,
+        target: crate::resident_states::Id,
+    ) -> Result<(), String>;
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Next {

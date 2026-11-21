@@ -356,6 +356,23 @@ path and are not acknowledged by this field proof.
 
 ## Resource caller checkpoint and query-clock handoff
 
+`Factory::advance_action_charge` now consumes the completed common reaction's
+actual caller and the retained resource decision on the same owner/frame. The
+previous definition comes from the old payload selection, independently of the
+old channel clip. Entry flags are retained for following policies. Current
+scalars/typed interaction and retained-target positions remain live across the
+required status callback; RNG and target marking also require explicit providers.
+The status/RNG/marker implementations are not established by this facade.
+
+The acquired kernel's stores now update the actual payload and physical cache,
+including action positions, counters, resource/meter and typed selected target.
+No original pointer is stored. Missing cold definitions refuse instead of
+inventing a slot. Provider effects and prefix stores survive refusal; a failed
+frame cannot be replayed. Following flagged/animation policies and directed
+selection remain unfinished, and no initializer or primary/history is completed.
+The existing 1,024-case native comparison remains a separate kernel control;
+installed composition tests use supplied world entries, not ordinary gameplay.
+
 `Factory::advance_reaction_admission` now consumes the real completed
 query/geometry continuation and retained resource decision/caller checkpoint.
 The owned resource adapter deliberately retains its earlier mode/channel sample

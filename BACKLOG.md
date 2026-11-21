@@ -59,8 +59,15 @@ flag-history stores, directed queued-selection/tail exits, sound/notification
 alias ordering and the conditional object-clock cooldown/rate update. Held,
 global-request, special action/clip/definition-event and flagged-target bodies
 remain explicit required continuations; missing producers are never defaults.
-Next: bind the existing resource-driven action prefix and its following ordinary
-animation policies before the locomotion selector, then ordinary App
+The resource-driven action prefix now consumes that completed reaction and the
+retained resource charge/previous selection. The previous selection is distinct
+from the earlier animation clip. Required status/RNG/target-marker providers
+observe published caller/actor state; missing providers or cold definitions
+refuse, retain prefix effects and quarantine replay. Owned action stores refresh
+the physical cache; the selected-target relationship stays typed. Flagged-policy,
+animation-policy and check-selection results still require actual consumers.
+Next: acquire and bind the following ordinary animation policies before the
+locomotion selector, then ordinary App
 input/camera/world and continuous frame completion. Stable supplied contexts are
 not real-input availability. No complete reaction/primary is claimed.
 This does not advance startup gates, acknowledge history or make Kabuto playable.

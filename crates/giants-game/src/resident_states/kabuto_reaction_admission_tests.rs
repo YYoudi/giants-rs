@@ -122,7 +122,12 @@ pub(super) fn probe(
     // replaced. This is an independent CPU context, not live input acceptance.
     p[..4].copy_from_slice(&0x30001u32.to_le_bytes());
     p[0x344..0x348].copy_from_slice(&0.5f32.to_le_bytes());
-    a.kabuto_group.as_mut().unwrap().motion.commands[4..8].copy_from_slice(&0u32.to_le_bytes());
+    let buttons = if matches!(case, Case::ChargeFailure | Case::ChargeSelect) {
+        8u32
+    } else {
+        0
+    };
+    a.kabuto_group.as_mut().unwrap().motion.commands[4..8].copy_from_slice(&buttons.to_le_bytes());
     let mut world = World {
         owner,
         fail: case == Case::ReactionFailure,
@@ -230,4 +235,10 @@ pub(super) fn probe(
             .is_err()
     );
     assert_eq!(world.stops + world.notices + world.clocks, calls);
+    if matches!(
+        case,
+        Case::Charge | Case::ChargeFailure | Case::ChargeSelect
+    ) {
+        super::action_charge_tests::probe(factory, foreign, s, owner, number, case);
+    }
 }

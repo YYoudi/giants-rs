@@ -1,5 +1,18 @@
 # Build on Windows with MinGW
 
+For the owned resource-driven action prefix, set `GIANTS_KABUTO_ROOT` to the
+compatible installation and `GIANTS_KABUTO_EXECUTABLE` to its compatible external
+metadata executable when needed, then run:
+
+```powershell
+cargo test --locked -p giants-game source_kabuto_action_charge --target x86_64-pc-windows-gnu -- --ignored --test-threads=1
+```
+
+These CPU controls compose the preceding resource/query/geometry/reaction stages,
+use real cold definitions and retained charge, and check directed output and late
+provider refusal. World status remains supplied. They do not exercise a full
+primary, ordinary controls or a GPU; all four initializer gates remain pending.
+
 For the owned common reaction caller, set `GIANTS_KABUTO_ROOT` to the compatible
 supplied installation and run:
 

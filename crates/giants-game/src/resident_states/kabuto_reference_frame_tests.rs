@@ -17,6 +17,9 @@ pub(super) enum Case {
     Reaction,
     ReactionFailure,
     ReactionDeferred,
+    Charge,
+    ChargeFailure,
+    ChargeSelect,
 }
 struct World<'a> {
     factory: &'a Factory,
@@ -114,7 +117,12 @@ impl frame::Services for World<'_> {
             | Case::GeometryIdle
             | Case::GeometryCamera
             | Case::GeometryFailure => Ok(()),
-            Case::Reaction | Case::ReactionFailure | Case::ReactionDeferred => Ok(()),
+            Case::Reaction
+            | Case::ReactionFailure
+            | Case::ReactionDeferred
+            | Case::Charge
+            | Case::ChargeFailure
+            | Case::ChargeSelect => Ok(()),
         }
     }
     fn parent(&mut self, s: &Session, target: Id) -> Result<Option<Id>, String> {
@@ -300,6 +308,9 @@ pub(super) fn probe(
             | Case::Reaction
             | Case::ReactionFailure
             | Case::ReactionDeferred
+            | Case::Charge
+            | Case::ChargeFailure
+            | Case::ChargeSelect
     ) {
         feedback_probe(
             factory,
@@ -319,6 +330,9 @@ pub(super) fn probe(
             | Case::Reaction
             | Case::ReactionFailure
             | Case::ReactionDeferred
+            | Case::Charge
+            | Case::ChargeFailure
+            | Case::ChargeSelect
     ) {
         super::query_geometry_tests::probe(
             factory, foreign, s, owner, target, number, case, animation,

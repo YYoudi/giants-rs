@@ -1,5 +1,24 @@
 # Preview releases and milestone integration
 
+## Kabuto owned resource-action prefix - source dependency
+
+The action prefix now consumes the actual completed reaction caller and retained
+resource charge/selection. It preserves live callback ordering, actual payload
+and physical-cache stores, cold-definition ownership and typed target output.
+Required status/RNG/marker entries remain external providers; following policies
+and directed selection are not acknowledged by this prefix. Three installed
+controls cover the ordinary no-edge exit, partial-resource selection and late
+status refusal. Non-null selection/full-resource world integration remains
+unvalidated. The separate 1,024-case native/source kernel comparison remains
+component evidence. All four initializer gates, ordinary Kabuto controls and
+continuous primary completion remain open. Preview .14.2 is unchanged; this adds
+no GPU/input acceptance, screenshot or Windows download.
+
+Validation: 1,120 portable Rust tests pass (275 ignored), all three installed
+action-prefix controls and the preceding three reaction controls pass. The
+bounded native comparison agrees on 1,024 cases/980,271 words. Format, strict
+workspace Clippy, 45 Python tests and site/JavaScript checks pass.
+
 ## Kabuto common reaction caller - source dependency
 
 The common reaction caller now consumes actual owned query/geometry and retained

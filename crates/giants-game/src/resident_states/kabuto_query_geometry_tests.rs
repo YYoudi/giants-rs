@@ -263,7 +263,12 @@ pub(super) fn probe(
     );
     if matches!(
         case,
-        Case::Reaction | Case::ReactionFailure | Case::ReactionDeferred
+        Case::Reaction
+            | Case::ReactionFailure
+            | Case::ReactionDeferred
+            | Case::Charge
+            | Case::ChargeFailure
+            | Case::ChargeSelect
     ) {
         super::reaction_admission_tests::probe(factory, foreign, s, owner, number, case);
     }

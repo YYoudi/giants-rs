@@ -19,6 +19,11 @@ mod growth_tests;
 #[path = "kabuto_motion_tests.rs"]
 mod motion_tests;
 
+#[path = "kabuto_action_charge.rs"]
+mod action_charge;
+#[cfg(test)]
+#[path = "kabuto_action_charge_tests.rs"]
+mod action_charge_tests;
 #[path = "kabuto_action_select.rs"]
 mod action_select;
 #[cfg(test)]

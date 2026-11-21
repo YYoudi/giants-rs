@@ -189,6 +189,42 @@ fn source_kabuto_reaction_admission_refuses_unacquired_request() {
     );
 }
 #[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; actual reaction/resource caller into the no-edge action prefix"]
+fn source_kabuto_action_charge_preserves_owned_caller() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::Charge),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; real retained charge, target provider effects and refusal quarantine"]
+fn source_kabuto_action_charge_retains_provider_refusal() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::ChargeFailure),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; real retained charge and owned action stores, supplied status entry"]
+fn source_kabuto_action_charge_produces_directed_selection() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::ChargeSelect),
+    );
+}
+#[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private post-gravity control inputs/receipts; no window or sound"]
 fn source_kabuto_control_force_uses_owned_animated_state_and_preserves_primary() {
     run_model(true, true, false, None);
@@ -362,7 +398,22 @@ fn run_model_with_body(
     body: bool,
     query: Option<super::reference_frame_tests::Case>,
 ) {
-    let (factory, _) = super::transition_tests::factories();
+    let (mut factory, _) = super::transition_tests::factories();
+    if matches!(
+        query,
+        Some(
+            super::reference_frame_tests::Case::Charge
+                | super::reference_frame_tests::Case::ChargeFailure
+                | super::reference_frame_tests::Case::ChargeSelect
+        )
+    ) {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_KABUTO_ROOT").unwrap());
+        let executable = std::env::var_os("GIANTS_KABUTO_EXECUTABLE")
+            .map(std::path::PathBuf::from)
+            .unwrap_or_else(|| root.join("Giants.exe"));
+        let definitions = crate::kabuto_animation_cache::Definitions::read(&executable).unwrap();
+        factory.prepare_animation_definitions(&definitions).unwrap();
+    }
     let (foreign, _) = super::transition_tests::factories();
     let mut s = Session::new(991);
     let id = factory
@@ -485,6 +536,21 @@ fn run_model_with_body(
             p[0x12c..0x130].copy_from_slice(&u32::from(case % 3 != 0).to_le_bytes());
             p[0x128..0x12c].copy_from_slice(&[0f32, 0.5][case % 2].to_le_bytes());
             p[0x130..0x134].copy_from_slice(&0.2f32.to_le_bytes());
+            if case == 511
+                && matches!(
+                    query,
+                    Some(
+                        super::reference_frame_tests::Case::ChargeFailure
+                            | super::reference_frame_tests::Case::ChargeSelect
+                    )
+                )
+            {
+                // Supply the resource producer's input, never its output View.
+                p[0x15c..0x160].copy_from_slice(&3f32.to_le_bytes());
+                p[0x134..0x138].copy_from_slice(&1f32.to_le_bytes());
+                p[0x140..0x144].copy_from_slice(&0f32.to_le_bytes());
+                p[0x13c..0x140].copy_from_slice(&globals.scalar(0x9e0).unwrap().to_le_bytes());
+            }
         }
         if stopped_action {
             // Declared idle inputs to the preceding real motion/model phases,

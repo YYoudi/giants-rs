@@ -147,6 +147,8 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].update({
     'f253f1706804f8a0ba0e0332c87423d9b2978efc231aef8d7cbfea1e8825f22e',
     '255008d2688ae59bb2a4d50cb96c7c8bb0c9519fe2fcc8aeaeab17728cc77b72',
 })
+# Reviewed action-prefix source link under the existing unknown parent route.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('d576051453116907eda42433c8ccbcc2d2711507d60b2e458774ef1387197f62')
 # Reviewed concurrent pub-body navigation update: minimal source links and
 # qualified unknown/probable relationships, without raw research records.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('15d087de79951c0ef76ee93f7593f626f2b1ccbc10df0ba56725bb74fd02f205')

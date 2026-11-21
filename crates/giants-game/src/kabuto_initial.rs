@@ -52,6 +52,7 @@ pub struct Group {
     pub(crate) reference_query: crate::kabuto_reference_frame::Phase,
     pub(crate) query_geometry: crate::kabuto_query_geometry::Phase,
     pub(crate) reaction: crate::kabuto_reaction_admission::Phase,
+    pub(crate) charge: crate::kabuto_action_charge::Phase,
     pub(crate) held_reference_entered: Option<u64>,
     pub(crate) held_reference_running: bool,
     pub(crate) held_reference_completed: Option<u64>,
@@ -404,6 +405,25 @@ impl Factory {
         number: u64,
     ) -> Result<crate::kabuto_reaction_admission::View, String> {
         session.captured_kabuto_reaction_admission(owner, &self.resources, number)
+    }
+    /// Resource-driven action prefix after actual common reaction admission.
+    /// Following policies and selection remain separate continuations.
+    pub fn advance_action_charge(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        services: &mut impl crate::kabuto_action_charge::Services,
+    ) -> Result<crate::kabuto_action_charge::View, String> {
+        session.advance_kabuto_action_charge(owner, &self.resources, number, services)
+    }
+    pub fn captured_action_charge(
+        &self,
+        session: &Session,
+        owner: Id,
+        number: u64,
+    ) -> Result<crate::kabuto_action_charge::View, String> {
+        session.captured_kabuto_action_charge(owner, &self.resources, number)
     }
     pub fn advance_resources(
         &self,
@@ -758,6 +778,7 @@ impl Factory {
             reference_query: crate::kabuto_reference_frame::Phase::default(),
             query_geometry: crate::kabuto_query_geometry::Phase::cold(),
             reaction: crate::kabuto_reaction_admission::Phase::default(),
+            charge: crate::kabuto_action_charge::Phase::default(),
             held_reference_entered: None,
             held_reference_running: false,
             held_reference_completed: None,
