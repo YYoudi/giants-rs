@@ -8,9 +8,13 @@ do not establish complete playable missions or fidelity.
 ## Download and start
 
 1. Obtain your own legal PC installation of Giants: Citizen Kabuto.
-2. Download a published Windows x64 ZIP from
-   [Releases](https://github.com/YYoudi/giants-rs/releases).
-   Drafts are not public downloads. Read that preview's limitations first.
+2. Download the Windows x64 ZIP from
+   [preview .14.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.14.2).
+   This public development prerelease includes ordinary Ripper movement and ranged
+   attacks. As checked on 21 November 2026, GitHub's **Latest** label points to
+   the older .12.2 release;
+   that executable does not gain features from later source or dashboard updates.
+   Read the selected preview's limitations first.
 3. Extract the ZIP and keep its bundled notices. Move **giants-rs.exe** beside
    the original **Giants.exe**, in the game folder containing `Bin`. The different
    name preserves the original executable.
@@ -45,6 +49,15 @@ supports graphical startup without arguments.
 and prints the launch arguments without opening a game window.
 
 ## What to expect
+
+For Rippers, select **Preview tools -> Browse all missions -> Mecc Story 2 ->
+The Wife**, then skip the opening with Escape once the cinematic is running.
+Approach the declared enemies using normal movement and the jetpack to trigger
+their perception. Movement, ranged attacks and bounded
+nonlethal damage use the ordinary runtime, with no activation script or flag.
+Ripper death and drops remain unavailable in .14.2. See
+[the NPC integration record](OWNED_NPCS.md#main-integration-of-ripper-movement-and-attacks)
+for the exact encounter evidence and remaining limits.
 
 In preview .14.2, open **Preview tools -> Browse all missions -> Mecc Story 2**.
 For the added class101 palms, choose **Mecc Story 1 -> A Boy Called Timmy**.

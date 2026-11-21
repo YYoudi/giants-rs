@@ -356,6 +356,17 @@ helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## NPC lane in progress - ordinary Rippers in The Wife
 
+Owner-priority recheck, 21 November: the actual public .14.2 download passes a
+rendered living encounter with 112.4 units of Ripper movement, class90 attacks,
+reciprocal nonlethal damage and continued AI after a refused lethal contact.
+Its exact receipt, inspected endpoint and separate Windows menu/return/re-entry
+checks are in OWNED_NPCS.md. GitHub Latest still selects .12.2; QUICK_START.md
+now links .14.2 directly. This existing living runtime is already in main and
+the common download; do not delay it for isolated health services or publish
+another competing preview. Next runtime work must connect the ordinary lethal
+path, then verify a real death and cleanup; additional scalar matrices are not
+the current delivery. No death/drop or OS-aimed combat acceptance is claimed.
+
 Isolated lethal-path continuation: the health factory now consumes the shared
 world-companion bounds and canonical Session affine/current animation slot.
 Both installed health births match the original six-word bounds after the real

@@ -352,7 +352,7 @@
       "title": "Enemy and boss behaviour",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Preview .14.2 includes the merged Ripper partial-pistol injury and unsupported-lethal-contact protection, retaining living AI. Earlier NPC-lane controls separately observe repeated injury, shared blood/audio and later primary steps. Common building/campaign regression is checked on this executable; complete encounters, lethal combat, death/cleanup and special close attacks remain incomplete. See OWNED_NPCS.md and BACKLOG.md."
+      "detail": "Preview .14.2 includes Ripper movement/ranged attacks, partial-pistol injury and unsupported-lethal-contact protection. A 21 November recheck of the actual public executable observes 112.4 units of movement, class90 shots, reciprocal nonlethal damage and continued AI with supplied player commands in a rendered encounter. Separate Windows inputs check menu, skip, brief movement/fire and return/re-entry. Lethal combat, death/cleanup, special close attacks and manually aimed full encounters remain incomplete. See OWNED_NPCS.md and BACKLOG.md."
     },
     {
       "id": "wildlife",

@@ -11,6 +11,28 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ### Playable baseline included in the common .14.2 build
 
+Downloaded public-package check, 21 November 2026: ZIP SHA256
+`43e9b981d531c4057ce4be73e14e2ec635134b36a7ccbf1594744fa9a58f45c2`,
+runtime `3aa25533e0f200de0a6b72345d30107932a5f3f7`, executable SHA256
+`250b23fc9c8f31df182367fb4c54a239288d2ba1c8b90ea308f16f56e4c890f9`.
+On this actual download, a rendered supplied-player-command encounter moves
+classic owner 164 by 112.4 horizontal units, launches class90 shots and applies
+pistol damage 0 -> 12 -> 24 -> 36. Its projectile 342 inflicts actual Mecc damage 10,
+copies recoil to the normal controller and leaves the HUD at 90 health. A further
+launch at step 10981 and completed primary 11190 follow the refused lethal contact
+at step 10950. The inspected endpoint shows the living Ripper in front of Mecc.
+This checks reciprocal nonlethal interaction on the public executable; it is not
+a death, OS-aimed combat or complete native-fidelity result.
+
+Separate actual Windows inputs on that same download check normal menu entry,
+opening skip, a movement pulse, left-mouse fire, return, re-entry and close.
+Both tickets release 186 residents with zero remaining bytes/registrations;
+these brief Windows actions do not establish a manually aimed encounter.
+The ZIP is a public prerelease. GitHub's Latest label still selects .12.2 at
+this check; use the explicit .14.2 link in QUICK_START.md. No new runtime change,
+prototype PS2 attribution, preview publication or health-drop availability is
+claimed by this recheck.
+
 Main `7242798` already includes runtime `f940069`: ordinary Ripper movement,
 source ranged attacks, nonlethal injury in both directions and the fix that
 keeps living AI running after an unsupported lethal pistol contact. Preview
