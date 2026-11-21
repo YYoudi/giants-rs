@@ -46,7 +46,11 @@ class RuntimeSmokeTests(unittest.TestCase):
                 Path(command[command.index('--capture')+1]).write_bytes(b'\x89PNG\r\n\x1a\nsynthetic')
                 return subprocess.CompletedProcess(command, 0)
 
-            with patch.dict(os.environ, {'GIANTS_MISSION_REPLAY': 'unrelated'}), \
+            # Replace the lookup mapping without clearing/restoring the native
+            # Windows environment: restoring empty Git config values through
+            # putenv removes them and breaks later subprocess-based tests.
+            with patch('tools.runtime_smoke.os.environ',
+                       dict(os.environ, GIANTS_MISSION_REPLAY='unrelated')), \
                     patch('tools.runtime_smoke.subprocess.run', side_effect=replay):
                 report = run(exe, receipt, data, root/'output')
             self.assertTrue(report['passed'])
