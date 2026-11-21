@@ -1,5 +1,7 @@
 //! Acquired class-669 normal held-cache publication. Animation, alternate lock
 //! profiles and nonempty position footprints remain separate services.
+//! Literal prototype PS2 `object_lock_logic` is an unknown-attribution lookup
+//! route for this related placement work, not a confirmed PC routine identity.
 use super::*;
 use crate::procedural_aim::Matrix;
 
@@ -175,7 +177,10 @@ impl Session {
         if actor.seed.storage.profile() != Profile::Debug
             || actor.class != 669
             || actor.seed.storage.state() != 0
-            || binding.context != 0
+            || !matches!(binding.context, 0 | 1)
+            || fields.dispatch_context != binding.context
+            || parent_fields.dispatch_context != binding.context
+            || (binding.context == 1 && parent.constructor_mask != 0x11)
             || actor.channels != Some(fields.channels)
             || fields.object_flags & !(0x20 | 0x40 | 0x800 | 0x40000000) != 0x20400000
             || fields.response_flags & 0x02009000 != 0
@@ -260,10 +265,16 @@ impl Session {
         let parent = self
             .delphi_physical(owner)
             .ok_or("Delphi held parent frame absent")?;
+        let parent_fields = self
+            .get(owner)
+            .and_then(|actor| actor.construction_fields.as_ref())
+            .ok_or("Delphi held parent fields absent")?;
         if owned.number != number
             || parent.number != number
             || parent.failure.is_some()
             || self.wield_binding(child) != Some(owned.binding)
+            || fields.dispatch_context != owned.binding.context
+            || parent_fields.dispatch_context != owned.binding.context
             || actor.channels != Some(owned.channels)
             || pose(fields) != owned.pose
         {

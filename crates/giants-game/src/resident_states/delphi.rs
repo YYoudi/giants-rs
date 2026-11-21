@@ -1458,20 +1458,117 @@ mod physical_tests {
         let factory = crate::delphi_special::Factory::load(&resources, &globals, &weapons).unwrap();
         let mut session = Session::new(1281);
         let mut owners = Vec::new();
-        for profile in 0..7 {
-            let id = factory
-                .construct_player_fields(
-                    &mut session,
-                    crate::delphi_player::ColdFrame {
-                        position: [0., 0., 10.],
-                        current: [0., 0., 10.],
-                        previous: [0., 0., 10.],
-                        angles: [0., 0., if profile >= 2 { 30. } else { 0. }],
-                    },
-                    crate::animation_channels::Blending::Disabled,
-                )
-                .unwrap()
-                .owner;
+        struct Projection {
+            catalog: crate::camera_profile::ExecutableCatalog,
+            modes: crate::camera_mode::State,
+        }
+        impl crate::delphi_player::ProjectionReset for Projection {
+            fn reset_projection(&mut self, session: &Session, owner: Id) -> Result<(), String> {
+                struct Services<'a> {
+                    session: &'a Session,
+                    owner: Id,
+                    catalog: &'a crate::camera_profile::ExecutableCatalog,
+                }
+                impl crate::camera_mode::Services<()> for Services<'_> {
+                    fn profile(
+                        &mut self,
+                        _: u32,
+                        view: u32,
+                    ) -> Result<crate::camera_mode::Profile, String> {
+                        crate::camera_profile::select(
+                            crate::camera_profile::Input {
+                                owner: None,
+                                controlled: Some(self.owner),
+                                view,
+                                scaled_input: false,
+                            },
+                            self.session,
+                        )?
+                        .resolve(self.catalog)
+                    }
+                    fn scale(&mut self, _: (), _: f32) -> Result<(), String> {
+                        Err("projection reset cannot write look".into())
+                    }
+                    fn projection(&mut self, fov: f32) -> Result<(), String> {
+                        // Explicit CPU projection consumer with supplied viewport/depth.
+                        crate::camera_projection::build(
+                            fov,
+                            crate::camera_projection::Parameters {
+                                aspect: None,
+                                viewport: [960., 540.],
+                                near: 1.,
+                                far: 10_000.,
+                                limit_far: true,
+                                depth_reference: [0.; 3],
+                                depth_axis: [0.; 3],
+                            },
+                        )
+                        .map(|_| ())
+                        .map_err(str::to_owned)
+                    }
+                }
+                self.modes.reset_projection(&mut Services {
+                    session,
+                    owner,
+                    catalog: &self.catalog,
+                })
+            }
+        }
+        for profile in 0..8 {
+            let id = if profile == 7 {
+                let entry = crate::player_shell::Factory::load(&resources)
+                    .unwrap()
+                    .construct(&mut session)
+                    .unwrap();
+                let owner = entry.owner();
+                // Supplied initialized-shell boundary, not a successful camera
+                // startup. The actual acquired pose publisher supplies context1.
+                session
+                    .publish_player_shell_pose(
+                        owner,
+                        crate::player_shell::WorldPose {
+                            position: [0., 0., 10.],
+                            heading: 0.,
+                        },
+                    )
+                    .unwrap();
+                let executable = std::env::var_os("GIANTS_DELPHI_EXECUTABLE")
+                    .map(std::path::PathBuf::from)
+                    .unwrap_or_else(|| root.join("Giants.exe"));
+                let mut projection = Projection {
+                    catalog: crate::camera_profile::ExecutableCatalog::read(&executable).unwrap(),
+                    modes: crate::camera_mode::State::new(0, 0, 0.).unwrap(),
+                };
+                let result = factory
+                    .retype_player_shell_with_projection(
+                        &mut session,
+                        owner,
+                        crate::animation_channels::Blending::Disabled,
+                        &mut projection,
+                    )
+                    .result
+                    .unwrap();
+                assert_eq!(result.owner, owner);
+                assert_eq!(
+                    entry.checkpoint(),
+                    crate::player_shell::Checkpoint::Constructed
+                );
+                owner
+            } else {
+                factory
+                    .construct_player_fields(
+                        &mut session,
+                        crate::delphi_player::ColdFrame {
+                            position: [0., 0., 10.],
+                            current: [0., 0., 10.],
+                            previous: [0., 0., 10.],
+                            angles: [0., 0., if profile >= 2 { 30. } else { 0. }],
+                        },
+                        crate::animation_channels::Blending::Disabled,
+                    )
+                    .unwrap()
+                    .owner
+            };
             session.initialize_delphi_physics(id, &globals).unwrap();
             let prepared = crate::delphi_physical::Resources::load(
                 &resources,
@@ -1514,7 +1611,7 @@ mod physical_tests {
             } else {
                 prepared
             };
-            let prepared = if profile == 6 {
+            let prepared = if profile >= 6 {
                 prepared.with_primary_tail().unwrap()
             } else {
                 prepared
@@ -1804,10 +1901,109 @@ mod physical_tests {
                 if index == 4 {
                     assert!(view.post_buttons.is_some());
                 }
-                if index == 6 {
+                if index >= 6 {
                     assert!(session.delphi_target_ray(id, number, 1e-4).is_err());
+                    if index == 7 && number == 1 {
+                        let child = session
+                            .wield_list()
+                            .unwrap()
+                            .into_iter()
+                            .find(|c| {
+                                c.parent == Some(id) && c.reference == 1 && c.flags & 0x8000 == 0
+                            })
+                            .unwrap()
+                            .id;
+                        let before = session
+                            .get(child)
+                            .unwrap()
+                            .construction_fields
+                            .as_ref()
+                            .unwrap()
+                            .words();
+                        let counts = session.counts();
+                        // Reject mismatched parent/header/binding contexts and
+                        // an unknown context even when all three agree.
+                        for (parent_context, child_context, binding_context) in
+                            [(1, 1, 0), (1, 0, 1), (0, 1, 1), (2, 2, 2)]
+                        {
+                            session
+                                .residents
+                                .get_mut(&id.serial)
+                                .unwrap()
+                                .construction_fields
+                                .as_mut()
+                                .unwrap()
+                                .dispatch_context = parent_context;
+                            let child = session.residents.get_mut(&child.serial).unwrap();
+                            child.construction_fields.as_mut().unwrap().dispatch_context =
+                                child_context;
+                            child.wield_binding.as_mut().unwrap().context = binding_context;
+                            assert!(session.advance_delphi_held_pose(id, number).is_err());
+                        }
+                        session
+                            .residents
+                            .get_mut(&id.serial)
+                            .unwrap()
+                            .construction_fields
+                            .as_mut()
+                            .unwrap()
+                            .dispatch_context = 1;
+                        let actor = session.residents.get_mut(&child.serial).unwrap();
+                        actor.construction_fields.as_mut().unwrap().dispatch_context = 1;
+                        actor.wield_binding.as_mut().unwrap().context = 1;
+                        let allocation = session.get(id).unwrap().constructor_mask;
+                        assert_eq!(allocation, 0x11);
+                        session
+                            .residents
+                            .get_mut(&id.serial)
+                            .unwrap()
+                            .constructor_mask = 0x80000000;
+                        assert!(session.advance_delphi_held_pose(id, number).is_err());
+                        session
+                            .residents
+                            .get_mut(&id.serial)
+                            .unwrap()
+                            .constructor_mask = allocation;
+                        assert_eq!(
+                            session
+                                .get(child)
+                                .unwrap()
+                                .construction_fields
+                                .as_ref()
+                                .unwrap()
+                                .words(),
+                            before
+                        );
+                        assert!(session.get(child).unwrap().affine_cache.is_none());
+                        assert!(session.get(child).unwrap().delphi_held_pose.is_none());
+                        assert_eq!(session.counts(), counts);
+                    }
                     let held = session.advance_delphi_held_pose(id, number).unwrap();
                     let ray = session.delphi_target_ray(id, number, 1e-4).unwrap();
+                    if index == 7 && number == 1 {
+                        // Context changes invalidate the published reader even
+                        // when the geometric pose and typed binding are intact.
+                        for changed in [id, held] {
+                            session
+                                .residents
+                                .get_mut(&changed.serial)
+                                .unwrap()
+                                .construction_fields
+                                .as_mut()
+                                .unwrap()
+                                .dispatch_context = 0;
+                            assert!(session.delphi_target_ray(id, number, 1e-4).is_err());
+                            session
+                                .residents
+                                .get_mut(&changed.serial)
+                                .unwrap()
+                                .construction_fields
+                                .as_mut()
+                                .unwrap()
+                                .dispatch_context = 1;
+                            assert!(session.delphi_target_ray(id, number, 1e-4).is_ok());
+                        }
+                    }
                     assert!(
                         ray.origin
                             .into_iter()
@@ -1856,7 +2052,11 @@ mod physical_tests {
                     .unwrap();
                 if index >= 2 {
                     assert!(view.look > 0.);
-                    if number == 1 {
+                    if index == 7 {
+                        // The acquired generic shell starts with zero roll;
+                        // the older profiles deliberately supplied thirty.
+                        assert_eq!(fields.angles[2], 0.);
+                    } else if number == 1 {
                         assert!(fields.angles[2] > 0. && fields.angles[2] < 30.);
                     } else if number >= 20 {
                         assert_eq!(fields.angles[2], 0.);

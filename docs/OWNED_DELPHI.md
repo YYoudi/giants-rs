@@ -48,8 +48,9 @@ disabled animation blending and the external projection sink are supplied.
 This does not complete persistent startup, rendering or ordinary input. Installed
 controls separately cover enabled blending, exact common node retention, no
 second root allocation, projection/late-child failure, replay, foreign/stale
-identities and cleanup. The context-one live held-pose service remains outside
-this constructor contract. Attribution remains unknown under the pinned PC and
+identities and cleanup. The following held-placement service separately acquires
+the inherited local context; constructor agreement alone did not establish it.
+Attribution remains unknown under the pinned PC and
 prototype PS2 identities; no ABI, recovered name or readiness is inferred.
 
 ### Normal camera across cold type activation
@@ -731,6 +732,32 @@ readiness and primary/world scheduling remain open. No live Delphi admission,
 new gameplay capture or fidelity claim follows.
 
 ## Owned held cache and target ray - 9 November 2026
+
+### Inherited local context after same-Id activation
+
+The normal held publisher now admits the acquired local context inherited from
+the fresh generic player. Parent fields, child fields and typed binding must
+agree; context one additionally requires the retained generic allocation.
+Unknown/mismatched contexts refuse before publication, and changing either
+context after publication invalidates the held reader. Existing zero-context
+controls, cache/reference/frame checks and zero-footprint restrictions remain.
+
+A 64-step original PC controlled-parent/ANM/held/ray sequence agrees with Rust
+on 510,528 normalized cohort-header, reference, root-payload, ordered-list and ray
+words, with the same RNG. It includes falling from the supplied height to the
+flat floor. The earlier Rust version refuses the first held placement on this
+same input. The installed physical control now includes an eighth owner built
+through the actual generic pose publisher and same-Id replacement, alongside
+the seven earlier profiles. It checks mismatched/unknown contexts, allocation
+provenance, retained caches and stale readers, replay and cleanup.
+
+This is a component connection after completed controlled parent frames. Normal
+context, pose/commands/time, flat/empty world, selected callback order and device
+boundaries remain supplied. The camera prefix is explicitly stopped at a required
+provider; it is not acknowledged as complete startup. Full primary/world/child
+ANM scheduling, actual source-world contact/water/input and ordinary App entry
+remain unverified. The literal prototype PS2 name `object_lock_logic` is only an
+unknown-attribution navigation candidate, not a recovered PC function identity.
 
 `Session::advance_delphi_held_pose` now publishes the acquired normal class-669
 held cache after a completed Delphi frame. It resolves the actual first live

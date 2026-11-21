@@ -55,6 +55,14 @@ depth-cache feedback and retained terrain/transport failures. Normal context,
 initial pose cache, pose/clock/input and a flat/empty world remain supplied;
 neither a complete source-world startup nor ordinary rendered input is verified.
 
+`source_delphi_physical_owns_motion_shares_events_and_quarantines_failure` now
+also checks a generic-shell/context-one replacement beside the seven existing
+physical profiles. It publishes held placement/rays after completed frames and
+rejects mismatched, unknown and stale contexts without consuming the held cache.
+Use `GIANTS_DELPHI_ROOT` and `GIANTS_DELPHI_EXECUTABLE` with the ignored game test.
+Its pose/clock/commands, flat terrain and selected services remain supplied;
+this does not verify ordinary gameplay or the complete primary/child schedule.
+
 `installed_static_palm_preserves_unresolved_auxiliary_links_and_damages_its_own_stump`
 uses `GIANTS_BUILDING_ROOT` for class101's actual binding dependencies, separately
 retained unresolved auxiliary links, physical/projectile admission, source shot

@@ -1774,6 +1774,15 @@ controls preserve failures and cleanup. App must still produce real startup/
 reset provenance, direct normal context and world/renderer consumers and schedule
 this path before the full player loop. This does not deliver ordinary Delphi.
 
+Held placement and the following target ray now admit the actual inherited
+local context after a completed controlled parent frame, retaining same-Id
+allocation and parent/header/binding context agreement. A 64-step PC/Rust
+component sequence agrees on 510,528 normalized header/reference/payload/list/
+ray words and RNG, including return to its supplied flat floor. The extended
+eight-owner installed control protects mismatched/unknown/stale contexts and
+retains prior frame/reference/cleanup refusals. Source-world admission, full
+primary/world/child-ANM scheduling and real menu/input/render remain separate.
+
 Current observable delivery: enter a Reaper mission through the common menu,
 retain the actual declared Delphi owner/held/copy group, then connect supported
 keyboard/mouse movement, jump and camera. **Construction is now connected:**
