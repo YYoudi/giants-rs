@@ -49,7 +49,7 @@ mod passive_frame_tests;
 mod ripper_calls;
 mod ripper_damage;
 mod ripper_health_drop;
-pub use ripper_damage::{PartialPistolContact, PartialPistolServices};
+pub use ripper_damage::{PartialPistolContact, PartialPistolDeathServices, PartialPistolServices};
 mod ripper_melee;
 pub use ripper_melee::Services as RipperMeleeServices;
 mod ripper_contacts;
@@ -290,11 +290,16 @@ pub trait State23Services {
     fn execute(
         &mut self,
         session: &mut Session,
-        actor: &crate::state23_damage::State<Id>,
-        service: crate::state23_damage::Service<Id>,
+        actor: &RipperDamageState,
+        service: RipperDamageService,
         random: &mut crate::audio_parameters::Random,
     ) -> Result<(), String>;
 }
+/// Attached FX contexts and Session actors are different owners. Preserve the
+/// live context through damage and require its real cleanup consumer on death.
+pub type RipperDamageState = crate::state23_damage::State<Id, crate::attached_effect_context::Id>;
+pub type RipperDamageService =
+    crate::state23_damage::Service<Id, crate::attached_effect_context::Id>;
 /// Real attack service for the secondary animation callback. Resource absence
 /// is a distinct result; an unavailable backend must return an error.
 pub trait State23AnimationServices {
@@ -441,7 +446,7 @@ pub struct Resident {
     presentation_position: Option<[f32; 3]>,
     /// Acquired callback fields and typed relationships, separate from raw
     /// constructor bytes. No native pointer is encoded as an owned identity.
-    state23_combat: Option<crate::state23_damage::State<Id>>,
+    state23_combat: Option<RipperDamageState>,
     /// Typed alert relation before state23 combat publication, or for the
     /// acquired class215 payload. Raw constructor pointer slots stay zero.
     cold_alert_target: Option<Id>,
@@ -517,7 +522,7 @@ struct SurfaceSource {
     angles: [f32; 3],
     scale: f32,
     look_pitch: f32,
-    combat: crate::state23_damage::State<Id>,
+    combat: RipperDamageState,
 }
 fn affine_pose_words(fields: &crate::actor_fields::Fields) -> [u32; 7] {
     [
@@ -2702,7 +2707,7 @@ impl Session {
         }
         Ok(())
     }
-    pub fn state23_combat(&self, id: Id) -> Option<&crate::state23_damage::State<Id>> {
+    pub fn state23_combat(&self, id: Id) -> Option<&RipperDamageState> {
         self.get(id)?.state23_combat.as_ref()
     }
     /// Own the acquired fresh constructor's rates, look pitch and commands.
@@ -3103,6 +3108,7 @@ impl Session {
             combat.control = state.entry.control;
             combat.retaliation = state.retaliation;
             combat.timer = state.timer;
+            combat.effect = state.effect;
             let actor = self.residents.get_mut(&id.serial).unwrap();
             let fields = actor.construction_fields.as_mut().unwrap();
             fields.object_flags = state.entry.flags;
@@ -8917,7 +8923,6 @@ impl Session {
                     s.retaliation,
                     s.target.map(|t| t.id),
                     s.group,
-                    s.effect,
                 ]
                 .contains(&Some(id));
             }
@@ -9818,7 +9823,7 @@ impl Session {
             reception: fields.configuration[15],
         })
     }
-    fn state23_snapshot(&self, id: Id) -> Result<crate::state23_damage::State<Id>, String> {
+    fn state23_snapshot(&self, id: Id) -> Result<RipperDamageState, String> {
         use crate::state23_damage::State;
         let actor = self.get(id).ok_or("state23 actor absent or foreign")?;
         if actor.seed.storage.state() != 23
@@ -9840,6 +9845,9 @@ impl Session {
             state.control = f.control_flags;
             state.action = f.action;
             state.position = f.position;
+            if let Some(primary) = &actor.ripper_primary {
+                state.effect = primary.state().effect;
+            }
             return Ok(state);
         }
         let p = actor.seed.storage.data().ok_or("state23 payload absent")?;
@@ -9868,7 +9876,7 @@ impl Session {
             target: None,
             group: None,
             group_index: i32::from_le_bytes(p[0x40..0x44].try_into().unwrap()),
-            effect: None,
+            effect: actor.ripper_primary.as_ref().and_then(|p| p.state().effect),
         })
     }
     /// Fresh supplied contact -> offline direct wrapper route -> concrete hurt
@@ -9982,9 +9990,7 @@ impl Session {
         for who in frame.members() {
             let actor = self.get(who).ok_or("contact member no longer owned")?;
             if actor.seed.storage.state() != 23
-                || states
-                    .iter()
-                    .any(|s: &crate::state23_damage::State<Id>| s.id == who)
+                || states.iter().any(|s: &RipperDamageState| s.id == who)
             {
                 continue;
             }

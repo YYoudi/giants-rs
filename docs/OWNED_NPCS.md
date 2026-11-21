@@ -74,6 +74,42 @@ to the current wanted ticket. No OS-aimed fight is claimed. The earlier runtime'
 clear close-up capture and repeated AI-continuation run remain separate evidence.
 No native implementation or prototype PS2 attribution changes in this delivery.
 
+### Ordinary lethal callback composition in progress
+
+The NPC branch now provides
+`Session::damage_ripper_from_partial_pistol_with_death`. It consumes the same
+immutable emitted-shot receipt and routing/current-frame checks as the living
+path, then validates actual lethal consumers before opening the callback.
+Unavailable consumers return a reason without damage, RNG or a failure latch.
+The existing ordinary caller still uses the nonlethal entry: this is not an
+enabled death or another playable delivery.
+
+Canonical damage state now retains `attached_effect_context::Id` separately
+from actor IDs. Completed primary publication and damage snapshots preserve the
+actual context; successful real removal clears its primary alias, while a failed
+removal retains the prefix and prevents callback replay. Partial shots never
+become synthetic state77 actors. Attached contexts are not actor-reference slots
+in the common incoming-reference or surface-marker cleanup passes.
+
+An installed composition control covers class73/230 success plus late death-FX
+and context-removal failures, using actual class38 emission, source health births
+and named effect preparations. Pose, prior injury, camera and sound submissions
+are explicit fixture boundaries; it does not exercise the ordinary hit wrapper,
+active effect bodies, audible playback, corpse retirement or GPU rendering.
+The death-root null preparation additionally agrees with eight original-PC
+named-mode8 controls: actual interpreter traversal, no child allocation and no
+RNG consumption, under supplied count/quality/camera/free storage/CRT TLS.
+This does not grant active fragment/decal/emitter execution. Fresh prototype PS2
+lookups remain unknown attributions; the previously confirmed corpse-helper
+identity is retained without importing its prototype signature or layout.
+
+Next connect the actual active death graph, health-object frame/glow/collection
+owners and mode94 corpse/retirement to the ordinary hit caller. The installed
+corpse mana parameters are nonzero: use the genuine player-list eligibility
+result and source countdown, rather than assuming zero mana or copying Vimp
+ghost/meat behavior. Keep working living AI available until these consumers can
+finish the lethal path; do not add another scalar matrix as a delivery substitute.
+
 ### Lethal dependency in progress: owned health-object birth
 
 The NPC branch now contains `ripper_health_drop::Factory`, called only inside

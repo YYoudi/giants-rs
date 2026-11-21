@@ -150,6 +150,20 @@ impl State {
                 );
                 Ok(std::mem::take(&mut self.sounds))
             }
+            Ok(giants_game::resident_states::PartialPistolContact::UnavailableLethal(reason)) => {
+                self.last_unsupported_lethal = Some((target, serial, step));
+                println!(
+                    "mission_ripper_pistol_lethal_unavailable ticket={ticket} owner={target:?} serial={serial} reason={reason} callback_started=false actor_quarantined=false"
+                );
+                Ok(std::mem::take(&mut self.sounds))
+            }
+            Ok(giants_game::resident_states::PartialPistolContact::Died) => {
+                self.last_pistol_hit = Some((target, serial, step));
+                println!(
+                    "mission_ripper_pistol_death ticket={ticket} owner={target:?} serial={serial} step={step} callback_completed=true retirement_completed=false"
+                );
+                Ok(std::mem::take(&mut self.sounds))
+            }
             Ok(giants_game::resident_states::PartialPistolContact::Suppressed) => {
                 println!(
                     "mission_ripper_pistol_suppressed ticket={ticket} owner={target:?} serial={serial} source=actual_range_or_target_guard damage_acknowledged=false"

@@ -42,11 +42,11 @@ struct Running<'a, 'b, I, S> {
     counts: Counts,
     propagated: bool,
 }
-impl<I: Copy + Eq, S: Sounds<I>> state23_damage::Services<I> for Running<'_, '_, I, S> {
+impl<I: Copy + Eq, E: Copy, S: Sounds<I>> state23_damage::Services<I, E> for Running<'_, '_, I, S> {
     fn execute(
         &mut self,
-        actor: &state23_damage::State<I>,
-        service: state23_damage::Service<I>,
+        actor: &state23_damage::State<I, E>,
+        service: state23_damage::Service<I, E>,
         random: &mut Random,
     ) -> Result<(), String> {
         use state23_damage::Service;
@@ -95,8 +95,8 @@ impl<I: Copy + Eq, S: Sounds<I>> state23_damage::Services<I> for Running<'_, '_,
 /// general hit wrapper. Death is refused before mutation. Once execution starts,
 /// sound/RNG/pool/cohort changes are not rolled back on failure; never blindly
 /// retry a partially executed callback.
-pub fn apply<I: Copy + Eq, S: Sounds<I>>(
-    actor: &mut state23_damage::State<I>,
+pub fn apply<I: Copy + Eq, E: Copy, S: Sounds<I>>(
+    actor: &mut state23_damage::State<I, E>,
     amount: f32,
     source: Option<state23_damage::Source<I>>,
     context: state23_damage::Context,

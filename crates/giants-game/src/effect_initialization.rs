@@ -87,6 +87,21 @@ pub(crate) fn ripper_explosion(ops: &[u8]) -> bool {
         .count();
     matches!(children, 11 | 21) && &ops[PREFIX.len() + children..] == SUFFIX
 }
+// Complete class73/230 death roots. Their fixed configuration and immediate
+// children are behind the null-object gate. Original named mode8 controls
+// consume no RNG and allocate no child during this initial pass. Active child
+// emission and retirement remain separate required consumers.
+fn ripper_death_root(ops: &[u8]) -> bool {
+    let prefix = [3, 6, 0x17, 0x1b, 0x21];
+    if !ops.starts_with(&prefix) {
+        return false;
+    }
+    let children = ops[prefix.len()..]
+        .iter()
+        .take_while(|&&op| op == 0x10)
+        .count();
+    (1..=64).contains(&children) && ops.get(prefix.len() + children..) == Some(&[7, 2])
+}
 // Acquired compound stone-burst null pass. Every admitted block has a complete
 // source3 constructor and lifetime; positional sound is sampled before it.
 // The commands below skip their active stores/children on a null object. This
@@ -254,6 +269,7 @@ pub fn skip(program: &Program, random: &mut Random) -> Result<Vec<Interval>, Str
         && !ghost
         && !death
         && !ripper_explosion(&ops)
+        && !ripper_death_root(&ops)
         && !compound_blocks(&ops)
         && !stone_child
         && !barracks_child

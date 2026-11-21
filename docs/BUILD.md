@@ -53,6 +53,15 @@ unfinished scopes; do not discard failed or interrupted evidence.
 
 ## Optional installed reconstruction controls
 
+The NPC lethal composition control is
+`source_lethal_partial_pistol_keeps_context_domain_and_failed_prefix`, run with
+`GIANTS_NPC_ROOT` and `--ignored`. It covers actual partial-shot emission, health
+birth, death-context preparation/removal and late failure retention for both
+classes. Camera, prior injury and sound are fixture boundaries; no ordinary kill
+or rendering is certified. `native_ripper_death_root_preparation_preserves_rng_and_context_kind`
+also requires private `GIANTS_RIPPER_DEATH_NULL_CONTROLS`; it compares eight
+original-PC named-mode8/null-interpreter outcomes. Active FX remain separate.
+
 The NPC branch additionally provides the ignored game control
 `source_ripper_health_drop_birth_preserves_real_prefix_and_failed_scope` with
 `GIANTS_NPC_ROOT` set to the compatible user installation. It constructs the

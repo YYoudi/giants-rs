@@ -24,8 +24,8 @@ impl State23Services for DamageAccept {
     fn execute(
         &mut self,
         session: &mut Session,
-        actor: &crate::state23_damage::State<Id>,
-        _: crate::state23_damage::Service<Id>,
+        actor: &RipperDamageState,
+        _: RipperDamageService,
         _: &mut crate::audio_parameters::Random,
     ) -> Result<(), String> {
         self.0 += 1;
@@ -43,8 +43,8 @@ impl State23Services for DamageProbe {
     fn execute(
         &mut self,
         session: &mut Session,
-        actor: &crate::state23_damage::State<Id>,
-        service: crate::state23_damage::Service<Id>,
+        actor: &RipperDamageState,
+        service: RipperDamageService,
         random: &mut crate::audio_parameters::Random,
     ) -> Result<(), String> {
         self.calls += 1;
@@ -143,8 +143,8 @@ fn owned_ripper_damage_cannot_publish_into_a_replaced_session_with_colliding_ids
         fn execute(
             &mut self,
             session: &mut Session,
-            _: &crate::state23_damage::State<Id>,
-            _: crate::state23_damage::Service<Id>,
+            _: &RipperDamageState,
+            _: RipperDamageService,
             _: &mut crate::audio_parameters::Random,
         ) -> Result<(), String> {
             self.calls += 1;
@@ -282,8 +282,8 @@ fn owned_ripper_damage_refuses_reentry_without_consuming_another_callback() {
         fn execute(
             &mut self,
             session: &mut Session,
-            actor: &crate::state23_damage::State<Id>,
-            _: crate::state23_damage::Service<Id>,
+            actor: &RipperDamageState,
+            _: RipperDamageService,
             random: &mut crate::audio_parameters::Random,
         ) -> Result<(), String> {
             self.refused = session
@@ -323,8 +323,8 @@ fn owned_ripper_damage_lethal_effect_failure_cannot_invent_the_later_death_mode(
         fn execute(
             &mut self,
             _: &mut Session,
-            _: &crate::state23_damage::State<Id>,
-            request: crate::state23_damage::Service<Id>,
+            _: &RipperDamageState,
+            request: RipperDamageService,
             random: &mut crate::audio_parameters::Random,
         ) -> Result<(), String> {
             self.0 += 1;

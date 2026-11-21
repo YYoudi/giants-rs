@@ -67,7 +67,6 @@ impl Session {
                 combat.retaliation,
                 combat.target.map(|v| v.id),
                 combat.group,
-                combat.effect,
             ]
             .contains(&Some(id))
         {

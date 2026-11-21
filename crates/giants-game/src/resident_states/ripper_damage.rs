@@ -5,7 +5,10 @@
 use super::*;
 use crate::{audio_parameters::Random, state23_damage};
 mod partial_pistol;
-pub use partial_pistol::{Contact as PartialPistolContact, Services as PartialPistolServices};
+pub use partial_pistol::{
+    Contact as PartialPistolContact, DeathServices as PartialPistolDeathServices,
+    Services as PartialPistolServices,
+};
 
 #[derive(Debug, Default)]
 pub(super) struct Owned {
@@ -13,27 +16,51 @@ pub(super) struct Owned {
     failed: Option<String>,
 }
 
-struct Adapter<'a, S> {
+struct Adapter<'a, S: ?Sized> {
     session: &'a mut Session,
     services: &'a mut S,
     owner: Id,
     attempt: Arc<()>,
 }
-impl<S: State23Services> state23_damage::Services<Id> for Adapter<'_, S> {
+impl<S: State23Services + ?Sized> state23_damage::Services<Id, crate::attached_effect_context::Id>
+    for Adapter<'_, S>
+{
     fn execute(
         &mut self,
-        actor: &state23_damage::State<Id>,
-        service: state23_damage::Service<Id>,
+        actor: &RipperDamageState,
+        service: RipperDamageService,
         random: &mut Random,
     ) -> Result<(), String> {
         self.session
             .publish_ripper_damage_stage(self.owner, &self.attempt, actor)?;
+        let removed = match &service {
+            state23_damage::Service::RemoveEffect { effect } => Some(*effect),
+            _ => None,
+        };
         let result = self.services.execute(self.session, actor, service, random);
         if !self
             .session
             .ripper_damage_attempt(self.owner, &self.attempt)
         {
             return Err("damage service removed or replaced its callback scope".into());
+        }
+        if result.is_ok()
+            && let Some(effect) = removed
+        {
+            let primary = self
+                .session
+                .residents
+                .get_mut(&self.owner.serial)
+                .unwrap()
+                .ripper_primary
+                .as_mut()
+                .ok_or("removed Ripper effect lost its primary owner")?;
+            let mut state = primary.state().clone();
+            if state.effect != Some(effect) {
+                return Err("removed Ripper effect differs from its canonical primary".into());
+            }
+            state.effect = None;
+            primary.refresh_owned_frame(state)?;
         }
         result
     }
@@ -70,7 +97,7 @@ impl Session {
         &mut self,
         id: Id,
         attempt: &Arc<()>,
-        state: &state23_damage::State<Id>,
+        state: &RipperDamageState,
     ) -> Result<(), String> {
         if state.id != id || !self.ripper_damage_attempt(id, attempt) {
             return Err("damage publication lost its actual callback scope".into());

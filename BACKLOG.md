@@ -356,6 +356,15 @@ helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## NPC lane in progress - ordinary Rippers in The Wife
 
+Lethal continuation now has the real partial-pistol callback adapter, preserving
+actor/shot/context identity domains, actual effect alias cleanup and failed
+prefix ownership. Installed class73/230 composition covers success and two late
+service failures; eight exact-PC mode8 null preparations agree without RNG or
+child creation. Ordinary hit admission remains nonlethal until active death
+bodies, health frame/glow/collection and corpse retirement have real consumers.
+OWNED_NPCS.md records the scope. Continue this runtime wiring directly; do not
+claim a kill from context preparation or spend the next turn on scalar variants.
+
 Owner-priority recheck, 21 November: the actual public .14.2 download passes a
 rendered living encounter with 112.4 units of Ripper movement, class90 attacks,
 reciprocal nonlethal damage and continued AI after a refused lethal contact.

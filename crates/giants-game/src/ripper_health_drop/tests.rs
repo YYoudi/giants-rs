@@ -345,8 +345,8 @@ impl State23Services for Backend<'_> {
     fn execute(
         &mut self,
         session: &mut Session,
-        actor: &state23_damage::State<Id>,
-        request: Service<Id>,
+        actor: &crate::resident_states::RipperDamageState,
+        request: crate::resident_states::RipperDamageService,
         random: &mut Random,
     ) -> Result<(), String> {
         match request {

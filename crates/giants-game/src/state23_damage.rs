@@ -12,7 +12,7 @@ pub struct Target<I> {
     pub flags: u32,
 }
 #[derive(Clone, Debug, PartialEq)]
-pub struct State<I> {
+pub struct State<I, E = I> {
     pub id: I,
     pub class: i32,
     pub limit: f32,
@@ -30,7 +30,7 @@ pub struct State<I> {
     pub target: Option<Target<I>>,
     pub group: Option<I>,
     pub group_index: i32,
-    pub effect: Option<I>,
+    pub effect: Option<E>,
 }
 #[derive(Clone, Copy, Debug)]
 pub struct Source<I> {
@@ -45,7 +45,7 @@ pub struct Context {
     pub death_timer: f32,
 }
 #[derive(Clone, Debug, PartialEq)]
-pub enum Service<I> {
+pub enum Service<I, E = I> {
     StopAttached {
         actor: I,
         sound: u32,
@@ -90,7 +90,7 @@ pub enum Service<I> {
         decrement: bool,
     },
     RemoveEffect {
-        effect: I,
+        effect: E,
     },
     PropagateSource {
         actor: I,
@@ -102,11 +102,11 @@ pub enum Service<I> {
 /// Services may consume the same RNG (particles, effects, constructors, sound).
 /// They must report failure when unavailable, never acknowledge a no-op as
 /// rendering/creation. Earlier service effects are not rolled back on failure.
-pub trait Services<I> {
+pub trait Services<I, E = I> {
     fn execute(
         &mut self,
-        actor: &State<I>,
-        service: Service<I>,
+        actor: &State<I, E>,
+        service: Service<I, E>,
         random: &mut Random,
     ) -> Result<(), String>;
 }
@@ -122,8 +122,8 @@ fn choice(random: &mut Random) -> bool {
 
 /// Validate the bounded callback before an owned service attempt starts.
 /// None is the original already-dead return; this publishes no actor or service.
-pub(crate) fn validate<I>(
-    actor: &State<I>,
+pub(crate) fn validate<I, E>(
+    actor: &State<I, E>,
     amount: f32,
     context: Context,
 ) -> Result<Option<f64>, String> {
@@ -160,13 +160,13 @@ pub(crate) fn validate<I>(
 /// kill credit, mission accounting and notice dispatch belong to the wrapper.
 /// Scalar inputs are bounded to finite values. The wide sum selects the death
 /// branch before the stored f32 damage is rounded, as in the native callback.
-pub fn apply<I: Copy + Eq>(
-    actor: &mut State<I>,
+pub fn apply<I: Copy + Eq, E: Copy>(
+    actor: &mut State<I, E>,
     amount: f32,
     source: Option<Source<I>>,
     context: Context,
     random: &mut Random,
-    services: &mut impl Services<I>,
+    services: &mut impl Services<I, E>,
 ) -> Result<Outcome, String> {
     let Some(sum) = validate(actor, amount, context)? else {
         return Ok(Outcome::AlreadyDead);

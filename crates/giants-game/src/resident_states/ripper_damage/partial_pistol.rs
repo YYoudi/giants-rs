@@ -3,6 +3,8 @@
 //! separate identity: it is never registered as a canonical state77 actor.
 use super::*;
 use crate::{blood_particles, hit_routing, mecc_pistol, projectile_retaliation, state23_hurt};
+mod death;
+pub use death::DeathServices;
 
 pub struct Services<'a, S> {
     pub blood: &'a mut blood_particles::Pool,
@@ -12,9 +14,12 @@ pub struct Services<'a, S> {
 }
 /// Unsupported services are distinguished from source suppression and failures
 /// after callback execution. A rejected contact never retires a living actor.
+#[derive(Debug)]
 pub enum Contact {
     Suppressed,
     UnsupportedLethal,
+    UnavailableLethal(String),
+    Died,
     Applied(state23_damage::Outcome, state23_hurt::Counts),
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -32,10 +37,10 @@ impl Reference {
         }
     }
 }
-fn map_state<I, J>(
-    s: state23_damage::State<I>,
+fn map_state<I, J, E>(
+    s: state23_damage::State<I, E>,
     mut f: impl FnMut(I) -> Result<J, String>,
-) -> Result<state23_damage::State<J>, String> {
+) -> Result<state23_damage::State<J, E>, String> {
     Ok(state23_damage::State {
         id: f(s.id)?,
         class: s.class,
@@ -66,7 +71,9 @@ fn map_state<I, J>(
             .transpose()?,
         group: s.group.map(&mut f).transpose()?,
         group_index: s.group_index,
-        effect: s.effect.map(&mut f).transpose()?,
+        // An attached context has its own identity domain. Actor/source mapping
+        // must never reinterpret it as a Session actor or partial projectile.
+        effect: s.effect,
     })
 }
 struct Sounds<'a, S>(&'a mut S);
@@ -99,6 +106,50 @@ impl Session {
         hit: mecc_pistol::OwnedHit,
         random: &mut Random,
         services: &mut Services<'_, S>,
+    ) -> Result<Contact, String> {
+        self.partial_pistol_contact(
+            target,
+            completed_step,
+            player_step,
+            hit,
+            random,
+            services,
+            None,
+        )
+    }
+    /// The same ordinary immutable contact, with actual lethal consumers. Their
+    /// preflight precedes the callback so an unavailable service keeps living AI.
+    #[allow(clippy::too_many_arguments)]
+    pub fn damage_ripper_from_partial_pistol_with_death<S: state23_hurt::Sounds<Id>>(
+        &mut self,
+        target: Id,
+        completed_step: u64,
+        player_step: u64,
+        hit: mecc_pistol::OwnedHit,
+        random: &mut Random,
+        services: &mut Services<'_, S>,
+        death: &mut impl DeathServices,
+    ) -> Result<Contact, String> {
+        self.partial_pistol_contact(
+            target,
+            completed_step,
+            player_step,
+            hit,
+            random,
+            services,
+            Some(death),
+        )
+    }
+    #[allow(clippy::too_many_arguments)]
+    fn partial_pistol_contact<S: state23_hurt::Sounds<Id>>(
+        &mut self,
+        target: Id,
+        completed_step: u64,
+        player_step: u64,
+        hit: mecc_pistol::OwnedHit,
+        random: &mut Random,
+        services: &mut Services<'_, S>,
+        death: Option<&mut dyn DeathServices>,
     ) -> Result<Contact, String> {
         self.ripper_contact_snapshot(target, completed_step)?;
         self.check_ripper_damage_available(target)?;
@@ -155,7 +206,22 @@ impl Session {
         if initial.damage < initial.limit
             && f64::from(initial.damage) + f64::from(hit.damage()) >= f64::from(initial.limit)
         {
-            return Ok(Contact::UnsupportedLethal);
+            let Some(death) = death else {
+                return Ok(Contact::UnsupportedLethal);
+            };
+            if initial.parent.is_some() {
+                return Ok(Contact::UnavailableLethal(
+                    "attached Ripper requires actual detachment".into(),
+                ));
+            }
+            if let Err(reason) = state23_damage::validate(&initial, hit.damage(), services.callback)
+            {
+                return Ok(Contact::UnavailableLethal(reason));
+            }
+            if let Err(reason) = death.check(self, &initial) {
+                return Ok(Contact::UnavailableLethal(reason));
+            }
+            return self.partial_pistol_death(initial, hit, services.callback, random, death);
         }
         if initial.parent.is_some() {
             return Err("attached Ripper requires its actual detachment service".into());
@@ -287,7 +353,7 @@ mod tests {
             } else {
                 Some(Reference::Actor(actor(4)))
             };
-            let mut state = state23_damage::State {
+            let mut state: state23_damage::State<Reference> = state23_damage::State {
                 id: victim,
                 class: w[0] as i32,
                 limit: if w[0] == 73 { 40. } else { 90. },
