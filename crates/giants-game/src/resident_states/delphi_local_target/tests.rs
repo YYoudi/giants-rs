@@ -674,6 +674,27 @@ fn source_delphi_local_phase_protects_typed_links_and_partial_proxy_construction
 #[ignore = "Requires GIANTS_DELPHI_ROOT and executable; actual held-cache epochs and candidate geometry, scripted terrain/view"]
 fn source_delphi_local_phase_reads_cold_then_previous_held_geometry() {
     use crate::delphi_target_ray::Source;
+    // Copied metadata on a diagnostic constructor does not establish a real
+    // same-Id local-shell replacement, even if its raw bits happen to be zero.
+    let (mut copied, player, copied_source, copied_globals, _) = setup(1406);
+    copied
+        .residents
+        .get_mut(&player.serial)
+        .unwrap()
+        .cold_player_start_cache = Some(crate::actor_affine::Cache {
+        flags: 0,
+        matrix: [0.; 16],
+    });
+    let mut refused = Plan {
+        geometry: Some(Arc::new(copied_source)),
+        ..Default::default()
+    };
+    assert!(
+        copied
+            .advance_delphi_local_target(player, context(player, 1, &copied_globals), &mut refused)
+            .is_err()
+    );
+    assert!(refused.ray_samples.is_empty());
     let (mut s, owner, source, g, _) = setup(1405);
     let source = Arc::new(source);
     let mut plan = Plan {
@@ -960,4 +981,125 @@ fn source_delphi_local_phase_traces_installed_terrain_from_cold_and_previous_cac
         s.clear();
         assert!(s.delphi_prephysical_target_ray(owner, 4, 1e-4).is_err());
     }
+}
+
+#[test]
+#[ignore = "Requires GIANTS_DELPHI_ROOT/EXECUTABLE; actual marker/shell/retype/target/frame owners, supplied camera, clock and flat world"]
+fn source_delphi_marker_copy_feeds_first_target_then_completed_held_frame() {
+    let (mut s, old, source, g, factory) = setup(1410);
+    s.clear();
+    assert!(s.get(old).is_none());
+    struct Camera;
+    impl crate::player_shell::Camera for Camera {
+        fn change_view(&mut self, _: &mut Session, _: Id, _: i32) -> Result<(), String> {
+            Ok(())
+        }
+        fn update_camera(&mut self, _: &mut Session, _: Id) -> Result<(), String> {
+            Ok(())
+        }
+    }
+    struct Projection;
+    impl crate::delphi_player::ProjectionReset for Projection {
+        fn reset_projection(&mut self, _: &Session, _: Id) -> Result<(), String> {
+            Ok(())
+        }
+    }
+    let mut entry = crate::player_shell::Factory::load(&source)
+        .unwrap()
+        .construct(&mut s)
+        .unwrap();
+    entry
+        .initialize(
+            &mut s,
+            crate::player_shell::WorldPose {
+                position: [-7., 11., 13.],
+                heading: 0.,
+            },
+            &mut Camera,
+        )
+        .unwrap();
+    let owner = entry.owner();
+    let marker = crate::herd_markers::Factory::load(&source)
+        .unwrap()
+        .place_mission(
+            &mut s,
+            &giants_formats::mission::Placement {
+                source_offset: 10,
+                object_type: 679,
+                position: [3., 6., 10.],
+                yaw: 73.,
+                pitch_roll: Some([5., 9.]),
+                scale: None,
+            },
+            Some(2),
+            Some(0),
+            None,
+        )
+        .unwrap();
+    let cache = s.actor_current_affine(marker).unwrap();
+    assert_eq!(entry.relocate_delphi_start(&mut s).unwrap(), Some(marker));
+    factory
+        .retype_player_shell_with_projection(
+            &mut s,
+            owner,
+            crate::animation_channels::Blending::Disabled,
+            &mut Projection,
+        )
+        .result
+        .unwrap();
+    prepare(&mut s, owner, &source, &g);
+    let source = Arc::new(source);
+    let mut plan = Plan {
+        geometry: Some(source.clone()),
+        ..Default::default()
+    };
+    s.advance_delphi_local_target(owner, context(owner, 1, &g), &mut plan)
+        .unwrap();
+    assert_eq!(plan.ray_samples.len(), 1);
+    let sample = plan.ray_samples[0];
+    assert_eq!(
+        sample.source,
+        crate::delphi_target_ray::Source::ColdStartCopy
+    );
+    assert_eq!(
+        sample.second_column,
+        [cache.matrix[1], cache.matrix[5], cache.matrix[9]]
+    );
+    assert_eq!(sample.ray.origin.map(f32::to_bits), [0; 3]);
+    assert!(sample.ray.direction.iter().any(|v| *v != 0.));
+    assert!(s.actor_current_affine(owner).is_err());
+    let mut contexts = crate::attached_effect_context::Pool::from_active_resources(1410, &source);
+    let mut random = crate::audio_parameters::Random(1);
+    let mut stamp = crate::animation_epoch::Stamp::default();
+    let mut post = crate::delphi_post_physical::World::default();
+    physical(
+        &mut s,
+        owner,
+        1,
+        0,
+        &g,
+        (&mut contexts, &mut random, &mut stamp, &mut post),
+    )
+    .unwrap();
+    let held = s.delphi_special(owner).unwrap().held;
+    s.update_current_references_at(held, stamp.0 + 1).unwrap();
+    s.advance_delphi_held_pose(owner, 1).unwrap();
+    s.advance_delphi_local_target(owner, context(owner, 2, &g), &mut plan)
+        .unwrap();
+    assert_eq!(plan.ray_samples.len(), 2);
+    assert_eq!(
+        plan.ray_samples[1].source,
+        crate::delphi_target_ray::Source::PreviousFrame(1)
+    );
+    assert_eq!(
+        s.get(owner)
+            .unwrap()
+            .cold_player_start_cache
+            .unwrap()
+            .matrix
+            .map(f32::to_bits),
+        cache.matrix.map(f32::to_bits)
+    );
+    s.clear();
+    assert!(s.get(owner).is_none());
 }

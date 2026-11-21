@@ -12,6 +12,7 @@ pub struct Ray {
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Source {
     ColdConstructor,
+    ColdStartCopy,
     PreviousFrame(u64),
 }
 #[derive(Clone, Copy, Debug)]
@@ -34,6 +35,31 @@ pub fn from_constructor_caches(
         .any(|m| m.flags != 0 || m.values.map(f32::to_bits) != [0; 16])
     {
         return Err("Delphi cold ray requires all three actual zeroed constructor caches".into());
+    }
+    compose(owner, held, reference, threshold)
+}
+/// Raw owner storage copied from a cold start marker, with the held actor and
+/// reference still at their acquired constructor zeros. This is separate from
+/// both an all-zero cold constructor and evaluated affine admission. The owning
+/// Session must establish the actual marker copy and unchanged child lifetime.
+pub fn from_start_cache(
+    owner: Matrix,
+    held: Matrix,
+    reference: Matrix,
+    threshold: f32,
+) -> Result<Ray, String> {
+    if [held, reference]
+        .into_iter()
+        .any(|m| m.flags != 0 || m.values.map(f32::to_bits) != [0; 16])
+        || owner.flags & 0x20 != 0
+        || !owner.values.into_iter().all(f32::is_finite)
+        || (owner.values[12..] != [0., 0., 0., 1.]
+            && !(owner.flags == 0 && owner.values.map(f32::to_bits) == [0; 16]))
+    {
+        return Err(
+            "Delphi start ray requires copied finite raw storage and unchanged zeroed children"
+                .into(),
+        );
     }
     compose(owner, held, reference, threshold)
 }
@@ -81,6 +107,29 @@ fn compose(owner: Matrix, held: Matrix, reference: Matrix, threshold: f32) -> Re
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn copied_start_storage_does_not_admit_evaluated_or_changed_child_caches() {
+        let zero = Matrix {
+            flags: 0,
+            values: [0.; 16],
+        };
+        let mut parent = Matrix::identity();
+        parent.flags = 0x11;
+        parent.values[1] = 3.;
+        parent.values[5] = 4.;
+        let ray = from_start_cache(parent, zero, zero, 1e-4).unwrap();
+        assert_eq!(ray.origin.map(f32::to_bits), [0; 3]);
+        assert_eq!(ray.direction, [-0.6, -0.8, 0.]);
+        assert!(from_constructor_caches(parent, zero, zero, 1e-4).is_err());
+        assert!(from_poses(parent, zero, zero, 1e-4).is_err());
+        assert!(from_start_cache(parent, Matrix::identity(), zero, 1e-4).is_err());
+        assert!(from_start_cache(parent, zero, Matrix::identity(), 1e-4).is_err());
+        parent.values[0] = f32::NAN;
+        assert!(from_start_cache(parent, zero, zero, 1e-4).is_err());
+        parent = Matrix::identity();
+        parent.flags = 0x20;
+        assert!(from_start_cache(parent, zero, zero, 1e-4).is_err());
+    }
     #[test]
     fn constructor_caches_are_explicit_zero_storage_without_affine_admission() {
         let zero = Matrix {

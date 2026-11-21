@@ -1,5 +1,7 @@
 //! Acquired class-669 normal held-cache publication. Animation, alternate lock
 //! profiles and nonempty position footprints remain separate services.
+//! Literal prototype PS2 `object_lock_logic` is an unknown-attribution lookup
+//! route for this related placement work, not a confirmed PC routine identity.
 use super::*;
 use crate::procedural_aim::Matrix;
 
@@ -27,8 +29,9 @@ fn reference_words(m: Matrix) -> [u32; 17] {
 }
 impl Session {
     /// Read the acquired held-origin route while the owned local caller runs.
-    /// Its first turn reads constructor zeros; later turns read the preceding
-    /// completed placement. Ordinary completed-frame readers keep their guards.
+    /// Its first turn reads raw constructor or marker-copied owner storage and
+    /// unchanged constructor-zero child caches. Later turns read the preceding
+    /// completed placement. Current-frame guards stay intact.
     pub fn delphi_prephysical_target_ray(
         &self,
         owner: Id,
@@ -91,13 +94,50 @@ impl Session {
                 "Delphi cold ray requires its unchanged acquired constructor caches".into(),
             );
         }
-        // These two header caches are zero in the acquired cold constructors;
-        // unlike an evaluated affine, they have no implicit identity last row.
+        // The held header remains constructor-zero. The owner's raw cache is
+        // either constructor-zero or the separate acquired marker copy below;
+        // zero storage has no implicit identity last row.
         let zero = Matrix {
             flags: 0,
             values: [0.; 16],
         };
         let reference = self.delphi_held_reference(child)?;
+        if let Some(cache) = actor.cold_player_start_cache {
+            let context = actor
+                .construction_fields
+                .as_ref()
+                .ok_or("Delphi start fields absent")?
+                .dispatch_context;
+            let held_context = held
+                .construction_fields
+                .as_ref()
+                .ok_or("Delphi start held fields absent")?
+                .dispatch_context;
+            let binding = self
+                .wield_binding(child)
+                .ok_or("Delphi start held binding absent")?;
+            if actor.constructor_mask != 0x11
+                || context != 1
+                || held_context != context
+                || binding.context != context
+            {
+                return Err(
+                    "Delphi copied start ray requires its inherited local shell and held context"
+                        .into(),
+                );
+            }
+            let parent = Matrix {
+                flags: cache.flags,
+                values: cache.matrix,
+            };
+            return Ok(Sample {
+                source: Source::ColdStartCopy,
+                ray: crate::delphi_target_ray::from_start_cache(
+                    parent, zero, reference, threshold,
+                )?,
+                second_column: [cache.matrix[1], cache.matrix[5], cache.matrix[9]],
+            });
+        }
         Ok(Sample {
             source: Source::ColdConstructor,
             ray: crate::delphi_target_ray::from_constructor_caches(
@@ -175,7 +215,10 @@ impl Session {
         if actor.seed.storage.profile() != Profile::Debug
             || actor.class != 669
             || actor.seed.storage.state() != 0
-            || binding.context != 0
+            || !matches!(binding.context, 0 | 1)
+            || fields.dispatch_context != binding.context
+            || parent_fields.dispatch_context != binding.context
+            || (binding.context == 1 && parent.constructor_mask != 0x11)
             || actor.channels != Some(fields.channels)
             || fields.object_flags & !(0x20 | 0x40 | 0x800 | 0x40000000) != 0x20400000
             || fields.response_flags & 0x02009000 != 0
@@ -260,10 +303,16 @@ impl Session {
         let parent = self
             .delphi_physical(owner)
             .ok_or("Delphi held parent frame absent")?;
+        let parent_fields = self
+            .get(owner)
+            .and_then(|actor| actor.construction_fields.as_ref())
+            .ok_or("Delphi held parent fields absent")?;
         if owned.number != number
             || parent.number != number
             || parent.failure.is_some()
             || self.wield_binding(child) != Some(owned.binding)
+            || fields.dispatch_context != owned.binding.context
+            || parent_fields.dispatch_context != owned.binding.context
             || actor.channels != Some(owned.channels)
             || pose(fields) != owned.pose
         {

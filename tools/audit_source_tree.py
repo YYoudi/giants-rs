@@ -45,7 +45,15 @@ REVIEWED_ATTRIBUTION_LABELS = {'crates/giants-game/src/ripper_primary_turn.rs': 
                                    'a0c4addf0a738b4bf910f9f730d85fd8410c09ffed60c7ba683fd7de201a868a',
                                    'b95db50f67716523141c0bf3d11ccf1928ea2299c48f39fea32501ee09f0c44f',
                                    'bbf89e34ec9cc515385bb66664e978ce79f2ba20d1ec47764e936d95a704fc34'},
- 'docs/SYMBOL_NAVIGATION.md': {'5f479681589fc1461eab9ded86dba93f9916c8b0852975d36d2e5738753a5d4e',
+ 'docs/SYMBOL_NAVIGATION.md': {'bfc821e2e2ef55caabf6d86ea1bf6c828a55ef72d2af60b40bb9e9689ac50f8b',
+                               'd576051453116907eda42433c8ccbcc2d2711507d60b2e458774ef1387197f62',
+                               'c455697540f6899ba94bb4ed5660a37f905cfcb4b0b1b59472cff964f3c1729a',
+                               'd99403e6e5da2cf1c07ee6440450d7a3d17bcaf5ba623d4eff8ffac477c880d8',
+                               'df352e4d2e90eadd8957ba0a968b5181d2b3230b986e29a6b2841e679ec97e6c',
+                               '3725a3c659030e18be1c93baa53cfc9761f8b0f41dad63a90586336f72a338ce',
+                               '3a208dc7d5a3603ffadd19a396c1b3389ee91617af4043456bb5ba16d0e95d7e',
+                               '630f5f7c50c1127f43091993623584334b4cf49e2967afb5f3e709574d267f2a',
+                               '5f479681589fc1461eab9ded86dba93f9916c8b0852975d36d2e5738753a5d4e',
                                '57a6c15df729acf8c5d6c12c9cc91c3f3ce7bbb49f25eef3af0c41c8893280c3',
                                'bab1a95dbc653b862c479c1f0d4f02907e542586cbc25c4d5985c86484ef4998',
                                '01e32dd58e2c6046541c1faeb5280bc7ed1c4f4d4a19d0a29aa639420bc40daf',
@@ -175,6 +183,32 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].update({
     '3725a3c659030e18be1c93baa53cfc9761f8b0f41dad63a90586336f72a338ce',
     'df352e4d2e90eadd8957ba0a968b5181d2b3230b986e29a6b2841e679ec97e6c',
 })
+
+# Reviewed minimal cold player-marker navigation route; attribution remains unknown.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('f253f1706804f8a0ba0e0332c87423d9b2978efc231aef8d7cbfea1e8825f22e')
+
+# Reviewed concurrent minimal Kabuto/pub navigation revisions; unknown statuses retained.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('f12884a872dd0308b7d40b77d053145b59eacd4d6fba9a2ac9086e082b599ec1')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('15d087de79951c0ef76ee93f7593f626f2b1ccbc10df0ba56725bb74fd02f205')
+
+# Reviewed PR merge retains minimal unknown Kabuto and Delphi navigation routes.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('116cce10c8c5b59747b9427c9ade76d2134dad68f328fbe6352ce8f08f97f27f')
+
+# Reviewed concurrent minimal pub/Kabuto index; unknown/probable scopes retained.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('255008d2688ae59bb2a4d50cb96c7c8bb0c9519fe2fcc8aeaeab17728cc77b72')
+
+# Reviewed minimal Kabuto geometry navigation; identity and ABI remain unassigned.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('5559448c8901cd330bc0f4ad34db0b9de704344116870dc6bf1a637226d257ae')
+
+# Reviewed minimal world-entry declaration navigation; identity remains unknown.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('51530a263a66b2e0229ac80b7f17e4c032b568213f76d74a9fa4f1f2502c730c')
+
+# Reviewed minimal concurrent clock/retirement/pub/Kabuto routes and exact source/main combination.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('efe9c66cabd03f388efc4578ca474a6b83fcf7f55008c833c643e323ecbacf1b')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('cb6657ca2d42847f94211674103bc2e9bf9481d758c162c09a2e2f5f51b27ceb')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('28e3604c59fd21b71869b23fe031e5e1d67366b987d05618776f8d3cd35eed36')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('b3563baf928aff1b583ecb41a2dd80472dfefa2ae8d01cbe921ac230184c48c6')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('b1cf7dd58bd4d1d6d31be444cfbafda52e223190d8c7a714cdbccb9f241ec29b')
 
 # Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # branch. Reviewed as a VP8-only image without embedded metadata. Keep its

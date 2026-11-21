@@ -24,6 +24,18 @@ impl Factory {
         let special = delphi_special::Factory::load(plan.resources(), globals, weapons)?;
         Ok(Self { start, special })
     }
+    /// Activate this declared character on its actual initialized generic shell.
+    /// Marker selection and required projection remain live caller operations.
+    pub fn retype_player_shell_with_projection(
+        &self,
+        session: &mut Session,
+        shell: crate::resident_states::Id,
+        blending: Blending,
+        projection: &mut impl crate::delphi_player::ProjectionReset,
+    ) -> Attempt {
+        self.special
+            .retype_player_shell_with_projection(session, shell, blending, projection)
+    }
     pub fn declared_start(&self) -> &Declared {
         &self.start
     }

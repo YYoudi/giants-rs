@@ -685,6 +685,7 @@ pub mod physical_ground;
 pub mod plane_response;
 pub mod platform_queries;
 pub mod player_body;
+pub mod player_camera;
 pub mod player_collision_radius;
 pub mod player_equipment;
 pub mod player_initial;

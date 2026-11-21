@@ -546,6 +546,29 @@ cold class215/state51 and class1060/1226/state98 profiles. These remain unknown
 attributions; cold identities, payloads and list registration do not acknowledge
 NPC AI, a world tick or the ordinary building-hit consumers.
 
+The literal prototype PS2 name `object_lock_logic` also
+provides an **unknown** search route to
+[`Session::advance_delphi_held_pose`](../crates/giants-game/src/resident_states/delphi_held.rs).
+This is related placement work; the name does not establish an exact PC
+counterpart, prototype ABI/layout or a whole child/world scheduling contract.
+Independent PC controls and scoped context ownership remain separate evidence.
+
+The literal prototype PS2 `mission_start_at_marker__Fi` provides an **unknown**
+search route to the ordered cold marker consumer in
+[`player_shell`](../crates/giants-game/src/resident_states/player_shell.rs)
+and the existing [`player_start`](../crates/giants-game/src/player_start.rs)
+selection kernel. The name alone does not establish a PC identity. The actual
+PC copy contract, cached storage, enclosing startup and first targeting turn
+remain separate evidence; no prototype ABI or memory layout is imported.
+
+The literal prototype PS2 `read_worlds_bin` provides an **unknown** search route
+to [`world::parse_world`](../crates/giants-formats/src/world.rs) and its ordered
+entry-pose declarations, consumed by
+[`player_shell::Entry`](../crates/giants-game/src/player_shell.rs). This related
+resource-reading route does not establish an exact PC identity or prototype
+layout. Declared pose copying, inherited world state, actual camera providers
+and successful ordinary entry remain separate evidence.
+
 This index publishes only selected names, reviewed navigation relationships and
 attribution status. Binary/ELF inputs, raw tables, listings, matching outputs,
 disassembly and detailed research remain private. The central method pins the

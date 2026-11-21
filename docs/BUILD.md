@@ -136,6 +136,64 @@ unfinished scopes; do not discard failed or interrupted evidence.
 
 ## Optional installed reconstruction controls
 
+With `GIANTS_DELPHI_ROOT` and `GIANTS_DELPHI_EXECUTABLE`, run `cargo test --locked
+-p giants-app source_delphi_scene_entry --target x86_64-pc-windows-gnu -- --ignored`.
+The actual menu request, environment candidate, source terrain and eligible rigid
+meshes feed deferred generic entry, same-owner Delphi replacement and both Bevy
+camera upload buffers. Missing scene inputs wait; invalid projection retains a
+failed attempt without replay. Two entry/cleanup cycles pass. This is resource
+integration, without GPU rendering, complete startup or real input acceptance.
+
+With `GIANTS_DELPHI_ROOT`, the ignored game test
+`source_delphi_world_declaration_reaches_shell_before_required_camera_boundary`
+feeds the decoded world entry pose into the real generic shell. It checks view/
+pose/history order and retained camera failure, missing/non-finite source data,
+replay and cleanup. The required world/device camera provider deliberately
+remains unbound; this is neither complete startup nor ordinary movement.
+
+With `GIANTS_DELPHI_ROOT`, the ignored game test
+`source_delphi_live_start_copies_stored_cache_and_keeps_player_identity` checks
+the live marker list, raw cached transform transfer, retained same-Id replacement
+and projection/history ordering. It also retains no-match, missing-cache,
+foreign-session, replay and cleanup boundaries. Camera transport remains supplied;
+complete startup and ordinary input remain unverified.
+
+With both `GIANTS_DELPHI_ROOT` and `GIANTS_DELPHI_EXECUTABLE`, the ignored game
+test `source_delphi_marker_copy_feeds_first_target_then_completed_held_frame`
+connects that real marker/shell/type sequence to first targeting, a physical frame,
+held placement and the next target turn. The first ray records copied-start
+provenance; later targeting consumes the completed frame. Camera transport,
+clock/commands and flat world remain supplied. Unproven local context, evaluated
+child caches and stale frames remain refused; no ordinary controls are admitted.
+
+With `GIANTS_DELPHI_ROOT`, run `cargo test --locked -p giants-game
+source_delphi_shell_retype --target x86_64-pc-windows-gnu -- --ignored` for the
+fresh generic-shell replacement component. It checks the unchanged player Id,
+common registration nodes, inherited context, projection ordering, failure,
+replay and cleanup. `source_delphi_retained_player_attempt` additionally checks
+a late missing-child resource on that same identity. Pose and projection sink
+remain supplied; neither control runs complete startup or ordinary input.
+
+With both `GIANTS_DELPHI_ROOT` and `GIANTS_DELPHI_EXECUTABLE`, the ignored
+`source_delphi_camera_keeps_generic_owner_history_and_live_projection_caches`
+game test connects the same owned generic actor, mode/owner/chase state and
+required projection/view sinks through cold Delphi replacement. It checks live
+depth-cache feedback and retained terrain/transport failures. Normal context,
+initial pose cache, pose/clock/input and a flat/empty world remain supplied;
+neither a complete source-world startup nor ordinary rendered input is verified.
+Its additional source-pose profile now reads the world index-zero declaration
+through the same shell entry, retained camera state and type activation. The
+initial reset/chase boundary, clock, flat/empty world and device sinks remain
+supplied; the original supplied-pose and failure profiles remain covered.
+
+`source_delphi_physical_owns_motion_shares_events_and_quarantines_failure` now
+also checks a generic-shell/context-one replacement beside the seven existing
+physical profiles. It publishes held placement/rays after completed frames and
+rejects mismatched, unknown and stale contexts without consuming the held cache.
+Use `GIANTS_DELPHI_ROOT` and `GIANTS_DELPHI_EXECUTABLE` with the ignored game test.
+Its pose/clock/commands, flat terrain and selected services remain supplied;
+this does not verify ordinary gameplay or the complete primary/child schedule.
+
 `installed_static_palm_preserves_unresolved_auxiliary_links_and_damages_its_own_stump`
 uses `GIANTS_BUILDING_ROOT` for class101's actual binding dependencies, separately
 retained unresolved auxiliary links, physical/projectile admission, source shot

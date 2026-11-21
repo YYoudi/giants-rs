@@ -1,6 +1,7 @@
 //! Acquired generic player actor sequence before mission type activation.
 //! World-global reset/session scalar, the persistent camera lifecycle and later
-//! retyping remain upstream. Callback completion is not playable admission.
+//! successful startup remain upstream. Cold Delphi retyping retains this actor;
+//! callback completion is not playable admission.
 use crate::{
     actor_fields::Fields,
     object_lists::DirectFlags,
@@ -36,6 +37,7 @@ pub enum Checkpoint {
     ViewApplied,
     PoseApplied,
     CameraApplied,
+    StartApplied,
 }
 /// Own the actual constructor identity even after a later service fails.
 /// This capability is not cloneable; an entered sequence cannot be replayed.
@@ -83,6 +85,45 @@ impl Factory {
     }
 }
 impl Entry {
+    /// Feed the actual source command39/index0 pose into the ordered shell and
+    /// required camera operations. Last declaration wins. An absent declaration
+    /// requires its inherited/default producer; it is never replaced with zero.
+    /// This does not acknowledge full world loading, the copied global scalar,
+    /// persistent camera reset provenance or mission admission.
+    pub fn initialize_declared_world_pose(
+        &mut self,
+        session: &mut Session,
+        world: &giants_formats::world::WorldConfig,
+        camera: &mut impl Camera,
+    ) -> Result<(), String> {
+        let declaration = world
+            .entry_poses
+            .iter()
+            .rev()
+            .find(|pose| pose.index == 0)
+            .ok_or(
+                "generic entry needs an explicit world pose or its acquired inherited producer",
+            )?;
+        self.initialize(
+            session,
+            WorldPose {
+                position: std::array::from_fn(|i| f32::from_bits(declaration.words[i])),
+                heading: f32::from_bits(declaration.words[3]),
+            },
+            camera,
+        )
+    }
+    /// Copy the first eligible live Delphi marker after generic camera startup.
+    /// This is the cold kind-3 marker operation, not continuity, type activation
+    /// or successful mission admission. No match leaves the shell unchanged.
+    pub fn relocate_delphi_start(&mut self, session: &mut Session) -> Result<Option<Id>, String> {
+        if self.checkpoint != Checkpoint::CameraApplied || self.failure.is_some() {
+            return Err("Delphi marker placement requires completed generic camera startup".into());
+        }
+        let selected = session.copy_delphi_start_to_shell(self.owner)?;
+        self.checkpoint = Checkpoint::StartApplied;
+        Ok(selected)
+    }
     pub fn owner(&self) -> Id {
         self.owner
     }

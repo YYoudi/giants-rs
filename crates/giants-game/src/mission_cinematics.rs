@@ -113,6 +113,7 @@ mod tests {
             color: [0; 3],
         };
         let world = WorldConfig {
+            entry_poses: Vec::new(),
             prefix: TerrainPrefix {
                 box_name: String::new(),
                 terrain: String::new(),

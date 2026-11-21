@@ -1404,7 +1404,7 @@ See docs/PREVIEW_NOTES.md for controls, identities and bounded evidence.
 | --- | --- |
 | Normal Mecc / NPC children | All three special children now execute their acquired state0 history/common callback, ANM references and shared vertex-buffer producer. The renderer has no second channel clock. Full owned primary still needs actual impact, voice, damage-display, fire and collection consumers; the partial normal controller remains separate. |
 | Mecc projectile impact | Ordered executor and immediate context/zero-pose constructor prefix are integrated. `effect_burst::execution::Services` still has no canonical live constructor/command/finish backend. Immediate parent/reference placement, contact children and audio must execute in source order; projected spawns or a recorder cannot replace them. Canonical terrain-landing FX remain connected. |
-| Delphi | Ordered projection, shared look, evaluated body caches and generic class0/state7 shell are retained. F7 now focuses that initial body through the normal browser, with two actual OS entries and R reset verified. App still constructs a collapsed inspection owner. Reuse the shell identity through character retyping and persistent camera/lens update before projection/special initialization, then bind local-target/physical/held-copy scheduling, scene keys and water. A second player or late reset cannot satisfy entry. |
+| Delphi | Ordered projection, shared look, evaluated body caches and generic class0/state7 shell are retained. F7 now focuses that initial body through the normal browser, with two actual OS entries and R reset verified. App still constructs a collapsed inspection owner. Cold same-Id retyping now retains common nodes/context through ordered projection and special activation. Connect successful persistent camera/lens startup and that shell path, then bind local-target/physical/held-copy scheduling, scene keys and water. A second player or late reset cannot satisfy entry. |
 | Kabuto | The shared inspection camera reads the actual owner's look/size. F7 in free inspection now calls this service using compatible external coefficients; two actual OS entries and R reset pass on .11.1. Actual startup/warm ordering remains absent; `ProjectionReset`, `AnimationCache`, `ProceduralMaterial` and `GeometryRegistration` remain pending. Inspection acknowledges none of them or live input/primary admission. |
 | NPC population | All 134 supported Story2 neutral declarations have acquired callbacks, including references/eventless animation; Mecc children now feed the normal renderer. Class230 awakening constructs its actual marker. Live herd/Vimp admission still needs control factor, time/slow-area/noise population and shared RNG ordering. The App has no producer for the supplied installed-test contexts. Class230 later mode62 is not acquired. Do not acknowledge unsupported actors by updating only convenient ones. |
 | Flick timed effects | Virtual supports, canonical payloads, scoped expiry children and cancellation are retained alongside normal film ownership/transport. The menu renderer still uses preview timed playback. Migration requires source clock/RNG interleaving and detached-child ordinary preparation, including its acquired `physical_argument_word` and populated environment/footprint services. App has no producer for these native caller contracts. A Rust ID, zero or delta is no substitute; never run two simulations. Per-director seed1 remains an explicit preview policy. |
@@ -1818,6 +1818,85 @@ BACKLOG.md, PROGRESS.json, generated README and release notes are also shared:
 update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Delphi next steps
+
+The common App now defers the ordered Delphi entry until the matching world
+scene and real source-view upload buffers exist. It constructs the generic
+shell before declarations, applies the source world pose, copies the live start
+marker and retypes that same owner through projection and initial body creation.
+The normal-profile inspection camera consumes actual source terrain and twenty
+eligible initial rigid meshes in Rstory1. Its camera cohort excludes declarations
+the acquired camera walk cannot visit; unresolved eligible geometry still refuses.
+Installed controls verify both matrix uploads, retained failure, no replay,
+cleanup and fresh entry. This remains an inspection entry component, without
+GPU/ordinary-input acceptance or complete native startup/global-reset provenance.
+The next delivery is the shared primary/target/physical/held/evaluated-body loop
+with actual input, water/contact/effect producers and visible movement; controls
+and gameplay admission remain unavailable. No new downloadable preview is implied.
+
+The world reader now retains ordered command39 pose words and indexes. The
+generic shell can consume the last explicit index-zero declaration before its
+required camera update; missing/inherited and non-finite poses refuse without
+camera side effects. Nine installed declarations agree with the original PC's
+36 copied words, offsets and indexes. An installed owned-shell control retains
+the real camera-provider boundary and failed-entry ownership. A fifth normal-
+camera component profile also consumes this source pose through retained same-Id
+activation and following view updates, with supplied clock, flat world and sinks.
+This is declared
+source preparation and an entry component, not complete world loading or camera
+startup. Upstream global state and inherited/default producers remain separate;
+do not replace them with the older supplied control inputs.
+
+The cold entry now has an ordered live-marker consumer after generic camera
+startup. It selects the first eligible actual source marker, copies position,
+angles and all seventeen stored cache words, and preserves shell history and
+common-list identity. Retyping retains the copied raw cache on the same player;
+auxiliary children do not inherit it. Stored marker caches may be stale: this
+copy neither recomputes them nor certifies a current evaluated affine. Installed
+controls cover ordering, stale storage, missing cache, no match, replay and
+cleanup. One PC/Rust component sequence agrees on 335 root field/cache words and
+all fifteen list orders at three checkpoints, with supplied marker caches,
+camera transport and matching disabled blending. Cache production and complete
+loader/camera startup are not compared by that sequence. Its continuation now
+compares all six first-ray words with the PC's actual held lookup, matrix dispatch
+and normalization. The owned target caller consumes the copied owner cache while
+held/reference storage stays constructor-zero; it records this provenance
+separately from evaluated affines. An installed sequence connects actual marker,
+shell replacement, first targeting, physical/held placement and following-frame
+targeting. It retains required local-context and stale-cache refusals; clock,
+camera transport and flat world remain supplied. App still needs the real ordered entry/scheduler and source scene/water/
+input providers. This is a CPU dependency, not newly available Delphi gameplay.
+
+The acquired fresh generic shell can now be replaced by Delphi with its same
+Id and retained common registration nodes. Context one survives into copies and
+held bindings; projection still precedes history/special/animation and the root's
+class registration follows completion. Two PC/Rust component observations agree
+on 9,502 field/payload words plus contexts and all fifteen list orders across
+three checkpoints; installed controls retain failure/replay/cleanup boundaries.
+This is an intermediate dependency only. App still needs the actual successful
+persistent camera/lens startup before this replacement, then the existing full
+primary/target/physical/held-copy and source scene/water/input producers below.
+The observations deliberately stop the generic entry at a required provider and
+run type activation separately; they do not acknowledge complete startup or
+ordinary Delphi controls. No new playable preview is claimed.
+
+The required generic camera and type-projection callbacks now have a bounded
+normal binding in `player_camera::Normal`. It borrows the same mode/owner/chase
+state across retyping and queries live viewport/depth parameters for every
+projection. One PC/Rust sequence agrees on five projections, three views, root
+fields and retained chase values. Its normal context, fresh chase boundary,
+pose/clock/input, flat/empty world and device sinks are supplied; installed
+controls preserve failures and cleanup. App must still produce real startup/
+reset provenance, direct normal context and world/renderer consumers and schedule
+this path before the full player loop. This does not deliver ordinary Delphi.
+
+Held placement and the following target ray now admit the actual inherited
+local context after a completed controlled parent frame, retaining same-Id
+allocation and parent/header/binding context agreement. A 64-step PC/Rust
+component sequence agrees on 510,528 normalized header/reference/payload/list/
+ray words and RNG, including return to its supplied flat floor. The extended
+eight-owner installed control protects mismatched/unknown/stale contexts and
+retains prior frame/reference/cleanup refusals. Source-world admission, full
+primary/world/child-ANM scheduling and real menu/input/render remain separate.
 
 Current observable delivery: enter a Reaper mission through the common menu,
 retain the actual declared Delphi owner/held/copy group, then connect supported

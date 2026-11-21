@@ -29,6 +29,58 @@ That missing entry contract cannot be replaced with a late projection reset.
 See BACKLOG.md for the remaining runtime producers; no playable Delphi or new
 confirmed prototype PS2 attribution follows.
 
+### Cold shell replacement with the same identity
+
+`delphi_special::Factory::retype_player_shell_with_projection` binds the acquired
+fresh generic shell to Delphi without allocating a second live player. It
+preserves its Id, pose/history, inherited context and common registration nodes.
+Projection precedes history, special children and initial animation; the root's
+class-specific registration follows them. Copies and held bindings inherit the
+actual parent context. Resource staging precedes replacement, and later failures
+retain the same owner and completed effects while refusing replay.
+
+Two original PC component observations agree with Rust on 9,502 cohort-field and
+root-payload words, contexts and fifteen ordered lists at three checkpoints.
+They distinguish a newly selected camera from a retained prior camera. The
+generic entry stops at its required lens/reference provider boundary; type
+activation then runs as a separate component. Pose, prior camera, viewport,
+disabled animation blending and the external projection sink are supplied.
+This does not complete persistent startup, rendering or ordinary input. Installed
+controls separately cover enabled blending, exact common node retention, no
+second root allocation, projection/late-child failure, replay, foreign/stale
+identities and cleanup. The following held-placement service separately acquires
+the inherited local context; constructor agreement alone did not establish it.
+Attribution remains unknown under the pinned PC and
+prototype PS2 identities; no ABI, recovered name or readiness is inferred.
+
+### Normal camera across cold type activation
+
+`player_camera::Normal` connects the required generic-entry camera callbacks and
+type-projection callback to the same borrowed mode, selected-owner and pose/chase
+states. The generic actor uses the external default coefficient record; Delphi
+uses its actual class record after replacement. No new camera history is created
+at the character switch. Each projection queries the current viewport/depth
+provider, including caches changed by the preceding view. Real world queries
+and projection/view sinks remain required. Views carry the actual Session Id.
+Completed matrix/state effects survive a later failure; subsequent work refuses.
+
+One original PC sequence agrees with the binding on five projection matrices,
+three view matrices, all four root-field checkpoints, lens requests and retained
+chase values. It runs generic startup, same-Id activation and two following Delphi
+camera invocations with live depth-cache feedback. Normal context, fresh chase
+initialization, pose, clock/input, a flat terrain grid and empty mesh world are
+supplied. Original math and CPU viewport writers run; device submissions are
+captured. This validates the component connection, not an ordinary App entry or
+graphical fidelity. Installed failure controls additionally retain terrain,
+projection and view-transport failures and reject replay/retired identities.
+
+This binding admits only the local negative-reference ordinary mode-zero view.
+The caller must establish direct angles and exclude authored/forced/alternate
+world, shake and scaled-input branches. Global startup/reset provenance, actual
+ordinary-world providers and App scheduling remain upstream, followed by the
+player primary/physical/held-copy/input loop. Reusing confirmed common camera
+kernels establishes no additional prototype PS2 attribution or gameplay claim.
+
 ## Evaluated body consumer - intermediate dependency
 
 F7 in the ordinary free-camera inspection now returns to the loaded Delphi
@@ -680,6 +732,32 @@ readiness and primary/world scheduling remain open. No live Delphi admission,
 new gameplay capture or fidelity claim follows.
 
 ## Owned held cache and target ray - 9 November 2026
+
+### Inherited local context after same-Id activation
+
+The normal held publisher now admits the acquired local context inherited from
+the fresh generic player. Parent fields, child fields and typed binding must
+agree; context one additionally requires the retained generic allocation.
+Unknown/mismatched contexts refuse before publication, and changing either
+context after publication invalidates the held reader. Existing zero-context
+controls, cache/reference/frame checks and zero-footprint restrictions remain.
+
+A 64-step original PC controlled-parent/ANM/held/ray sequence agrees with Rust
+on 510,528 normalized cohort-header, reference, root-payload, ordered-list and ray
+words, with the same RNG. It includes falling from the supplied height to the
+flat floor. The earlier Rust version refuses the first held placement on this
+same input. The installed physical control now includes an eighth owner built
+through the actual generic pose publisher and same-Id replacement, alongside
+the seven earlier profiles. It checks mismatched/unknown contexts, allocation
+provenance, retained caches and stale readers, replay and cleanup.
+
+This is a component connection after completed controlled parent frames. Normal
+context, pose/commands/time, flat/empty world, selected callback order and device
+boundaries remain supplied. The camera prefix is explicitly stopped at a required
+provider; it is not acknowledged as complete startup. Full primary/world/child
+ANM scheduling, actual source-world contact/water/input and ordinary App entry
+remain unverified. The literal prototype PS2 name `object_lock_logic` is only an
+unknown-attribution navigation candidate, not a recovered PC function identity.
 
 `Session::advance_delphi_held_pose` now publishes the acquired normal class-669
 held cache after a completed Delphi frame. It resolves the actual first live

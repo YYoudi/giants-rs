@@ -1,4 +1,6 @@
 //! Bounded command-block traversal and environment data; object payloads opaque.
+//! Literal prototype PS2 `read_worlds_bin` is an unknown navigation route for
+//! related resource reading, not a confirmed PC identity or layout contract.
 use crate::{Error, slice, u32_at};
 
 #[derive(Clone, Debug)]
@@ -62,6 +64,9 @@ pub struct WorldConfig {
     /// Command 117 override. Missing does not establish the native default.
     pub terrain_direction_floor: Option<f32>,
     pub opcodes: Vec<(usize, u8)>,
+    /// Ordered command39 declarations, separate from mission markers and live
+    /// world state. Raw words preserve the native copy, including signed zero.
+    pub entry_poses: Vec<EntryPose>,
     pub lights: Vec<Light>,
     pub scenarios: Vec<Scenario>,
     pub placements: Vec<WorldPlacement>,
@@ -73,6 +78,13 @@ pub struct WorldConfig {
     pub command74_present: bool,
     /// Bounded copied string; its downstream purpose is not established.
     pub command89: Option<String>,
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub struct EntryPose {
+    pub source_offset: usize,
+    pub index: u8,
+    /// Three position words followed by heading; no affine is evaluated here.
+    pub words: [u32; 4],
 }
 pub struct WorldCinematic {
     pub source_offset: usize,
@@ -152,6 +164,7 @@ pub fn parse_world(data: &[u8]) -> Result<WorldConfig, Error> {
     let mut mip_curve = [1., -0.1, -0.05];
     let mut slope_thresholds = crate::gti::DEFAULT_SLOPE_THRESHOLDS;
     let mut opcodes = Vec::new();
+    let mut entry_poses = Vec::new();
     let mut terminated = false;
     let mut lights: Vec<Light> = Vec::new();
     let mut scenarios = Vec::new();
@@ -198,6 +211,17 @@ pub fn parse_world(data: &[u8]) -> Result<WorldConfig, Error> {
         };
         let record = slice(bounded, at, length)?;
         match opcode {
+            39 => {
+                let mut words = [0; 4];
+                for (i, word) in words.iter_mut().enumerate() {
+                    *word = u32_at(record, 2 + i * 4)?;
+                }
+                entry_poses.push(EntryPose {
+                    source_offset: at,
+                    index: record[1],
+                    words,
+                });
+            }
             90 => {
                 if let Some(i) = current_placement {
                     placements[i].values_f4 =
@@ -434,6 +458,7 @@ pub fn parse_world(data: &[u8]) -> Result<WorldConfig, Error> {
         slope_thresholds,
         terrain_direction_floor,
         opcodes,
+        entry_poses,
         lights,
         scenarios,
         placements,
@@ -545,6 +570,58 @@ pub fn terrain_prefix(data: &[u8]) -> Result<TerrainPrefix, Error> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn entry_pose_declarations_keep_source_order_indexes_and_raw_words() {
+        let mut data = world_fixture();
+        data.pop();
+        let start = data.len();
+        let rows = [
+            (
+                0,
+                [
+                    1f32.to_bits(),
+                    (-0f32).to_bits(),
+                    3f32.to_bits(),
+                    17f32.to_bits(),
+                ],
+            ),
+            (7, [f32::NAN.to_bits(), 2, 3, 4]),
+            (
+                0,
+                [
+                    5f32.to_bits(),
+                    6f32.to_bits(),
+                    7f32.to_bits(),
+                    (-23f32).to_bits(),
+                ],
+            ),
+        ];
+        for (index, words) in rows {
+            data.extend([39, index]);
+            for word in words {
+                data.extend(word.to_le_bytes());
+            }
+        }
+        data.push(255);
+        let size = (data.len() - 36) as u32;
+        data[32..36].copy_from_slice(&size.to_le_bytes());
+        let world = parse_world(&data).unwrap();
+        assert_eq!(world.entry_poses.len(), 3);
+        for (i, (index, words)) in rows.into_iter().enumerate() {
+            assert_eq!(
+                world.entry_poses[i],
+                EntryPose {
+                    source_offset: start + i * 18,
+                    index,
+                    words
+                }
+            );
+        }
+        data.truncate(data.len() - 3);
+        let size = (data.len() - 36) as u32;
+        data[32..36].copy_from_slice(&size.to_le_bytes());
+        assert!(parse_world(&data).is_err());
+    }
     #[test]
     fn fixed_leading_record_does_not_resynchronize_inside_its_payload() {
         let mut data = world_fixture();
