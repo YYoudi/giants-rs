@@ -135,6 +135,12 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].update({
     '28e3604c59fd21b71869b23fe031e5e1d67366b987d05618776f8d3cd35eed36',
     'b3563baf928aff1b583ecb41a2dd80472dfefa2ae8d01cbe921ac230184c48c6',
 })
+# Reviewed additional minimal entry-pose and retirement navigation routes;
+# explicit unknown statuses and no raw records or prototype layout import.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].update({
+    '51530a263a66b2e0229ac80b7f17e4c032b568213f76d74a9fa4f1f2502c730c',
+    'efe9c66cabd03f388efc4578ca474a6b83fcf7f55008c833c643e323ecbacf1b',
+})
 # Reviewed concurrent minimal navigation revisions: qualified marker/held-pose
 # and pub-body source routes only, without raw corpus or imported layouts.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].update({
