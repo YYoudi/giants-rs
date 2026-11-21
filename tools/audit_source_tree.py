@@ -154,6 +154,13 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('5559448c8901cd330b
 # Reviewed minimal world-entry declaration navigation; identity remains unknown.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('51530a263a66b2e0229ac80b7f17e4c032b568213f76d74a9fa4f1f2502c730c')
 
+# Reviewed minimal concurrent clock/retirement/pub/Kabuto routes and exact source/main combination.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('efe9c66cabd03f388efc4578ca474a6b83fcf7f55008c833c643e323ecbacf1b')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('cb6657ca2d42847f94211674103bc2e9bf9481d758c162c09a2e2f5f51b27ceb')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('28e3604c59fd21b71869b23fe031e5e1d67366b987d05618776f8d3cd35eed36')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('b3563baf928aff1b583ecb41a2dd80472dfefa2ae8d01cbe921ac230184c48c6')
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('b1cf7dd58bd4d1d6d31be444cfbafda52e223190d8c7a714cdbccb9f241ec29b')
+
 # Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # branch. Reviewed as a VP8-only image without embedded metadata. Keep its
 # all-reference history review valid before that gallery update enters main;
