@@ -1,5 +1,17 @@
 # Build on Windows with MinGW
 
+For the composed owned Kabuto query stage, set `GIANTS_KABUTO_ROOT` to a
+compatible supplied installation and run:
+
+```powershell
+cargo test --locked -p giants-game source_kabuto_owned_query --target x86_64-pc-windows-gnu -- --ignored --test-threads=1
+```
+
+These five CPU controls supply analytic ray/bounds and explicit world services.
+They check target/clock publication, callback mutations, late refusal, owner
+removal and replacement Session isolation. They do not exercise ordinary input,
+live camera/scene producers or a completed continuous primary.
+
 For the owned Kabuto resource/caller checkpoint, set `GIANTS_KABUTO_ROOT` to the
 compatible supplied installation and run:
 

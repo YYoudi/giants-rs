@@ -55,6 +55,11 @@ mod primary_tail;
 #[cfg(test)]
 #[path = "kabuto_primary_tail_tests.rs"]
 mod primary_tail_tests;
+#[path = "kabuto_reference_frame.rs"]
+mod reference_frame;
+#[cfg(test)]
+#[path = "kabuto_reference_frame_tests.rs"]
+mod reference_frame_tests;
 #[path = "kabuto_reference_query.rs"]
 mod reference_query;
 #[cfg(test)]

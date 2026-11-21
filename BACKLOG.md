@@ -28,9 +28,20 @@ failure alone.
 The completed resource phase now owns its caller-local checkpoint, and the
 retained-reference filter can return the actual consumed clock word for that
 same owner's handoff. Separate native/source controls cover these components;
-the enclosing frame, query ownership/lifetime, reaction/charge admission and
+the enclosing frame, reaction/charge admission and
 ordinary App producer/consumer order remain unfinished. The resource checkpoint
 must not be passed directly to the selector as proof of those missing phases.
+
+The owned query stage now composes ordered Session candidates, the retained-target
+filter and the actual consumed caller clock. Target identities and scalar storage
+have one canonical owner, with current factory/frame/lifetime guards and retained
+prefix effects on refusal. Five installed controls cover success, late failure,
+removal, replacement Session and callback mutation; the refactored filter retains
+its separate 512-case native comparison. Ray/bounds/clock/geometry and publication
+services are still required producers, supplied explicitly by these CPU controls.
+Next: connect actual post-query reaction/action admission before the locomotion
+selector, then the ordinary App input/camera/world and continuous frame lifecycle.
+This does not advance startup gates, acknowledge history or make Kabuto playable.
 
 ## Source naming and continuation requirement
 

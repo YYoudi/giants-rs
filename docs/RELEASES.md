@@ -1,5 +1,22 @@
 # Preview releases and milestone integration
 
+## Kabuto owned query stage - source dependency
+
+The ordered Session query now feeds the retained-target filter and actual caller
+clock checkpoint on the same actor/frame. Five installed CPU controls cover
+successful publication, late refusal, owner removal, replacement Session and
+callback mutations. The filter's separate 512-case native comparison still
+agrees after this composition. Ordinary App ray/world/camera/input producers,
+post-query reaction/action admission and continuous primary completion remain
+unfinished. All four initializer gates remain pending. This adds no playable
+controls, screenshot, GPU acceptance or Windows download; preview .14.2 and its
+immutable receipt remain unchanged.
+
+Validation: 1,118 portable Rust tests pass (264 ignored), all five installed
+query controls pass, and format, strict workspace Clippy, 45 Python tests and
+site/JavaScript checks pass. These establish component and regression coverage,
+not ordinary gameplay acceptance.
+
 ## Kabuto retained caller values - source dependency
 
 The resource phase now retains its actual caller-local checkpoint, and the

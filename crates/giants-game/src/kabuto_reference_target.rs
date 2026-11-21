@@ -83,9 +83,71 @@ pub fn advance_with_clock<K: Copy + Eq>(
     selection: Selection<K>,
     services: &mut impl Services<K>,
 ) -> Result<View<K>, String> {
+    advance_world(
+        owner,
+        selection,
+        &mut Local {
+            state,
+            services,
+            source_reference_present,
+        },
+    )
+}
+
+/// Canonical state storage for the owned adapter. No successful default world
+/// services or inspection state are supplied by this interface.
+pub(crate) trait World<K: Copy>: Services<K> {
+    fn state(&self) -> Result<State<K>, String>;
+    fn publish(&mut self, state: State<K>) -> Result<(), String>;
+    fn source_reference_present(&self) -> Result<bool, String>;
+}
+struct Local<'a, K, S> {
+    state: &'a mut State<K>,
+    services: &'a mut S,
+    source_reference_present: bool,
+}
+impl<K: Copy, S: Services<K>> Services<K> for Local<'_, K, S> {
+    fn bounds(&mut self, target: K) -> Result<Bounds, String> {
+        self.services.bounds(target)
+    }
+    fn seconds(&mut self, state: &State<K>) -> Result<f64, String> {
+        self.services.seconds(state)
+    }
+    fn announce(&mut self, state: &State<K>) -> Result<(), String> {
+        self.services.announce(state)
+    }
+    fn reset_marker(&mut self, state: &State<K>) -> Result<(), String> {
+        self.services.reset_marker(state)
+    }
+    fn parent(&mut self, target: K) -> Result<Option<K>, String> {
+        self.services.parent(target)
+    }
+    fn pose(&mut self) -> Result<Pose, String> {
+        self.services.pose()
+    }
+}
+impl<K: Copy, S: Services<K>> World<K> for Local<'_, K, S> {
+    fn source_reference_present(&self) -> Result<bool, String> {
+        Ok(self.source_reference_present)
+    }
+    fn state(&self) -> Result<State<K>, String> {
+        Ok(*self.state)
+    }
+    fn publish(&mut self, state: State<K>) -> Result<(), String> {
+        *self.state = state;
+        Ok(())
+    }
+}
+pub(crate) fn advance_world<K: Copy + Eq>(
+    owner: K,
+    selection: Selection<K>,
+    services: &mut impl World<K>,
+) -> Result<View<K>, String> {
+    let mut state = services.state()?;
     state.raw = selection.target;
     state.accepted = selection.target;
     state.score = selection.score;
+    services.publish(state)?;
     if state.score.is_nan() || state.score == f32::INFINITY || !state.remaining.is_finite() {
         return Err("Kabuto retained-reference state outside acquired profile".into());
     }
@@ -97,36 +159,46 @@ pub fn advance_with_clock<K: Copy + Eq>(
         let radius_squared = (half[0] * half[0] + half[1] * half[1]) + half[2] * half[2];
         if f64::from(state.score) > radius_squared {
             state.accepted = None;
+            services.publish(state)?;
         }
     }
     // This caller stores the shared clock return before subtracting it; the
     // following timer sign test still uses the wide subtraction result.
-    let seconds = services.seconds(state)?;
+    let seconds = services.seconds(&state)?;
     if !seconds.is_finite() || seconds < 0. || !(seconds as f32).is_finite() {
         return Err("Kabuto retained-reference clock outside finite nonnegative profile".into());
     }
+    state = services.state()?;
     let remaining = f64::from(state.remaining) - f64::from(seconds as f32);
     state.remaining = remaining as f32;
     if remaining < 0. {
         state.remaining = 0.;
         state.retained = None;
     }
+    services.publish(state)?;
     if let Some(target) = state.accepted {
-        services.announce(state)?;
+        services.announce(&state)?;
+        state = services.state()?;
         if state.retained != Some(target) {
-            services.reset_marker(state)?;
+            services.reset_marker(&state)?;
+            state = services.state()?;
         }
         state.remaining = 1.5;
         state.retained = Some(target);
+        services.publish(state)?;
     }
-    if !source_reference_present {
+    if !services.source_reference_present()? {
         state.retained = None;
+        services.publish(state)?;
     }
     if let Some(target) = state.retained
         && services.parent(target)? == Some(owner)
     {
+        state = services.state()?;
         state.retained = None;
+        services.publish(state)?;
     }
+    state = services.state()?;
     if let Some(target) = state.retained {
         let p = services.pose()?;
         if !p
@@ -162,7 +234,9 @@ pub fn advance_with_clock<K: Copy + Eq>(
             + f64::from(normal[1]) * f64::from(p.axis[1]))
             * f64::from(inverse_scale));
         if expression < f64::from(0.707_f32) {
+            state = services.state()?;
             state.retained = None;
+            services.publish(state)?;
         }
     }
     Ok(View {

@@ -356,6 +356,27 @@ path and are not acknowledged by this field proof.
 
 ## Resource caller checkpoint and query-clock handoff
 
+`Factory::advance_reference_query` now composes the ordered owned Session query
+with the retained-target filter. Its required services supply actual bounds,
+clock context, selection/marker publication, parent and geometry. Position and
+scale are read from the current owned actor. There are no successful default
+providers. Target IDs remain typed and ticket-bound; accepted identity uses the
+existing tail interaction role, and remaining time/score use actor scalar storage.
+
+The component retains the consumed clock in the resource caller checkpoint
+before later callbacks. It rereads reference and pose after callbacks, retains
+prefix effects on error, prevents replay and refuses stale/foreign identities.
+A removed owner is not restored, and a replacement Session is not quarantined
+by the previous invocation. `captured_query_frame` checks the current owner and
+frame; a returned snapshot is not enduring primary-admission proof.
+
+Five installed controls cover those lifecycle cases with explicitly supplied
+analytic ray/bounds and world entries. The refactored numeric filter also agrees
+with the separate 512-case native control. These checks do not acquire the
+injected callback bodies or provide the ordinary App services. Post-query
+reaction/action admission and continuous frame completion remain missing;
+all four initializer requirements stay pending.
+
 The completed owned resource phase retains the ten actual caller locals used
 later by action selection. `Factory::captured_resource_scratch` returns that
 checkpoint only for its current factory/owner/frame; later channel changes do
