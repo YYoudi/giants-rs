@@ -356,6 +356,31 @@ path and are not acknowledged by this field proof.
 
 ## Resource caller checkpoint and query-clock handoff
 
+`Factory::advance_query_feedback` consumes the actual completed query and its
+clock checkpoint to update the group's final effect. Its scalar is initialized
+by the acquired cold constructor, independently from state-payload storage;
+unrelated residents have no value. The raw query identity is used even when the
+retained-target filter rejected it. A present raw target requires the actual
+common factor-two transform producer. The returned cache is stored on the final
+effect, and its translation is copied into the effect's real position before
+scalar/flag updates. There is no position-only or identity-matrix fallback.
+
+Scalar arithmetic retains its narrowed store before clamping. On the empty raw
+query branch, equality at one leaves the previous flag unchanged; only a value
+strictly greater than one sets it. The selected branch clears the flag after
+its scalar update. Factory/frame/order/lifetime checks, retained query state on
+provider refusal and replay quarantine remain explicit. This component does not
+run the following scalar/mode and geometry-transition services or their early
+tail gate, complete a primary or acknowledge an initializer.
+
+Eight complete native cold primaries independently locate the final effect and
+its scalar producer. A separate 512-case comparison covers the feedback caller
+and actual position-copy helper, with a supplied mutating transform entry. It
+does not establish that transform helper's body/backend equivalence. Two installed
+controls compose the query and feedback on the real Session with analytic service
+output and a deliberate provider refusal. These are CPU dependencies, not visible
+feedback, ordinary input or a new preview feature.
+
 `Factory::advance_reference_query` now composes the ordered owned Session query
 with the retained-target filter. Its required services supply actual bounds,
 clock context, selection/marker publication, parent and geometry. Position and

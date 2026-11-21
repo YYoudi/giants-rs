@@ -208,7 +208,7 @@
       "title": "Kabuto movement and growth",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Not playable. Browse all missions -> Kabuto -> F7 is static initial-body inspection (introduced in preview .11.1). Source prepares external animation definitions and completed ANM buffers; owned ordered query/filter now retains the actual caller clock with lifecycle guards and CPU controls. Ordinary startup, real input, continuous frame scheduling and post-query action admission remain missing. ProjectionReset, AnimationCache, ProceduralMaterial and GeometryRegistration remain pending; no new gameplay or fidelity claim follows."
+      "detail": "Not playable. Browse all missions -> Kabuto -> F7 is static initial-body inspection (introduced in preview .11.1). Source prepares external animation definitions and completed ANM buffers; owned query/filter retains its caller clock and now updates the real final effect with required transform services. These have CPU controls. Ordinary startup, real input, continuous frame scheduling and post-query mode/action admission remain missing. ProjectionReset, AnimationCache, ProceduralMaterial and GeometryRegistration remain pending; no new gameplay or fidelity claim follows."
     },
     {
       "id": "kabuto-feeding",

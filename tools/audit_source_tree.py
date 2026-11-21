@@ -120,6 +120,9 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('630f5f7c50c1127f43
 # Reviewed one raw ELF navigation spelling with explicit unknown attribution,
 # no assigned signature/ABI, plus the existing minimal aliases; sole exact path.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('d99403e6e5da2cf1c07ee6440450d7a3d17bcaf5ba623d4eff8ffac477c880d8')
+# Reviewed one additional owned-feedback source link on the same explicitly
+# unknown Kabuto navigation route; existing minimal aliases, no corpus/ABI.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('f12884a872dd0308b7d40b77d053145b59eacd4d6fba9a2ac9086e082b599ec1')
 
 
 # Reviewed minimal navigation aliases in two concurrent history blobs and

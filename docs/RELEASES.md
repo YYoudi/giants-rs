@@ -1,5 +1,21 @@
 # Preview releases and milestone integration
 
+## Kabuto query final-effect feedback - source dependency
+
+The completed owned query now drives its actual final effect's scalar/flags and
+required transform/position publication. The cold scalar producer is retained;
+a missing transform provider refuses with the query prefix preserved. A bounded
+native comparison covers both caller branches and the strict narrowed-value
+clamp, using a supplied transform entry. Two installed controls cover owned
+publication and refusal. Scalar/mode, geometry transition/early tail and reaction
+admission still need ordered frame binding before ordinary movement. This adds
+no real-input/GPU acceptance, screenshot or download; preview .14.2 is unchanged.
+
+Validation: 1,119 portable Rust tests pass (266 ignored), both installed feedback
+controls and the five preceding query controls pass. The bounded feedback
+comparison agrees on 512 cases/12,544 words. Format, strict workspace Clippy,
+45 Python tests and site/JavaScript checks pass. These remain component checks.
+
 ## Kabuto owned query stage - source dependency
 
 The ordered Session query now feeds the retained-target filter and actual caller

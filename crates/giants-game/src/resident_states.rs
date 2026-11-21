@@ -422,6 +422,8 @@ pub struct Resident {
     /// Separate native camera look angle. Missing until an acquired producer
     /// initializes it; body orientation and model scale do not supply it.
     camera_look_angle: Option<f32>,
+    /// Acquired cold Kabuto effect header scalar, absent on unrelated actors.
+    kabuto_effect_scalar: Option<f32>,
     pub attachment: Option<Attachment>,
     // A removed parent does not clear the acquired reference/behavior words.
     // None means no producer has supplied them, rather than assumed zeros.
@@ -715,6 +717,7 @@ impl Session {
                 initial_flags: flags,
                 construction_fields: None,
                 camera_look_angle: None,
+                kabuto_effect_scalar: None,
                 state23_combat: None,
                 cold_alert_target: None,
                 barracks: None,

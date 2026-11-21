@@ -9,6 +9,8 @@ pub(super) enum Case {
     Clear,
     Replace,
     Mutate,
+    Feedback,
+    FeedbackFailure,
 }
 struct World<'a> {
     factory: &'a Factory,
@@ -100,7 +102,7 @@ impl frame::Services for World<'_> {
                 self.moved_x = Some(f.position[0]);
                 Ok(())
             }
-            Case::Success => Ok(()),
+            Case::Success | Case::Feedback | Case::FeedbackFailure => Ok(()),
         }
     }
     fn parent(&mut self, s: &Session, target: Id) -> Result<Option<Id>, String> {
@@ -275,4 +277,133 @@ pub(super) fn probe(
         f.object_flags = flags;
         f.configuration[16] = mask;
     }
+    if matches!(case, Case::Feedback | Case::FeedbackFailure) {
+        feedback_probe(
+            factory,
+            foreign,
+            s,
+            owner,
+            target,
+            number,
+            case == Case::FeedbackFailure,
+        );
+    }
+}
+
+fn feedback_probe(
+    factory: &Factory,
+    foreign: &Factory,
+    s: &mut Session,
+    owner: Id,
+    target: Id,
+    number: u64,
+    fail: bool,
+) {
+    struct Transform {
+        target: Id,
+        calls: usize,
+        fail: bool,
+    }
+    impl crate::kabuto_query_feedback::Services for Transform {
+        fn target_transform(
+            &mut self,
+            s: &Session,
+            target: Id,
+            factor: f32,
+        ) -> Result<crate::actor_affine::Cache, String> {
+            assert_eq!(target, self.target);
+            assert_eq!(factor, 2.);
+            assert!(s.get(target).is_some());
+            self.calls += 1;
+            if self.fail {
+                return Err("declared target transform unavailable".into());
+            }
+            // Analytic supplied service output, not a live transform producer.
+            let mut matrix = crate::procedural_aim::Matrix::identity().values;
+            for (i, value) in [13., 17., 19.].into_iter().enumerate() {
+                matrix[i * 4 + 3] = value;
+            }
+            Ok(crate::actor_affine::Cache {
+                flags: 0x12,
+                matrix,
+            })
+        }
+    }
+    let effect = s.kabuto_group(owner).unwrap().final_effect;
+    assert_eq!(s.get(effect).unwrap().kabuto_effect_scalar, Some(0.));
+    let position = s
+        .get(effect)
+        .unwrap()
+        .construction_fields
+        .as_ref()
+        .unwrap()
+        .position;
+    let mut world = Transform {
+        target,
+        calls: 0,
+        fail,
+    };
+    assert!(factory.captured_query_feedback(s, owner, number).is_err());
+    assert!(
+        foreign
+            .advance_query_feedback(s, owner, number, &mut world)
+            .is_err()
+    );
+    assert!(
+        factory
+            .advance_query_feedback(s, owner, number + 1, &mut world)
+            .is_err()
+    );
+    assert_eq!(world.calls, 0);
+    let result = factory.advance_query_feedback(s, owner, number, &mut world);
+    assert_eq!(world.calls, 1);
+    if fail {
+        assert!(result.unwrap_err().contains("transform unavailable"));
+        assert_eq!(s.get(effect).unwrap().kabuto_effect_scalar, Some(0.));
+        assert_eq!(
+            s.get(effect)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .position,
+            position
+        );
+        assert!(
+            s.kabuto_group(owner)
+                .unwrap()
+                .geometry_transition_failure
+                .is_some()
+        );
+        assert!(factory.captured_query_feedback(s, owner, number).is_err());
+    } else {
+        let view = result.unwrap();
+        assert_eq!(
+            (view.owner, view.number, view.effect),
+            (owner, number, effect)
+        );
+        assert_eq!(view.state.scalar, 0.);
+        assert_eq!(view.state.flags & 0x4000_0000, 0);
+        assert_eq!(view.state.position, [13., 17., 19.]);
+        let a = s.get(effect).unwrap();
+        assert_eq!(
+            a.construction_fields.as_ref().unwrap().position,
+            view.state.position
+        );
+        assert_eq!(a.affine_cache.as_ref().unwrap().value.flags, 0x12);
+        assert!(factory.captured_query_feedback(s, owner, number).is_ok());
+        assert!(
+            factory
+                .captured_query_feedback(s, owner, number + 1)
+                .is_err()
+        );
+    }
+    assert_eq!(s.kabuto_group(owner).unwrap().pending.len(), 4);
+    assert_eq!(s.kabuto_group(owner).unwrap().motion_history, Some(number));
+    assert!(
+        factory
+            .advance_query_feedback(s, owner, number, &mut world)
+            .is_err()
+    );
+    assert_eq!(world.calls, 1);
 }

@@ -93,6 +93,30 @@ fn source_kabuto_owned_query_does_not_quarantine_replacement_session() {
     );
 }
 #[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; composed query/effect publication with supplied transform; no GPU or input claim"]
+fn source_kabuto_query_feedback_updates_real_final_effect() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::Feedback),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; required feedback transform refusal retains query prefix and prevents replay"]
+fn source_kabuto_query_feedback_retains_transform_refusal() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::FeedbackFailure),
+    );
+}
+#[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private post-gravity control inputs/receipts; no window or sound"]
 fn source_kabuto_control_force_uses_owned_animated_state_and_preserves_primary() {
     run_model(true, true, false, None);

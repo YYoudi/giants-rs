@@ -39,8 +39,15 @@ prefix effects on refusal. Five installed controls cover success, late failure,
 removal, replacement Session and callback mutation; the refactored filter retains
 its separate 512-case native comparison. Ray/bounds/clock/geometry and publication
 services are still required producers, supplied explicitly by these CPU controls.
-Next: connect actual post-query reaction/action admission before the locomotion
-selector, then the ordinary App input/camera/world and continuous frame lifecycle.
+The final-effect feedback now consumes the completed owned query and its retained
+clock, updating the real final effect's scalar, flags and transform/position.
+Its transform producer is required, not a successful default. A separate native
+control covers the caller arithmetic and supplied transform boundary; it does
+not acquire that transform helper's body or a live renderer.
+Next: bind the acquired scalar/mode and geometry-transition services after this
+feedback, preserve their early-tail gate, then connect post-query reaction/action
+admission before the locomotion selector. Ordinary App input/camera/world and
+continuous frame completion remain required.
 This does not advance startup gates, acknowledge history or make Kabuto playable.
 
 ## Source naming and continuation requirement

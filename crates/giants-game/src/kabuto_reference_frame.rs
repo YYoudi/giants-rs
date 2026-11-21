@@ -41,6 +41,8 @@ pub(crate) struct Phase {
     pub completed: Option<u64>,
     pub caller: Option<Scratch>,
     pub clock_word: Option<u32>,
+    pub feedback_entered: Option<u64>,
+    pub feedback_completed: Option<u64>,
 }
 #[derive(Clone, Copy)]
 pub(crate) struct Targets {

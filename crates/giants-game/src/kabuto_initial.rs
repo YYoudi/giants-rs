@@ -328,6 +328,25 @@ impl Factory {
     ) -> Result<crate::kabuto_reference_frame::View, String> {
         session.captured_kabuto_query_frame(owner, &self.resources, number)
     }
+    /// Final-effect scalar/transform publication after this frame's real query.
+    /// The following mode, transition and reaction phases remain required.
+    pub fn advance_query_feedback(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        services: &mut impl crate::kabuto_query_feedback::Services,
+    ) -> Result<crate::kabuto_query_feedback::View, String> {
+        session.advance_kabuto_query_feedback(owner, &self.resources, number, services)
+    }
+    pub fn captured_query_feedback(
+        &self,
+        session: &Session,
+        owner: Id,
+        number: u64,
+    ) -> Result<crate::kabuto_query_feedback::View, String> {
+        session.captured_kabuto_query_feedback(owner, &self.resources, number)
+    }
     pub fn advance_resources(
         &self,
         session: &mut Session,
