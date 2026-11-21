@@ -1053,6 +1053,22 @@ pub(super) fn update(
                         && controller.state.buildings.probe_terrain_route(id)
                     {
                         if controller.probe_route.is_none() {
+                            let obstacles = if std::env::var("GIANTS_MISSION_BUILDING_CLASS")
+                                .as_deref()
+                                == Ok("53")
+                            {
+                                controller
+                                    .state
+                                    .mission_colliders()
+                                    .iter()
+                                    .filter(|o| {
+                                        o.fields.id != id && o.fields.object_flags & 0x8000 == 0
+                                    })
+                                    .map(|o| [o.fields.bounds.min, o.fields.bounds.max])
+                                    .collect::<Vec<_>>()
+                            } else {
+                                vec![]
+                            };
                             controller.probe_route = Some(
                                 [
                                     scene.asset.config.slope_thresholds[0],
@@ -1061,11 +1077,12 @@ pub(super) fn update(
                                 ]
                                 .into_iter()
                                 .find_map(|normal| {
-                                    route_probe::Route::prepare(
+                                    route_probe::Route::prepare_avoiding(
                                         &scene.asset.terrain,
                                         position,
                                         target,
                                         normal,
+                                        &obstacles,
                                     )
                                     .ok()
                                 })

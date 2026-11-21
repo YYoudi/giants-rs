@@ -84,6 +84,17 @@ impl Route {
         goal: [f32; 3],
         minimum_normal: f32,
     ) -> Result<Self, String> {
+        Self::prepare_avoiding(terrain, start, goal, minimum_normal, &[])
+    }
+    /// Conservative fixture clearance around actual other collision owners.
+    /// This is a pilot route, never native pathfinding or a collision substitute.
+    pub fn prepare_avoiding(
+        terrain: &Terrain,
+        start: [f32; 3],
+        goal: [f32; 3],
+        minimum_normal: f32,
+        obstacles: &[[[f32; 3]; 2]],
+    ) -> Result<Self, String> {
         if !minimum_normal.is_finite() || minimum_normal <= 0. || minimum_normal > 1. {
             return Err("invalid source walkable slope threshold".into());
         }
@@ -118,8 +129,21 @@ impl Route {
         };
         let mut heights = vec![None; width * height];
         for (n, height) in heights.iter_mut().enumerate() {
-            let sample = query.sample(point(n))?;
-            if sample.in_bounds && sample.height >= 0. && sample.plane[2] >= minimum_normal {
+            let p = point(n);
+            let sample = query.sample(p)?;
+            let obstructed = obstacles.iter().any(|b| {
+                p[0] >= b[0][0] - 8.
+                    && p[0] <= b[1][0] + 8.
+                    && p[1] >= b[0][1] - 8.
+                    && p[1] <= b[1][1] + 8.
+                    && sample.height + 20. >= b[0][2]
+                    && sample.height <= b[1][2] + 8.
+            });
+            if sample.in_bounds
+                && sample.height >= 0.
+                && sample.plane[2] >= minimum_normal
+                && !obstructed
+            {
                 *height = Some(sample.height);
             }
         }
@@ -214,8 +238,9 @@ impl Route {
             .collect::<Vec<_>>();
         points.push(goal);
         println!(
-            "mission_campaign_route points={} step={step} normal_threshold={minimum_normal} supplied_input_only=true terrain_sampled=true positions_written=false",
-            points.len()
+            "mission_campaign_route points={} step={step} normal_threshold={minimum_normal} obstacles={} supplied_input_only=true terrain_sampled=true positions_written=false",
+            points.len(),
+            obstacles.len()
         );
         Ok(Self { points, cursor: 0 })
     }
@@ -234,6 +259,39 @@ impl Route {
 #[cfg(test)]
 mod tests {
     use super::Escape;
+
+    #[test]
+    fn supplied_route_goes_around_ground_obstacle_without_relocating_endpoints() {
+        let terrain = giants_formats::gti::Terrain {
+            source_flags: 3,
+            width: 64,
+            height: 64,
+            origin: [0.; 2],
+            spacing: 4.,
+            height_bounds: [0.; 2],
+            fallback_texture: String::new(),
+            heights: vec![0.; 4096],
+            colors: vec![],
+            tags: vec![5; 4096],
+            consumed_bytes: 0,
+            opaque_tail: vec![],
+        };
+        let start = [12., 60., 8.];
+        let goal = [164., 60., 8.];
+        let obstacle = [[64., 32., 0.], [112., 96., 80.]];
+        let route =
+            super::Route::prepare_avoiding(&terrain, start, goal, 0.6, &[obstacle]).unwrap();
+        assert_eq!(route.points.first(), Some(&start));
+        assert_eq!(route.points.last(), Some(&goal));
+        assert!(
+            route
+                .points
+                .iter()
+                .all(|p| { p[0] < 56. || p[0] > 120. || p[1] < 24. || p[1] > 104. })
+        );
+        let barrier = [[64., -100., 0.], [112., 300., 80.]];
+        assert!(super::Route::prepare_avoiding(&terrain, start, goal, 0.6, &[barrier]).is_err());
+    }
 
     #[test]
     fn escape_releases_boost_when_movement_resumes() {

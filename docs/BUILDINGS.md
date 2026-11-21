@@ -18,6 +18,12 @@ consumer lookup regression. That rejected candidate also timed out during its
 supplied approach; it provided no completed contact/shot/capture acceptance.
 The input fixture now uses terrain routing for pubs, without changing their
 pose, physics, health or ordinary input admission.
+The next graphical candidate acknowledged the pub's current rigid draw but
+still failed its endpoint while the pilot was blocked by another building.
+The fixture now conservatively avoids actual neighbouring collision bounds;
+this is command planning, not reconstructed pathfinding or a collision policy.
+Installed map routing remains intermediate evidence until the rendered path
+reaches contact, unchanged shots and cleanup on the same executable.
 
 Preview .14.2 additionally delivers class101 palms: ordinary contact/pistol
 destruction, fourteen static-part retirements, source wood/audio, complete effect

@@ -131,6 +131,53 @@ fn installed_normal_pub_consumes_shared_clock_and_persistent_collision_prefixes(
             (owner, (p.key.0, index))
         })
         .collect::<Vec<_>>();
+    for (owner, _) in &owners {
+        let body = runtime
+            .active
+            .as_ref()
+            .unwrap()
+            .resident_states
+            .ordinary_building_body(*owner)
+            .unwrap();
+        let mesh = viewer
+            .mission_colliders()
+            .iter()
+            .find(|o| o.fields.id == body.collision_identity())
+            .unwrap();
+        let goal = mesh
+            .triangles
+            .iter()
+            .map(|t| {
+                std::array::from_fn::<_, 3, _>(|i| {
+                    ((f64::from(t.vertices[0][i]) + f64::from(t.vertices[1][i]))
+                        + f64::from(t.vertices[2][i])) as f32
+                        / 3.
+                })
+            })
+            .max_by(|a, b| a[2].total_cmp(&b[2]))
+            .unwrap();
+        let obstacles = viewer
+            .mission_colliders()
+            .iter()
+            .filter(|o| {
+                o.fields.id != body.collision_identity() && o.fields.object_flags & 0x8000 == 0
+            })
+            .map(|o| [o.fields.bounds.min, o.fields.bounds.max])
+            .collect::<Vec<_>>();
+        assert!(
+            [0.64278764, 0.49999997, 0.35].into_iter().any(|normal| {
+                crate::mission_player::route_probe::Route::prepare_avoiding(
+                    &asset.terrain,
+                    viewer.mission_snapshot().0,
+                    goal,
+                    normal,
+                    &obstacles,
+                )
+                .is_ok()
+            }),
+            "actual pub must have a conservative supplied route around other owners"
+        );
+    }
     for number in 1..=30 {
         runtime.sample_world_clock(424, 1000 + number * 16).unwrap();
         let poses = runtime
