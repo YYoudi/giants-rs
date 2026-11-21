@@ -385,7 +385,7 @@ fn sync(
                 oblique: false,
                 validation_camera: Some(candidate.camera),
                 camera_source: candidate.camera_source,
-                camera_origin: None,
+                camera_origin: Some(candidate.eye),
                 cinematic_capture_ready: false,
                 no_fog: false,
                 render_terrain: true,

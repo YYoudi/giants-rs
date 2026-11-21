@@ -1751,6 +1751,20 @@ update the relevant rows and preserve other lanes' evidence and limitations.
 
 ### Delphi next steps
 
+The common App now defers the ordered Delphi entry until the matching world
+scene and real source-view upload buffers exist. It constructs the generic
+shell before declarations, applies the source world pose, copies the live start
+marker and retypes that same owner through projection and initial body creation.
+The normal-profile inspection camera consumes actual source terrain and twenty
+eligible initial rigid meshes in Rstory1. Its camera cohort excludes declarations
+the acquired camera walk cannot visit; unresolved eligible geometry still refuses.
+Installed controls verify both matrix uploads, retained failure, no replay,
+cleanup and fresh entry. This remains an inspection entry component, without
+GPU/ordinary-input acceptance or complete native startup/global-reset provenance.
+The next delivery is the shared primary/target/physical/held/evaluated-body loop
+with actual input, water/contact/effect producers and visible movement; controls
+and gameplay admission remain unavailable. No new downloadable preview is implied.
+
 The world reader now retains ordered command39 pose words and indexes. The
 generic shell can consume the last explicit index-zero declaration before its
 required camera update; missing/inherited and non-finite poses refuse without

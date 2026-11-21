@@ -39,6 +39,14 @@ unfinished scopes; do not discard failed or interrupted evidence.
 
 ## Optional installed reconstruction controls
 
+With `GIANTS_DELPHI_ROOT` and `GIANTS_DELPHI_EXECUTABLE`, run `cargo test --locked
+-p giants-app source_delphi_scene_entry --target x86_64-pc-windows-gnu -- --ignored`.
+The actual menu request, environment candidate, source terrain and eligible rigid
+meshes feed deferred generic entry, same-owner Delphi replacement and both Bevy
+camera upload buffers. Missing scene inputs wait; invalid projection retains a
+failed attempt without replay. Two entry/cleanup cycles pass. This is resource
+integration, without GPU rendering, complete startup or real input acceptance.
+
 With `GIANTS_DELPHI_ROOT`, the ignored game test
 `source_delphi_world_declaration_reaches_shell_before_required_camera_boundary`
 feeds the decoded world entry pose into the real generic shell. It checks view/

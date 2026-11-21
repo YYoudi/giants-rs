@@ -35,15 +35,21 @@ pub trait Sink {
     fn projection(&mut self, output: camera_projection::Output) -> Result<(), String>;
     fn view(&mut self, owner: Id, output: &mecc_camera_update::Output) -> Result<(), String>;
 }
+/// Move-only camera phase ownership retained when a caller reborrows its world
+/// and renderer on another frame. This does not reset the shared chase state.
+#[derive(Default)]
+pub struct Sequence {
+    last_view_owner: Option<Id>,
+    activated: Option<Id>,
+    projection: Option<camera_projection::Output>,
+    failure: Option<String>,
+}
 pub struct Normal<'a, W, S> {
     parts: Components<'a>,
     world: &'a mut W,
     sink: &'a mut S,
     controls: Controls,
-    last_view_owner: Option<Id>,
-    activated: Option<Id>,
-    projection: Option<camera_projection::Output>,
-    failure: Option<String>,
+    sequence: Sequence,
 }
 impl<'a, W: mecc_camera_update::World, S: Sink> Normal<'a, W, S> {
     pub fn new(
@@ -57,21 +63,37 @@ impl<'a, W: mecc_camera_update::World, S: Sink> Normal<'a, W, S> {
             world,
             sink,
             controls,
-            last_view_owner: None,
-            activated: None,
-            projection: None,
-            failure: None,
+            sequence: Sequence::default(),
         }
+    }
+    /// Resume the same phase ownership with the same persistent components.
+    pub fn resume(
+        parts: Components<'a>,
+        world: &'a mut W,
+        sink: &'a mut S,
+        controls: Controls,
+        sequence: Sequence,
+    ) -> Self {
+        Self {
+            parts,
+            world,
+            sink,
+            controls,
+            sequence,
+        }
+    }
+    pub fn into_sequence(self) -> Sequence {
+        self.sequence
     }
     pub fn set_controls(&mut self, controls: Controls) {
         self.controls = controls;
     }
     pub fn failure(&self) -> Option<&str> {
-        self.failure.as_deref()
+        self.sequence.failure.as_deref()
     }
     /// Retained even when the required sink or a later world service fails.
     pub fn projection(&self) -> Option<&camera_projection::Output> {
-        self.projection.as_ref()
+        self.sequence.projection.as_ref()
     }
     pub fn output(&self) -> Option<&mecc_camera_update::Output> {
         self.parts.pose.output()
@@ -79,10 +101,10 @@ impl<'a, W: mecc_camera_update::World, S: Sink> Normal<'a, W, S> {
     /// Identity of the last successfully consumed view, including after a later
     /// failure. The caller must retain the ticket/lifetime and failure checks.
     pub fn view_owner(&self) -> Option<Id> {
-        self.last_view_owner
+        self.sequence.last_view_owner
     }
     fn check(&self) -> Result<(), String> {
-        if self.failure.is_some()
+        if self.sequence.failure.is_some()
             || self.parts.modes.failure().is_some()
             || self.parts.pose.failure().is_some()
         {
@@ -95,7 +117,7 @@ impl<'a, W: mecc_camera_update::World, S: Sink> Normal<'a, W, S> {
     }
     fn retain<T>(&mut self, result: Result<T, String>) -> Result<T, String> {
         if let Err(error) = &result {
-            self.failure = Some(error.clone());
+            self.sequence.failure = Some(error.clone());
         }
         result
     }
@@ -136,7 +158,7 @@ impl<'a, W: mecc_camera_update::World, S: Sink> Normal<'a, W, S> {
         if self.parts.modes.mode() != 0
             || self.parts.modes.view() != 0
             || (class == 3
-                && (self.activated != Some(controlled)
+                && (self.sequence.activated != Some(controlled)
                     || session.delphi_special(controlled).is_none()
                     || fields.configuration[14] & 1 == 0))
         {
@@ -176,7 +198,7 @@ impl<'a, W: mecc_camera_update::World, S: Sink> Normal<'a, W, S> {
         })?;
         let projection = camera_projection::build(fov, self.sink.projection_parameters()?)
             .map_err(str::to_owned)?;
-        self.projection = Some(projection);
+        self.sequence.projection = Some(projection);
         self.sink.projection(projection)?;
         let fields = self.fields(session, controlled)?;
         let number = self
@@ -205,7 +227,7 @@ impl<'a, W: mecc_camera_update::World, S: Sink> Normal<'a, W, S> {
             self.parts.pose.advance(input, self.world)?
         };
         self.sink.view(controlled, &output)?;
-        self.last_view_owner = Some(controlled);
+        self.sequence.last_view_owner = Some(controlled);
         Ok(())
     }
 }
@@ -230,7 +252,7 @@ impl<W: mecc_camera_update::World, S: Sink> player_shell::Camera for Normal<'_, 
             &mut |fov| {
                 let output = camera_projection::build(fov, self.sink.projection_parameters()?)
                     .map_err(str::to_owned)?;
-                self.projection = Some(output);
+                self.sequence.projection = Some(output);
                 self.sink.projection(output)
             },
         );
@@ -246,8 +268,8 @@ impl<W: mecc_camera_update::World, S: Sink> delphi_player::ProjectionReset for N
         let result = (|| {
             self.fields(session, controlled)?;
             if session.get(controlled).unwrap().class != 3
-                || self.last_view_owner != Some(controlled)
-                || self.activated.is_some()
+                || self.sequence.last_view_owner != Some(controlled)
+                || self.sequence.activated.is_some()
                 || self.parts.owners.owner_from_session(session)? != Some(controlled)
             {
                 return Err(
@@ -290,10 +312,10 @@ impl<W: mecc_camera_update::World, S: Sink> delphi_player::ProjectionReset for N
                 controlled,
                 owner: controlled,
                 catalog: self.parts.catalog,
-                retained: &mut self.projection,
+                retained: &mut self.sequence.projection,
                 sink: self.sink,
             })?;
-            self.activated = Some(controlled);
+            self.sequence.activated = Some(controlled);
             Ok(())
         })();
         self.retain(result)
@@ -303,6 +325,18 @@ impl<W: mecc_camera_update::World, S: Sink> delphi_player::ProjectionReset for N
 #[cfg(test)]
 mod tests {
     use super::*;
+    fn reborrow<W: mecc_camera_update::World, S: Sink>(
+        camera: Normal<'_, W, S>,
+    ) -> Normal<'_, W, S> {
+        let Normal {
+            parts,
+            world,
+            sink,
+            controls,
+            sequence,
+        } = camera;
+        Normal::resume(parts, world, sink, controls, sequence)
+    }
     struct World {
         fail_height: bool,
         height_calls: usize,
@@ -440,6 +474,7 @@ mod tests {
                         &mut camera,
                     )
                 };
+                let mut camera = reborrow(camera);
                 if matches!(case, 2 | 3) {
                     assert!(entered.is_err());
                     assert_eq!(entry.checkpoint(), player_shell::Checkpoint::PoseApplied);
@@ -472,6 +507,7 @@ mod tests {
                         &mut camera,
                     );
                     assert_eq!(attempt.owner, Some(owner));
+                    let mut camera = reborrow(camera);
                     if case == 1 {
                         assert_eq!(attempt.projection, delphi_player::ProjectionStatus::Failed);
                         assert!(

@@ -46,6 +46,13 @@ pub fn prepare_players(plan: &Plan, terrain: &giants_formats::gti::Terrain) -> P
     prepare_profile(plan, terrain, Profile::Player)
 }
 
+/// Initial camera-eligible rigid meshes, using the same eligibility mask as
+/// `mecc_camera_wall::clip`. Physical-only declarations cannot block this cohort.
+/// Unresolved eligible declarations remain needs; this is not a live world list.
+pub fn prepare_camera(plan: &Plan, terrain: &giants_formats::gti::Terrain) -> Prepared {
+    prepare_profile(plan, terrain, Profile::Camera)
+}
+
 /// Source-declared platform geometry only. These are unresolved candidates,
 /// not constructed footprints or admitted live platform surfaces. A consumer
 /// must not turn their presence into an empty successful platform query.
@@ -65,6 +72,7 @@ pub fn prepare_projectiles(plan: &Plan, terrain: &giants_formats::gti::Terrain) 
 enum Profile {
     Environment,
     Player,
+    Camera,
     PlatformCandidates,
     Projectiles,
 }
@@ -75,7 +83,8 @@ fn prepare_profile(
 ) -> Prepared {
     let platforms = matches!(profile, Profile::PlatformCandidates);
     let projectiles = matches!(profile, Profile::Projectiles);
-    let players = matches!(profile, Profile::Player);
+    let camera = matches!(profile, Profile::Camera);
+    let players = matches!(profile, Profile::Player | Profile::Camera);
     let mut output = Prepared {
         objects: vec![],
         records: vec![],
@@ -91,6 +100,7 @@ fn prepare_profile(
             let source = source?;
             let flags = source.direct_flags;
             if flags.active & 0x4000_c000 != 0
+                || camera && flags.personality & 0x1008 == 0
                 || if projectiles {
                     flags.personality & 0x20000 == 0
                 } else {

@@ -27,7 +27,7 @@ impl bevy::app::Plugin for Plugin {
             .init_resource::<State>()
             .add_systems(
                 Update,
-                (sync, controller::update)
+                (delphi_entry, sync, controller::update)
                     .chain()
                     .in_set(PlayerUpdate)
                     .after(crate::mission_environment::EnvironmentUpdate)
@@ -136,6 +136,20 @@ pub(crate) fn resident(world: &mut World, ticket: u64) -> bool {
         .any(|(p, c)| p.ticket == ticket && c.prepared(ticket))
 }
 
+fn delphi_entry(
+    mut runtime: ResMut<Runtime>,
+    scene: Option<ResMut<crate::world_scene::Scene>>,
+    view: Res<crate::source_view::SourceView>,
+    mut materials: crate::world_scene::SceneMaterials,
+) {
+    let Some(mut scene) = scene else { return };
+    match runtime.enter_delphi_scene(&mut scene, &view, &mut materials.buffers) {
+        Ok(true) => crate::world_scene::apply_camera(&scene, &mut materials),
+        Ok(false) => {}
+        Err(error) => error!("mission_delphi_scene_entry_refused error={error} ready=false"),
+    }
+}
+
 #[allow(clippy::too_many_arguments)]
 fn sync(
     mut commands: Commands,
@@ -227,6 +241,7 @@ fn sync(
             | "mission_player_inspection"
             | "declared_start_debug_camera"
             | "kabuto_profile_inspection"
+            | "delphi_source_entry_inspection"
     ) || scene.camera_source == "showcase_free" && snapshot.is_some())
     {
         return;
@@ -667,4 +682,25 @@ fn sync(
         p.requested_companions
     );
     state.mounted = Some(mounted);
+}
+
+#[cfg(test)]
+mod delphi_entry_tests {
+    use super::*;
+    use bevy::ecs::system::RunSystemOnce;
+
+    #[test]
+    fn delphi_entry_system_borrows_shared_buffers_once() {
+        let mut world = World::new();
+        world.init_resource::<Runtime>();
+        world.init_resource::<Assets<bevy::render::storage::ShaderBuffer>>();
+        world.init_resource::<crate::source_view::SourceView>();
+        world.init_resource::<Assets<crate::world_scene::WorldColorMaterial>>();
+        world.init_resource::<Assets<crate::sky_scene::SkyMaterial>>();
+        world.init_resource::<Assets<crate::underside_scene::UndersideMaterial>>();
+        world.init_resource::<Assets<crate::world_composition::Presentation>>();
+        world.init_resource::<Assets<crate::water_scene::Material>>();
+        world.init_resource::<Assets<crate::water_texture::Material>>();
+        world.run_system_once(delphi_entry).unwrap();
+    }
 }

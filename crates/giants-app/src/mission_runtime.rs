@@ -28,6 +28,7 @@ pub(crate) struct CampaignCompletion {
 mod barracks_tests;
 mod campaign;
 mod combat_globals;
+mod delphi;
 mod landing;
 mod mecc_hit_clock;
 mod npc;
@@ -106,6 +107,8 @@ struct Payload {
     delphi_body: Option<Arc<giants_game::player_body::Prepared>>,
 
     delphi: Result<Option<giants_game::delphi_declared::Factory>, String>,
+    delphi_entry: Option<delphi::State>,
+    delphi_entry_need: Option<String>,
     controller: Result<Option<crate::mecc_dev_scene::State>, String>,
     carried: Result<Option<(usize, Arc<giants_game::carried_actor::Prepared>)>, String>,
     smarties: Result<smarties::State, String>,
@@ -1123,6 +1126,9 @@ impl Runtime {
                 .kabuto_group(owner)
                 .ok_or("Kabuto initial group absent")?;
             return Err("Kabuto initialization and native controller are not connected yet".into());
+        }
+        if matches!(p.delphi, Ok(Some(_))) {
+            return Err("Delphi movement controls are not connected yet".into());
         }
         let player = p.player.as_ref().map_err(Clone::clone)?;
         if player.start.kind != 2 || p.controller.is_err() {
@@ -2667,48 +2673,96 @@ fn spawn(
             blocked.push(format!("update at {}: {error}", result.source_offset));
         }
     }
+    let (resident_states, bindings_by_role) = if payload.delphi_entry.is_some() {
+        blocked.push("Delphi entry is waiting for the scene camera".into());
+        (
+            giants_game::resident_states::Session::new(ticket),
+            ActorBindings::default(),
+        )
+    } else {
+        construct_residents(ticket, payload, &mut blocked, None)
+    };
+    (root, actors, blocked, resident_states, bindings_by_role)
+}
+fn construct_residents(
+    ticket: u64,
+    payload: &mut Payload,
+    blocked: &mut Vec<String>,
+    mut entry_camera: Option<&mut dyn delphi::EntryCamera>,
+) -> (giants_game::resident_states::Session, ActorBindings) {
     let mut resident_states = giants_game::resident_states::Session::new(ticket);
     let mut bindings_by_role = ActorBindings::default();
+    let mut generic_entry = None;
+    if let Some(need) = &payload.delphi_entry_need {
+        blocked.push(format!("Delphi scene entry preparation: {need}"));
+    }
     payload.delphi_body = None;
     match &payload.delphi {
         Ok(Some(factory)) => {
-            let attempt = factory.construct_declared(
-                &mut resident_states,
-                giants_game::animation_channels::Blending::Enabled,
-            );
-            bindings_by_role.player = attempt.owner;
-            bindings_by_role.delphi_projection = Some(attempt.projection);
-            match attempt.result {
-                Ok(initial) => {
-                    match giants_game::player_body::Prepared::from_session(
-                        payload.plan.resources(),
-                        &resident_states,
-                        initial.owner,
-                    ) {
-                        Ok(body) => payload.delphi_body = Some(Arc::new(body)),
-                        Err(error) => blocked.push(format!("Delphi body preparation: {error}")),
+            if let Some(camera) = &mut entry_camera {
+                let result = (|| -> Result<giants_game::player_shell::Entry, String> {
+                    let mut entry =
+                        giants_game::player_shell::Factory::load(payload.plan.resources())?
+                            .construct(&mut resident_states)?;
+                    bindings_by_role.player = Some(entry.owner());
+                    let world = payload
+                        .packet
+                        .world
+                        .as_ref()
+                        .ok_or("Delphi source world absent")?;
+                    entry.initialize_declared_world_pose(
+                        &mut resident_states,
+                        world,
+                        &mut delphi::CameraRef(*camera),
+                    )?;
+                    Ok(entry)
+                })();
+                match result {
+                    Ok(entry) => generic_entry = Some(entry),
+                    Err(error) => {
+                        blocked.push(format!("Delphi source entry: {error}"));
+                        return (resident_states, bindings_by_role);
                     }
-                    println!(
-                        "mission_delphi_constructed ticket={ticket} owner={:?} class=3 held={:?} copies={} position={:?} projection_checkpoint={:?} declared_placement=true native_relocation_verified=false controller=false ready=false",
-                        initial.owner,
-                        initial.special.held,
-                        initial.special.copies.len(),
-                        factory.declared_start().position,
-                        attempt.projection
-                    );
-                    let projection = if bindings_by_role.delphi_projection
-                        != Some(giants_game::delphi_player::ProjectionStatus::Completed)
-                    {
-                        "pre-special projection callback, "
-                    } else {
-                        ""
-                    };
-                    blocked.push(format!("Delphi {projection}live animation, physical/camera/input and controller admission pending"));
                 }
-                Err(error) => blocked.push(format!(
-                    "Delphi cold initialization owner={:?}: {error}",
-                    attempt.owner
-                )),
+            } else {
+                let attempt = factory.construct_declared(
+                    &mut resident_states,
+                    giants_game::animation_channels::Blending::Enabled,
+                );
+                bindings_by_role.player = attempt.owner;
+                bindings_by_role.delphi_projection = Some(attempt.projection);
+                match attempt.result {
+                    Ok(initial) => {
+                        match giants_game::player_body::Prepared::from_session(
+                            payload.plan.resources(),
+                            &resident_states,
+                            initial.owner,
+                        ) {
+                            Ok(body) => payload.delphi_body = Some(Arc::new(body)),
+                            Err(error) => blocked.push(format!("Delphi body preparation: {error}")),
+                        }
+                        println!(
+                            "mission_delphi_constructed ticket={ticket} owner={:?} class=3 held={:?} copies={} position={:?} projection_checkpoint={:?} declared_placement=true native_relocation_verified=false controller=false ready=false",
+                            initial.owner,
+                            initial.special.held,
+                            initial.special.copies.len(),
+                            factory.declared_start().position,
+                            attempt.projection
+                        );
+                        let projection = if bindings_by_role.delphi_projection
+                            != Some(giants_game::delphi_player::ProjectionStatus::Completed)
+                        {
+                            "pre-special projection callback, "
+                        } else {
+                            ""
+                        };
+                        blocked.push(format!("Delphi {projection}live animation, physical/camera/input and controller admission pending"));
+                    }
+                    Err(error) => blocked.push(format!(
+                        "Delphi cold initialization owner={:?}: {error}",
+                        attempt.owner
+                    )),
+                }
             }
         }
         Err(error) => blocked.push(format!("Delphi preparation: {error}")),
@@ -3083,8 +3137,55 @@ fn spawn(
             )),
         }
     }
-    (root, actors, blocked, resident_states, bindings_by_role)
+    if let Some(mut entry) = generic_entry {
+        let result = (|| -> Result<(), String> {
+            let selected = entry
+                .relocate_delphi_start(&mut resident_states)?
+                .ok_or("Delphi live start marker absent")?;
+            let factory = payload
+                .delphi
+                .as_ref()
+                .map_err(Clone::clone)?
+                .as_ref()
+                .ok_or("Delphi factory absent")?;
+            let key = giants_game::declared_residents::Key {
+                scope: giants_game::declared_residents::Scope::Mission,
+                index: factory.declared_start().marker_index,
+            };
+            if resident_states.declaration(key) != Some(selected) {
+                return Err(
+                    "Delphi live marker differs from its ordered source declaration".into(),
+                );
+            }
+            let camera = entry_camera
+                .as_mut()
+                .ok_or("Delphi projection provider absent")?;
+            let attempt = factory.retype_player_shell_with_projection(
+                &mut resident_states,
+                entry.owner(),
+                giants_game::animation_channels::Blending::Enabled,
+                &mut delphi::CameraRef(*camera),
+            );
+            bindings_by_role.delphi_projection = Some(attempt.projection);
+            let initial = attempt.result?;
+            payload.delphi_body = Some(Arc::new(giants_game::player_body::Prepared::from_session(
+                payload.plan.resources(),
+                &resident_states,
+                initial.owner,
+            )?));
+            println!(
+                "mission_delphi_source_entry ticket={ticket} owner={:?} marker={selected:?} local_context=true same_identity=true projection_completed=true body_snapshot=true primary=false controller=false ready=false",
+                initial.owner
+            );
+            Ok(())
+        })();
+        if let Err(error) = result {
+            blocked.push(format!("Delphi ordered activation: {error}"));
+        }
+    }
+    (resident_states, bindings_by_role)
 }
+
 fn drive(
     mut commands: Commands,
     scene: Res<Scene>,
@@ -3250,6 +3351,14 @@ fn drive(
                 })();
                 let kabuto = prepare_kabuto(&root, &plan, &packet);
                 let delphi = prepare_delphi(&root, &plan, &packet);
+                let (delphi_entry, delphi_entry_need) = if matches!(&delphi, Ok(Some(_))) {
+                    match delphi::State::prepare(&root, &plan, &packet) {
+                        Ok(state) => (Some(state), None),
+                        Err(error) => (None, Some(error)),
+                    }
+                } else {
+                    (None, None)
+                };
                 let npcs = npc::State::prepare(&root, &plan);
                 let rippers = rippers::State::prepare(&root, &plan);
                 let player = giants_game::player_initial::Prepared::load(
@@ -3324,6 +3433,8 @@ fn drive(
                     delphi_body: None,
 
                     delphi,
+                    delphi_entry,
+                    delphi_entry_need,
                     controller,
                     carried,
                     smarties,
@@ -3441,6 +3552,14 @@ pub(crate) fn audit(
     let Some(active) = runtime.active.as_mut().filter(|a| !a.reported) else {
         return;
     };
+    if active
+        .payload
+        .delphi_entry
+        .as_ref()
+        .is_some_and(|entry| entry.pending)
+    {
+        return;
+    }
     let count = actors.iter().filter(|a| a.ticket == active.ticket).count();
     let entities = owned.iter().filter(|e| e.0 == active.ticket).count();
     if count != active.actors {
@@ -3749,6 +3868,8 @@ mod tests {
             delphi_body: None,
 
             delphi: Ok(None),
+            delphi_entry: None,
+            delphi_entry_need: None,
         }
     }
 
