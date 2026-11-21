@@ -1,5 +1,9 @@
 //! Ordinary actor model-speed/heading step. This is not the Mecc force
 //! integrator, terrain collision or a complete behavior callback.
+//! Prototype PS2 `playerobj_normal_logic`, `playerobj_turn`,
+//! `playerobj_walkrun` and `playerobj_gravity` are unknown-attribution search
+//! routes. State7 pub controls support these shared PC calculations; they do
+//! not supply the pub's owned history, ground response or live collision pose.
 use crate::object_time::{Sample, SlowArea};
 
 #[derive(Clone, Copy, Debug)]

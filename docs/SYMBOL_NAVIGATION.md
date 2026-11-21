@@ -526,9 +526,17 @@ ordinary build acceptance; see [BUILDINGS.md](BUILDINGS.md).
 The same constructor/copy routes also lead to
 [`declared_residents`](../crates/giants-game/src/declared_residents.rs) and
 [`actor_fields`](../crates/giants-game/src/actor_fields.rs), including the bounded
-cold class215/state51 and class1060/1226/state98 profiles. These remain unknown
+cold class53/state7, class215/state51 and class1060/1226/state98 profiles. These remain unknown
 attributions; cold identities, payloads and list registration do not acknowledge
 NPC AI, a world tick or the ordinary building-hit consumers.
+
+The pub's shared movement research starts with the literal prototype names
+`playerobj_normal_logic`, `playerobj_turn`, `playerobj_walkrun` and
+`playerobj_gravity`. These are **unknown** attribution search routes to
+[`actor_common_motion`](../crates/giants-game/src/actor_common_motion.rs), not
+recovered PC routine names. Original state7 controls support the shared arithmetic
+with supplied state; pub history, ground response and live mesh ownership remain
+separate prerequisites.
 
 This index publishes only selected names, reviewed navigation relationships and
 attribution status. Binary/ELF inputs, raw tables, listings, matching outputs,

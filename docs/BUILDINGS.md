@@ -37,9 +37,19 @@ rendered acceptance are not enabled by this header correction. Preserve the
 explicit class guards until the remaining owners are acquired and integrated.
 The current public download remains .14.2 with its recorded source/EXE receipt.
 
-The early-map pub53 has an initial state7 descriptor without a shot callback,
-despite configured health. Its actual live physics/pose provider is still needed
-for collision integration. The separate class1045 palm canopy has neither source
+The early-map pub53 now has a source-owned cold declaration, specification,
+channels and constructor-list identity. Its original complete constructor matches
+all 73 projected words without pointer normalization. The installed Story1
+control checks actual placement and duplicate refusal while retaining the missing
+world-tick and player/projectile pose admission. This is newer source outside the
+download, not delivered collision. The shared Rust common-motion service also
+matches 96 original state7 primary controls with the pub's source parameters;
+poses, rates, flags, local time areas and zero commands are supplied. This does
+not establish the wrapper/history, ground response, finalization or posed mesh
+producer. Acquire and connect those owners before admitting the live surface.
+
+Its initial state7 descriptor has no shot callback, despite configured health.
+The separate class1045 palm canopy has neither source
 player nor projectile membership and starts in state27, also without a shot
 callback. Sixteen original dispatcher controls include unchanged state0/7/27
 actors and positive real house/scenery callbacks. They do not prove complete

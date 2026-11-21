@@ -1,5 +1,20 @@
 # Preview releases and milestone integration
 
+## Pub cold ownership - source dependency after .14.2
+
+The ordinary Story1 pub now retains its authored cold resident identity,
+specification, channels and constructor lists. The complete original constructor
+matches 73 projected words without normalization; 96 original primary controls
+also match the shared Rust movement service with supplied state. The installed
+control rejects duplicate ownership and retains the missing world-tick and live
+collision-pose admission. Owned history, ground/environment response and posed
+mesh publication remain required before the pub becomes a playable solid surface.
+No new Windows preview, runtime capture or confirmed PS2 attribution is claimed.
+The public .14.2 package and dashboard capture receipt remain unchanged.
+
+Validation: 1,117 portable Rust tests (261 ignored), two targeted installed
+controls, strict workspace Clippy, formatting and all 45 Python tests pass.
+
 ## Kabuto completed-animation body buffers - CPU dependency
 
 The shared body snapshot can now consume Kabuto's actual completed ANM/gravity

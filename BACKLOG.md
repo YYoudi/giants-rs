@@ -76,8 +76,16 @@ class686 admission. Its constructor/frame guards remain intact. Story4 mission2
 declares this barracks; its projectile mesh now prepares while its player mesh
 and canonical damage/effect owner still require integration.
 
-Keep the early-map pub53 collision gap prioritized: its class fields now load,
-but the live state7 pose/physics owner remains unacquired. Its configured health
+Keep the early-map pub53 collision gap prioritized. Its actual source declaration
+now constructs a cold owner with specification, channels and constructor lists;
+the original constructor matches 73 projected words without normalization. An
+installed Story1 control preserves the world-tick and collision-pose refusals and
+rejects duplicate ownership. The existing shared movement service matches 96
+original state7 primary controls with source pub parameters and supplied state.
+Next connect owned history, ground/environment finalization and the live posed
+mesh producer; the current resident environment deliberately refuses that mesh
+profile. Do not replace it with a fixed initial collision. No new preview is
+delivered by this source dependency. Its configured health
 does not imply destructibility. The separate class1045 canopy has no declared
 player/projectile role and its initial state27 descriptor has no shot callback;
 do not invent palm-trunk reactions for it. Actual original dispatcher controls

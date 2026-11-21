@@ -133,6 +133,10 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('5f479681589fc1461e
 # Reviewed combined index retains both lanes and the same unknown guard routes.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('9cc32cf970ac510a77dbca8d772b6e080de0de0e4a1789bbcdf57aa7ca6ae890')
 
+# Reviewed pub cold-owner and common-motion navigation; unknown statuses and
+# live collision prerequisites retained, no private table or listing published.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('df352e4d2e90eadd8957ba0a968b5181d2b3230b986e29a6b2841e679ec97e6c')
+
 # Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # branch. Reviewed as a VP8-only image without embedded metadata. Keep its
 # all-reference history review valid before that gallery update enters main;

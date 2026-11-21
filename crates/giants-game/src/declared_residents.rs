@@ -54,9 +54,12 @@ struct Template {
 }
 // Cold constructor coverage is separate from callback/frame admission. These
 // additional class/state pairs have independently checked native copy/payload
-// profiles; do not extend all state51/98 classes from a shared numeric state.
+// profiles; do not extend all state7/51/98 classes from a shared numeric state.
+// Prototype PS2 `object_allocate_type` / `object_copy_personality` are unknown
+// attribution routes for the pub's cold owner, not its pending live physics.
 pub(crate) fn constructor_profile(class: i32, state: u8) -> bool {
     matches!(state, 0 | 23)
+        || class == 53 && state == 7
         || class == 215 && state == 51
         || matches!(class, 1060 | 1226) && state == 98
 }
@@ -76,7 +79,7 @@ impl Template {
             crate::arithmetic::Precision::Double53,
         )?;
         if !constructor_profile(class, seed.storage.state())
-            || (matches!(seed.storage.state(), 0 | 98) && seed.storage.data().is_some())
+            || (matches!(seed.storage.state(), 0 | 7 | 98) && seed.storage.data().is_some())
             || !seed.diagnostics.is_empty()
         {
             return Err("declared template has unsupported state data".into());
@@ -124,7 +127,7 @@ impl Template {
         {
             return Err("declared actor word174 consumer is not implemented".into());
         }
-        if matches!(self.seed.storage.state(), 51 | 98) && source.mission_values_f4.is_some() {
+        if matches!(self.seed.storage.state(), 7 | 51 | 98) && source.mission_values_f4.is_some() {
             return Err(
                 "cold alert/building actor common F4 placement values remain unbound".into(),
             );
@@ -177,7 +180,7 @@ pub fn construct_acquired(plan: &Plan, session: &mut Session) -> Report {
     construct_states(
         plan,
         session,
-        |state| matches!(state, 0 | 23 | 51 | 98),
+        |state| matches!(state, 0 | 7 | 23 | 51 | 98),
         true,
     )
 }
@@ -312,6 +315,67 @@ fn construct_states(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    #[ignore = "requires GIANTS_BUILDING_ROOT; pub cold identity/resource/list ownership and retained live-pose refusal, not physics or rendered acceptance"]
+    fn installed_pub_cold_owner_keeps_live_pose_and_callback_boundaries() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());
+        let menu = crate::mission_selection::MissionMenu::parse(
+            &std::fs::read(root.join("Bin/w_Story1.bin")).unwrap(),
+            0,
+            true,
+        )
+        .unwrap();
+        let packet =
+            crate::mission_loading::prepare(&root, menu.request("Story1", 0).unwrap()).unwrap();
+        let plan = packet.instance_plan(&root, "English").unwrap();
+        let world = packet.world_asset(&root).unwrap();
+        let players = crate::declared_mesh_scene::prepare_players(&plan, &world.terrain);
+        let projectiles = crate::declared_mesh_scene::prepare_projectiles(&plan, &world.terrain);
+        let mut session = Session::new(421);
+        let report = construct_acquired(&plan, &mut session);
+        let pubs: Vec<_> = report
+            .records
+            .iter()
+            .filter(|r| r.class == Some(53))
+            .collect();
+        assert!(
+            !pubs.is_empty(),
+            "the selected ordinary map must declare its pub"
+        );
+        for record in pubs {
+            let id = *record.result.as_ref().unwrap();
+            let actor = session.get(id).unwrap();
+            let fields = actor.construction_fields.as_ref().unwrap();
+            assert_eq!(session.declaration(record.key), Some(id));
+            assert_eq!(actor.seed.storage.state(), 7);
+            assert!(actor.seed.storage.data().is_none());
+            assert!(session.specification(id).unwrap().needs.is_empty());
+            assert!(session.state_resources(id).unwrap().needs().is_empty());
+            assert_eq!(actor.channels, Some(fields.channels));
+            assert!(session.list(1).contains(&id));
+            assert!(session.actor_world_tick(id).is_err());
+            let source = match record.key.scope {
+                Scope::World => plan.world_entries[record.key.index].class_input().unwrap(),
+                Scope::Mission => plan.entries[record.key.index].source.as_ref().unwrap(),
+            };
+            assert_eq!(fields.position, source.position);
+            assert_eq!(fields.configuration[20], 7);
+            assert_eq!(fields.configuration[12], 330_f32.to_bits());
+            // Cold ownership must not relabel a stale initial shape as a live
+            // pub collision, nor turn configured health into a shot callback.
+            let key = (record.key.scope == Scope::World, record.key.index);
+            assert!(!players.records.iter().any(|r| r.key == key));
+            assert!(!projectiles.records.iter().any(|r| r.key == key));
+        }
+        let repeated = construct_acquired(&plan, &mut session);
+        assert!(
+            repeated
+                .records
+                .iter()
+                .filter(|r| r.class == Some(53))
+                .all(|r| r.result.is_err())
+        );
+    }
     #[test]
     #[ignore = "requires GIANTS_BUILDING_ROOT; The Wife cold actor identities/payloads/list ownership, not first primary/AI/audio/GPU readiness"]
     fn installed_wife_alert_actors_and_barracks_have_cold_owned_construction() {
