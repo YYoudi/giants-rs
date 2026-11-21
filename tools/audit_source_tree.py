@@ -129,6 +129,12 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('5559448c8901cd330b
 # Reviewed bounded common-reaction source link on the same unknown parent
 # navigation route; existing aliases retained, no corpus or new attribution.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('cb6657ca2d42847f94211674103bc2e9bf9481d758c162c09a2e2f5f51b27ceb')
+# Reviewed concurrent minimal pub-body and shared animation navigation prose;
+# qualified statuses and existing aliases only, at this sole exact path.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].update({
+    '28e3604c59fd21b71869b23fe031e5e1d67366b987d05618776f8d3cd35eed36',
+    'b3563baf928aff1b583ecb41a2dd80472dfefa2ae8d01cbe921ac230184c48c6',
+})
 # Reviewed concurrent minimal navigation revisions: qualified marker/held-pose
 # and pub-body source routes only, without raw corpus or imported layouts.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].update({

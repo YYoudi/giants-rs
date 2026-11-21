@@ -385,8 +385,8 @@ Original clock/eligibility helpers execute, while sound/transport are supplied
 entries, not body, playback or network proof. Three installed controls compose
 the real preceding Session stages and verify common output, late-provider refusal
 and an unsupported request. Deliberately different current actor mode/clip values
-verify that admission uses the retained resource sample. These are independent
-supplied contexts, not observed gameplay changes. These are CPU dependencies, not ordinary gameplay,
+verify that admission uses the retained resource sample. These independent
+supplied contexts are CPU dependencies, not observed gameplay changes,
 whole-primary equivalence or new graphical acceptance.
 
 `Factory::advance_query_geometry` now consumes the completed query feedback and
