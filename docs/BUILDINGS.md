@@ -1,5 +1,13 @@
 # Ordinary building collision and damage integration
 
+Preview .14.2 additionally delivers class101 palms: ordinary contact/pistol
+destruction, fourteen static-part retirements, source wood/audio, complete effect
+expiry, independent stump contacts and two live-effect cleanup/fresh-entry cycles.
+The same receipt checks Starving, The Wife and the carried RoadHome return through
+natural completion films and next-player entry. Windows discrete menu/view/fire
+checks are separate from supplied paths; sustained input and native fidelity remain
+open. The earlier .14.1 section and acquisition history below retain their scopes.
+
 Preview .14.1 adds ordinary palm damage, wood effects and an independently
 colliding/damageable source stump, and delivers the acquired barracks reactions.
 It retains the earlier house, entrance, fence, small-tower and guard profiles.
@@ -317,12 +325,14 @@ semantic meaning remains unknown; it is neither dropped nor assigned a guessed
 behavior. Actual-key/value checks precede the initial walk. F4 overrides and
 other unacquired states remain refused. Installed source initialization passes;
 the exact rendered RoadHome chain now passes this initialization. Following
-High Village Ripper AI still refuses an unacquired platform cold command46;
-no complete NPC/mission acceptance is claimed.
+The .14.1 strict route still reported High Village's unacquired platform
+command46. The .14.2 strict return/next-player route passes after the bounded
+collision projection acquisition; generic footprints and named actor construction
+remain explicit, and no complete High Village NPC/mission acceptance is claimed.
 
 ## Installed catalogue coverage audit
 
-Owner feedback adds ordinary destructible trees to the next integration work.
+The initial tree acquisition below predates the published class101/class102 scope above.
 The selected tree/state60 descriptor uses the same PC shot callback as the
 acquired scenery service. Its source replacement, wood effect and tree-specific
 payload inheritance remain separate consumers. Existing animated foliage does
@@ -330,7 +340,37 @@ not establish projectile/player collision, damage, retirement or replacement;
 tree health does not imply house-style model stages. Other foliage states retain
 their own contracts. Prototype `tree_process`, `tree_init` and `collision_wood`
 are lookup routes, not confirmed PC identities. Original callback evidence and
-resource tables remain private; no tree gameplay acceptance is claimed yet.
+resource tables remain private. This acquisition note predates the .14.1 palm
+acceptance above and does not extend it to other tree families.
+
+The next class101 palm continuation retains eleven unresolved auxiliary ANM
+links in binding-selected specification metadata, with explicit preparation
+needs. Its actual visible-model and dedicated collision dependencies evaluate
+without those links; evaluating an unrepresented node still fails. Source health,
+the shared state60 shot contract, wood program and replacement664 remain separate
+owners. Installed CPU integration passes physical/projectile admission, damage,
+source effects/audio, the stump's independent damage and complete effect expiry.
+The earlier unpublished source f4f90ca executable (SHA256
+`2b7e1fd3991fc5c0b43c26834d19eb7c64d3882e994cabb3a18eae128a9c0390`)
+also passes strict rendered Story1 contact/fire, fourteen static-part retirements,
+source sound1559, 17/17 effect expiry and seventeen fresh stump contacts. Two
+destruction/live-effect cancellation/fresh-entry cycles pass cleanup. These use
+supplied ordinary commands; Windows-held input, complete campaign regression,
+live animation/collision scheduling and the state27 canopy remain separate.
+Public preview .14.1 remains the current download until the next receipt-bound
+combined acceptance and publication finish.
+
+Story1's shared source-world preflight also encounters bridge declarations.
+The D class reader's32/37/38 records only advance their operands. Command46
+sets a distinct copied usage-mask bit; it must not become a personality flag.
+The acquired collision projection excludes class57's named trailing fields,
+while preserving the source record. The full actor reader still requires that
+binding's registry and initialization consumer: native base construction can
+dispatch a request, so this is not an ignored actor command or a ready actor.
+Prototype `fx_find` / `fx_load` remain unknown attribution search routes.
+Installed controls retain initial bridge player/projectile geometry and all
+unresolved platform candidates. Generic footprints and named constructor work
+remain separate requirements; no empty successful platform query replaces them.
 
 A read-only continuation now visits all 56 nonempty mission/catalogue contexts
 in the inspected installation, using the same world list and mission parser as

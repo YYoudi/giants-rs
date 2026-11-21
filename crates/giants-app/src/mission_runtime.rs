@@ -99,7 +99,7 @@ struct Payload {
     director: Result<Option<giants_game::director_initial::Prepared>, String>,
     effect_proxies: Result<Vec<giants_game::cinematic_fx::TerminalProxy>, String>,
     player: Result<Arc<giants_game::player_initial::Prepared>, String>,
-    kabuto: Result<Option<giants_game::kabuto_initial::Factory>, String>,
+    kabuto: Result<Option<KabutoPreparation>, String>,
     kabuto_body: Option<Arc<giants_game::player_body::Prepared>>,
     kabuto_camera_inspection:
         Option<Result<giants_game::kabuto_camera_inspection::Prepared, String>>,
@@ -166,7 +166,7 @@ impl Active {
             factory.declared_start().kind
         } else {
             match self.payload.kabuto.as_ref().map_err(Clone::clone)? {
-                Some(factory) => factory.declared_start().kind,
+                Some(prepared) => prepared.factory.declared_start().kind,
                 None => {
                     self.payload
                         .player
@@ -238,11 +238,29 @@ pub(crate) struct Startup {
     pub cinematic: bool,
     pub companions: u32,
 }
+struct KabutoPreparation {
+    factory: giants_game::kabuto_initial::Factory,
+    // Retain a failed later resource phase separately from constructor ownership.
+    animation_definitions: Result<(), String>,
+}
+
 fn prepare_kabuto(
     root: &std::path::Path,
     plan: &Plan,
     packet: &PreparedMission,
-) -> Result<Option<giants_game::kabuto_initial::Factory>, String> {
+) -> Result<Option<KabutoPreparation>, String> {
+    let executable = std::env::var_os("GIANTS_KABUTO_EXECUTABLE")
+        .map(std::path::PathBuf::from)
+        .unwrap_or_else(|| root.join("Giants.exe"));
+    prepare_kabuto_with_executable(root, plan, packet, &executable)
+}
+
+fn prepare_kabuto_with_executable(
+    root: &std::path::Path,
+    plan: &Plan,
+    packet: &PreparedMission,
+    executable: &std::path::Path,
+) -> Result<Option<KabutoPreparation>, String> {
     let mission = packet.mission.as_ref().ok_or("prepared mission missing")?;
     if mission.starts.first().is_none_or(|s| s.words[0] != 1) {
         return Ok(None);
@@ -251,13 +269,20 @@ fn prepare_kabuto(
         &std::fs::read(root.join("Bin/GData.gbn")).map_err(|e| e.to_string())?,
     )
     .map_err(|e| e.to_string())?;
-    giants_game::kabuto_initial::Factory::load(
+    let mut factory = giants_game::kabuto_initial::Factory::load(
         plan,
         packet.world.as_ref().ok_or("prepared world missing")?,
         mission,
         Arc::new(globals),
-    )
-    .map(Some)
+    )?;
+    // A new mission payload owns a fresh cache lifecycle. No process-global
+    // reset hook, primary admission or initializer acknowledgement is implied.
+    let animation_definitions = giants_game::kabuto_animation_cache::Definitions::read(executable)
+        .and_then(|definitions| factory.prepare_animation_definitions(&definitions));
+    Ok(Some(KabutoPreparation {
+        factory,
+        animation_definitions,
+    }))
 }
 fn requests_delphi(packet: &PreparedMission) -> bool {
     packet.mission.as_ref().is_some_and(|mission| {
@@ -2718,30 +2743,36 @@ fn spawn(
         Ok(None) => {}
     }
     match &payload.kabuto {
-        Ok(Some(factory)) => match factory.construct_declared(
-            &mut resident_states,
-            giants_game::animation_channels::Blending::Enabled,
-            1,
-        ) {
-            Ok(owner) => {
-                bindings_by_role.player = Some(owner);
-                match giants_game::player_body::Prepared::from_session(
-                    payload.plan.resources(),
-                    &resident_states,
-                    owner,
-                ) {
-                    Ok(body) => payload.kabuto_body = Some(Arc::new(body)),
-                    Err(error) => blocked.push(format!("Kabuto body preparation: {error}")),
-                }
-                println!(
-                    "mission_kabuto_constructed ticket={ticket} owner={owner:?} class=1 position={:?} initializer_pending={:?} declared_placement=true native_relocation_verified=false controller=false ready=false",
-                    factory.declared_start().position,
-                    resident_states.kabuto_group(owner).unwrap().pending,
-                );
-                blocked.push("Kabuto projection, animation cache, material, geometry and live controller admission pending".into());
+        Ok(Some(prepared)) => {
+            if let Err(error) = &prepared.animation_definitions {
+                blocked.push(format!("Kabuto animation definitions: {error}"));
             }
-            Err(error) => blocked.push(format!("Kabuto cold construction: {error}")),
-        },
+            let factory = &prepared.factory;
+            match factory.construct_declared(
+                &mut resident_states,
+                giants_game::animation_channels::Blending::Enabled,
+                1,
+            ) {
+                Ok(owner) => {
+                    bindings_by_role.player = Some(owner);
+                    match giants_game::player_body::Prepared::from_session(
+                        payload.plan.resources(),
+                        &resident_states,
+                        owner,
+                    ) {
+                        Ok(body) => payload.kabuto_body = Some(Arc::new(body)),
+                        Err(error) => blocked.push(format!("Kabuto body preparation: {error}")),
+                    }
+                    println!(
+                        "mission_kabuto_constructed ticket={ticket} owner={owner:?} class=1 position={:?} initializer_pending={:?} declared_placement=true native_relocation_verified=false controller=false ready=false",
+                        factory.declared_start().position,
+                        resident_states.kabuto_group(owner).unwrap().pending,
+                    );
+                    blocked.push("Kabuto projection, animation cache, material, geometry and live controller admission pending".into());
+                }
+                Err(error) => blocked.push(format!("Kabuto cold construction: {error}")),
+            }
+        }
         Err(error) => blocked.push(format!("Kabuto preparation: {error}")),
         Ok(None) => {}
     }
@@ -4010,14 +4041,21 @@ mod tests {
     #[test]
     #[ignore = "Requires GIANTS_KABUTO_ROOT; actual menu request, common spawn, cold ownership and second entry; no window or sound"]
     fn source_kabuto_menu_entry_constructs_owned_group_and_reenters() {
-        check_source_kabuto_menu_entry(false);
+        check_source_kabuto_menu_entry(false, false);
     }
     #[test]
     #[ignore = "Requires GIANTS_KABUTO_ROOT and GIANTS_KABUTO_EXECUTABLE; common menu/spawn and explicit mode-1 unclipped camera, stale-owner/return/re-entry, no GPU or gameplay claim"]
     fn source_kabuto_inspection_camera_uses_owned_mode_profile_and_reenters() {
-        check_source_kabuto_menu_entry(true);
+        check_source_kabuto_menu_entry(true, false);
     }
-    fn check_source_kabuto_menu_entry(camera: bool) {
+
+    #[test]
+    #[ignore = "Requires GIANTS_KABUTO_ROOT; failed external animation metadata must preserve constructor identity and pending admission, no window or sound"]
+    fn source_kabuto_missing_animation_definitions_retains_owned_group() {
+        check_source_kabuto_menu_entry(false, true);
+    }
+
+    fn check_source_kabuto_menu_entry(camera: bool, missing_definitions: bool) {
         let root = std::path::PathBuf::from(std::env::var("GIANTS_KABUTO_ROOT").unwrap());
         let source = giants_game::world_source::resolve(&root, "Kstory1").unwrap();
         let menu = giants_game::mission_selection::MissionMenu::parse(
@@ -4031,8 +4069,23 @@ mod tests {
                 .unwrap(),
         );
         let plan = packet.instance_plan(&root, "English").unwrap();
-        let prepared = prepare_kabuto(&root, &plan, &packet).unwrap().unwrap();
-        let start = prepared.declared_start().clone();
+        let executable = if missing_definitions {
+            // The supplied installation is read-only; an absent child of a file
+            // reliably exercises I/O refusal without writing a test fixture there.
+            root.join("Bin/GData.gbn/absent.exe")
+        } else {
+            std::env::var_os("GIANTS_KABUTO_EXECUTABLE")
+                .map(std::path::PathBuf::from)
+                .unwrap_or_else(|| root.join("Giants.exe"))
+        };
+        let prepare = |plan: &Plan, packet: &PreparedMission| {
+            prepare_kabuto_with_executable(&root, plan, packet, &executable)
+                .unwrap()
+                .unwrap()
+        };
+        let prepared = prepare(&plan, &packet);
+        assert_eq!(prepared.animation_definitions.is_err(), missing_definitions);
+        let start = prepared.factory.declared_start().clone();
         let mut payload = payload();
         if camera {
             payload.world = Ok(Arc::new(giants_game::load_world(&root, "Kstory1").unwrap()));
@@ -4042,7 +4095,16 @@ mod tests {
         payload.kabuto = Ok(Some(prepared));
         let mut world = World::new();
         let baseline = world.query::<Entity>().iter(&world).count();
+        let mut previous_cache: Option<
+            std::sync::Weak<giants_game::kabuto_animation_cache::ColdCache>,
+        > = None;
         for ticket in [996, 997] {
+            // Normal entry loads a fresh payload. Do not model re-entry as reuse
+            // of an old process-global cache or acknowledge its native reset hook.
+            payload.kabuto = Ok(Some(prepare(&payload.plan, &payload.packet)));
+            if let Some(previous) = &previous_cache {
+                assert!(previous.upgrade().is_none());
+            }
             let mut queue = CommandQueue::default();
             let (scene_root, actors, blocked, mut residents, bindings) =
                 spawn(&mut Commands::new(&mut queue, &world), ticket, &mut payload);
@@ -4057,6 +4119,28 @@ mod tests {
                 start.position
             );
             let group = residents.kabuto_group(owner).unwrap();
+            if missing_definitions {
+                assert!(group.cold_animation_cache.is_none());
+                assert!(
+                    blocked
+                        .iter()
+                        .any(|s| s.starts_with("Kabuto animation definitions:"))
+                );
+            } else {
+                let cache = group.cold_animation_cache.as_ref().unwrap();
+                assert!(Arc::ptr_eq(cache.specification(), &group.declared_class));
+                assert_eq!(cache.entries().len(), 62);
+                assert_eq!(
+                    cache.entries().iter().filter(|e| e.node.is_some()).count(),
+                    61
+                );
+                previous_cache = Some(Arc::downgrade(cache));
+                assert!(
+                    !blocked
+                        .iter()
+                        .any(|s| s.starts_with("Kabuto animation definitions:"))
+                );
+            }
             let body = payload
                 .kabuto_body
                 .as_ref()
@@ -4158,6 +4242,10 @@ mod tests {
             assert_eq!(residents.counts().residents, 0);
             world.despawn(scene_root);
             assert_eq!(world.query::<Entity>().iter(&world).count(), baseline);
+        }
+        drop(payload);
+        if let Some(previous) = previous_cache {
+            assert!(previous.upgrade().is_none());
         }
     }
 

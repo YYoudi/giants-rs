@@ -9,13 +9,13 @@ central [mission method](MISSION_PROGRESSION.md) for exact scope and PS2 evidenc
 
 ## Main integration of Ripper movement and attacks
 
-### Playable baseline for the next common build
+### Playable baseline included in the common .14.2 build
 
 Main `7242798` already includes runtime `f940069`: ordinary Ripper movement,
 source ranged attacks, nonlethal injury in both directions and the fix that
-keeps living AI running after an unsupported lethal pistol contact. Use this
-baseline for the next common build; do not delay it for the isolated health-drop
-dependencies on the NPC research branch. Preview `.14.1` is an older executable
+keeps living AI running after an unsupported lethal pistol contact. Preview
+`.14.2` includes this baseline; isolated health-drop dependencies on the NPC
+research branch remain outside it. Preview `.14.1` is an older executable
 and does not contain the later damage and AI-continuation changes.
 
 From the ordinary menu select **Preview tools -> Browse all missions -> Mecc
@@ -26,10 +26,10 @@ actor far from the player does not establish an inactive AI. No NPC activation
 script, replay or environment flag is required. Escape returns to mission
 selection, where The Wife can be entered again.
 
-The source and executable receipt below identify the tested baseline. Main's
-Windows CI passed, but this does not establish a downloadable artifact or update
-the public preview. The main integration lane retains combined package,
-dashboard and preview publication. Death, drops, special close attacks and the
+The source and executable receipt below identify the separate tested NPC baseline,
+not the downloadable .14.2 executable. Its CI and encounter proof alone did not
+publish a preview. The common .14.2 package, combined building/campaign acceptance
+and matching dashboard have their own receipt in PREVIEW_NOTES.md. Death, drops, special close attacks and the
 complete campaign remain unfinished; a working living encounter is independently
 deliverable.
 

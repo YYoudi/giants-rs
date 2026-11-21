@@ -66,7 +66,7 @@ impl Stage {
     /// renderer keeps its existing wind owner; later collision/wind cadence is
     /// not certified by this snapshot. Never use house health stages on a tree.
     pub fn tree_snapshot(source: &SceneResources, class: i32) -> Result<Self, String> {
-        if !matches!(class, 102 | 664)
+        if !matches!(class, 101 | 102 | 664)
             || source
                 .class_state_seed(class)
                 .map_err(|e| e.to_string())?

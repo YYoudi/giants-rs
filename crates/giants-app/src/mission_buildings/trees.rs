@@ -6,7 +6,7 @@ pub(super) fn class(
     source: &giants_game::scene_resources::SceneResources,
     class: i32,
 ) -> Result<Arc<Class>, String> {
-    if !matches!(class, 102 | 664) {
+    if !matches!(class, 101 | 102 | 664) {
         return Err("tree class needs its acquired resources and replacement".into());
     }
     let seed = source.class_state_seed(class).map_err(|e| e.to_string())?;
@@ -23,7 +23,14 @@ pub(super) fn class(
     if payload[3] != 0 || payload[4..].iter().any(|v| *v != 0) {
         return Err("tree requires idle unrestricted source payload".into());
     }
-    let specification = giants_game::specification::Prepared::load_registered(source, class)?;
+    let specification = if class == 101 {
+        // This specification contains auxiliary nodes outside its named trees.
+        // Preserve their unresolved links; Stage evaluates every actual render
+        // and collision binding. Header parsing does not execute those nodes.
+        giants_game::specification::Prepared::load_registered_for_bindings(source, class)?
+    } else {
+        giants_game::specification::Prepared::load_registered(source, class)?
+    };
     let fields = Fields::load(source, class, &specification)?;
     let effects = source
         .class_state_bindings_for(class, giants_game::state_storage::Profile::Debug)?
@@ -36,7 +43,7 @@ pub(super) fn class(
     if effects.keys().any(|k| !matches!(k, 4 | 8)) {
         return Err("tree binding outside shared shot prefix".into());
     }
-    let replacement = if class == 102 {
+    let replacement = if matches!(class, 101 | 102) {
         if payload[0] != 664 || !effects.contains_key(&4) {
             return Err("palm source replacement/effect differs".into());
         }
@@ -73,6 +80,14 @@ mod tests {
     #[test]
     #[ignore = "requires GIANTS_BUILDING_ROOT; supplied hits/time and CPU owners, not GPU/ordinary input acceptance"]
     fn installed_palm_damage_keeps_source_stump_owner_and_independent_hits() {
+        installed_tree_damage(102);
+    }
+    #[test]
+    #[ignore = "requires GIANTS_BUILDING_ROOT; binding dependencies and CPU owners, not rendered acceptance"]
+    fn installed_static_palm_preserves_unresolved_auxiliary_links_and_damages_its_own_stump() {
+        installed_tree_damage(101);
+    }
+    fn installed_tree_damage(class: i32) {
         let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());
         let menu = giants_game::mission_selection::MissionMenu::parse(
             &std::fs::read(root.join("Bin/w_Story2.bin")).unwrap(),
@@ -83,6 +98,28 @@ mod tests {
         let packet =
             giants_game::mission_loading::prepare(&root, menu.request("Story2", 2).unwrap())
                 .unwrap();
+        if class == 101 {
+            let source = packet.instance_plan(&root, "English").unwrap();
+            let source = source.resources();
+            assert!(giants_game::specification::Prepared::load_registered(source, class).is_err());
+            let metadata =
+                giants_game::specification::Prepared::load_registered_for_bindings(source, class)
+                    .unwrap();
+            let animation = &metadata.animations[&1].animation;
+            assert_eq!(animation.unresolved_links().len(), 11);
+            assert!(
+                metadata
+                    .needs
+                    .iter()
+                    .any(|n| n.contains("unresolved auxiliary links"))
+            );
+            for link in animation.unresolved_links() {
+                assert!(
+                    animation.node(link.target).is_err(),
+                    "unrepresented links must not become defaults"
+                );
+            }
+        }
         let world = packet.world_asset(&root).unwrap();
         let mut state =
             crate::mecc_dev_scene::State::load_prepared(&root, &world, &packet).unwrap();
@@ -90,7 +127,7 @@ mod tests {
             .buildings
             .owners
             .iter()
-            .find(|(_, o)| o.fields.class == 102)
+            .find(|(_, o)| o.fields.class == class)
             .expect("ordinary declared palm owner");
         assert!(owner.physical);
         assert!(!owner.environment);

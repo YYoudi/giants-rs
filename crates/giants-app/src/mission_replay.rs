@@ -73,18 +73,20 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
             "building capture phase requires its explicit probe and a supported phase".into(),
         );
     }
+    // The driver may select another authored menu mission. Ordinary startup
+    // must still admit its resident player; this supplies no character, pose,
+    // readiness or gameplay feature. Keep the independent muted/exclusive gates.
     if std::env::var_os("GIANTS_MISSION_BUILDING_PROBE").is_some()
         && (!building_interaction_probe()
             || vimp_interaction_probe()
             || objective_interaction_probe()
             || std::env::var("GIANTS_MISSION_REPLAY").as_deref() != Ok("showcase-mecc")
-            || std::env::var("GIANTS_SHOWCASE_WORLD").as_deref() != Ok("Story2")
             || !app
                 .world()
                 .contains_resource::<crate::cinematic_audio::MutedTransport>())
     {
         return Err(
-            "building input probe requires its exclusive muted offscreen Story2 Mecc replay".into(),
+            "building input probe requires its exclusive muted offscreen Mecc replay".into(),
         );
     }
     if std::env::var_os("GIANTS_MISSION_OBJECTIVE_PROBE").is_some()

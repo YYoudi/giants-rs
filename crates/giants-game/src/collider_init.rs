@@ -97,6 +97,7 @@ pub fn cold_projection(
     let mut usage = [0; 2];
     for command in &program.records {
         match command.opcode {
+            0x46 => usage[0] |= 1,
             0x49 => usage[0] |= 0x3c00,
             0x4d => usage[0] |= 0x03c0_0000,
             0x4f => usage[1] |= 0xf,

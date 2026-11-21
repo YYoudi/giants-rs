@@ -356,6 +356,16 @@ path and are not acknowledged by this field proof.
 
 ## External definitions and cold animation cache
 
+The common application's Kabuto mission preparation now reads these definitions
+from the user-supplied `Giants.exe` (or `GIANTS_KABUTO_EXECUTABLE`) and prepares
+the factory before constructing its owned group. Each new mission payload owns
+a fresh lifecycle and its groups share that payload's immutable cache. Missing
+or invalid metadata is retained as an explicit blocking diagnostic alongside
+the constructed actor; it does not discard constructor identity or use another
+animation table. This connects cold data to the actual menu/spawn path. Live
+animation dispatch, native world reset scheduling and gameplay admission remain
+unfinished; all four initializer requirements remain pending.
+
 `kabuto_animation_cache` reads bounded initialized data from an explicitly supplied
 PE32 file. Three inspected layout tuples are supported. Section mapping uses RVAs
 and raw file ranges separately; executable, overlapping, truncated and out-of-data

@@ -14,6 +14,10 @@ FIELDS = ('id', 'kind', 'group', 'title', 'status', 'scope', 'detail')
 LABELS = {'done': 'Complete in stated scope', 'partial': 'Partial', 'todo': 'Not started'}
 PRIVATE = re.compile(r'[A-Za-z]:[\\/]|(?:evidence|\.local)[\\/]|Users[\\/]', re.I)
 PREVIEW_CHECKS = {
+    'static_palm_stump_gpu': 'Class101 ordinary contact and normal pistol destruction retire fourteen static-model parts, submit source wood effects/audio, expire the effect graph and retain fresh contacts on the independent stump; supplied controls, not native fidelity',
+    'palm_live_cancel_reentry_gpu': 'Two ordinary palm destruction and cancellation cycles release live effects, draw/GPU owners and the old mission ticket before fresh entry; supplied controls, no forced cleanup',
+    'road_home_return_chain_gpu': 'Actual carried-wife return satisfies the authored counter, plays the source completion film naturally and enters the next ordinary Mecc scene; supplied controls, not High Village mission completion',
+    'windows_discrete_menu_view_fire_reentry': 'Real Windows menu/browser selection, cinematic skip, third-to-first-person view toggle, one mouse shot, menu return with old-ticket cleanup and fresh gameplay entry; sustained held controls and aimed tree destruction remain unverified',
     'palm_stump_gpu': 'Ordinary palm contact and pistol destruction hide twelve foliage parts, submit source wood effects/audio and leave a separately colliding stump; seventeen births/seventeen retirements and two fresh stump contacts after expiry. Supplied normal commands; other trees and native fidelity remain unverified',
     'road_home_return_gpu': 'Actual carried-wife return satisfies the authored counter, plays the source completion film to its natural end and enters the next ordinary Mecc scene. The strict combined report retains the separate High Village AI platform refusal; this is not next-mission completion',
     'barracks_damage_gpu': 'Acquired miniature and Ripper barracks receive ordinary pistol damage through source stages, effects/audio and retirement; rendered supplied-command acceptance and actual-clock expiry, without complete spawning AI or mission death-credit',
@@ -49,9 +53,12 @@ PREVIEW_CHECKS = {
     'shared_body_focus_os': 'F7 focuses initial Delphi and Kabuto bodies from ordinary mission inspection; gameplay controls remain unavailable',
 }
 PREVIEW_LIMITS = {
+    'generic_platform_footprints': 'Collision projections retain actual initial meshes and explicit unresolved generic platform-footprint candidates; no complete footprint service or successful empty replacement is inferred',
+    'named_actor_constructor': 'Full named actor initialization still requires its actual registry and initialization owner; collision-only projection does not grant full bridge actor readiness',
+    'sustained_os_controls_unverified': 'The scoped Windows discrete menu/view/fire/re-entry check does not certify sustained held movement/jet, OS-aimed tree destruction or complete encounters',
     'palm_remaining_profiles': 'Palm collision uses the acquired initial idle pose; live wind/collision alignment, other vegetation classes and heavy-actor felling remain unverified or unacquired',
     'high_village_ai_platform': 'High Village ordinary player entry follows the completed return film, but Ripper AI refuses an unacquired source-platform cold command46; its full mission is not certified',
-    'ripper_combat_incomplete': 'Reciprocal Ripper injury/death, special close attacks and full encounter/menu re-entry remain incomplete. Unsupported actors hold only their last completed visual pose and supply no fresh contacts; failed projectiles acknowledge no damage',
+    'ripper_combat_incomplete': 'Complete lethal combat, death/cleanup, special close attacks and full encounters remain incomplete. An unsupported lethal pistol contact preserves living Ripper AI; actual failed callbacks isolate the affected owner, and failed projectile services acknowledge no damage',
     'building_remaining_families': 'Generic actor radial/Raster3 platform owners, replacements beyond the acquired profiles, restricted-weapon/special scenery, other base-building callbacks and building-objective credit still require their real consumers; a configured health word alone does not imply destructibility',
     'building_fx_policy': 'Building FX use source burst and acquired mixed-scene resources with an explicit partial host-frame, terrain-only, birth-reference and asynchronous-audio profile; native complete-list/force/audio scheduling and pixel/audio parity remain unverified',
     'cinematic_native_fidelity': 'The Wife completion film reaches its source terminal; native timing/RNG interleaving, complete collision coverage, animation blending and full visual/audio fidelity remain unverified',

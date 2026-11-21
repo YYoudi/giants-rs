@@ -1,17 +1,63 @@
 # Preview releases and milestone integration
 
-## Validated main Ripper continuation - awaiting common preview
+## Kabuto cold animation payload - later source dependency
 
-Main `7242798` contains runtime `f940069`, with ordinary Ripper movement/ranged
-attacks, bounded reciprocal nonlethal damage and continued living AI after an
-unsupported lethal pistol contact. The receipt-bound local executable and
-rendered/Windows evidence are recorded in [OWNED_NPCS.md](OWNED_NPCS.md). Enter
-**Preview tools -> Browse all missions -> Mecc Story 2 -> The Wife**; no NPC
-activation flag is required. This source is newer than the `.14.1` download.
-Main CI passed; no downloadable CI artifact or new public preview is claimed.
-The main integration lane owns the combined package/dashboard release. The
-isolated death/health-item dependencies do not gate delivery of this baseline.
+The common menu-to-mission preparation now loads external cold animation
+definitions into its Kabuto factory. Three installed App controls cover actual
+spawn/body ownership, missing-metadata diagnostics, cache release/fresh entry
+and the existing explicit inspection camera. This supplies data for future live
+animation; it does not complete native world reset scheduling or acknowledge any
+of the four pending initializers. Kabuto gameplay remains unavailable. No new
+Windows preview or graphical evidence is claimed by this source-only change;
+the frozen .14.2 package and its checksums remain unchanged.
 
+Validation: 1,117 portable Rust tests pass (258 ignored), format and strict
+workspace Clippy pass, and the existing Mecc/Delphi installed menu controls pass.
+All 45 Python tests and site/JavaScript checks pass. These are dependency and
+regression checks; this milestone has no new real-input or GPU acceptance.
+
+## Published preview .14.2 - additional palms and checked wife-return chains
+
+[Windows preview-2026.11.14.2](https://github.com/YYoudi/giants-rs/releases/tag/preview-2026.11.14.2)
+adds ordinary class101 palm destruction in Story1 and other declared maps, alongside
+the existing class102 profile. Shoot a trunk with the normal pistol: exact static
+parts retire, source wood effects/audio play and a separately colliding/damageable
+class664 stump remains. The Road Home accepts the carried-wife return, plays its
+completion film naturally and enters High Village. No feature-enable script is
+needed. Starving, The Wife and RoadHome are checked on this same executable.
+
+The strict rendered class101 expiry/stump-contact and two live-effect cleanup
+cycles pass, as do both barracks, selected campaign chains, ordinary menu lifecycle
+and selected Story4 source-terminal transport, rendered text, cleanup and re-entry.
+A separate Windows check observes
+menu/entry, cinematic skip, R view change, a mouse shot, return and fresh gameplay.
+Sustained OS-held input, OS-aimed tree destruction, full encounters and native
+fidelity remain unverified. 1,117 portable Rust tests /257 ignored, 45 Python tests,
+formatting and strict Clippy pass. Notices: 338 dependencies, 11 toolchain entries
+and 29 DLL imports, with no missing entries. The download includes Ripper source
+through commit 7242798. Earlier lane-specific injury evidence does not certify
+full combat on this build.
+
+Eleven auxiliary class101 links, live wind/collision alignment, other vegetation,
+generic platform footprints, full named bridge construction, restricted callbacks
+and building objective credit remain explicit requirements. No new prototype PS2
+attribution is confirmed. Earlier failures/interrupted tests are retained.
+
+Runtime source: `3aa25533e0f200de0a6b72345d30107932a5f3f7`.
+Executable SHA256: `250b23fc9c8f31df182367fb4c54a239288d2ba1c8b90ea308f16f56e4c890f9`.
+ZIP SHA256: `43e9b981d531c4057ce4be73e14e2ec635134b36a7ccbf1594744fa9a58f45c2`.
+Later documentation commits do not change this fixed runtime receipt.
+
+### Included Ripper baseline and separate encounter evidence
+
+Preview .14.2 includes runtime `f940069` through main `7242798`: ordinary Ripper
+movement/ranged attacks, bounded reciprocal nonlethal damage and continued living
+AI after an unsupported lethal pistol contact. The separate NPC-lane executable
+and its rendered/Windows encounter evidence remain recorded in
+[OWNED_NPCS.md](OWNED_NPCS.md); that receipt is not the downloadable executable.
+Enter **Preview tools -> Browse all missions -> Mecc Story 2 -> The Wife** with
+no NPC activation flag. Combined building/campaign acceptance uses the .14.2
+receipt above. Isolated death/health-item research remains outside this delivery.
 
 ## Published preview .14.1 - palms, barracks and the carried-wife return
 

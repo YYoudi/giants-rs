@@ -114,6 +114,10 @@ REVIEWED_ATTRIBUTION_LABELS = {'crates/giants-game/src/ripper_primary_turn.rs': 
 # Reviewed merged navigation prose; existing minimal aliases and statuses retained.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('67e98798a96ac460d3afcda1fab6d139ec49c948a5d91b3d9af7c216d8065015')
 
+# Reviewed index revision: one unknown Kabuto navigation candidate and existing
+# minimal PC aliases only. Exact normalized Git blob and sole path; no corpus.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('630f5f7c50c1127f43091993623584334b4cf49e2967afb5f3e709574d267f2a')
+
 
 # Reviewed minimal navigation aliases in two concurrent history blobs and
 # the .14.1 status-only index update; all other hazard rules stay active.
@@ -134,6 +138,10 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('9cc32cf970ac510a77
 # all-reference history review valid before that gallery update enters main;
 # this permits neither other images nor another path or modified bytes.
 REVIEWED_HISTORICAL_IMAGES = {
+    # Visually reviewed .14.2 Bevy display copies, metadata-free exact bytes.
+    'docs/gallery/media/98c5a936b528c4980d1e91f9a0a7348332c91d129acaf65fa544d942a42cf8e4.webp': '98c5a936b528c4980d1e91f9a0a7348332c91d129acaf65fa544d942a42cf8e4',
+    'docs/gallery/media/12160950c544ee43d3200d24ce71837fcd19f7d1201817fd3d11bfbef4e19ad3.webp': '12160950c544ee43d3200d24ce71837fcd19f7d1201817fd3d11bfbef4e19ad3',
+    'docs/gallery/media/d37b42051b90832de1047252d44456dd0322a1f1022786d6865f510e0928e975.webp': 'd37b42051b90832de1047252d44456dd0322a1f1022786d6865f510e0928e975',
     # Visually reviewed receipt-bound carried-wife display; metadata-free VP8.
     'docs/gallery/media/273d6ff5e58cc5d0f9b72042a20f8b665bd359963bcad7759a334a448757bab0.webp': '273d6ff5e58cc5d0f9b72042a20f8b665bd359963bcad7759a334a448757bab0',
     # Visually reviewed final .14.1 display copies; exact metadata-free bytes.

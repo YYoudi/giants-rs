@@ -10,7 +10,7 @@
       "title": "Complete Mecc campaign",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Preview .14.1 extends the admitted Starving/The Wife chains through RoadHome: actual carried-wife return, natural source completion film and ordinary High Village entry. High Village AI has an explicit missing platform dependency; remaining missions and complete campaign remain partial."
+      "detail": "Preview .14.2 checks Starving twenty-meat return, The Wife rescue, carried RoadHome return, natural source completion films and following ordinary Mecc entry. This does not certify High Village completion, remaining missions or a complete campaign."
     },
     {
       "id": "campaign-delphi",
@@ -37,7 +37,7 @@
       "title": "Mission objectives and scripts",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Preview .12.1 connects source collection/stationary proximity producers, quota/counter/notices and next-ticket/source-film continuation. Preview .12.2 validates The Wife 1/1 rescue and its separate completion-film owner. Death/moving/equipment and other predicate/record types remain unbound; no general mission VM completion claim. Preview .14.1 also validates the authored carried-wife RoadHome return; missing next-mission AI is recorded separately."
+      "detail": "Preview .14.2 checks admitted source collection/stationary proximity producers, Starving twenty-meat quota, The Wife rescue and the RoadHome carried-wife return, with real counters/notices and source-film/next-ticket continuation. Moving, death, equipment and other predicates still need their actual owners; no general mission VM or complete campaign claim."
     },
     {
       "id": "mission-continuity",
@@ -46,7 +46,7 @@
       "title": "Chapter and mission continuity",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Preview .14.1 validates the actual RoadHome carried return, source-film natural end and next ordinary Mecc. The strict combined check still reports High Village Ripper AI platform command46; this is not next-mission completion. Native equipment, persistent world and full saves remain incomplete."
+      "detail": "Preview .14.2 checks the actual RoadHome carried return, natural completion film and following ordinary Mecc. The collision projection now retains source cursor records and usage masks while preserving generic-footprint and full named-constructor requirements. Native equipment, persistent world and full saves remain incomplete."
     },
     {
       "id": "cinematics",
@@ -208,7 +208,7 @@
       "title": "Kabuto movement and growth",
       "status": "todo",
       "scope": "Runtime integration",
-      "detail": "Complete Kabuto movement, growth, combat, feeding and size-dependent interactions remain open. Download .11.1 exposes static initial-body inspection through Browse all missions -> Kabuto -> F7, using actual owned look/size and a compatible external camera profile. Two OS entries, R reset and clean return pass. ProjectionReset, AnimationCache, ProceduralMaterial and GeometryRegistration remain pending; startup/warm order and live primary/input are missing. No playable Kabuto claim follows."
+      "detail": "Complete Kabuto movement, growth, combat, feeding and size-dependent interactions remain open. Download .11.1 exposes static initial-body inspection through Browse all missions -> Kabuto -> F7, using actual owned look/size and a compatible external camera profile. Two OS entries, R reset and clean return pass. Later source loads external cold animation definitions into the common mission payload, with cache ownership/re-entry and missing-metadata controls. Live animation is not connected. ProjectionReset, AnimationCache, ProceduralMaterial and GeometryRegistration remain pending; startup/warm order and live primary/input are missing. No playable Kabuto claim follows."
     },
     {
       "id": "kabuto-feeding",
@@ -352,7 +352,7 @@
       "title": "Enemy and boss behaviour",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Preview .13.3 connected authored Ripper awakening, movement, emergence and ranged shots. Newer source has locally rendered repeated melee damage to Mecc and authentic partial-pistol Ripper injury, shared blood and attached sound. A rendered continuation also verifies repeated injury and rejection of an unsupported lethal shot while retaining 240 later living primary steps. These additions are outside the .14.1 executable. Lethal combat, death/cleanup, special close attacks and full Windows encounters remain incomplete. See OWNED_NPCS.md and BACKLOG.md."
+      "detail": "Preview .14.2 includes the merged Ripper partial-pistol injury and unsupported-lethal-contact protection, retaining living AI. Earlier NPC-lane controls separately observe repeated injury, shared blood/audio and later primary steps. Common building/campaign regression is checked on this executable; complete encounters, lethal combat, death/cleanup and special close attacks remain incomplete. See OWNED_NPCS.md and BACKLOG.md."
     },
     {
       "id": "wildlife",
@@ -433,7 +433,7 @@
       "title": "Scenery collisions and destruction",
       "status": "partial",
       "scope": "Runtime integration",
-      "detail": "Preview .14.1 adds source class102 palm damage, exact foliage retirement, wood effects/audio and an independently colliding/damageable class664 stump, plus acquired barracks reactions. Earlier houses, entrances, fences and towers remain connected. Other trees, live wind/collision alignment, restricted callbacks, generic platforms and building objective credit remain open."
+      "detail": "Preview .14.2 adds source class101 palm damage alongside class102: exact model retirement, wood effects/audio and an independently colliding/damageable class664 stump. Rendered expiry/contact and live cleanup pass. Earlier houses, entrances, fences, towers and barracks remain connected. Other trees, live wind alignment, restricted callbacks, generic platforms and building objective credit remain open."
     },
     {
       "id": "water-environment",

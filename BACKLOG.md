@@ -4,6 +4,17 @@ The complete scope is retained in PROGRESS.json and the generated README checkli
 No complete game feature is currently marked done. Acquired CPU services are not
 automatically wired into the main menu-to-mission build.
 
+## Kabuto startup dependency - 21 November 2026
+
+Kabuto lane follow-up, 21 November 2026: common mission preparation now supplies
+the acquired external animation definitions to its cold factory. The actual
+menu/spawn control checks 62 entries/61 resolved nodes, exact specification
+ownership, release and a fresh cache on re-entry. Missing metadata retains the
+actor identity and an explicit blocker. This is an intermediate startup
+dependency, not new playable controls. Next on Kabuto's ordinary path: live
+animation/input/physical frame ownership and camera/startup admission; all four
+initializer requirements remain pending. Attack/feed/growth follow basic movement.
+
 ## Source naming and continuation requirement
 
 Owner clarification, 11 November 2026: contributors familiar with prototype PS2
@@ -16,6 +27,30 @@ camera service identities; .11.4 adds the selected meat-collection search routes
 separately validated ordinary integration and publication are recorded below.
 
 ## Active objective - ordinary buildings, collision and damage reactions
+
+Preview .14.2 delivers class101 palm destruction and checks the complete admitted
+Starving/The Wife/RoadHome chains, including actual carried-wife return, natural
+completion film and next ordinary Mecc. Normal weapon/physical/effect/audio owners
+need no feature script. Its strict rendered class101 route observes fourteen
+retired static parts, complete source wood expiry and fresh independent stump
+contacts; two live-effect cancellation/fresh-entry cycles pass cleanup. Both
+barracks and selected menu/cinematic regressions pass on the same receipt.
+Separate Windows menu/entry/skip/view/fire/return/fresh-entry checks are bounded;
+sustained held input and aimed tree destruction remain separate acceptance.
+
+Earlier supplied-pilot cliff overshoot was intentionally interrupted after twenty
+actual meat pickups, with its failing report retained. The fixture releases escape
+boost when movement resumes; normal fuel, physics and mission predicates are
+unchanged. Earlier failed routes and source-world refusals remain documented in
+BUILDINGS.md/private evidence. Read PREVIEW_NOTES.md for exact source/hash/scopes.
+
+Remaining requirements include eleven unresolved class101 auxiliary links, live
+tree wind/collision alignment, state27 canopy/other vegetation, generic platform
+footprints, full named actor initialization, restricted weapon/callback variants,
+building objective death-credit and full campaign/native fidelity. The acquired
+collision-only projection retains real bridge meshes and unresolved candidates;
+it grants no fabricated actor constructor or successful empty footprint query.
+Continue native work from prototype PS2 names under RECONSTRUCTION_METHOD.md.
 
 Owner feedback delivered in preview .14.1: normal pistol hits destroy admitted
 class102 palms, hide their exact foliage owner, play the source wood burst/sound
@@ -340,14 +375,15 @@ ordinary death is acknowledged. Connect actual world/cue/stat consumers and
 health/death FX/retirement next. Preserve late failures and the same-primary
 expiry/collection behavior; do not gate the working living main delivery on it.
 
-Delivery priority: main `7242798` already contains the working living runtime
-`f940069`. Include it in the next common executable before extending isolated
-death/health-item dependencies. Normal testing uses Preview tools -> Browse all
+Preview .14.2 includes main `7242798`'s working living runtime `f940069`.
+Its combined build/acceptance is separate from the NPC-lane receipt below;
+isolated death/health-item dependencies remain next research. Normal testing
+uses Preview tools -> Browse all
 missions -> Mecc Story 2 -> The Wife, configured movement/aim, right mouse jet
 and left mouse pistol, with no NPC-enable flag. Approach the source actors to
 exercise detection. OWNED_NPCS.md separates this testable baseline, its exact
 receipt and the older `.14.1` download. Main CI success alone is not a published
-download; the integration lane retains combined preview/dashboard publication.
+download; .14.2's common receipt/package/dashboard are recorded separately.
 Fresh exact-main executable `266c716c373918d8a88a2342952d6bd9eaa0b361941f22f0454b979e2e2fe56f`
 passes the rendered movement/launch/nonlethal/240-step continuation endpoint
 (exit0, about170 seconds), plus separate actual Windows entry/fire/return/

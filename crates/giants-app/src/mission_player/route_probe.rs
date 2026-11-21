@@ -24,6 +24,9 @@ impl Escape {
         if (position[0] - sample[0]).hypot(position[1] - sample[1]) >= 3. {
             *sample = position;
             self.still = 0;
+            // Stop the diagnostic escape once movement resumes. Keeping its
+            // boost across later waypoints can send the pilot past a cliff turn.
+            self.lift = 0;
         } else {
             self.still = self.still.saturating_add(1);
         }
@@ -40,6 +43,7 @@ impl Escape {
         input
     }
 }
+
 /// Supplied keyboard/jet levels only. Rest and boost use the ordinary resource
 /// service; no pose, velocity, fuel or campaign state is written here.
 pub(crate) fn commands(
@@ -224,5 +228,31 @@ impl Route {
             self.cursor += 1;
         }
         self.points.get(self.cursor).copied()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::Escape;
+
+    #[test]
+    fn escape_releases_boost_when_movement_resumes() {
+        let mut escape = Escape::default();
+        let mut recharge = false;
+        let target = [100., 0., 8.];
+        for _ in 0..239 {
+            assert_eq!(
+                escape.commands([0.; 3], target, 100., &mut recharge),
+                ([0., 1.], false, false)
+            );
+        }
+        assert_eq!(
+            escape.commands([0.; 3], target, 100., &mut recharge),
+            ([0., 1.], true, true)
+        );
+        assert_eq!(
+            escape.commands([4., 0., 0.], target, 100., &mut recharge),
+            ([0., 1.], false, false)
+        );
     }
 }

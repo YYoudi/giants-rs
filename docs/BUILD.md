@@ -1,5 +1,19 @@
 # Build on Windows with MinGW
 
+Kabuto cold animation data in the common mission payload uses the supplied
+installation's `Giants.exe`; `GIANTS_KABUTO_EXECUTABLE` overrides that metadata
+file. It is read only, never launched. Run the installed lifecycle controls with
+`GIANTS_KABUTO_ROOT` set to a compatible installation:
+
+```powershell
+cargo test --locked -p giants-app source_kabuto_ --target x86_64-pc-windows-gnu -- --ignored
+```
+
+These controls exercise ordinary menu request/spawn ownership, cold definitions,
+cache release/fresh entry, missing-file refusal and explicit diagnostic camera
+reuse. They do not exercise real input, live animation, GPU fidelity or gameplay
+admission. Four initializers remain pending.
+
 ## Build and launch the ordinary menu
 
 Start with the common application and a user-supplied compatible game folder.
@@ -23,6 +37,11 @@ or cancellation and fresh entry. Keep supplied-command evidence separate from
 real Windows input and native fidelity. Follow [GOAL_GAMEPLAY_FIRST.md](GOAL_GAMEPLAY_FIRST.md)
 and [RECONSTRUCTION_METHOD.md](RECONSTRUCTION_METHOD.md); optional CPU controls
 support the ordinary path and do not replace its acceptance.
+
+The supplied terrain pilot's escape boost releases once horizontal movement
+resumes. A continued escape command across subsequent waypoints can overshoot a
+cliff turn; retain such a failed run and fix the fixture instead of changing the
+game's fuel, collision, mission quota or completion predicate to pass it.
 
 For long rendered acceptance, keep each receipt-bound run in a fresh private
 output directory with separate logs, terminal report and process identity.
@@ -50,6 +69,23 @@ uses private `GIANTS_RIPPER_HEALTH_ELIGIBILITY_CONTROLS` alongside `GIANTS_NPC_R
 to compare the actual declaration and six original full-health/injured/dead
 eligibility cases after source weapon loading. No contact or healing is supplied.
 See OWNED_NPCS.md before continuing this dependency.
+
+`installed_static_palm_preserves_unresolved_auxiliary_links_and_damages_its_own_stump`
+uses `GIANTS_BUILDING_ROOT` for class101's actual binding dependencies, separately
+retained unresolved auxiliary links, physical/projectile admission, source shot
+reaction, effect expiry and independent stump. This is a CPU integration control;
+rendered ordinary input and the matching release receipt remain separate gates.
+The building input driver can select another authored menu mission through its
+existing showcase selection. It still requires an exclusive muted offscreen
+replay and the ordinary startup/resident prerequisites; it forces no character,
+readiness or pose and does not enable the building feature in normal play.
+
+With `GIANTS_BUILDING_ROOT`, the installed game controls
+`installed_platform_ignored_word_keeps_fields_and_unbound_constructor_guard`
+and `installed_story1_collision_projection_keeps_constructor_and_platform_boundaries`
+check independent class-reader/collision projections, actual source usage masks,
+the still-unbound named actor initializer and retained unresolved footprints.
+They do not admit a complete bridge constructor, native world or rendered AI.
 
 The optional app controls
 `installed_palm_damage_keeps_source_stump_owner_and_independent_hits` and
