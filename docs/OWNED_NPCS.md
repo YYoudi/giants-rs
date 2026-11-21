@@ -76,7 +76,7 @@ No native implementation or prototype PS2 attribution changes in this delivery.
 
 ### Ordinary lethal callback composition in progress
 
-The next NPC-branch continuation now connects witnessed corpse completion to
+The NPC branch now connects witnessed corpse completion to
 the common external-release/core-unlink path. It retains the declaration as
 history, excludes retired IDs from draw/contact/frame owners, and prevents the
 same source key from allocating again before the scope is cleared. State23 has
@@ -97,11 +97,33 @@ already been drained. Damage then refused the old scenario binding. That run
 was stopped and remains a failed two-cycle acceptance. The runtime now detaches
 the combat scope during actual canonical teardown, preserving all process fields
 and uncertainty; a regression checks matching/foreign cancellation and retained
-unknown writers. A fresh executable still needs both rendered cycles.
+unknown writers. The fresh successful two-cycle receipt is recorded below.
 An internal two-cycle observer requests the existing cancel/re-entry paths only
 after actual core retirement; it supplies no removal or successful cleanup.
 
-Identified local rendered check: runtime
+Current local runtime `06f37a311eb82e5ac6c2b75824b857f34228c0d9`, MinGW executable
+SHA256 `5cc608aff7cee17a10abcab84db9978468aae287140994a35b37d9c89a4727f3`,
+completes both rendered cycles in about254 seconds, exit0. Tickets1/3 each receive
+pistol damage12/24/36, complete their actual lethal callback, run mode94 and
+release one corpse/88 bytes/three registrations through real external owners.
+Ticket3 also receives a class90 hit: Mecc loses10 health with copied recoil.
+There are no Ripper actor quarantines, component refusals, held corpse retirements
+or stale combat-scope errors. Both canonical scopes detach with process fields
+preserved. Source Session storage/registrations, draw owners, tracked assets and
+ECS entities reach zero on both returns. The first audio-release snapshot still
+has a pending request; this is not an all-queues-empty or audible-playback claim.
+
+The inspected endpoint is the normal mission-selection menu after the second
+cleanup. Navigation/fire/opening skip and cancel/re-entry were supplied diagnostic
+commands over the normal owners, not Windows combat or new native-fidelity
+acceptance. Each active death graph still holds one hidden support at its missing
+child initializer; health items are born but not rendered/collected. General
+incoming-reference/cascade retirement remains outside the admitted core path.
+A separate Windows attempt on the preceding local executable observed the start
+menu and normal process exit only, with no confirmed mission entry/re-entry.
+No new Windows combat claim or competing public preview is made.
+
+Earlier local rendered check before core retirement: runtime
 `a67c9f999c9e28e050a5434c6f4cd9e45d4ce7c9`, MinGW executable SHA256
 `4df8deb4ebce6b8384b3940070ece5cefc268f97561cdf1a2901cb3303ddaf86`.
 The supplied ordinary-player-command encounter exits successfully after about
@@ -152,11 +174,12 @@ Mode94 now runs the shared ordinary prefix, the source global countdown and the
 sound tail in the normal world schedule. Its no-mana path checks the actual
 source player-list family predicate, rather than assuming that controlling Mecc
 excludes every possible recipient. Marked corpses stop contributing draw/contact
-frames but retain their declared identity until core retirement is acquired.
+frames. The bounded unreferenced profile now releases core ownership and retains
+its source declaration as history; unsupported reference/cascade cases stay held.
 Death context execution failures are held individually, retaining actual prefixes
 without stopping other AI. Fragment/trail execution, active health/glow/collection
-and core corpse unlinking are still incomplete; prepared contexts and a marked
-corpse do not establish those features.
+and broader corpse/reference unlinking remain incomplete; prepared contexts and
+a marked corpse do not establish those features.
 
 Canonical damage state now retains `attached_effect_context::Id` separately
 from actor IDs. Completed primary publication and damage snapshots preserve the
@@ -178,8 +201,8 @@ lookups remain unknown attributions; the previously confirmed corpse-helper
 identity is retained without importing its prototype signature or layout.
 
 Next finish the actual active death graph, health-object frame/glow/collection
-owners and corpse retirement, and validate post-death menu cleanup/re-entry
-on that identified executable. The installed
+owners and broader reference/cascade retirement, and complete actual Windows
+encounter/menu acceptance on an identified executable. The installed
 corpse mana parameters are nonzero: use the genuine player-list eligibility
 result and source countdown, rather than assuming zero mana or copying Vimp
 ghost/meat behavior. Keep working living AI available until these consumers can

@@ -356,19 +356,22 @@ helper is a stub; preserve the PC implementation and that platform divergence.
 
 ## NPC lane in progress - ordinary Rippers in The Wife
 
-Next continuation implements bounded corpse core retirement with actual
+The NPC branch implements bounded corpse core retirement with actual
 external-owner release, source-list removal and non-respawning declaration
 history. Native cleanup fixtures and installed ownership/failure controls cover
-that dependency. Rendered ordinary retirement plus post-death cancellation and
-fresh entry remain required on the new receipt. Incoming-reference/cascade
+that dependency. Local runtime06f37a3 now passes two rendered ordinary deaths,
+core retirements, post-death cancellations and fresh entry. OWNED_NPCS.md pins
+the executable/endpoint and supplied-command boundary. Incoming-reference/cascade
 clearing, health frame/glow/collection and active death children remain open;
 do not acknowledge them from this unreferenced core path.
 The first rendered cycle retires the corpse and releases the scene, but re-entry
 exposes stale combat-process scenario ownership after the temporary retirement
 list is drained. Scope detachment now belongs to actual canonical teardown;
 process flags and unknown-writer barriers are preserved. This shared fix can be
-integrated independently of death FX/health work and requires fresh rendered
-re-entry acceptance before claiming two successful combats.
+integrated independently of death FX/health work. The fresh two-cycle run passes
+with no stale-scope refusal, actor quarantine or corpse-retirement failure and
+zero remaining Session storage/registrations and entities after both returns.
+Actual Windows combat/menu re-entry remains distinct and unverified here.
 
 Lethal continuation now has the real partial-pistol callback adapter, preserving
 actor/shot/context identity domains, actual effect alias cleanup and failed
@@ -380,7 +383,7 @@ camera/quality inputs and source-family preflight. Local runtime a67c9f9 now
 passes a rendered supplied-player encounter: source movement, reciprocal damage,
 ordinary lethal callback and corpse inactivity, with independent AI continuing.
 OWNED_NPCS.md pins its executable and precise evidence. Public .14.2 is unchanged. Active death bodies,
-health frame/glow/collection and core corpse retirement remain incomplete.
+health frame/glow/collection and broader reference/cascade retirement remain incomplete.
 The first candidate's rendered run stopped on an ordinary ANM clock refusal
 before a lethal contact. A shared clock correction now preserves inherited
 out-of-duration times and the acquired directional wrap; ten native prefix
