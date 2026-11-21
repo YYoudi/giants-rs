@@ -89,10 +89,18 @@ the original constructor matches 73 projected words without normalization. An
 installed Story1 control preserves the world-tick and collision-pose refusals and
 rejects duplicate ownership. The existing shared movement service matches 96
 original state7 primary controls with source pub parameters and supplied state.
-Next connect owned history, ground/environment finalization and the live posed
-mesh producer; the current resident environment deliberately refuses that mesh
-profile. Do not replace it with a fixed initial collision. No new preview is
-delivered by this source dependency. Its configured health
+The new Session-owned pub body now composes history, the full zero-command
+primary, terrain/environment finalization and current bounds/ordered rigid
+collision geometry. Dirty-pool native controls establish fresh zero histories;
+32 initializations and 384 phase steps at 120 Hz match the original. The phase
+ordinal and failure latch reject double consumption and stale mesh/cache use.
+Next wire it into ordinary mission stepping and the actual object/platform
+population, player/projectile collisions and render transforms. Existing Ripper
+environment snapshots contain an empty mesh and cannot substitute for this pub
+provider; an empty platform list is not a successful query over a real map.
+The native control's explicitly empty population and additional snapshot helpers
+do not certify that integration. Do not replace it with a fixed initial collision.
+No new preview is delivered by this source dependency. Its configured health
 does not imply destructibility. The separate class1045 canopy has no declared
 player/projectile role and its initial state27 descriptor has no shot callback;
 do not invent palm-trunk reactions for it. Actual original dispatcher controls

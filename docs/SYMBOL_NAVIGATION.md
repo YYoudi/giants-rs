@@ -543,8 +543,14 @@ The pub's shared movement research starts with the literal prototype names
 `playerobj_gravity`. These are **unknown** attribution search routes to
 [`actor_common_motion`](../crates/giants-game/src/actor_common_motion.rs), not
 recovered PC routine names. Original state7 controls support the shared arithmetic
-with supplied state; pub history, ground response and live mesh ownership remain
-separate prerequisites.
+with supplied state. The newer
+[`ordinary_building_body`](../crates/giants-game/src/ordinary_building_body.rs)
+and its Session facade own the fresh pub history, finalization and current rigid
+collision phase. `object_init_usage`, `object_initframe_location` and
+`object_bbox_to_world_bbox` remain unknown search routes there;
+`object_apply_location` retains its separately documented probable relationship.
+Original phase controls with an explicitly empty population do not establish
+ordinary map collision/render consumption or a native complete world update.
 
 This index publishes only selected names, reviewed navigation relationships and
 attribution status. Binary/ELF inputs, raw tables, listings, matching outputs,

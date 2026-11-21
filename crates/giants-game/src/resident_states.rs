@@ -19,6 +19,7 @@ mod delphi;
 mod delphi_camera;
 mod delphi_held;
 mod delphi_local_target;
+mod ordinary_building;
 mod player_shell;
 mod radial_damage;
 pub use delphi_local_target::{
@@ -486,6 +487,7 @@ pub struct Resident {
     smoke_effect: Option<mecc_smoke::Metadata>,
     environment: Option<crate::resident_environment::Prepared>,
     ordinary_motion: Option<crate::resident_motion::Owned>,
+    ordinary_building: Option<crate::ordinary_building_body::Body>,
     ripper_primary:
         Option<crate::ripper_primary_turn::Machine<Id, crate::attached_effect_context::Id>>,
     ripper_primary_running: bool,
@@ -754,6 +756,7 @@ impl Session {
                 smoke_effect: None,
                 environment: None,
                 ordinary_motion: None,
+                ordinary_building: None,
                 ripper_primary: None,
                 ripper_primary_running: false,
                 ripper_primary_epoch: 0,

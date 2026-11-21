@@ -46,7 +46,32 @@ download, not delivered collision. The shared Rust common-motion service also
 matches 96 original state7 primary controls with the pub's source parameters;
 poses, rates, flags, local time areas and zero commands are supplied. This does
 not establish the wrapper/history, ground response, finalization or posed mesh
-producer. Acquire and connect those owners before admitting the live surface.
+producer by itself.
+
+Newer source now supplies a ticket-owned pub body phase and its current rigid
+collision selector through `ordinary_building_body` and the Session facade.
+Thirty-two original late initializations match 2,944 projected words; 384
+original history/full primary-wrapper/descriptor-dispatch, terrain finalization
+and bounds steps match the new owner at 120 Hz. The control supplies an empty
+object/platform population and uses additional affine/bounds snapshot calls;
+it is not a native world scheduler or ordinary mission acceptance. Original
+dirty-pool construction clears the retained rates, commands, parent, physical
+and footprint histories, so those zeros are restricted to fresh construction.
+
+The installed control checks actual source resources and terrain, ordered rigid
+collision parts, phase ordinals, duplicate/foreign refusal, partial failure,
+stale-cache refusal, cancellation and fresh ownership. A failed environment
+retains the consumed state and blocks replay and mesh publication. The selected
+collision identity is explicit and separate from the Session actor identity.
+Connect this provider to normal mission stepping, the actual object/platform
+population, player/projectile publication and matching render transforms before
+admitting the live surface. The current download remains .14.2; no new capture
+or ordinary collision is established by these dependency controls.
+
+An independent descriptor-dispatch control also identifies the pub's second
+callback as a secondary callback. The historical private initializer alias is
+retained for retrieval with that interpretation rejected. Its callback body and
+the full world/animation schedule remain separate prerequisites.
 
 Its initial state7 descriptor has no shot callback, despite configured health.
 The separate class1045 palm canopy has neither source

@@ -106,6 +106,7 @@ pub mod mecc_target_query;
 pub mod mecc_wield;
 pub mod mecc_wield_pose;
 pub mod mission_child12;
+pub mod ordinary_building_body;
 pub mod player_input_channels;
 pub mod resident_environment;
 pub mod resident_finalization;

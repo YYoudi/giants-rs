@@ -85,6 +85,18 @@ channels, constructor list and duplicate refusal. The live world tick and
 player/projectile pose admission must still refuse; this command does not test
 gameplay collision or rendering.
 
+The following control checks the newer pub body owner using actual source
+resources/terrain and explicitly supplied empty neighbours/platforms:
+
+```powershell
+cargo test --locked -p giants-game installed_pub_body_retains_current_collision_and_failed_phase_ownership --target x86_64-pc-windows-gnu -- --ignored
+```
+
+It covers current collision triangles/bounds, distinct actor/collision identities,
+phase ordinals, retained partial failure, rejected replay/cache publication,
+cancellation and fresh ownership. It does not prove the ordinary map population,
+graphics, real controls or a new downloadable feature.
+
 `installed_barracks_secondary_usage_preserves_other_fields_and_constructor_boundary`
 uses `GIANTS_BUILDING_ROOT` to check class686's actual secondary usage record,
 actor/collision projections, preservation of unrelated fields and the still

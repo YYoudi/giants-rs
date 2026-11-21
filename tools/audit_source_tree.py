@@ -143,6 +143,10 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('df352e4d2e90eadd89
 # Reviewed merged minimal index retains pub and Kabuto unknown search routes.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('3725a3c659030e18be1c93baa53cfc9761f8b0f41dad63a90586336f72a338ce')
 
+# Reviewed pub body-phase navigation with unknown/probable status retained;
+# no private table, listing or new confirmed correspondence. Exact sole path.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('15d087de79951c0ef76ee93f7593f626f2b1ccbc10df0ba56725bb74fd02f205')
+
 # Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # branch. Reviewed as a VP8-only image without embedded metadata. Keep its
 # all-reference history review valid before that gallery update enters main;

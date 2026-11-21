@@ -1,5 +1,27 @@
 # Preview releases and milestone integration
 
+## Pub body phase - source dependency after .14.2
+
+The pub's source-owned Session identity now retains fresh movement/history,
+terrain/environment finalization, current bounds and ordered rigid collision
+parts. Original controls match 32 late initializations and 384 body steps at
+120 Hz with an explicitly supplied empty object/platform population. Additional
+snapshot helper calls and the absence of animation/world scheduling keep this
+separate from ordinary mission acceptance. Dirty free-node controls establish
+the fresh zero histories. Distinct collision identities, phase ordinals, changed
+channels, partial failure, cache/mesh refusal, cancellation and fresh ownership
+are checked by the installed control.
+
+Normal mission stepping, actual platform/object services and matching collision
+and render publication remain unwired. This source change creates no Windows
+preview or capture and confirms no new PS2 attribution. The .14.2 download and
+dashboard capture receipt remain unchanged.
+
+Validation: 1,118 portable Rust tests (262 ignored), the two installed pub
+controls, formatting, strict workspace Clippy and all 45 Python tests pass.
+The separate original-PC phase comparison uses the current GNU Rust library;
+its empty-population and snapshot-helper scope is retained above.
+
 ## Pub cold ownership - source dependency after .14.2
 
 The ordinary Story1 pub now retains its authored cold resident identity,
