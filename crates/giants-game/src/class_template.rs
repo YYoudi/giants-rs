@@ -33,6 +33,20 @@ pub(crate) fn initial_configuration() -> [u32; 30] {
     configuration[24] = 30.0f32.to_bits();
     configuration
 }
+/// Source OR stores into either usage word. These are distinct from personality
+/// and active flags; their presence grants no live callback or collision role.
+pub(crate) fn usage_write(opcode: u8) -> Option<(usize, u32)> {
+    match opcode {
+        0x46 => Some((0, 1)),
+        0x49 => Some((0, 0x0000_3c00)),
+        0x4d => Some((0, 0x03c0_0000)),
+        0x4e => Some((1, 0xf0)),
+        0x4f => Some((1, 0xf)),
+        0x50 => Some((1, 0xf00)),
+        0x7f => Some((1, 8)),
+        _ => None,
+    }
+}
 /// Fixed scalar stores shared with ordinary actor field preparation. The
 /// integer conversion uses the low word of a truncating signed 64-bit result;
 /// invalid x87 conversions produce integer-indefinite (whose low word is zero).
@@ -40,6 +54,10 @@ pub(crate) fn apply_configuration_extension(
     configuration: &mut [u32; 30],
     record: &giants_formats::class_program::Record,
 ) -> Result<(), &'static str> {
+    if let Some((slot, mask)) = usage_write(record.opcode) {
+        configuration[15 + slot] |= mask;
+        return Ok(());
+    }
     let word = || -> Result<u32, &'static str> {
         Ok(u32::from_le_bytes(
             record
@@ -52,12 +70,7 @@ pub(crate) fn apply_configuration_extension(
     };
     let integer = |bits| crate::arithmetic::integer_low_word(f64::from(f32::from_bits(bits)));
     match record.opcode {
-        0x49 => configuration[15] |= 0x0000_3c00,
-        0x4d => configuration[15] |= 0x03c0_0000,
-        0x4e => configuration[16] |= 0xf0,
         0x15 => configuration[17] = word()?,
-        0x4f => configuration[16] |= 0x0f,
-        0x50 => configuration[16] |= 0x0f00,
         0x25 => configuration[27] = word()?,
         0x26 => {
             configuration[25] = (configuration[25] & 0x00ff_ffff) | ((word()? & 0xff) << 24);
@@ -142,8 +155,8 @@ impl DebugScalar {
                     out.configuration[20] = u32::from(state);
                 }
                 0x17 => out.scale_bits = word(1)?,
-                0x15 | 0x25 | 0x26 | 0x31 | 0x36 | 0x39 | 0x49 | 0x4d | 0x4e | 0x4f | 0x50
-                | 0x69 => {
+                0x15 | 0x25 | 0x26 | 0x31 | 0x36 | 0x39 | 0x46 | 0x49 | 0x4d | 0x4e | 0x4f
+                | 0x50 | 0x69 | 0x7f => {
                     apply_configuration_extension(&mut out.configuration, record)
                         .map_err(|_| Need::Framing)?;
                 }

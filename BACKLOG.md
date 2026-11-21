@@ -41,6 +41,25 @@ collision-only projection retains real bridge meshes and unresolved candidates;
 it grants no fabricated actor constructor or successful empty footprint query.
 Continue native work from prototype PS2 names under RECONSTRUCTION_METHOD.md.
 
+The next source continuation retains both class usage words in the actor
+configuration and collision projection through one shared reader. The newly
+acquired class686 record changes only its secondary mask. Seven original-PC
+preservation/cursor controls and the actual class686 cold constructor expose and
+then resolve the earlier lost scalar; the corrected projected comparison matches
+73 words. This is an unpublished dependency, not another preview or ordinary
+class686 admission. Its constructor/frame guards remain intact. Story4 mission2
+declares this barracks; its projectile mesh now prepares while its player mesh
+and canonical damage/effect owner still require integration.
+
+Keep the early-map pub53 collision gap prioritized: its class fields now load,
+but the live state7 pose/physics owner remains unacquired. Its configured health
+does not imply destructibility. The separate class1045 canopy has no declared
+player/projectile role and its initial state27 descriptor has no shot callback;
+do not invent palm-trunk reactions for it. Actual original dispatcher controls
+leave supplied state7/27 actors unchanged. Those controls establish no complete
+initialization, state transition or graphical acceptance. BUILDINGS.md owns the
+bounded acquisition details; all new PS2 attributions remain unknown.
+
 Owner feedback delivered in preview .14.1: normal pistol hits destroy admitted
 class102 palms, hide their exact foliage owner, play the source wood burst/sound
 and leave a separately colliding/projectile/damageable class664 stump. Rendered
@@ -51,12 +70,15 @@ Collision uses the acquired initial idle pose; live wind/collision alignment,
 other tree families and heavy-actor felling remain open. Do not declare all
 vegetation destructible or assign house health-animation stages to a palm.
 
-The carried RoadHome return now satisfies its real counter, plays its source
-film to its natural end and enters High Village with the ordinary Mecc. Fresh
+In preview .14.1 the carried RoadHome return satisfied its real counter, played
+its source film to its natural end and entered High Village with the ordinary Mecc. Fresh
 empty-opening admission, canonical detached splash/fade and exact opaque
-barracks command7 metadata are connected. The strict combined report remains
+barracks command7 metadata were connected. That strict combined report remained
 failed on High Village Ripper AI's unacquired platform cold command46; separate
-core-chain acceptance does not waive that dependency or certify the next mission.
+core-chain acceptance did not waive that dependency or certify the next mission.
+Preview .14.2's strict selected return/next-player report passes after the bounded
+collision acquisition. Generic footprints and full named construction remain open;
+High Village mission completion is still uncertified.
 Acquired barracks damage/effects are included in this same build. Ripper effects bind the current ordinary solid
 meshes after canonical initialization/damage while cached platforms keep exact
 guards. Unsupported declared projectile hits retain only that shot and do not

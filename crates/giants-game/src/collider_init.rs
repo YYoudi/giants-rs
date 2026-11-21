@@ -96,13 +96,8 @@ pub fn cold_projection(
     );
     let mut usage = [0; 2];
     for command in &program.records {
-        match command.opcode {
-            0x46 => usage[0] |= 1,
-            0x49 => usage[0] |= 0x3c00,
-            0x4d => usage[0] |= 0x03c0_0000,
-            0x4f => usage[1] |= 0xf,
-            0x50 => usage[1] |= 0xf00,
-            _ => {}
+        if let Some((slot, mask)) = crate::class_template::usage_write(command.opcode) {
+            usage[slot] |= mask;
         }
     }
     let template = Instance {
@@ -283,6 +278,57 @@ pub fn initialize(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    #[ignore = "requires GIANTS_BUILDING_ROOT; actual class686 header/mask projection, not actor, frame or graphical admission"]
+    fn installed_barracks_secondary_usage_preserves_other_fields_and_constructor_boundary() {
+        let root = std::path::PathBuf::from(std::env::var_os("GIANTS_BUILDING_ROOT").unwrap());
+        let mut source =
+            crate::scene_resources::SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+        let program = source.classes.models.programs[&686][0]
+            .program
+            .as_ref()
+            .unwrap();
+        assert!(program.records.iter().any(|r| r.opcode == 0x7f));
+        let flags = crate::object_lists::DirectFlags::project(686, program);
+        let spec = crate::specification::Prepared::load_registered(&source, 686).unwrap();
+        let actor = crate::actor_fields::Fields::load(&source, 686, &spec).unwrap();
+        let acquired = cold_projection(&source, 686).unwrap();
+        assert_eq!(acquired.template.state, 98);
+        assert_eq!(acquired.template.usage[1] & 8, 8);
+        assert_eq!(acquired.initial.usage, acquired.template.usage);
+        assert!(!crate::declared_residents::constructor_profile(686, 98));
+        source.classes.models.programs.get_mut(&686).unwrap()[0]
+            .program
+            .as_mut()
+            .unwrap()
+            .records
+            .retain(|r| r.opcode != 0x7f);
+        let without = cold_projection(&source, 686).unwrap();
+        assert_eq!(
+            acquired.template.fields.words(),
+            without.template.fields.words()
+        );
+        assert_eq!(
+            acquired.initial.fields.words(),
+            without.initial.fields.words()
+        );
+        assert_eq!(acquired.template.usage[0], without.template.usage[0]);
+        assert_eq!(acquired.template.usage[1], without.template.usage[1] | 8);
+        let program = source.classes.models.programs[&686][0]
+            .program
+            .as_ref()
+            .unwrap();
+        assert_eq!(
+            flags,
+            crate::object_lists::DirectFlags::project(686, program)
+        );
+        let baseline = crate::actor_fields::Fields::load(&source, 686, &spec).unwrap();
+        let mut expected_configuration = baseline.configuration;
+        expected_configuration[16] |= 8;
+        assert_eq!(actor.configuration, expected_configuration);
+        assert_eq!(&actor.configuration[15..17], &acquired.template.usage);
+        assert_eq!(actor.channels, baseline.channels);
+    }
     #[test]
     fn declared_scale_replaces_the_class_value_only_on_a_fresh_valid_instance() {
         let mut fields = Fields::zeroed();

@@ -18,6 +18,36 @@ did not enable it.
 BACKLOG.md owns detailed acceptance; RECONSTRUCTION_METHOD.md governs
 every native acquisition, beginning with literal prototype PS2 names.
 
+## Source continuation after .14.2: usage words and excluded scenery
+
+Class686's one-byte class record adds a bit to the second usage word. Original-PC
+controls retain existing bits and a following scale record, execute the actual
+copy suffix and change no other actor/template words. This is not a personality,
+physical-player role or destructibility flag. One shared Rust decoder now feeds
+both the collision instance masks and the actor's configuration words; the first
+comparison caught a real lost configuration word and is retained as failed
+evidence. The corrected class686 cold-constructor comparison matches all 73
+projected configuration/channel/scale/usage words, with the same source class
+catalogue on both sides. Resource pointers and subsequent mission/frame ownership
+remain separate; this is no gameplay or fidelity result.
+
+The actual Story4 mission2 declaration has a prepared projectile mesh but no
+admitted player mesh. Its canonical constructor, initial/damage consumers and
+rendered acceptance are not enabled by this header correction. Preserve the
+explicit class guards until the remaining owners are acquired and integrated.
+The current public download remains .14.2 with its recorded source/EXE receipt.
+
+The early-map pub53 has an initial state7 descriptor without a shot callback,
+despite configured health. Its actual live physics/pose provider is still needed
+for collision integration. The separate class1045 palm canopy has neither source
+player nor projectile membership and starts in state27, also without a shot
+callback. Sixteen original dispatcher controls include unchanged state0/7/27
+actors and positive real house/scenery callbacks. They do not prove complete
+initialization, later state transitions or ordinary rendered interaction. Do not
+turn the canopy into a destructible trunk or flatten these states into state0.
+Prototype `playerobj_gravity_once`, `object_copy_personality` and `barracks_logic`
+remain unknown-attribution navigation candidates; no new identity is confirmed.
+
 The first observable delivery is walking against an authored building, hitting
 its actual collision shape with the normal weapon, and seeing the supported
 source reaction through damage stages and retirement. Source data must decide
@@ -357,8 +387,8 @@ source sound1559, 17/17 effect expiry and seventeen fresh stump contacts. Two
 destruction/live-effect cancellation/fresh-entry cycles pass cleanup. These use
 supplied ordinary commands; Windows-held input, complete campaign regression,
 live animation/collision scheduling and the state27 canopy remain separate.
-Public preview .14.1 remains the current download until the next receipt-bound
-combined acceptance and publication finish.
+That intermediate receipt predates the published .14.2 combined acceptance;
+it is retained as acquisition history, not the current download identity.
 
 Story1's shared source-world preflight also encounters bridge declarations.
 The D class reader's32/37/38 records only advance their operands. Command46

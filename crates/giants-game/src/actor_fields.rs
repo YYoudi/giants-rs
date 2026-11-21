@@ -242,9 +242,8 @@ impl Fields {
                     "actor named constructor binding needs its registry and initialization owner"
                         .into(),
                 ),
-                // State allocation, usage masks and payload attributes have
-                // their separate owners; these are not personality flag stores.
-                0x1e | 0x1f | 0x3c | 0x44 | 0x46 | 0x7a | 0x7b | 0x7c | 0x83 => {}
+                // State allocation and payload attributes have separate owners.
+                0x1e | 0x1f | 0x3c | 0x44 | 0x7a | 0x7b | 0x7c | 0x83 => {}
                 0x21 => {
                     let center = float(1)?;
                     out.configuration[22] = center.to_bits();
@@ -253,8 +252,8 @@ impl Fields {
                 }
                 0x29 => out.configuration[24] = word(1)?,
                 0x3b => out.dispatch_context = word(1)?,
-                0x15 | 0x25 | 0x26 | 0x31 | 0x36 | 0x39 | 0x49 | 0x4d | 0x4e | 0x4f | 0x50
-                | 0x69 => {
+                0x15 | 0x25 | 0x26 | 0x31 | 0x36 | 0x39 | 0x46 | 0x49 | 0x4d | 0x4e | 0x4f
+                | 0x50 | 0x69 | 0x7f => {
                     crate::class_template::apply_configuration_extension(
                         &mut out.configuration,
                         record,
@@ -402,6 +401,12 @@ mod tests {
             let cold = crate::collider_init::cold_projection(plan.resources(), class).unwrap();
             assert_eq!(cold.template.usage[0] & 1, 1);
             assert_eq!(cold.initial.usage, cold.template.usage);
+            if class == 53 {
+                let spec =
+                    specification::Prepared::load_registered(plan.resources(), class).unwrap();
+                let actor = Fields::load(plan.resources(), class, &spec).unwrap();
+                assert_eq!(&actor.configuration[15..17], &cold.template.usage);
+            }
         }
         let spec = specification::Prepared::load_registered(plan.resources(), 257).unwrap();
         assert_eq!(

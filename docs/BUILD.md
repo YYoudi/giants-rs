@@ -39,6 +39,13 @@ unfinished scopes; do not discard failed or interrupted evidence.
 
 ## Optional installed reconstruction controls
 
+`installed_barracks_secondary_usage_preserves_other_fields_and_constructor_boundary`
+uses `GIANTS_BUILDING_ROOT` to check class686's actual secondary usage record,
+actor/collision projections, preservation of unrelated fields and the still
+unadmitted canonical constructor. Run that exact filter with `-- --ignored`.
+It is an intermediate dependency and does not enable a new building in normal
+play. Keep the source-mask acquisition separate from player/shot/FX acceptance.
+
 `installed_static_palm_preserves_unresolved_auxiliary_links_and_damages_its_own_stump`
 uses `GIANTS_BUILDING_ROOT` for class101's actual binding dependencies, separately
 retained unresolved auxiliary links, physical/projectile admission, source shot
