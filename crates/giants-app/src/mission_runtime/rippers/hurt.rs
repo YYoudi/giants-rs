@@ -183,6 +183,9 @@ impl State {
                 self.last_pistol_hit = Some((target, serial, step));
                 self.last_death = Some((target, serial, step));
                 self.driver.remove_completed(target);
+                // The callback changed source flags after finalization. Refresh
+                // the owned projection before another ordinary collision query.
+                session.refresh_actor_environment_geometry(target)?;
                 println!(
                     "mission_ripper_pistol_death ticket={ticket} owner={target:?} serial={serial} step={step} callback_completed=true retirement_completed=false"
                 );

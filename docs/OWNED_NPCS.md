@@ -83,6 +83,11 @@ the acquired directional wrap instead of requiring an already normalized input.
 Ten original-PC prefix cases agree for inherited positive/negative clocks in
 both arithmetic profiles. These controls cover clocks only. The failed rendered
 run remains a failure; a fresh executable still needs encounter acceptance.
+The next candidate reaches ordinary pistol death after damage 12/24/36, then
+fails on a stale environment projection following the lethal flags change.
+The caller now explicitly refreshes that existing projection after death and
+after the corpse's inactive marker; it replays neither initialization nor AI.
+This second run also remains a failed rendered acceptance until retested.
 
 The NPC branch now provides
 `Session::damage_ripper_from_partial_pistol_with_death`. It consumes the same

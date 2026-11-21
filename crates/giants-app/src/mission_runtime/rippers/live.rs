@@ -901,6 +901,7 @@ impl State {
                 && session.actor_world_flags(owner.id)? & 0x8000 != 0
             {
                 self.driver.completed.remove(&owner.id);
+                session.refresh_actor_environment_geometry(owner.id)?;
                 println!(
                     "mission_ripper_corpse_marked ticket={} owner={:?} core_retirement_completed=false",
                     frame.ticket, owner.id
