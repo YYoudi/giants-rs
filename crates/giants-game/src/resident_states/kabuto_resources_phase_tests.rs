@@ -109,6 +109,7 @@ impl Controls {
         number: u64,
         seconds: f32,
         globals: &giants_formats::global_data::GlobalData,
+        animation: &mut crate::actor_animation_phase::Services<'_>,
     ) {
         let before = snapshot(s, id);
         let slot = s.get(id).unwrap().channels.unwrap()[0][0] as u8;
@@ -212,7 +213,9 @@ impl Controls {
         );
         if self.cases == 512 {
             if let Some(case) = self.query {
-                super::super::reference_frame_tests::probe(factory, foreign, s, id, number, case);
+                super::super::reference_frame_tests::probe(
+                    factory, foreign, s, id, number, case, animation,
+                );
                 return;
             }
             if let Some(case) = self.handoff {

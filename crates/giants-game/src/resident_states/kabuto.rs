@@ -57,6 +57,11 @@ mod primary_tail;
 mod primary_tail_tests;
 #[path = "kabuto_query_feedback.rs"]
 mod query_feedback;
+#[path = "kabuto_query_geometry.rs"]
+mod query_geometry;
+#[cfg(test)]
+#[path = "kabuto_query_geometry_tests.rs"]
+mod query_geometry_tests;
 #[path = "kabuto_reference_frame.rs"]
 mod reference_frame;
 #[cfg(test)]
@@ -462,6 +467,22 @@ impl Session {
         services: &mut crate::actor_animation_phase::Services<'_>,
         mut sound: impl FnMut(crate::kabuto_geometry_transition::Sound) -> Result<(), String>,
     ) -> Result<crate::kabuto_geometry_transition::View, String> {
+        self.advance_kabuto_geometry_transition_with_world(
+            owner,
+            extra,
+            frame,
+            services,
+            |_, event| sound(event),
+        )
+    }
+    pub(crate) fn advance_kabuto_geometry_transition_with_world(
+        &mut self,
+        owner: Id,
+        extra: &crate::kabuto_auxiliary::ExtraFactory,
+        frame: crate::kabuto_geometry_transition::Frame<'_>,
+        services: &mut crate::actor_animation_phase::Services<'_>,
+        mut sound: impl FnMut(&Session, crate::kabuto_geometry_transition::Sound) -> Result<(), String>,
+    ) -> Result<crate::kabuto_geometry_transition::View, String> {
         use crate::{
             animation_channels::Request,
             kabuto_geometry_transition::{Sound, SoundAction, View},
@@ -537,13 +558,16 @@ impl Session {
             .data_mut()
             .unwrap()[0x228] = frame.mode;
         let mut view = View::default();
-        let mut audio = |action, identifier, view: &mut View| {
+        let mut audio = |session: &Session, action, identifier, view: &mut View| {
             view.sound_calls += 1;
-            sound(Sound {
-                owner,
-                identifier,
-                action,
-            })
+            sound(
+                session,
+                Sound {
+                    owner,
+                    identifier,
+                    action,
+                },
+            )
         };
         fn select(
             p: &mut crate::actor_animation_phase::Pipeline<'_>,
@@ -593,15 +617,15 @@ impl Session {
                 0 => {
                     match pipeline.channels[0][0] {
                         200 | 202 => {
-                            audio(SoundAction::Start, 0x452, &mut view)?;
-                            audio(SoundAction::Stop, 0x453, &mut view)?;
+                            audio(self, SoundAction::Start, 0x452, &mut view)?;
+                            audio(self, SoundAction::Stop, 0x453, &mut view)?;
                             select(&mut pipeline, &mut fields, &mut view, 199, 0x30, 0.25)?;
                         }
                         199 => {
                             let flags = pipeline.channels[0][8];
                             if flags & 0x10 == 0 {
-                                audio(SoundAction::Start, 0x452, &mut view)?;
-                                audio(SoundAction::Stop, 0x453, &mut view)?;
+                                audio(self, SoundAction::Start, 0x452, &mut view)?;
+                                audio(self, SoundAction::Stop, 0x453, &mut view)?;
                                 select(&mut pipeline, &mut fields, &mut view, 199, 0x10, 0.)?;
                             } else if flags & 2 != 0 {
                                 let word = |at| {
@@ -636,20 +660,20 @@ impl Session {
                     match pipeline.channels[0][0] {
                         200 => {}
                         202 => {
-                            audio(SoundAction::Stop, 0x453, &mut view)?;
+                            audio(self, SoundAction::Stop, 0x453, &mut view)?;
                             select(&mut pipeline, &mut fields, &mut view, 200, 0x21, 0.25)?;
                         }
                         199 => {
                             if pipeline.channels[0][8] & 0x10 != 0 {
-                                audio(SoundAction::Start, 0x455, &mut view)?;
+                                audio(self, SoundAction::Start, 0x455, &mut view)?;
                                 select(&mut pipeline, &mut fields, &mut view, 199, 0, 0.)?;
                             } else if pipeline.channels[0][8] & 2 != 0 {
-                                audio(SoundAction::Start, 0x453, &mut view)?;
+                                audio(self, SoundAction::Start, 0x453, &mut view)?;
                                 select(&mut pipeline, &mut fields, &mut view, 200, 0x21, 0.25)?;
                             }
                         }
                         _ => {
-                            audio(SoundAction::Start, 0x455, &mut view)?;
+                            audio(self, SoundAction::Start, 0x455, &mut view)?;
                             select(&mut pipeline, &mut fields, &mut view, 199, 0x20, 0.25)?;
                         }
                     }
@@ -662,7 +686,7 @@ impl Session {
                 }
                 3 => {
                     if pipeline.channels[0][0] != 202 {
-                        audio(SoundAction::Start, 0x453, &mut view)?;
+                        audio(self, SoundAction::Start, 0x453, &mut view)?;
                         select(&mut pipeline, &mut fields, &mut view, 202, 0x20, 0.25)?;
                     }
                     if self.kabuto_group(owner).unwrap().extra.is_none() {
@@ -935,6 +959,7 @@ impl Session {
         group.cleaned_up = true;
         group.geometry_registration = None;
         group.procedural_texture = None;
+        group.query_geometry.header = None;
         // Source buffers cease to be active here, before common payload release.
         drop(std::mem::take(&mut group.geometry.vertices));
         drop(std::mem::take(&mut group.geometry.indices));

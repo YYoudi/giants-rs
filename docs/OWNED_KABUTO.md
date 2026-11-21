@@ -356,6 +356,39 @@ path and are not acknowledged by this field proof.
 
 ## Resource caller checkpoint and query-clock handoff
 
+`Factory::advance_query_geometry` now consumes the completed query feedback and
+runs the acquired scalar/mode, animation/effect transition and geometry-header
+projection on the same owner/frame. The mode uses the raw global frame interval,
+not the object-specific retained query clock. Its flags, duration, mode byte,
+status and target identity come from the actual payload/typed group. The cold
+geometry-header state is produced by the acquired constructor; cleanup retires
+it. No original pointer is stored in these relationships.
+
+Mode notifications observe actual Session stores at their original boundaries;
+the existing stable-context, ignored-return transport contract is retained.
+The supplied notification owner word must match the actual actor header context;
+a ticket, peer count or caller-chosen replacement is refused before phase entry.
+Transition processing reuses current motion/contact/affine data and the supplied
+world's existing animation contexts/RNG/stamp. Sound observers receive the owning
+Session. The earlier standalone transition API remains available. Projection
+disables the header before world queries and acquires camera or current ANM/body
+inputs only on branches that use them. There is no default body, bind-pose,
+camera or successful missing provider.
+
+A nonzero resulting mode returns `PrimaryTailRequired`; zero returns
+`ReactionAdmission`. Neither completes that following phase or acknowledges a
+primary/history/initializer. Required-provider errors retain the completed mode
+and transition effects and quarantine replay. Profile guards and staged
+projection-input refusals are owned policy, not native exception parity.
+
+Three installed controls compose the real preceding phases with supplied
+command/clock/notification/camera contexts: ordinary inactive mode, selected
+active projection and late camera refusal. They also verify distinct query/raw
+clocks, notification publication order and lazy unused services. Separate native
+comparisons cover 768 mode cases and 384 header cases after the lazy-body API
+refactor. These are component checks, not whole-primary equivalence, ordinary
+App producer availability, rendered projection or new downloadable controls.
+
 `Factory::advance_query_feedback` consumes the actual completed query and its
 clock checkpoint to update the group's final effect. Its scalar is initialized
 by the acquired cold constructor, independently from state-payload storage;

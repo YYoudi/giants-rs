@@ -117,6 +117,42 @@ fn source_kabuto_query_feedback_retains_transform_refusal() {
     );
 }
 #[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; ordered query/feedback/mode/transition/header on actual Session, no ordinary input/GPU claim"]
+fn source_kabuto_query_geometry_preserves_ordinary_mode_and_laziness() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::GeometryIdle),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; supplied active commands/raw clock/camera, current phase contexts and early-tail result"]
+fn source_kabuto_query_geometry_publishes_mode_and_camera_header() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::GeometryCamera),
+    );
+}
+#[test]
+#[ignore = "Requires GIANTS_KABUTO_ROOT; late camera refusal retains mode/transition effects and disabled header"]
+fn source_kabuto_query_geometry_retains_late_projection_refusal() {
+    run_model_with_body(
+        true,
+        true,
+        true,
+        None,
+        false,
+        Some(super::reference_frame_tests::Case::GeometryFailure),
+    );
+}
+#[test]
 #[ignore = "Requires GIANTS_KABUTO_ROOT; optional private post-gravity control inputs/receipts; no window or sound"]
 fn source_kabuto_control_force_uses_owned_animated_state_and_preserves_primary() {
     run_model(true, true, false, None);
@@ -1033,8 +1069,16 @@ fn run_model_with_body(
                         .is_err()
                 );
                 if resources {
-                    resource_controls
-                        .advance(&factory, &foreign, &mut s, id, number, seconds, &globals);
+                    resource_controls.advance(
+                        &factory,
+                        &foreign,
+                        &mut s,
+                        id,
+                        number,
+                        seconds,
+                        &globals,
+                        &mut services,
+                    );
                     if let Some(
                         kind @ (super::held_reference_tests::Case::Actions
                         | super::held_reference_tests::Case::ActionGate

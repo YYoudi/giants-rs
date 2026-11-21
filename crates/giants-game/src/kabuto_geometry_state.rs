@@ -1,5 +1,7 @@
 //! Geometry-header tail after the acquired animation/effect phase. Mode selection,
 //! animation changes, reference publication and world dispatch remain separate.
+//! Prototype PS2 `kabuto_move` remains an unknown parent navigation route;
+//! the acquired PC projection imports no prototype signature or layout.
 use crate::{kabuto_submission::State, procedural_aim::Matrix};
 
 #[derive(Clone, Copy)]
@@ -18,11 +20,22 @@ pub struct Body {
 /// `selected_camera` exists only for the selected local owner. Values are PC
 /// source-space inputs. This does not choose the mode or run the preceding phase.
 pub fn prepare(
-    mut previous: State,
+    previous: State,
     mode: u8,
     selected_camera: Option<Camera>,
     body: &Body,
 ) -> Result<State, &'static str> {
+    prepare_with(previous, mode, selected_camera, || Ok(body))
+}
+
+/// The body producer is lazy: inactive and selected-camera paths do not read
+/// ANM attachment/bounds/affine inputs. Existing borrowed-body API is retained.
+pub fn prepare_with<B: std::borrow::Borrow<Body>, E: From<&'static str>>(
+    mut previous: State,
+    mode: u8,
+    selected_camera: Option<Camera>,
+    body: impl FnOnce() -> Result<B, E>,
+) -> Result<State, E> {
     previous.enabled = false;
     if mode == 0 || (mode == 1 && selected_camera.is_none()) {
         return Ok(previous);
@@ -35,7 +48,7 @@ pub fn prepare(
             .chain([previous.weight])
             .all(f32::is_finite)
         {
-            return Err("non-finite Kabuto camera projection");
+            return Err("non-finite Kabuto camera projection".into());
         }
         previous.position = std::array::from_fn(|i| {
             (f64::from(camera.direction[i]) * 20. + f64::from(camera.position[i])) as f32
@@ -47,6 +60,8 @@ pub fn prepare(
         previous.flags = 0x60;
         previous.state_word = 2;
     } else if mode >= 2 {
+        let body = body()?;
+        let body = body.borrow();
         if !body
             .matrix
             .values
@@ -59,7 +74,7 @@ pub fn prepare(
                 .target_bounds
                 .is_some_and(|(low, high)| !low.into_iter().chain(high).all(f32::is_finite))
         {
-            return Err("Kabuto body projection outside finite affine profile");
+            return Err("Kabuto body projection outside finite affine profile".into());
         }
         previous.position = body.matrix.transform_point(body.attachment);
         previous.direction = [
@@ -95,7 +110,7 @@ pub fn prepare(
         .chain(previous.scale)
         .all(f32::is_finite)
     {
-        return Err("Kabuto projection overflow");
+        return Err("Kabuto projection overflow".into());
     }
     Ok(previous)
 }
@@ -103,6 +118,27 @@ pub fn prepare(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn lazy_projection_does_not_acquire_unused_body_inputs() {
+        for (mode, camera) in [
+            (0, None),
+            (1, None),
+            (
+                3,
+                Some(Camera {
+                    position: [1., 2., 3.],
+                    direction: [0., 1., 0.],
+                }),
+            ),
+        ] {
+            let out = prepare_with::<Body, &'static str>(previous(), mode, camera, || {
+                panic!("this branch must not acquire a body")
+            })
+            .unwrap();
+            assert_eq!(out.enabled, camera.is_some() && mode != 0);
+        }
+    }
 
     fn previous() -> State {
         State {

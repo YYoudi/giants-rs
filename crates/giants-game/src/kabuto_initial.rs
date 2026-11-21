@@ -50,6 +50,7 @@ pub struct Group {
     /// Typed current/held identities; raw pointer cells in the payload stay zero.
     pub(crate) reference_links: [Option<Id>; 3],
     pub(crate) reference_query: crate::kabuto_reference_frame::Phase,
+    pub(crate) query_geometry: crate::kabuto_query_geometry::Phase,
     pub(crate) held_reference_entered: Option<u64>,
     pub(crate) held_reference_running: bool,
     pub(crate) held_reference_completed: Option<u64>,
@@ -346,6 +347,37 @@ impl Factory {
         number: u64,
     ) -> Result<crate::kabuto_query_feedback::View, String> {
         session.captured_kabuto_query_feedback(owner, &self.resources, number)
+    }
+    /// Mode, animation/effect transition and geometry-header publication on
+    /// this actual query frame. World/animation services remain required.
+    #[allow(clippy::too_many_arguments)]
+    pub fn advance_query_geometry(
+        &self,
+        session: &mut Session,
+        owner: Id,
+        number: u64,
+        extra: &crate::kabuto_auxiliary::ExtraFactory,
+        frame: crate::kabuto_query_geometry::Frame<'_>,
+        animation: &mut crate::actor_animation_phase::Services<'_>,
+        services: &mut impl crate::kabuto_query_geometry::Services,
+    ) -> Result<crate::kabuto_query_geometry::View, String> {
+        session.advance_kabuto_query_geometry(
+            owner,
+            &self.resources,
+            number,
+            extra,
+            frame,
+            animation,
+            services,
+        )
+    }
+    pub fn captured_query_geometry(
+        &self,
+        session: &Session,
+        owner: Id,
+        number: u64,
+    ) -> Result<crate::kabuto_query_geometry::View, String> {
+        session.captured_kabuto_query_geometry(owner, &self.resources, number)
     }
     pub fn advance_resources(
         &self,
@@ -698,6 +730,7 @@ impl Factory {
             resource_phase_view: None,
             reference_links: [None; 3],
             reference_query: crate::kabuto_reference_frame::Phase::default(),
+            query_geometry: crate::kabuto_query_geometry::Phase::cold(),
             held_reference_entered: None,
             held_reference_running: false,
             held_reference_completed: None,

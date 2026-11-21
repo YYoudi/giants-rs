@@ -44,10 +44,18 @@ clock, updating the real final effect's scalar, flags and transform/position.
 Its transform producer is required, not a successful default. A separate native
 control covers the caller arithmetic and supplied transform boundary; it does
 not acquire that transform helper's body or a live renderer.
-Next: bind the acquired scalar/mode and geometry-transition services after this
-feedback, preserve their early-tail gate, then connect post-query reaction/action
-admission before the locomotion selector. Ordinary App input/camera/world and
-continuous frame completion remain required.
+The owned query continuation now binds scalar/mode publication, the existing
+animation/effect transition and geometry-header projection on that same frame.
+It consumes the actual command packet, raw global interval, current contacts,
+model/affine state and existing ANM contexts/RNG/stamp. Cold header state has its
+acquired constructor producer. Notifications observe published actor state;
+projection inputs remain required and lazy. A nonzero resulting mode requests
+the primary tail instead of admitting ordinary reaction/locomotion work.
+Three installed supplied-context controls cover the ordinary mode, selected
+camera projection and late refusal; separate native mode/header comparisons
+remain component evidence. Next: connect actual reaction/action admission before
+the locomotion selector, then ordinary App input/camera/world and continuous
+frame completion. Stable supplied contexts are not real-input availability.
 This does not advance startup gates, acknowledge history or make Kabuto playable.
 
 ## Source naming and continuation requirement
