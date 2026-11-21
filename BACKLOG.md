@@ -363,6 +363,12 @@ that dependency. Rendered ordinary retirement plus post-death cancellation and
 fresh entry remain required on the new receipt. Incoming-reference/cascade
 clearing, health frame/glow/collection and active death children remain open;
 do not acknowledge them from this unreferenced core path.
+The first rendered cycle retires the corpse and releases the scene, but re-entry
+exposes stale combat-process scenario ownership after the temporary retirement
+list is drained. Scope detachment now belongs to actual canonical teardown;
+process flags and unknown-writer barriers are preserved. This shared fix can be
+integrated independently of death FX/health work and requires fresh rendered
+re-entry acceptance before claiming two successful combats.
 
 Lethal continuation now has the real partial-pistol callback adapter, preserving
 actor/shot/context identity domains, actual effect alias cleanup and failed

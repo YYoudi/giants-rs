@@ -54,11 +54,6 @@ impl Runtime {
             .normal_combat_globals
             .as_mut()
             .ok_or("combat process requires actual launch configuration owner")?;
-        if let Some(previous) = process.scope()
-            && self.retired.contains(&previous.ticket)
-        {
-            process.leave_scenario(previous.ticket)?;
-        }
         match process.scope() {
             Some(previous) if previous != scope => {
                 return Err("combat process still belongs to another live source scenario".into());

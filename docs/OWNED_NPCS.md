@@ -89,7 +89,15 @@ and does not claim that wider clearing/cascade contract.
 Installed Rust core controls supply terminal state/witness and external release,
 checking both classes, held references, late failure without replay, replacement
 scope protection and declaration history. They are not ordinary death proof.
-The new executable still needs rendered retirement and post-death menu cycles.
+The first new executable completes an actual corpse core retirement and first
+post-death cancellation, with zero remaining resident storage, registrations,
+entities and tracked assets. Its second encounter exposes a shared lifecycle
+bug: lazy combat-scope detachment consulted an ECS-retirement list that had
+already been drained. Damage then refused the old scenario binding. That run
+was stopped and remains a failed two-cycle acceptance. The runtime now detaches
+the combat scope during actual canonical teardown, preserving all process fields
+and uncertainty; a regression checks matching/foreign cancellation and retained
+unknown writers. A fresh executable still needs both rendered cycles.
 An internal two-cycle observer requests the existing cancel/re-entry paths only
 after actual core retirement; it supplies no removal or successful cleanup.
 

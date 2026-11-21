@@ -2349,6 +2349,25 @@ fn clear(runtime: &mut Runtime, commands: &mut Commands) {
         let released_specifications = active.resident_states.specification_count();
         let released_declarations = active.resident_states.declaration_count();
         let released = active.resident_states.clear();
+        // The canonical source scope ends here. The later ECS-retirement list
+        // is transient and can already be drained before the next combat call.
+        // Detach only this real retired owner; retain process flags/uncertainty.
+        if let Some(process) = runtime.normal_combat_globals.as_mut()
+            && process
+                .scope()
+                .is_some_and(|scope| scope.ticket == active.ticket)
+        {
+            match process.leave_scenario(active.ticket) {
+                Ok(()) => println!(
+                    "mission_combat_scope_released ticket={} process_fields_preserved=true",
+                    active.ticket
+                ),
+                Err(error) => error!(
+                    "mission_combat_scope_release_refused ticket={} error={error}",
+                    active.ticket
+                ),
+            }
+        }
         let remaining = active.resident_states.counts();
         let (remaining_fields, _, _) = active.resident_states.actor_field_counts();
         println!(
@@ -5565,15 +5584,49 @@ mod tests {
             matches!(runtime.startup(), Err(reason) if reason.contains("replay is an inspection context"))
         );
         runtime.active.as_mut().unwrap().start.intent = LaunchIntent::SavedMission;
+        let mut guards = giants_game::mission_guard_state::Process::start_process();
+        guards.begin_configuration().unwrap();
+        guards
+            .begin_scenario(giants_game::mission_guard_state::Scope {
+                ticket: 9,
+                scenario: 3,
+                slot: 1,
+            })
+            .unwrap();
+        guards.observe_unbound_writer("supplied regression writer");
+        runtime.normal_combat_globals = Some(guards);
         cancel_ticket(&mut runtime, &mut Commands::new(&mut queue, &world), 8);
         queue.apply(&mut world);
         assert!(runtime.active.is_some());
         assert!(world.get_entity(root).is_ok());
+        assert_eq!(
+            runtime
+                .normal_combat_globals
+                .as_ref()
+                .unwrap()
+                .scope()
+                .unwrap()
+                .ticket,
+            9
+        );
         cancel_ticket(&mut runtime, &mut Commands::new(&mut queue, &world), 9);
         queue.apply(&mut world);
         assert!(runtime.active.is_none());
         assert_eq!(world.query::<&MissionOwned>().iter(&world).count(), 0);
         assert!(world.get_entity(external).is_ok());
+        let guards = runtime.normal_combat_globals.as_mut().unwrap();
+        assert!(guards.scope().is_none());
+        guards
+            .begin_scenario(giants_game::mission_guard_state::Scope {
+                ticket: 11,
+                scenario: 3,
+                slot: 1,
+            })
+            .unwrap();
+        assert!(
+            guards.world_suppressed(11).is_err(),
+            "retirement must preserve unknown process-global writers"
+        );
         // Repeated cancellation is harmless.
         clear(&mut runtime, &mut Commands::new(&mut queue, &world));
         queue.apply(&mut world);
