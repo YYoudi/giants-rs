@@ -354,6 +354,27 @@ owned reset contract. World scheduling remains pending.
 Any procedural pose callbacks belong to the still-unacquired primary/animation
 path and are not acknowledged by this field proof.
 
+## Resource caller checkpoint and query-clock handoff
+
+The completed owned resource phase retains the ten actual caller locals used
+later by action selection. `Factory::captured_resource_scratch` returns that
+checkpoint only for its current factory/owner/frame; later channel changes do
+not replace the earlier sample. This is the resource exit, not selector admission.
+
+`kabuto_reference_target::advance_with_clock` also returns the actual
+single-precision clock store consumed by the retained-reference filter.
+`Scratch::retain_reference_clock` preserves the other caller words and refuses
+a different query owner. The original `advance` API remains available. Frame,
+actor lifetime and call-order guards remain the enclosing caller's responsibility.
+
+Two separate 512-case native/source controls agree on the resource exit and
+post-query handoffs, including the existing payload/service-prefix comparisons.
+The installed resource control checks current ownership, stale/failed phases
+and capture retention after channel mutation. These component proofs do not
+execute the intervening reaction/charge policies, complete a primary/history,
+acknowledge an initializer or establish ordinary controls. The App still needs
+its real continuous caller and world/camera/input providers.
+
 ## Completed animation body buffers - CPU dependency
 
 `player_body::Prepared::from_kabuto_frame` consumes the actual completed owned

@@ -1,5 +1,13 @@
 # Original symbol navigation
 
+The prototype PS2 raw ELF spelling `kabuto_move__FRC10CntrlInputif` is an
+**unknown** search route to the PC resource/caller components in
+[`kabuto_resource_timers`](../crates/giants-game/src/kabuto_resource_timers.rs)
+and [`kabuto_reference_target`](../crates/giants-game/src/kabuto_reference_target.rs).
+They retain acquired caller locals and the consumed query clock. This assigns
+no prototype routine identity, ABI or complete controller implementation; its
+signature interpretation remains unassigned.
+
 Kabuto navigation candidate: the literal prototype PS2 name `kabuto_init` is
 searchable in [`kabuto_animation_cache`](../crates/giants-game/src/kabuto_animation_cache.rs).
 Its relationship to the acquired PC cold cache prefix remains **unknown**. This

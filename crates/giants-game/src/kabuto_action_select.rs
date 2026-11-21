@@ -1,6 +1,7 @@
 //! Locomotion/idle selection before the held-reference and shared animation
 //! continuations. Earlier admission/scratch and all world services are required;
 //! a selected request is not yet an animation commit or completed primary.
+//! Prototype PS2 `kabuto_move` remains an unknown parent-primary search route.
 
 #[derive(Clone, Copy, Debug)]
 pub struct Scratch {
@@ -14,6 +15,22 @@ pub struct Scratch {
     pub blend_seconds: f32,
     pub reference_speed: f32,
     pub speed_source: i32,
+}
+impl Scratch {
+    /// Carry the actual post-query clock store without recomputing its owner-
+    /// specific time. The surrounding caller must retain frame/lifetime/order
+    /// guards and execute the intervening reaction/charge policies.
+    pub fn retain_reference_clock<K: Copy + Eq>(
+        &mut self,
+        owner: K,
+        sample: &crate::kabuto_reference_target::View<K>,
+    ) -> Result<(), String> {
+        if sample.owner() != owner {
+            return Err("Kabuto caller clock belongs to another query owner".into());
+        }
+        self.retained_time = sample.clock_word();
+        Ok(())
+    }
 }
 #[derive(Clone, Copy, Debug)]
 pub struct Input {

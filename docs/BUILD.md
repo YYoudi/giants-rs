@@ -1,5 +1,16 @@
 # Build on Windows with MinGW
 
+For the owned Kabuto resource/caller checkpoint, set `GIANTS_KABUTO_ROOT` to the
+compatible supplied installation and run:
+
+```powershell
+cargo test --locked -p giants-game source_kabuto_resources_publish_before_services_and_preserve_primary --target x86_64-pc-windows-gnu -- --ignored
+```
+
+The portable `successful_query_carries_its_clock` control verifies the scalar
+handoff without another time query or foreign-owner publication. These remain
+component controls; they do not admit an ordinary controller or complete frames.
+
 Kabuto cold animation data in the common mission payload uses the supplied
 installation's `Giants.exe`; `GIANTS_KABUTO_EXECUTABLE` overrides that metadata
 file. It is read only, never launched. Run the installed lifecycle controls with

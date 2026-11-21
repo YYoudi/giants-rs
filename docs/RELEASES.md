@@ -1,5 +1,16 @@
 # Preview releases and milestone integration
 
+## Kabuto retained caller values - source dependency
+
+The resource phase now retains its actual caller-local checkpoint, and the
+reference-target filter can return its consumed clock word without recomputation.
+Two independent 512-case native/source component controls agree, with installed
+factory/frame/retained-capture guards and a portable wrong-owner handoff check.
+The existing filter API is preserved. Earlier query/reaction/charge scheduling
+and ordinary controller admission remain open; these values do not complete a
+primary, history or initializer. No new GPU/input acceptance, screenshot or
+Windows preview is claimed. The frozen .14.2 receipt is unchanged.
+
 ## Kabuto completed-animation body buffers - CPU dependency
 
 The shared body snapshot can now consume Kabuto's actual completed ANM/gravity

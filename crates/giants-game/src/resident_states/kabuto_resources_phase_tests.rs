@@ -140,7 +140,43 @@ impl Controls {
         );
         assert_eq!(before, snapshot(s, id));
         assert!(w.clocks.is_empty() && w.events.is_empty());
+        assert!(factory.captured_resource_scratch(s, id, number).is_err());
         let view = factory.advance_resources(s, id, number, &mut w).unwrap();
+        let captured = factory.captured_resource_scratch(s, id, number).unwrap();
+        assert_eq!(
+            captured.packet_word,
+            s.get(id).unwrap().channels.unwrap()[0][8] & 0x10
+        );
+        assert_eq!(
+            captured.retained_time,
+            view.resources.unwrap().interval.to_bits()
+        );
+        assert!(foreign.captured_resource_scratch(s, id, number).is_err());
+        assert!(
+            factory
+                .captured_resource_scratch(s, id, number + 1)
+                .is_err()
+        );
+        // Later live channel changes cannot replace the earlier caller locals.
+        let channels = s.get(id).unwrap().channels.unwrap();
+        let changed = {
+            let mut changed = channels;
+            changed[0][8] ^= 0x10;
+            changed
+        };
+        let actor = s.residents.get_mut(&id.serial).unwrap();
+        actor.channels = Some(changed);
+        actor.construction_fields.as_mut().unwrap().channels = changed;
+        assert_eq!(
+            factory
+                .captured_resource_scratch(s, id, number)
+                .unwrap()
+                .packet_word,
+            captured.packet_word
+        );
+        let actor = s.residents.get_mut(&id.serial).unwrap();
+        actor.channels = Some(channels);
+        actor.construction_fields.as_mut().unwrap().channels = channels;
         let r = view.resources.unwrap();
         let mut output = snapshot(s, id);
         output.extend(view.guard.forward.map(f32::to_bits));
@@ -191,6 +227,7 @@ impl Controls {
             g.resource_phase_completed = None;
             w.fail = true;
             assert!(factory.advance_resources(s, id, number, &mut w).is_err());
+            assert!(factory.captured_resource_scratch(s, id, number).is_err());
             let a = s.get(id).unwrap();
             let p = a.seed.storage.data().unwrap();
             assert_eq!(

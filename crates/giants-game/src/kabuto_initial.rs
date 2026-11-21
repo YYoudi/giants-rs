@@ -245,6 +245,18 @@ impl Factory {
         session.captured_kabuto_held_input(owner, &self.resources, number)
     }
 
+    /// Retain the actual caller locals at the completed resource checkpoint.
+    /// This is not selector admission: intervening query/reaction/charge writes
+    /// and their real providers must still execute in the native order.
+    pub fn captured_resource_scratch(
+        &self,
+        session: &Session,
+        owner: Id,
+        number: u64,
+    ) -> Result<crate::kabuto_action_select::Scratch, String> {
+        session.captured_kabuto_resource_scratch(owner, &self.resources, number)
+    }
+
     /// Use the owning resource phase's retained caller sample. Later live
     /// channel/mode changes cannot replace these earlier decision/counter words.
     /// Intervening primary work and real backend services remain prerequisites;
