@@ -140,6 +140,9 @@ REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('9cc32cf970ac510a77
 # live collision prerequisites retained, no private table or listing published.
 REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('df352e4d2e90eadd8957ba0a968b5181d2b3230b986e29a6b2841e679ec97e6c')
 
+# Reviewed merged minimal index retains pub and Kabuto unknown search routes.
+REVIEWED_ATTRIBUTION_LABELS['docs/SYMBOL_NAVIGATION.md'].add('3725a3c659030e18be1c93baa53cfc9761f8b0f41dad63a90586336f72a338ce')
+
 # Exact display copy pinned in the gallery manifest at 8c385dc, on a public
 # branch. Reviewed as a VP8-only image without embedded metadata. Keep its
 # all-reference history review valid before that gallery update enters main;
