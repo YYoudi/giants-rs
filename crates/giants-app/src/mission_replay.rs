@@ -221,15 +221,17 @@ pub(crate) fn install(app: &mut App) -> Result<(), Box<dyn std::error::Error>> {
         Some(_) => return Err("unknown GIANTS_MISSION_REPLAY mode".into()),
     };
     if let Ok(value) = std::env::var("GIANTS_MISSION_BUILDING_CYCLES") {
+        let unchanged_pub = std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref()
+            == Ok("unchanged")
+            && std::env::var("GIANTS_MISSION_BUILDING_CLASS").as_deref() == Ok("53");
         if value != "2"
             || !building_interaction_probe()
-            || matches!(
-                std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref(),
-                Ok("settled" | "unchanged")
-            )
+            || std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref() == Ok("settled")
+            || (std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref() == Ok("unchanged")
+                && !unchanged_pub)
         {
             return Err(
-                "building cancellation cycles require the explicit live-effect probe and value2"
+                "building cancellation cycles require value2 and the explicit live-effect or unchanged pub probe"
                     .into(),
             );
         }
@@ -799,10 +801,18 @@ fn drive(
                     .iter()
                     .find_map(|c| c.building_cancel_snapshot())
             {
-                assert!(
-                    active > 0 && births > retired,
-                    "building cancellation diagnostic must retain actual live effects"
-                );
+                if std::env::var("GIANTS_MISSION_BUILDING_CAPTURE").as_deref() == Ok("unchanged") {
+                    assert_eq!(
+                        (births, retired, active),
+                        (0, 0, 0),
+                        "unchanged pub cancellation must not invent effects"
+                    );
+                } else {
+                    assert!(
+                        active > 0 && births > retired,
+                        "building cancellation diagnostic must retain actual live effects"
+                    );
+                }
                 println!(
                     "mission_building_cancel_requested ticket={} births={births} retired={retired} active={active} supplied_input_only=true",
                     frontend.flow.ticket

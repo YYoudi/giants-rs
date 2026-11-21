@@ -25,6 +25,15 @@ this is command planning, not reconstructed pathfinding or a collision policy.
 Installed map routing remains intermediate evidence until the rendered path
 reaches contact, unchanged shots and cleanup on the same executable.
 
+The corrected candidate subsequently completed actual pub mesh contact, three
+distinct callbackless hits, unchanged collision owners and a rendered capture.
+Its first cancellation control was rejected before gameplay because the earlier
+diagnostic admitted only live-effect cancellation. The fixture now separately
+admits the explicit unchanged-pub cycle and requires zero effects there; the
+live-effect assertion remains required for destructible profiles. Fresh-entry
+acceptance and a matching release remain pending. Interrupted Windows menu
+inspection does not count as completed manual gameplay or lifecycle evidence.
+
 Preview .14.2 additionally delivers class101 palms: ordinary contact/pistol
 destruction, fourteen static-part retirements, source wood/audio, complete effect
 expiry, independent stump contacts and two live-effect cleanup/fresh-entry cycles.
