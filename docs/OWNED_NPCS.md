@@ -120,8 +120,45 @@ match all six original bounds words after companion loading, with the actual
 constructor scale retained. Supplied pose/ground/outer storage and explicit
 initializer order remain control inputs. This bounds read does not acknowledge
 an item frame, player overlap, healing, a running glow or retirement. The original
-overlap predicate's zero-X-width rejection is retained. State37 scheduling,
-actual contact/collection and the complete lethal encounter remain required.
+overlap predicate's zero-X-width rejection is retained. Ordinary state37
+scheduling/contact/collection and the complete lethal encounter remain required.
+
+The NPC branch now also owns the state37 primary prefix and its collection
+continuation. The prefix advances actual registered ANM channels and the shared
+actor-local clock/affine, then source fall, obstruction, ground clamp, rotation,
+owner delay and lifetime. World queries and expiry notification remain mandatory
+services. Failed queries retain the already executed prefix and cannot replay.
+An unpaused prefix returns a source/step-bound pending collection; it does not
+acknowledge a completed item frame. The primary sets the updated flag, so the
+common world iterator skips secondary/common finalization. Do not replay generic
+finalization to conceal the prefix's deliberately stale post-motion cache.
+
+Collection consumes the normal controlled-Mecc contact packet, the retained
+pre-movement item bounds and the actual item36 eligibility declaration. A real
+overlap requests local cue1596, subtracts the source integer quantity from
+canonical damage (clamped to zero), copies the same health through the common
+controller response contract, marks the item and requests its named statistic.
+It changes neither shield nor velocity. The creating Ripper identity is distinct
+from the source birth's null exclusion owner. An expiry mark does not suppress
+collection later in that same original primary. Late cue/controller/stat failures
+retain their exact prefix and invalidate the response scope; no default provider
+or counter success is supplied. Marking is separate from FX/owner retirement.
+
+Seven original grounded updates and four airborne scalar controls match the
+owned Rust prefix. Air controls supply a plane-Z0 height return, and do not
+establish ordinary terrain or triangle collision. Eight original collection
+cases cover healthy, injured, far, medium/large and same-update expiry; actual
+source sound/destroy helpers execute, but the control stops before the missing
+named-stat lookup. Cold class2 alone is not selected-player initialization; that
+native control supplies the already acquired selected-player header bit. Rust
+uses the actual cold player factory and ordinary contact producer. Test cue/stat
+consumers remain explicit supplied boundaries, not device/counter readiness.
+
+These services remain isolated from the ordinary lethal callback. Next bind the
+actual runtime world/cue/controller/stat consumers, active health glows, death
+effects and source target/marker/group/corpse retirement, then validate the full
+ordinary encounter/death/menu/re-entry on its exact combined executable. The
+prototype PS2 item/pickup attribution remains unknown; no ABI/layout is imported.
 
 The pinned PC state37 primary was inspected for the next required item update;
 its generic item path does not establish a one-to-one prototype identity.

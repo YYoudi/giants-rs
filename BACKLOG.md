@@ -330,6 +330,16 @@ frame/terrain/obstruction/contact/healing, active glows and death/retirement sti
 need runtime composition. Keep this dependency branch separate from the working
 living main build below; it does not gate that build's common publication.
 
+The NPC branch now has owned state37 motion/timer and Mecc collection contracts:
+real source birth/step, shared ANM/clock/affine, actual controller contact packet,
+canonical healing and a scoped controller copy. Seven grounded/four airborne
+scalar native comparisons and eight collection cases support these contracts;
+world plane, cold-player selection and cue/stat test boundaries remain explicit.
+Collection statistics stop before native lookup; no live counter provider or
+ordinary death is acknowledged. Connect actual world/cue/stat consumers and
+health/death FX/retirement next. Preserve late failures and the same-primary
+expiry/collection behavior; do not gate the working living main delivery on it.
+
 Delivery priority: main `7242798` already contains the working living runtime
 `f940069`. Include it in the next common executable before extending isolated
 death/health-item dependencies. Normal testing uses Preview tools -> Browse all

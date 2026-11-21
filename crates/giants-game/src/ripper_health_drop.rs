@@ -3,7 +3,8 @@
 //! navigation candidate only; its
 //! correspondence to the PC callback or state37 primary remains unknown.
 
-//! This constructs the acquired callback suffix, not item physics/collection.
+//! Constructor, owned primary prefix and Mecc collection contracts. Ordinary
+//! world/FX/audio/stat providers and their runtime scheduling remain explicit.
 use crate::{
     actor_fields::Fields,
     arithmetic::Precision,
@@ -16,6 +17,105 @@ use crate::{
     state_storage::{Profile, Seed},
 };
 use std::sync::Arc;
+pub(crate) mod primary;
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum PrimaryPhase {
+    Idle,
+    Running,
+    CollectionPending,
+    Collecting,
+    Failed,
+}
+
+/// World inputs remain explicit; this is not a global-clock producer.
+pub struct PrimaryInput<'a> {
+    pub step: u64,
+    pub global_seconds: f32,
+    pub areas: &'a [crate::object_time::SlowArea],
+    pub paused: bool,
+    pub force_ground: bool,
+}
+pub trait PrimaryServices {
+    fn ground(&mut self, session: &Session, item: Id, position: [f32; 3]) -> Result<f32, String>;
+    /// Execute the actual ordered eligible-world obstruction query. Missing
+    /// geometry is an error, never an empty/no-contact result.
+    /// The source list5 query excludes self, parented and excluded-owner actors,
+    /// requires personality bit17 and clear flags4000c000, then uses the actual
+    /// segment/AABB and required triangle test (except personality bit24).
+    fn blocked(
+        &mut self,
+        session: &Session,
+        item: Id,
+        from: [f32; 3],
+        to: [f32; 3],
+    ) -> Result<bool, String>;
+    /// Source expiry marks first, then checks/emits its actual notification.
+    /// Missing notification ownership is an error, not assumed single-player.
+    /// This does not release the item or its attached effect.
+    fn expired(&mut self, session: &Session, item: Id) -> Result<(), String>;
+}
+#[derive(Debug)]
+pub struct PendingCollection {
+    pub(crate) item: Id,
+    pub(crate) step: u64,
+    /// Source-bound pre-movement packet; the primary's later pose writes do not
+    /// authorize a fabricated refreshed affine or common finalization replay.
+    pub(crate) bounds: [f32; 6],
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Statistic {
+    Medium,
+    Large,
+}
+impl Statistic {
+    pub fn source_name(self) -> &'static str {
+        match self {
+            Self::Medium => "InstantHealthMed",
+            Self::Large => "InstantHealthLarge",
+        }
+    }
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CollectionOutcome {
+    NotCollected,
+    Collected,
+}
+pub trait CollectionServices {
+    fn local_cue(
+        &mut self,
+        session: &Session,
+        item: Id,
+        recipient: Id,
+        cue: u32,
+    ) -> Result<(), String>;
+    /// Copy the already committed canonical response; never subtract again.
+    fn copy_health(
+        &mut self,
+        session: &Session,
+        response: crate::controlled_mecc::HitResponse,
+    ) -> Result<(), String>;
+    /// Resolve the actual named statistic and increment it by one.
+    fn statistic(
+        &mut self,
+        session: &Session,
+        recipient: Id,
+        statistic: Statistic,
+    ) -> Result<(), String>;
+}
+impl PendingCollection {
+    pub fn item(&self) -> Id {
+        self.item
+    }
+    pub fn step(&self) -> u64 {
+        self.step
+    }
+}
+#[derive(Debug)]
+pub enum PrimaryPrefix {
+    Paused,
+    Collection(PendingCollection),
+}
 
 /// Bound to the actual source type36 declaration. An absent/unacquired field is
 /// an error, separate from a declared family that does not admit the Mecc.
@@ -62,6 +162,14 @@ pub struct Owned {
     /// or active/running effect.
     pub initialized: bool,
     pub failed: bool,
+    pub velocity: [f32; 3],
+    pub floor: f32,
+    pub primary_phase: PrimaryPhase,
+    pub primary_step: Option<u64>,
+    pub primary_recipient: Option<Id>,
+    /// Native source birth has no excluded pickup owner. This is distinct
+    /// from `owner`, which retains the Ripper that created the item.
+    pub exclusion_owner: Option<Id>,
 }
 /// Actual mode4 attachment; Prepared retains a context, not GPU readiness.
 pub trait Effects {
@@ -84,6 +192,30 @@ pub struct Factory {
     amount: [i32; 2],
 }
 impl Factory {
+    /// Execute the owned state37 animation/affine/motion/timer prefix. An
+    /// unpaused result remains pending until the real collection tail runs.
+    /// No completed physical frame or healing follows from this call.
+    pub fn advance_primary_prefix(
+        &self,
+        session: &mut Session,
+        item: Id,
+        input: PrimaryInput<'_>,
+        services: &mut impl PrimaryServices,
+    ) -> Result<PrimaryPrefix, String> {
+        session.advance_ripper_health_prefix(item, &self.body, &self.geometry, input, services)
+    }
+    /// Finish the retained primary with the ordinary controller's current
+    /// contact packet. Marking a collected item does not retire its FX/owners.
+    pub fn finish_collection(
+        &self,
+        session: &mut Session,
+        pending: &PendingCollection,
+        player: &crate::controlled_mecc_contacts::Snapshot,
+        definition: PickupDefinition,
+        services: &mut impl CollectionServices,
+    ) -> Result<CollectionOutcome, String> {
+        session.finish_ripper_health_collection(&self.body, pending, player, definition, services)
+    }
     pub fn load(
         resources: &SceneResources,
         globals: &giants_formats::global_data::GlobalData,
@@ -203,4 +335,4 @@ impl Factory {
 }
 
 #[cfg(test)]
-mod tests;
+pub(crate) mod tests;

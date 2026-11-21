@@ -2,8 +2,175 @@
 //! No item update, player healing or effect readiness follows from construction.
 use super::*;
 use crate::{attached_effect_context::Creation, ripper_health_drop::Owned};
+mod collection;
+#[cfg(test)]
+mod collection_tests;
 
 impl Session {
+    pub(crate) fn advance_ripper_health_prefix(
+        &mut self,
+        item: Id,
+        body: &Arc<crate::specification::Prepared>,
+        geometry: &crate::resident_environment::Resources,
+        input: crate::ripper_health_drop::PrimaryInput<'_>,
+        services: &mut impl crate::ripper_health_drop::PrimaryServices,
+    ) -> Result<crate::ripper_health_drop::PrimaryPrefix, String> {
+        use crate::ripper_health_drop::{PendingCollection, PrimaryPhase, PrimaryPrefix, primary};
+        self.ripper_health_geometry_source(item, body)?;
+        let actor = self.get(item).unwrap();
+        let fields = actor.construction_fields.as_ref().unwrap();
+        let owned = actor.ripper_health_drop.unwrap();
+        if owned.primary_phase != PrimaryPhase::Idle
+            || owned.primary_step.is_some_and(|old| input.step <= old)
+            || !input.global_seconds.is_finite()
+            || !(0. ..=60.).contains(&input.global_seconds)
+            || !fields
+                .position
+                .into_iter()
+                .chain(fields.current)
+                .chain(fields.angles)
+                .chain(owned.velocity)
+                .chain([owned.floor, owned.owner_delay, owned.lifetime])
+                .all(f32::is_finite)
+            || fields.angles.into_iter().any(|a| a.abs() > 1_000_000.)
+            || input.areas.iter().any(|a| {
+                !a.center
+                    .into_iter()
+                    .chain([a.radius_squared, a.factor])
+                    .all(f32::is_finite)
+                    || a.radius_squared < 0.
+                    || !(0. ..=1.).contains(&a.factor)
+            })
+            || fields.object_flags & 0xc000 != 0
+            || fields.control_flags & 1 == 0
+            || fields.control_flags & 6 == 0
+        {
+            return Err("health primary requires an unconsumed finite live source birth".into());
+        }
+        let actor = self.residents.get_mut(&item.serial).unwrap();
+        let owned = actor.ripper_health_drop.as_mut().unwrap();
+        owned.primary_step = Some(input.step);
+        owned.primary_phase = PrimaryPhase::Running;
+        actor.construction_fields.as_mut().unwrap().object_flags |= 0x40;
+        let result = (|| {
+            let actor = self.get(item).unwrap();
+            let fields = actor.construction_fields.as_ref().unwrap();
+            let seconds = crate::object_time::seconds(
+                input.global_seconds,
+                Some(crate::object_time::Sample {
+                    owner: fields.dispatch_context,
+                    position: fields.position,
+                }),
+                None,
+                input.areas,
+            ) as f32;
+            let mut durations = vec![None; 256];
+            for (&slot, descriptor) in &body.animations {
+                durations[usize::from(slot)] = Some(descriptor.template.duration);
+            }
+            // These model rates are the health constructor's actual zeros;
+            // this primary never writes them or runs common actor motion.
+            let tick = self.advance_channels(
+                item,
+                &durations,
+                [0.; 3],
+                seconds,
+                crate::arithmetic::Precision::Double53,
+            )?;
+            if tick.missing != 0 {
+                return Err("health animation descriptor absent".into());
+            }
+            self.prepare_actor_affine(item)?;
+            let slot = self.get(item).unwrap().channels.unwrap()[0][0];
+            let selected = geometry.bounds(slot)?;
+            let affine = self.actor_current_affine(item)?;
+            let bounds = crate::collision_bounds::cached(
+                Some(crate::collision_bounds::Models {
+                    primary: selected.primary,
+                    auxiliary: selected.current_auxiliary,
+                    slot,
+                }),
+                affine.matrix[..12].try_into().unwrap(),
+                crate::arithmetic::Precision::Double53,
+            )?;
+            let actor = self.get(item).unwrap();
+            let mut state = primary::State {
+                fields: actor.construction_fields.as_ref().unwrap().clone(),
+                owned: actor.ripper_health_drop.unwrap(),
+            };
+            state.fields.channels = actor.channels.unwrap();
+            let result = primary::advance(
+                &mut state,
+                &input,
+                &mut HealthPrimaryAdapter {
+                    session: self,
+                    item,
+                    step: input.step,
+                    services,
+                },
+            );
+            self.publish_health_primary(item, input.step, &state)?;
+            result.map(|()| bounds)
+        })();
+        let owned = self
+            .residents
+            .get_mut(&item.serial)
+            .unwrap()
+            .ripper_health_drop
+            .as_mut()
+            .unwrap();
+        match result {
+            Err(error) => {
+                owned.failed = true;
+                owned.primary_phase = PrimaryPhase::Failed;
+                Err(error)
+            }
+            Ok(_) if input.paused => {
+                owned.primary_phase = PrimaryPhase::Idle;
+                Ok(PrimaryPrefix::Paused)
+            }
+            Ok(bounds) => {
+                owned.primary_phase = PrimaryPhase::CollectionPending;
+                Ok(PrimaryPrefix::Collection(PendingCollection {
+                    item,
+                    step: input.step,
+                    bounds,
+                }))
+            }
+        }
+    }
+    fn publish_health_primary(
+        &mut self,
+        item: Id,
+        step: u64,
+        state: &crate::ripper_health_drop::primary::State,
+    ) -> Result<(), String> {
+        let actor = self
+            .residents
+            .get_mut(&item.serial)
+            .filter(|_| item.ticket == self.ticket)
+            .ok_or("health primary owner removed")?;
+        let owned = actor
+            .ripper_health_drop
+            .as_ref()
+            .ok_or("health primary ownership removed")?;
+        if owned.failed
+            || owned.primary_step != Some(step)
+            || owned.primary_phase != crate::ripper_health_drop::PrimaryPhase::Running
+        {
+            return Err("health primary scope changed".into());
+        }
+        actor.construction_fields = Some(state.fields.clone());
+        actor.ripper_health_drop = Some(state.owned);
+        let data = actor
+            .seed
+            .storage
+            .data_mut()
+            .ok_or("health primary payload absent")?;
+        data[16..20].copy_from_slice(&state.owned.owner_delay.to_le_bytes());
+        data[20..24].copy_from_slice(&state.owned.lifetime.to_le_bytes());
+        Ok(())
+    }
     pub(crate) fn ripper_health_geometry_source(
         &self,
         item: Id,
@@ -70,7 +237,13 @@ impl Session {
         {
             return Err("Ripper health eligibility requires its completed source birth".into());
         }
-        if fields.object_flags & 0x8000 != 0 || fields.control_flags & 6 == 0 {
+        let current_collection = drop.primary_phase
+            == crate::ripper_health_drop::PrimaryPhase::Collecting
+            && drop.primary_step == Some(step)
+            && drop.primary_recipient == Some(player);
+        if (fields.object_flags & 0x8000 != 0 && !current_collection)
+            || fields.control_flags & 6 == 0
+        {
             return Ok(false);
         }
         let player_fields = self
@@ -81,7 +254,7 @@ impl Session {
             .unwrap();
         Ok(player_fields.object_flags & 0x4000c000 == 0
             && player_fields.configuration[14] & 1 != 0
-            && (drop.owner != player || drop.owner_delay <= 0.)
+            && (drop.exclusion_owner != Some(player) || drop.owner_delay <= 0.)
             && definition.mecc_eligible(health)?)
     }
     pub fn ripper_health_drop(&self, id: Id) -> Option<Owned> {
@@ -153,6 +326,12 @@ impl Session {
             context: None,
             initialized: false,
             failed: false,
+            velocity: [0.; 3],
+            floor: 0.,
+            primary_phase: crate::ripper_health_drop::PrimaryPhase::Idle,
+            primary_step: None,
+            primary_recipient: None,
+            exclusion_owner: None,
         });
         actor.acquired_construction = true;
         self.publish_staged(staged, id)
@@ -198,5 +377,37 @@ impl Session {
                 Err(error)
             }
         }
+    }
+}
+
+struct HealthPrimaryAdapter<'a, S> {
+    session: &'a mut Session,
+    item: Id,
+    step: u64,
+    services: &'a mut S,
+}
+impl<S: crate::ripper_health_drop::PrimaryServices> crate::ripper_health_drop::primary::Services
+    for HealthPrimaryAdapter<'_, S>
+{
+    fn ground(&mut self, state: &crate::ripper_health_drop::primary::State) -> Result<f32, String> {
+        self.session
+            .publish_health_primary(self.item, self.step, state)?;
+        self.services
+            .ground(self.session, self.item, state.fields.position)
+    }
+    fn blocked(
+        &mut self,
+        state: &crate::ripper_health_drop::primary::State,
+        from: [f32; 3],
+    ) -> Result<bool, String> {
+        self.session
+            .publish_health_primary(self.item, self.step, state)?;
+        self.services
+            .blocked(self.session, self.item, from, state.fields.position)
+    }
+    fn expired(&mut self, state: &crate::ripper_health_drop::primary::State) -> Result<(), String> {
+        self.session
+            .publish_health_primary(self.item, self.step, state)?;
+        self.services.expired(self.session, self.item)
     }
 }

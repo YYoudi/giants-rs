@@ -202,6 +202,9 @@ impl Session {
                 })
             }
             crate::controlled_mecc::HitOrigin::RipperMelee { .. } => None,
+            crate::controlled_mecc::HitOrigin::RipperHealth => {
+                return Err("health collection cannot enter the damage receiver".into());
+            }
         };
         let source_identity = crate::mecc_hit_source::Source {
             actor: crate::mecc_hit_source::Actor {

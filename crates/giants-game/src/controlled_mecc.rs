@@ -54,6 +54,7 @@ pub struct HitResponse {
 pub(crate) enum HitOrigin {
     Projectile,
     RipperMelee { epoch: u64 },
+    RipperHealth,
 }
 impl HitResponse {
     pub fn source(self) -> crate::resident_states::Id {
@@ -110,6 +111,9 @@ impl HitResponse {
                     self.step,
                     epoch,
                 )?;
+            }
+            HitOrigin::RipperHealth => {
+                session.validate_ripper_health_response(self.source, self.owner, self.step)?;
             }
         }
         let actual = session.controlled_mecc_motion(self.owner, self.step)?;

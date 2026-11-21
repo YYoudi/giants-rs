@@ -6,7 +6,303 @@ use crate::{
     state23_damage::{self, Service},
 };
 
-struct Attach {
+pub(crate) fn birth_fixture(
+    resources: &SceneResources,
+    factory: &Factory,
+    position: [f32; 3],
+) -> (Session, Id, Attach) {
+    birth_fixture_for_class(resources, factory, 73, position)
+}
+pub(crate) fn birth_fixture_for_class(
+    resources: &SceneResources,
+    factory: &Factory,
+    class: i32,
+    position: [f32; 3],
+) -> (Session, Id, Attach) {
+    let mut session = Session::new(9840);
+    let owner = source_at(resources, &mut session, class, position);
+    let mut backend = Backend {
+        factory,
+        attach: Attach {
+            pool: crate::attached_effect_context::Pool::from_active_resources(9840, resources),
+            fail: false,
+            observed: None,
+        },
+        born: None,
+    };
+    assert!(
+        session
+            .damage_state23(
+                owner,
+                10000.,
+                None,
+                state23_damage::Context {
+                    player_is_state1: false,
+                    drop_percent: 100,
+                    death_timer: 10.,
+                },
+                &mut Random(17),
+                &mut backend
+            )
+            .is_err()
+    );
+    let item = backend.born.expect("real drop callback reached");
+    assert!(session.ripper_health_drop(item).unwrap().initialized);
+    (session, item, backend.attach)
+}
+
+struct GroundedPrimaryFixture {
+    expiry: usize,
+}
+
+fn primary_words(session: &Session, item: Id) -> Vec<u32> {
+    let f = session
+        .get(item)
+        .unwrap()
+        .construction_fields
+        .as_ref()
+        .unwrap();
+    let owned = session.ripper_health_drop(item).unwrap();
+    let mut actual = Vec::new();
+    actual.extend(f.position.into_iter().chain(f.current).map(f32::to_bits));
+    actual.extend([f.angles[0].to_bits(), f.object_flags, f.control_flags]);
+    actual.extend(owned.velocity.map(f32::to_bits));
+    actual.extend([owned.floor.to_bits(), f.configuration[17]]);
+    actual.extend(
+        session
+            .get(item)
+            .unwrap()
+            .seed
+            .storage
+            .data()
+            .unwrap()
+            .chunks_exact(4)
+            .map(|w| u32::from_le_bytes(w.try_into().unwrap())),
+    );
+    actual
+}
+
+struct AirFixture {
+    ground: usize,
+    sweep: usize,
+    fail: Option<&'static str>,
+}
+impl PrimaryServices for AirFixture {
+    fn ground(&mut self, _: &Session, _: Id, _: [f32; 3]) -> Result<f32, String> {
+        self.ground += 1;
+        if self.fail == Some("ground") {
+            Err("supplied ground query failure".into())
+        } else {
+            Ok(0.)
+        }
+    }
+    fn blocked(
+        &mut self,
+        _: &Session,
+        _: Id,
+        from: [f32; 3],
+        to: [f32; 3],
+    ) -> Result<bool, String> {
+        self.sweep += 1;
+        assert_eq!(
+            from, to,
+            "first fall step starts with constructor zero velocity"
+        );
+        if self.fail == Some("sweep") {
+            Err("supplied obstruction query failure".into())
+        } else {
+            Ok(false)
+        }
+    }
+    fn expired(&mut self, _: &Session, _: Id) -> Result<(), String> {
+        panic!("air fixtures do not expire")
+    }
+}
+#[test]
+#[ignore = "Requires GIANTS_NPC_ROOT/GIANTS_RIPPER_HEALTH_AIR_CONTROLS; supplied plane-Z0/no-obstruction scalar controls, no ordinary terrain or collision proof"]
+fn native_health_air_prefix_matches_and_preserves_failed_world_queries() {
+    let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+    let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+    let globals =
+        giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+            .unwrap();
+    let factory = Factory::load(&resources, &globals).unwrap();
+    let text =
+        std::fs::read_to_string(std::env::var_os("GIANTS_RIPPER_HEALTH_AIR_CONTROLS").unwrap())
+            .unwrap();
+    let mut count = 0;
+    for line in text.lines() {
+        let words: Vec<u32> = line
+            .split_whitespace()
+            .map(|v| u32::from_str_radix(v, 16).unwrap())
+            .collect();
+        assert_eq!(words.len(), 22);
+        let z = f32::from_bits(words[0]);
+        let seconds = f32::from_bits(words[1]);
+        for fail in [None, Some("ground"), Some("sweep")] {
+            let (mut session, item, _fx) = birth_fixture(&resources, &factory, [1.25, -2., z]);
+            let mut world = AirFixture {
+                ground: 0,
+                sweep: 0,
+                fail,
+            };
+            let result = factory.advance_primary_prefix(
+                &mut session,
+                item,
+                PrimaryInput {
+                    step: 1,
+                    global_seconds: seconds,
+                    areas: &[],
+                    paused: false,
+                    force_ground: false,
+                },
+                &mut world,
+            );
+            assert_eq!(world.ground, 1);
+            let owned = session.ripper_health_drop(item).unwrap();
+            if let Some(fail) = fail {
+                assert!(result.is_err());
+                assert!(owned.failed);
+                assert_eq!(owned.primary_phase, PrimaryPhase::Failed);
+                assert_eq!(owned.lifetime, 30.);
+                assert_eq!(owned.owner_delay, 1.);
+                assert_eq!(
+                    owned.velocity[2],
+                    if fail == "ground" { 0. } else { -40. * seconds }
+                );
+                assert_eq!(world.sweep, usize::from(fail == "sweep"));
+                assert!(
+                    factory
+                        .advance_primary_prefix(
+                            &mut session,
+                            item,
+                            PrimaryInput {
+                                step: 2,
+                                global_seconds: seconds,
+                                areas: &[],
+                                paused: false,
+                                force_ground: false
+                            },
+                            &mut world
+                        )
+                        .is_err()
+                );
+                assert_eq!(world.ground, 1, "failed query prefix cannot be replayed");
+            } else {
+                assert!(matches!(result.unwrap(), PrimaryPrefix::Collection(_)));
+                assert_eq!(world.sweep, 1);
+                assert_eq!(primary_words(&session, item), &words[2..]);
+            }
+        }
+        count += 1;
+    }
+    assert_eq!(count, 4);
+    println!(
+        "health_air_native_match cases={count} ground_and_sweep_failures_retained=true world_geometry_acknowledged=false"
+    );
+}
+impl PrimaryServices for GroundedPrimaryFixture {
+    fn ground(&mut self, _: &Session, _: Id, _: [f32; 3]) -> Result<f32, String> {
+        panic!("grounded control must not query ground")
+    }
+    fn blocked(&mut self, _: &Session, _: Id, _: [f32; 3], _: [f32; 3]) -> Result<bool, String> {
+        panic!("grounded control must not sweep")
+    }
+    fn expired(&mut self, session: &Session, item: Id) -> Result<(), String> {
+        assert!(session.ripper_health_drop(item).unwrap().lifetime <= 0.);
+        assert_ne!(
+            session
+                .get(item)
+                .unwrap()
+                .construction_fields
+                .as_ref()
+                .unwrap()
+                .object_flags
+                & 0x8000,
+            0
+        );
+        self.expiry += 1;
+        // Supplied notification boundary; original controls have no network
+        // recipient. This is not an ordinary network/retirement provider.
+        Ok(())
+    }
+}
+
+#[test]
+#[ignore = "Requires GIANTS_NPC_ROOT and GIANTS_RIPPER_HEALTH_PRIMARY_CONTROLS; real birth/canonical prefix compared to original grounded primary, no collection/rendering"]
+fn native_health_primary_grounded_prefix_retains_collection_and_failure_boundaries() {
+    let root = std::path::PathBuf::from(std::env::var_os("GIANTS_NPC_ROOT").unwrap());
+    let resources = SceneResources::load(&root, "w_Story2.bin", "English").unwrap();
+    let globals =
+        giants_formats::global_data::parse(&std::fs::read(root.join("Bin/GData.gbn")).unwrap())
+            .unwrap();
+    let factory = Factory::load(&resources, &globals).unwrap();
+    let text =
+        std::fs::read_to_string(std::env::var_os("GIANTS_RIPPER_HEALTH_PRIMARY_CONTROLS").unwrap())
+            .unwrap();
+    let mut cases = 0;
+    for line in text.lines() {
+        let words: Vec<u32> = line
+            .split_whitespace()
+            .map(|s| u32::from_str_radix(s, 16).unwrap())
+            .collect();
+        assert_eq!(words.len(), 21);
+        let seconds = f32::from_bits(words[0]);
+        let (mut session, item, _attached_contexts) =
+            birth_fixture(&resources, &factory, [1.25, -2., 2.]);
+        let mut world = GroundedPrimaryFixture { expiry: 0 };
+        let outcome = factory
+            .advance_primary_prefix(
+                &mut session,
+                item,
+                PrimaryInput {
+                    step: 1,
+                    global_seconds: seconds,
+                    areas: &[],
+                    paused: false,
+                    force_ground: false,
+                },
+                &mut world,
+            )
+            .unwrap();
+        let PrimaryPrefix::Collection(pending) = outcome else {
+            panic!("collection continuation required")
+        };
+        assert_eq!((pending.item(), pending.step()), (item, 1));
+        let owned = session.ripper_health_drop(item).unwrap();
+        assert_eq!(owned.primary_phase, PrimaryPhase::CollectionPending);
+        assert_eq!(
+            primary_words(&session, item),
+            &words[1..],
+            "delta={seconds}"
+        );
+        assert_eq!(world.expiry, usize::from(seconds >= 30.));
+        assert!(
+            factory
+                .advance_primary_prefix(
+                    &mut session,
+                    item,
+                    PrimaryInput {
+                        step: 2,
+                        global_seconds: seconds,
+                        areas: &[],
+                        paused: false,
+                        force_ground: false,
+                    },
+                    &mut world
+                )
+                .is_err(),
+            "pending collection must not be acknowledged or replayed"
+        );
+        cases += 1;
+    }
+    assert_eq!(cases, 7);
+    println!(
+        "health_primary_native_match cases={cases} words_per_case=20 collection_acknowledged=false"
+    );
+}
+
+pub(crate) struct Attach {
     pool: crate::attached_effect_context::Pool<Id>,
     fail: bool,
     observed: Option<Id>,
@@ -66,6 +362,14 @@ impl State23Services for Backend<'_> {
     }
 }
 fn source(resources: &SceneResources, session: &mut Session, class: i32) -> Id {
+    source_at(resources, session, class, [1.25, -2., 3.5])
+}
+pub(crate) fn source_at(
+    resources: &SceneResources,
+    session: &mut Session,
+    class: i32,
+    position: [f32; 3],
+) -> Id {
     let program = resources
         .classes
         .models
@@ -84,7 +388,7 @@ fn source(resources: &SceneResources, session: &mut Session, class: i32) -> Id {
         .unwrap()
         .instantiate();
     // Explicit constructor fixture, never an ordinary NPC pose override.
-    fields.position = [1.25, -2., 3.5];
+    fields.position = position;
     session
         .construct(Construction {
             class,
